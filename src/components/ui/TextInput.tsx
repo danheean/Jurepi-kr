@@ -7,6 +7,7 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   maxChars?: number;
   showCounter?: boolean;
   accentColor?: string;
+  testId?: string;
 }
 
 export function TextInput({
@@ -17,6 +18,7 @@ export function TextInput({
   value = '',
   onChange,
   className = '',
+  testId,
   ...props
 }: TextInputProps) {
   const [focused, setFocused] = useState(false);
@@ -27,11 +29,13 @@ export function TextInput({
       {label && <label className="text-sm font-button text-text">{label}</label>}
       <div className="relative mt-1">
         <input
+          type="text"
           value={value}
           onChange={onChange}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           maxLength={maxChars}
+          data-testid={testId}
           className={`
             w-full h-11 px-3.5 py-2.5 rounded-md font-body text-text
             border border-hairline bg-surface

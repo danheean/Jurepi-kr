@@ -34,6 +34,7 @@ export function PrizeCards({ ladder }: PrizeCardsProps) {
         return (
           <div
             key={prize.id}
+            data-testid="prize-card"
             className={`
               w-14 h-14 rounded-md font-button text-center
               flex items-center justify-center
@@ -57,11 +58,7 @@ export function PrizeCards({ ladder }: PrizeCardsProps) {
               transition: 'transform 300ms ease-out',
             }}
           >
-            {ladder.state.hideResults && !isRevealed ? (
-              <span className="font-headline text-text-muted text-lg">?</span>
-            ) : (
-              prize.label || t('defaults.prizeOther')
-            )}
+            {ladder.state.hideResults && !isRevealed ? '?' : prize.label || t('defaults.prizeOther')}
           </div>
         );
       })}

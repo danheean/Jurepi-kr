@@ -8,6 +8,10 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./vitest.setup.ts'],
+    // Vitest runs unit/component tests under src/ only.
+    // Playwright E2E/a11y specs (tests/**) run via `pnpm exec playwright test`.
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    exclude: ['node_modules/**', '.next/**', 'tests/**', 'e2e/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

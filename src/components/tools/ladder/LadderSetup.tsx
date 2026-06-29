@@ -25,7 +25,7 @@ export function LadderSetup({ ladder }: LadderSetupProps) {
 
   return (
     <div className="w-full space-y-6">
-      <div className="bg-surface rounded-xl shadow-card p-6 border border-hairline">
+      <div className="bg-surface rounded-xl shadow-card p-6 border border-hairline" data-testid="setup-card">
         {/* Player count stepper */}
         <div className="mb-6">
           <Stepper
@@ -52,6 +52,7 @@ export function LadderSetup({ ladder }: LadderSetupProps) {
                   }`}
                 />
                 <TextInput
+                  testId="player-input"
                   placeholder={`${t('setup.playerPlaceholder')} ${idx + 1}`}
                   value={player.name}
                   onChange={(e) =>
@@ -78,6 +79,7 @@ export function LadderSetup({ ladder }: LadderSetupProps) {
                   }`}
                 />
                 <TextInput
+                  testId="prize-input"
                   placeholder={`${t('setup.prizePlaceholder')} ${idx + 1}`}
                   value={prize.label}
                   onChange={(e) =>
@@ -95,6 +97,7 @@ export function LadderSetup({ ladder }: LadderSetupProps) {
         {/* Hide results toggle */}
         <div className="mb-6 py-4 border-t border-hairline">
           <Toggle
+            testId="hide-results-toggle"
             checked={ladder.state.hideResults}
             onChange={() => ladder.toggleHide()}
             label={t('setup.hideToggle')}

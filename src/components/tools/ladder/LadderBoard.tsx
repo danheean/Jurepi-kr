@@ -48,6 +48,7 @@ export function LadderBoard({ ladder, onTraceComplete }: LadderBoardProps) {
         style={{ minHeight: '320px', maxWidth: '100%', height: 'auto' }}
         role="img"
         aria-label={t('board.aria')}
+        data-testid="ladder-board"
         className="border border-hairline rounded-lg bg-surface"
       >
         {/* Vertical lines (players) */}

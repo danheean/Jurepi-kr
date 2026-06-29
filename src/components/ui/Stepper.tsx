@@ -35,6 +35,7 @@ export function Stepper({
         <button
           onClick={handleMinus}
           disabled={isAtMin}
+          data-testid="stepper-decrement"
           className={`
             w-10 h-10 flex items-center justify-center rounded-md
             font-button text-lg transition-all
@@ -57,6 +58,7 @@ export function Stepper({
         <button
           onClick={handlePlus}
           disabled={isAtMax}
+          data-testid="stepper-increment"
           className={`
             w-10 h-10 flex items-center justify-center rounded-md
             font-button text-lg transition-all

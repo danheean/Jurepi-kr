@@ -5,6 +5,7 @@ interface ToggleProps {
   onChange: (checked: boolean) => void;
   label?: string;
   disabled?: boolean;
+  testId?: string;
 }
 
 export function Toggle({
@@ -12,6 +13,7 @@ export function Toggle({
   onChange,
   label,
   disabled = false,
+  testId,
 }: ToggleProps) {
   return (
     <div className="flex items-center gap-3">
@@ -20,6 +22,7 @@ export function Toggle({
         role="switch"
         aria-checked={checked}
         disabled={disabled}
+        data-testid={testId}
         onClick={() => onChange(!checked)}
         className={`
           relative inline-flex h-6 w-11 rounded-full transition-colors duration-200

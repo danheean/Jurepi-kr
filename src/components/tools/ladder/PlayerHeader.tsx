@@ -36,6 +36,7 @@ export function PlayerHeader({ ladder }: PlayerHeaderProps) {
         return (
           <button
             key={player.id}
+            data-testid="player-chip"
             onClick={() => {
               if (canClick && !isRevealed) {
                 ladder.startTrace(player.id);

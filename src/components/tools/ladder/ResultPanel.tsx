@@ -91,7 +91,7 @@ export function ResultPanel({ ladder }: ResultPanelProps) {
 
       {/* Summary (phase = done) */}
       {ladder.state.phase === 'done' && (
-        <div className="bg-surface-muted rounded-lg p-4">
+        <div className="bg-surface-muted rounded-lg p-4" data-testid="result-summary">
           <h3 className="font-card-title text-text mb-3">
             {t('panel.summaryTitle')}
           </h3>
