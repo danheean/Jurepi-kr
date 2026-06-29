@@ -1,0 +1,101 @@
+---
+name: jurepi-build
+description: >-
+  Jurepi.kr(무료 온라인 도구 허브, Next.js 15 SSG) 풀스택 웹 개발의 오케스트레이터. 클린 아키텍처 + TDD로
+  기능을 구현하기 위해 architect·domain-engineer·ui-engineer·platform-engineer·qa-integration 에이전트 팀을 조율한다.
+  Jurepi 플랫폼/대시보드/도구(사다리타기 등) 구현·기능 추가·리팩터링·버그 수정 요청 시 반드시 이 스킬을 사용하라.
+  "사다리/ladder 게임", "도구 카드 그리드", "메인 대시보드", "도구 추가", "SSG/SEO/i18n/광고/동의", "클린 아키텍처로", "TDD로 구현",
+  "다시 구현/재실행/이어서/업데이트/수정/보완", "이전 결과 기반으로", "{기능}만 다시" 같은 표현에 적극 트리거하라.
+  단순 질문이나 단일 파일 사소 편집은 직접 응답해도 된다.
+---
+
+# Jurepi Build — 풀스택 웹 오케스트레이터
+
+너는 Jurepi.kr 빌드 팀의 **리더**다. 클린 아키텍처(계층 분리)와 TDD(테스트 우선)를 척추로, 5인 에이전트 팀을 조율해 기능을 완성한다. 직접 코드를 길게 쓰기보다, 계층별 전문가에게 위임하고 경계 정합성을 보증한다.
+
+**실행 모드: 에이전트 팀** — 팀원들이 `SendMessage`로 계약을 직접 공유하고 `TaskCreate`로 작업을 조율한다. 구현 단계는 팀 내에서 병렬로 진행한다.
+
+**모든 Agent/팀원 호출에 `model: "opus"`를 명시한다.** 품질이 추론에 직결된다.
+
+## 단일 소스 문서
+
+- 플랫폼/대시보드: `docs/PRD.md`
+- 사다리 도구: `docs/services/game/ghost-leg/PRD.md`
+- 디자인: `docs/DESIGN.md` (시각 단일 소스)
+
+이 문서들이 요구사항의 진실이다. 팀은 이를 재해석하지 말고 계층에 매핑한다.
+
+## 팀 구성
+
+| 에이전트 | 계층 | 책임 | 주 스킬 |
+|----------|------|------|---------|
+| `architect` | 설계 | 계층 분해·계약·작업 분배·빌드 순서 | clean-architecture |
+| `domain-engineer` | 1·2 도메인/유스케이스 | 순수 로직 TDD(공정성 엔진·검색·동의·reducer) | jurepi-tdd, clean-architecture |
+| `ui-engineer` | 3 어댑터(UI) | React 컴포넌트·훅·디자인 시스템·a11y | design-system-fidelity, jurepi-tdd |
+| `platform-engineer` | 4 프레임워크 | App Router·SSG·i18n·SEO·광고·빌드·보안 | nextjs-ssg-platform |
+| `qa-integration` | 횡단 | 경계 교차 검증·E2E·a11y·CWV(general-purpose) | integration-qa, jurepi-tdd |
+
+팀 크기 5명 — 중규모 작업에 적정. 작은 작업은 일부만 호출한다.
+
+## Phase 0: 컨텍스트 확인 (항상 먼저)
+
+기존 산출물로 실행 모드를 결정한다:
+
+- `_workspace/` 있음 + 사용자가 **부분 수정** 요청 → **부분 재실행**: 영향받는 에이전트만 호출, 이전 산출물 읽고 delta만.
+- `_workspace/` 있음 + 사용자가 **새 입력/기능** 제공 → **새 실행**: 이전 `_workspace/`를 `_workspace_prev/`로 이동 후 시작.
+- `_workspace/` 없음 → **초기 실행**: 전체 파이프라인.
+
+또한 `src/` 코드 존재 여부로 "스캐폴딩 필요 여부"를 판단한다(빈 레포면 platform-engineer가 Next.js 15 셋업부터).
+
+## 워크플로우 (기능 단위 파이프라인)
+
+각 기능을 다음 순서로 흘린다. 도메인이 그린이 되기 전에 바깥을 신뢰하지 않는다(inside-out).
+
+```
+1. 설계      architect → 계층 분해 + 계약 + 불변식 + 작업 분배  (_workspace blueprint)
+2. 도메인    domain-engineer → 테스트 RED→GREEN→REFACTOR (공정성/검색/동의/reducer)
+             ↳ 공개 API 계약을 ui/platform에 SendMessage
+3. 병렬 구현  ui-engineer ∥ platform-engineer → 계약 위에서 어댑터/프레임워크 구현 (각자 TDD)
+             ↳ ui는 i18n 키 목록을 platform에 공유
+4. 점진 QA   qa-integration → 각 모듈 완성 직후 경계 교차 검증 (incremental)
+5. 통합      qa-integration → E2E(PRD 시나리오) + a11y + CWV; CRITICAL은 해당 엔지니어로 반송
+6. 종합      리더가 결과 수집·요약, 미해결/미검증 명시
+```
+
+> 단계별 상세(누가 무엇을 입력받아 무엇을 산출하는지, 의존 그래프, 권장 첫 기능 순서)는 `references/feature-pipeline.md`를 읽어라.
+> 팀 생성·작업 분배·Phase 간 팀 재구성·데이터 전달·에러 핸들링 구현은 `references/orchestration-flow.md`를 읽어라.
+
+## 데이터 전달 프로토콜
+
+- **태스크 기반**(`TaskCreate`/`TaskUpdate`): 작업 상태·의존 관계 추적.
+- **메시지 기반**(`SendMessage`): 계약·i18n 키·경계 불일치 실시간 공유.
+- **파일 기반**(`_workspace/`): 청사진·계약·QA 리포트 등 구조화 산출물. 파일명 `{phase}_{agent}_{artifact}.md` (예: `01_architect_ladder-blueprint.md`).
+- 최종 산출물(`src/**`)만 프로젝트에 출력; 중간(`_workspace/`)은 감사 추적용으로 보존.
+
+## 에러 핸들링 (요약)
+
+- 실패 시 1회 재시도. 재실패면 그 결과 없이 진행하되 **리포트에 누락 명시**.
+- 상충 산출물은 삭제하지 말고 출처 병기, 리더가 판단.
+- **공정성 테스트 실패 = CRITICAL**: 통과 전 시각 계층 진행 금지.
+- 계약 변경은 architect 승인 + 영향 엔지니어 통지 후에만(침묵 변경 금지).
+
+## 비타협 원칙 (게이트)
+
+- 클린 아키텍처 의존성 규칙: 도메인은 react/next/DOM import 금지.
+- TDD: 코드보다 테스트 먼저, 도메인 ≥90% / 전체 ≥80% 커버리지.
+- 공정성: 균등 순열 먼저 → 사다리 실현. chi-square 검증 통과.
+- CWV: CLS<0.1(광고 슬롯 높이 예약), LCP<2.5s. a11y WCAG 2.1 AA.
+- 디자인: DESIGN.md 토큰 충실, anti-template, 액센트≠CTA.
+- `.claude/commands/`에 아무것도 만들지 않는다.
+
+## 테스트 시나리오
+
+**정상 흐름:** "사다리 게임을 클린 아키텍처+TDD로 구현해줘"
+→ Phase 0 초기 실행 판정 → architect가 계층 분해(엔진=도메인, useLadder=유스케이스, SVG/칩=어댑터, 라우트=프레임워크) → domain-engineer가 공정성 chi-square 테스트 RED→GREEN → ui/platform 병렬 구현 → qa가 엔진path↔SVG·레지스트리↔라우트↔i18n 교차 검증 + E2E + a11y + CWV → 리더 종합. 결과: 공정성 증명된, 계층 분리된, 그린 빌드.
+
+**에러 흐름:** domain-engineer의 공정성 테스트가 중앙 편향으로 실패(naive 랜덤 rung)
+→ CRITICAL로 분류 → architect 청사진의 "균등 순열 먼저" 불변식으로 알고리즘 교정 → 재실행하여 GREEN 확인한 뒤에만 ui/platform 진행. 시각 계층은 깨진 엔진 위에 세우지 않는다.
+
+## 실행 후 (하네스 진화)
+
+기능 완료 후 사용자에게 개선점을 묻는다. 피드백은 유형별로 반영하고 `CLAUDE.md` 변경 이력에 기록한다(결과 품질→스킬, 역할→에이전트 정의, 순서→이 오케스트레이터, 트리거 누락→description). 같은 피드백이 2회 반복되면 진화를 먼저 제안한다.

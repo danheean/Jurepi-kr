@@ -1,0 +1,103 @@
+/* Design Tokens — Mirror of DESIGN.md */
+
+:root {
+  /* Brand & Action */
+  --brand: #6c5ce7;
+  --brand-strong: #5a48d6;
+  --brand-soft: #efeaff;
+  --on-brand: #ffffff;
+
+  /* Surface */
+  --surface: #ffffff;
+  --surface-muted: #f5f3fc;
+  --surface-sunken: #eeeafa;
+  --hairline: #ece9f7;
+  --hairline-strong: #d8d3ee;
+
+  /* Text */
+  --text: #1e1b3a;
+  --text-secondary: #5c5780;
+  --text-muted: #938eb3;
+
+  /* Per-Accent Identity */
+  --accent-coral: #ff7a85;
+  --accent-coral-soft: #ffe7e9;
+  --accent-mint: #2dd4bf;
+  --accent-mint-soft: #d7f7f2;
+  --accent-sky: #38bdf8;
+  --accent-sky-soft: #ddf2fe;
+  --accent-sun: #fbbf24;
+  --accent-sun-soft: #fef1d2;
+  --accent-grape: #a78bfa;
+  --accent-grape-soft: #ece6fe;
+  --accent-rose: #fb7185;
+  --accent-rose-soft: #fee2e7;
+
+  /* Semantic */
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+
+  /* Focus */
+  --focus-ring: #6c5ce7;
+
+  /* Elevation & Depth */
+  --shadow-card: 0 2px 8px rgba(108, 92, 231, 0.08);
+  --shadow-card-hover: 0 10px 28px rgba(108, 92, 231, 0.18);
+  --shadow-pop: 0 16px 40px rgba(108, 92, 231, 0.22);
+
+  /* Border Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-xxl: 28px;
+  --radius-pill: 9999px;
+  --radius-full: 9999px;
+
+  /* Spacing */
+  --space-hair: 1px;
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-ml: 20px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  --space-section: 64px;
+
+  /* Typography */
+  --font-display: 'Gmarket Sans', sans-serif;
+  --font-body: 'Pretendard', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 350ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-max: 1120px;
+  --container-gutter-desktop: 24px;
+  --container-gutter-mobile: 16px;
+}
+
+/* Dark theme tokens (Phase 2) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #1e1b2e;
+    --surface-muted: #262238;
+    --surface-sunken: #1a181f;
+    --hairline: #322c49;
+    --hairline-strong: #463e63;
+    --text: #f4f2ff;
+    --text-secondary: #b7b1d6;
+    --text-muted: #7e7799;
+    --brand: #8b7bff;
+    --brand-strong: #a294ff;
+    --brand-soft: #2a2545;
+  }
+}

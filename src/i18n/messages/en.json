@@ -1,0 +1,97 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "contact": "Contact"
+  },
+  "header": {
+    "wordmark": "Jurepi",
+    "searchPlaceholder": "Search tools…"
+  },
+  "footer": {
+    "copyright": "© 2026 Jurepi · All tools are free.",
+    "tagline": "Handy tools, all free."
+  },
+  "home": {
+    "eyebrow": "Free online tools",
+    "headline": "Handy tools, all free.",
+    "subhead": "Discover useful tools in one place.",
+    "searchPlaceholder": "Search tools…"
+  },
+  "notFound": {
+    "heading": "Page not found",
+    "description": "The page you requested does not exist.",
+    "backHome": "Back to home"
+  },
+  "tools": {
+    "ladder": {
+      "title": "Ladder Game",
+      "lead": "Decide fair orders for your group. Who buys coffee? Who picks first?",
+      "setup": {
+        "countLabel": "Number of players",
+        "playerPlaceholder": "Player name",
+        "prizePlaceholder": "Outcome",
+        "hideToggle": "Hide results",
+        "build": "Build ladder"
+      },
+      "defaults": {
+        "player": "Player {n}",
+        "prizeWin": "Win",
+        "prizeOther": "Lose"
+      },
+      "header": {
+        "revealAria": "Reveal {name}"
+      },
+      "board": {
+        "aria": "Ladder game board"
+      },
+      "panel": {
+        "revealAll": "Reveal all",
+        "reshuffle": "Reshuffle",
+        "reset": "Reset",
+        "copy": "Copy results",
+        "copied": "Copied",
+        "soundOn": "Sound on",
+        "soundOff": "Sound off",
+        "summaryTitle": "Results"
+      },
+      "announce": {
+        "result": "{name}'s result is {prize}"
+      },
+      "howTo": {
+        "heading": "How to play",
+        "whatIsTitle": "What is the Ladder Game?",
+        "whatIsBody": "The Ladder Game is a classic method for fairly deciding outcomes: who buys coffee, who picks first, who does the chore. You write participant names at the top and outcomes at the bottom, then follow a random ladder of vertical lines and horizontal rungs to determine each person's result. It's simple, fair, and fun—whether you're drawing lots for a team project, deciding chore order, or just having a good laugh.",
+        "howToTitle": "How to play",
+        "howToBody": "Start by selecting the number of players. Then enter each player's name and the possible outcomes (e.g., names vs. prizes or chores). If you leave outcomes blank, the game fills them in automatically. Click 'Build ladder' to generate a random ladder. The ladder is built fairly using computer randomness, ensuring every player has an equal 1/N chance of any outcome. Click on a player's name to reveal their result by tracing the path, or use 'Reveal all' to show everyone at once. You can reshuffle for a new ladder or reset to change players and outcomes."
+      },
+      "faq": {
+        "heading": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "Is the ladder game really fair?",
+            "a": "Yes, absolutely. This digital ladder uses proven fair randomness—every player gets exactly 1/N probability of any outcome, regardless of starting position. Hand-drawn ladders often favor the center (a phenomenon called the 'ugly truth' in Korean), but this version eliminates that bias entirely."
+          },
+          {
+            "q": "How many players can play?",
+            "a": "You can play with 2 to 10 players."
+          },
+          {
+            "q": "Does starting position matter?",
+            "a": "No. Your result is completely independent of where you start. Enabling 'Hide results' before building the ladder makes it even more fair and prevents anyone from gaming the system."
+          },
+          {
+            "q": "Can I reshuffle the ladder?",
+            "a": "Yes. Once all results are revealed, click 'Reshuffle' to generate a brand new ladder while keeping all the player names and outcomes."
+          },
+          {
+            "q": "Can I share the results?",
+            "a": "Of course. Use the 'Copy results' button to copy the outcome mapping as text, then paste it into a message or email to share with your group."
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+/* Global styles */
+
+@import url('@/styles/tokens.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* System font stack as fallback */
+@supports (font-variation-settings: normal) {
+  :root {
+    --font-body: 'Pretendard Variable', system-ui, -apple-system, 'Segoe UI',
+      sans-serif;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background-color: var(--surface);
+  line-height: 1.55;
+}
+
+/* Prevent Flash of Unstyled Content (FOUC) */
+html {
+  display: none;
+}
+
+html.init {
+  display: block;
+}
+
+/* Focus visible ring */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--brand-soft);
+  color: var(--text);
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

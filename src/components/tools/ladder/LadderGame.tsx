@@ -1,0 +1,108 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useLadder } from './useLadder';
+import { LadderIntro } from './LadderIntro';
+import { LadderSetup } from './LadderSetup';
+import { PlayerHeader } from './PlayerHeader';
+import { LadderBoard } from './LadderBoard';
+import { PrizeCards } from './PrizeCards';
+import { ResultPanel } from './ResultPanel';
+import { LadderHowTo } from './LadderHowTo';
+import { LadderFaq } from './LadderFaq';
+import { softwareApplicationJsonLd } from '@/lib/seo';
+import { useTranslations } from 'next-intl';
+
+export function LadderGame() {
+  const ladder = useLadder(4);
+  const t = useTranslations('tools.ladder');
+
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (ladder.state.phase === 'setup') {
+        if (e.key === 'Enter') {
+          ladder.build();
+        }
+        return;
+      }
+
+      if (ladder.state.phase === 'ready' || ladder.state.phase === 'revealing') {
+        // Number keys 1-9, 0 for column selection
+        const num = parseInt(e.key);
+        if (!isNaN(num) && num > 0 && num <= ladder.state.playerCount) {
+          const playerIdx = num - 1;
+          const player = ladder.state.players[playerIdx];
+          if (player && !ladder.isRevealed(player.id) && ladder.canStartTrace()) {
+            ladder.startTrace(player.id);
+          }
+        }
+
+        // 'a' for reveal all
+        if (e.key.toLowerCase() === 'a') {
+          ladder.revealAll();
+        }
+
+        // 'r' for reshuffle
+        if (e.key.toLowerCase() === 'r') {
+          ladder.reshuffle();
+        }
+
+        // Esc to reset
+        if (e.key === 'Escape') {
+          ladder.reset();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [ladder]);
+
+  // Handle trace animation completion
+  useEffect(() => {
+    if (ladder.state.activeTrace) {
+      const timer = setTimeout(() => {
+        ladder.completeReveal(ladder.state.activeTrace!);
+      }, ladder.prefers_reduced_motion ? 100 : 350);
+
+      return () => clearTimeout(timer);
+    }
+  }, [ladder.state.activeTrace, ladder]);
+
+  const jsonLd = softwareApplicationJsonLd({
+    name: t('title'),
+    description: t('lead'),
+    url: 'https://jurepi.kr/tools/ladder',
+  });
+
+  return (
+    <main className="w-full max-w-2xl mx-auto px-4 py-8">
+      <LadderIntro />
+
+      {/* Game board */}
+      <div className="space-y-6 mb-12">
+        {ladder.state.phase === 'setup' ? (
+          <LadderSetup ladder={ladder} />
+        ) : (
+          <>
+            <PlayerHeader ladder={ladder} />
+            <LadderBoard ladder={ladder} />
+            <PrizeCards ladder={ladder} />
+            <ResultPanel ladder={ladder} />
+          </>
+        )}
+      </div>
+
+      {/* SEO content */}
+      <LadderHowTo />
+      <LadderFaq />
+
+      {/* JSON-LD for software application */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+    </main>
+  );
+}

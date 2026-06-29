@@ -1,0 +1,202 @@
+import { describe, it, expect } from 'vitest';
+import {
+  buildToolMetadata,
+  softwareApplicationJsonLd,
+  faqPageJsonLd,
+} from './seo';
+
+describe('SEO Builders', () => {
+  describe('buildToolMetadata', () => {
+    it('builds metadata with canonical URL and hreflang alternates', () => {
+      const metadata = buildToolMetadata({
+        locale: 'en',
+        slug: 'ladder',
+        title: 'Ladder Game',
+        description: 'Fair decision making tool',
+      });
+
+      expect(metadata.title).toBe('Ladder Game');
+      expect(metadata.description).toBe('Fair decision making tool');
+      expect(metadata.alternates?.canonical).toBe('https://jurepi.kr/en/tools/ladder');
+      expect(metadata.alternates?.languages).toEqual({
+        ko: 'https://jurepi.kr/ko/tools/ladder',
+        en: 'https://jurepi.kr/en/tools/ladder',
+      });
+    });
+
+    it('builds Open Graph tags correctly', () => {
+      const metadata = buildToolMetadata({
+        locale: 'ko',
+        slug: 'ladder',
+        title: '사다리 게임',
+        description: '공정한 결정 도구',
+      });
+
+      expect(metadata.openGraph?.title).toBe('사다리 게임');
+      expect(metadata.openGraph?.description).toBe('공정한 결정 도구');
+      expect((metadata.openGraph as any)?.type).toBe('website');
+      expect(metadata.openGraph?.siteName).toBe('Jurepi');
+      expect(metadata.openGraph?.url).toBe('https://jurepi.kr/ko/tools/ladder');
+      expect(metadata.openGraph?.locale).toBe('ko_KR');
+    });
+
+    it('maps en locale to en_US in Open Graph', () => {
+      const metadata = buildToolMetadata({
+        locale: 'en',
+        slug: 'test',
+        title: 'Test',
+        description: 'Test desc',
+      });
+
+      expect(metadata.openGraph?.locale).toBe('en_US');
+    });
+
+    it('includes Open Graph image with correct dimensions', () => {
+      const metadata = buildToolMetadata({
+        locale: 'en',
+        slug: 'test',
+        title: 'Test',
+        description: 'Test',
+      });
+
+      const images = metadata.openGraph?.images;
+      expect(Array.isArray(images)).toBe(true);
+      if (Array.isArray(images)) {
+        expect(images).toHaveLength(1);
+        expect(images[0]).toEqual({
+          url: 'https://jurepi.kr/og-default.png',
+          width: 1200,
+          height: 630,
+          alt: 'Test',
+        });
+      }
+    });
+
+    it('includes Twitter card metadata', () => {
+      const metadata = buildToolMetadata({
+        locale: 'en',
+        slug: 'test',
+        title: 'My Tool',
+        description: 'Tool description',
+      });
+
+      expect((metadata.twitter as any)?.card).toBe('summary_large_image');
+      expect(metadata.twitter?.title).toBe('My Tool');
+      expect(metadata.twitter?.description).toBe('Tool description');
+      const images = metadata.twitter?.images;
+      expect(Array.isArray(images) ? images : [images]).toContain('https://jurepi.kr/og-default.png');
+    });
+
+    it('respects NEXT_PUBLIC_SITE_URL environment variable', () => {
+      const originalEnv = process.env.NEXT_PUBLIC_SITE_URL;
+      process.env.NEXT_PUBLIC_SITE_URL = 'https://custom.site';
+
+      const metadata = buildToolMetadata({
+        locale: 'en',
+        slug: 'test',
+        title: 'Test',
+        description: 'Test',
+      });
+
+      expect(metadata.alternates?.canonical).toBe('https://custom.site/en/tools/test');
+      expect(metadata.alternates?.languages?.ko).toBe('https://custom.site/ko/tools/test');
+
+      process.env.NEXT_PUBLIC_SITE_URL = originalEnv;
+    });
+  });
+
+  describe('softwareApplicationJsonLd', () => {
+    it('builds SoftwareApplication JSON-LD with correct @type', () => {
+      const jsonLd = softwareApplicationJsonLd({
+        name: 'Ladder Game',
+        description: 'Fair decision making tool',
+        url: 'https://jurepi.kr/tools/ladder',
+      });
+
+      expect(jsonLd['@context']).toBe('https://schema.org');
+      expect(jsonLd['@type']).toBe('SoftwareApplication');
+    });
+
+    it('includes all required fields', () => {
+      const jsonLd = softwareApplicationJsonLd({
+        name: 'Test Tool',
+        description: 'Test Description',
+        url: 'https://example.com/test',
+      });
+
+      expect(jsonLd.name).toBe('Test Tool');
+      expect(jsonLd.description).toBe('Test Description');
+      expect(jsonLd.url).toBe('https://example.com/test');
+      expect(jsonLd.applicationCategory).toBe('UtilityApplication');
+      expect(jsonLd.downloadUrl).toBe('https://example.com/test');
+      expect(jsonLd.operatingSystem).toBe('Any');
+    });
+
+    it('includes free offer information', () => {
+      const jsonLd = softwareApplicationJsonLd({
+        name: 'Tool',
+        description: 'Desc',
+        url: 'https://example.com',
+      });
+
+      expect(jsonLd.offers).toEqual({
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      });
+    });
+  });
+
+  describe('faqPageJsonLd', () => {
+    it('builds FAQPage JSON-LD with correct @type', () => {
+      const jsonLd = faqPageJsonLd([]);
+
+      expect(jsonLd['@context']).toBe('https://schema.org');
+      expect(jsonLd['@type']).toBe('FAQPage');
+    });
+
+    it('maps FAQ items to Question/Answer structure', () => {
+      const items = [
+        { q: 'Is it fair?', a: 'Yes, absolutely.' },
+        { q: 'How many players?', a: 'Up to 10.' },
+      ];
+
+      const jsonLd = faqPageJsonLd(items);
+      const mainEntity = jsonLd.mainEntity as any[];
+
+      expect(mainEntity).toHaveLength(2);
+      expect(mainEntity[0]).toEqual({
+        '@type': 'Question',
+        name: 'Is it fair?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, absolutely.',
+        },
+      });
+      expect(mainEntity[1]).toEqual({
+        '@type': 'Question',
+        name: 'How many players?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Up to 10.',
+        },
+      });
+    });
+
+    it('handles empty FAQ items', () => {
+      const jsonLd = faqPageJsonLd([]);
+
+      expect(jsonLd.mainEntity).toEqual([]);
+    });
+
+    it('handles single FAQ item', () => {
+      const items = [{ q: 'Question?', a: 'Answer.' }];
+
+      const jsonLd = faqPageJsonLd(items);
+      const mainEntity = jsonLd.mainEntity as any[];
+
+      expect(mainEntity).toHaveLength(1);
+      expect(mainEntity[0]?.name).toBe('Question?');
+    });
+  });
+});

@@ -1,0 +1,83 @@
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
+  content: [
+    './src/app/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}',
+    './src/hooks/**/*.{js,ts,jsx,tsx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        brand: 'var(--brand)',
+        'brand-strong': 'var(--brand-strong)',
+        'brand-soft': 'var(--brand-soft)',
+        'on-brand': 'var(--on-brand)',
+        surface: 'var(--surface)',
+        'surface-muted': 'var(--surface-muted)',
+        'surface-sunken': 'var(--surface-sunken)',
+        hairline: 'var(--hairline)',
+        'hairline-strong': 'var(--hairline-strong)',
+        text: 'var(--text)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-muted': 'var(--text-muted)',
+        'accent-coral': 'var(--accent-coral)',
+        'accent-coral-soft': 'var(--accent-coral-soft)',
+        'accent-mint': 'var(--accent-mint)',
+        'accent-mint-soft': 'var(--accent-mint-soft)',
+        'accent-sky': 'var(--accent-sky)',
+        'accent-sky-soft': 'var(--accent-sky-soft)',
+        'accent-sun': 'var(--accent-sun)',
+        'accent-sun-soft': 'var(--accent-sun-soft)',
+        'accent-grape': 'var(--accent-grape)',
+        'accent-grape-soft': 'var(--accent-grape-soft)',
+        'accent-rose': 'var(--accent-rose)',
+        'accent-rose-soft': 'var(--accent-rose-soft)',
+        success: 'var(--success)',
+        warning: 'var(--warning)',
+        danger: 'var(--danger)',
+        info: 'var(--info)',
+      },
+      boxShadow: {
+        card: 'var(--shadow-card)',
+        'card-hover': 'var(--shadow-card-hover)',
+        pop: 'var(--shadow-pop)',
+      },
+      borderRadius: {
+        xs: 'var(--radius-xs)',
+        sm: 'var(--radius-sm)',
+        md: 'var(--radius-md)',
+        lg: 'var(--radius-lg)',
+        xl: 'var(--radius-xl)',
+        xxl: 'var(--radius-xxl)',
+        pill: 'var(--radius-pill)',
+        full: 'var(--radius-full)',
+      },
+      spacing: {
+        hair: 'var(--space-hair)',
+        xxs: 'var(--space-xxs)',
+        xs: 'var(--space-xs)',
+        sm: 'var(--space-sm)',
+        md: 'var(--space-md)',
+        ml: 'var(--space-ml)',
+        lg: 'var(--space-lg)',
+        xl: 'var(--space-xl)',
+        xxl: 'var(--space-xxl)',
+        section: 'var(--space-section)',
+      },
+      transitionTimingFunction: {
+        'ease-out': 'var(--ease-out)',
+      },
+      maxWidth: {
+        container: '1120px',
+      },
+      fontFamily: {
+        display: ['Gmarket Sans', 'sans-serif'],
+        body: ['Pretendard', 'system-ui', '-apple-system', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;
