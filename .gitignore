@@ -9,6 +9,9 @@ out/
 .open-next/
 .dev.vars
 
+# impeccable live-mode runtime journal (config.json is committed)
+.impeccable/live/sessions/
+
 .env
 .env.local
 .env.development.local

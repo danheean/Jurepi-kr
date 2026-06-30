@@ -3,6 +3,13 @@
 무료 온라인 도구 허브 (Next.js 15 App Router · SSG · TS strict · Tailwind v4 · next-intl ko/en · 백엔드/DB 없음).
 요구사항 단일 소스: `docs/PRD.md`, `docs/services/**/PRD.md`, `docs/DESIGN.md`.
 
+## 디자인 컨텍스트 (impeccable)
+
+전략 단일 소스 `PRODUCT.md`(루트) · 시각 단일 소스 `docs/DESIGN.md`. impeccable 작업은 둘을 먼저 읽는다.
+- **Register**: `product` (도구 허브 — 디자인이 도구 사용을 보조, 사용성 최우선; 플레이풀 브랜드 성격은 그 위에 얹힘).
+- **Design Principles**: ① 색은 의미(카테고리 액센트 6종=정체성, 브랜드 바이올렛 `#6c5ce7`=유일 액션색) ② 마찰 제로·즉시 사용(SSG 셸 위 클라이언트 SPA) ③ 발견성이 성장(도구별 인덱싱 URL·SEO·CWV CLS<0.1) ④ 놀이를 명료하게 하는 모션(compositor 속성·`prefers-reduced-motion` 존중) ⑤ 수익은 콘텐츠를 막지 않음(광고 높이 예약·동의 게이팅).
+- **라이브 모드**: `.impeccable/live/config.json` 설정됨 → `/impeccable live`. 세션 저널 `.impeccable/live/sessions/`는 로컬 상태.
+
 ## 하네스: Jurepi 풀스택 웹 빌드 (클린 아키텍처 + TDD)
 
 **목표:** 클린 아키텍처(도메인→유스케이스→어댑터→프레임워크 계층 분리)와 TDD(테스트 우선)로 Jurepi 플랫폼·대시보드·도구를 구현한다.
