@@ -12,6 +12,7 @@ import { Footer } from '@/components/layout/Footer';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { ConsentProvider } from '@/components/consent/ConsentProvider';
 import { ConsentBanner } from '@/components/consent/ConsentBanner';
+import { GoogleAdsense } from '@/components/analytics/GoogleAdsense';
 
 type Locale = (typeof routing.locales)[number];
 
@@ -40,6 +41,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} suppressHydrationWarning>
       <head>
         <ThemeBootstrap />
+        <GoogleAdsense />
       </head>
       <body>
         <ConsentProvider>
