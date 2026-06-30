@@ -20,8 +20,12 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'pnpm build && pnpm start',
+    // `output: 'export'` produces a static site in `out/`; `next start` is not
+    // supported under export, so serve the build statically (same as the
+    // Cloudflare Pages deploy). Allow extra time for the build + first `serve` fetch.
+    command: 'pnpm build && npx --yes serve@latest out -l 3000',
     url: 'http://localhost:3000',
     reuseExistingServer: true,
+    timeout: 180_000,
   },
 });
