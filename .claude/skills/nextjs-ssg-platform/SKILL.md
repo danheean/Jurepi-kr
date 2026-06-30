@@ -16,6 +16,7 @@ description: Jurepi의 Next.js 15 App Router 정적 사이트(SSG) 플랫폼을 
 ## 골격 빌드 순서
 
 1. **Scaffold:** Next.js 15 + React 19 + TS strict + Tailwind v4(`@tailwindcss/postcss`) + `tokens.css` 브리지 + path alias `@/*`. ESLint(next/core-web-vitals)+Prettier.
+   - **Tailwind v4는 v3 `tailwind.config.ts`를 자동 로드하지 않는다.** CSS 엔트리(globals.css)에 `@import "tailwindcss";` + `@config "../../tailwind.config.ts";`를 명시해야 `theme.extend`(색/라운드/그림자/maxWidth)와 content 글롭이 적용된다. 누락 시 **빌드는 그린이지만** `.bg-surface`·`.shadow-card`·`.max-w-container` 등 토큰 유틸이 전부 미생성돼 화면이 무스타일이 된다(실제 발생). 스캐폴드 직후 `.next/static/css/*.css`에 토큰 유틸이 grep으로 존재하는지 확인한다.
    - **테스트 스크립트는 `vitest run`으로 (워치 아님).** `"test": "vitest"`는 비-TTY/CI 셸에서 종료하지 않아 hang처럼 보인다. `"test": "vitest run"`, `"test:coverage": "vitest run --coverage"`, 워치는 별도 `"test:watch": "vitest"`로 둔다.
    - **coverage 스코프를 `src/**`로 고정.** `include` 없이 두면 `.next/` 빌드 산출물·vendor·config까지 계측돼 수치가 무의미해진다. `vitest.config.ts`: `coverage: { all: true, include: ['src/**/*.{ts,tsx}'], exclude: ['.next/**','**/*.config.*','**/*.d.ts','src/app/**','src/middleware.ts','src/i18n/{routing,request}.ts','**/*.test.*'] }`. 프레임워크 엔트리포인트(app/·middleware·i18n 배선)는 `next build`+E2E가 검증하므로 단위 커버리지 임계에서 제외하고, 제외 사실을 문서화한다.
    - **Vitest와 Playwright의 스펙을 분리한다.** Vitest 기본 include는 `**/*.{test,spec}.*`라 Playwright의 `tests/**/*.spec.ts`까지 수집해 `@playwright/test` import 에러로 `pnpm test`가 exit 1이 된다. `vitest.config.ts`에 `test: { include: ['src/**/*.{test,spec}.{ts,tsx}'], exclude: ['node_modules/**','.next/**','tests/**','e2e/**'] }`로 한정하고, Playwright는 `pnpm exec playwright test`로만 실행한다. Playwright 산출물(`playwright-report/`,`test-results/`)은 `.gitignore`에 넣는다.
@@ -60,4 +61,6 @@ NextIntlClientProvider → ThemeProvider → ConsentProvider → ToastProvider
 - 광고/동적 콘텐츠에 높이 미예약 → CLS 폭발. 항상 예약.
 - 비즈니스 로직을 `page.tsx`에 인라인 → 계층 위반. 도메인 호출.
 - 로케일 전환이 query를 버림 → path+query 보존해야 함.
-- 폰트를 CDN에서 로드 → self-host+subset+swap, 주요 weight만 preload.
+- 폰트를 CDN에서 로드 → self-host+subset+swap, 주요 weight만 preload. (자원 부재 시 CDN+swap은 한시적 허용이되, 목표는 self-host.)
+- **`useSearchParams`(+Suspense)로 그리드를 클라이언트 전용 렌더 → SSG/SEO 회귀.** 정적 HTML에서 카드·도구 링크가 사라진다(RSC 페이로드에만 존재, 실제 발생). 초기 상태는 서버에서 기본값으로 렌더하고 그리드를 정적 HTML에 남긴 뒤, URL 동기화는 마운트 후 `window.location.search` 읽기 + `history.replaceState`로 한다(또는 page의 server `searchParams`를 prop으로). `useSearchParams`를 쓰면 정적 페이지가 CSR로 bail-out된다.
+- **도구 카드·내비 링크에 `next/link` 사용 → 로케일 프리픽스 누락(→404).** 로케일 프리픽스가 필요한 링크는 `@/i18n/routing`의 next-intl `Link`를 쓴다(`/tools/x` → `/ko/tools/x`). `next/link`의 `locale` prop은 무시된다.
