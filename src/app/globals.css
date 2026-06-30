@@ -32,6 +32,18 @@
   }
 }
 
+/* Gmarket Sans — brand display face, self-hosted (free for commercial use).
+   DESIGN.md uses one bold weight; the 400–700 range maps every heading weight to
+   this single file so un-bolded `font-display` headings still render in Gmarket.
+   font-display:swap paints headings immediately in the fallback, then swaps in. */
+@font-face {
+  font-family: 'Gmarket Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/GmarketSansBold.woff2') format('woff2');
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
