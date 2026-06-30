@@ -43,7 +43,7 @@ describe('IconButton', () => {
     );
 
     let button = screen.getByRole('button', { name: 'Favorite' });
-    expect(button).toHaveClass('w-8', 'h-8');
+    expect(button).toHaveClass('w-9', 'h-9');
 
     rerender(
       <IconButton
@@ -54,7 +54,7 @@ describe('IconButton', () => {
     );
 
     button = screen.getByRole('button', { name: 'Favorite' });
-    expect(button).toHaveClass('w-10', 'h-10');
+    expect(button).toHaveClass('w-11', 'h-11');
 
     rerender(
       <IconButton

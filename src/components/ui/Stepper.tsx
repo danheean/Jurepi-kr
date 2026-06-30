@@ -41,7 +41,7 @@ export function Stepper({
           disabled={isAtMin}
           data-testid="stepper-decrement"
           className={`
-            w-10 h-10 flex items-center justify-center rounded-md
+            w-11 h-11 flex items-center justify-center rounded-md
             text-lg transition-all
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
             ${
@@ -64,7 +64,7 @@ export function Stepper({
           disabled={isAtMax}
           data-testid="stepper-increment"
           className={`
-            w-10 h-10 flex items-center justify-center rounded-md
+            w-11 h-11 flex items-center justify-center rounded-md
             text-lg transition-all
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
             ${

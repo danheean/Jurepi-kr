@@ -7,7 +7,7 @@ interface IconButtonProps {
   ariaLabel: string;
   /** Click handler. */
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  /** Tailwind size: 'sm' (32px), 'md' (40px), 'lg' (48px); default 'md'. */
+  /** Tailwind size: 'sm' (36px), 'md' (44px tap target), 'lg' (48px); default 'md'. */
   size?: 'sm' | 'md' | 'lg';
   /** Variant: 'ghost' (transparent), 'secondary' (surface-muted); default 'ghost'. */
   variant?: 'ghost' | 'secondary';
@@ -18,8 +18,8 @@ interface IconButtonProps {
 }
 
 const sizeClasses = {
-  sm: 'w-8 h-8',
-  md: 'w-10 h-10',
+  sm: 'w-9 h-9',
+  md: 'w-11 h-11',
   lg: 'w-12 h-12',
 };
 
