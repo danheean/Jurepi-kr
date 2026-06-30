@@ -83,7 +83,7 @@ export function JournalPanel({
           onClick={() => setSelectedYear(null)}
           className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
             selectedYear === null
-              ? 'bg-brand text-white'
+              ? 'bg-brand text-on-brand'
               : 'bg-surface-muted text-text-secondary hover:bg-surface-sunken'
           }`}
         >
@@ -95,7 +95,7 @@ export function JournalPanel({
             onClick={() => setSelectedYear(year)}
             className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
               selectedYear === year
-                ? 'bg-brand text-white'
+                ? 'bg-brand text-on-brand'
                 : 'bg-surface-muted text-text-secondary hover:bg-surface-sunken'
             }`}
           >

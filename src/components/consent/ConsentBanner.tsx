@@ -46,7 +46,7 @@ export function ConsentBanner(): React.ReactNode {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           {/* Content */}
           <div className="flex-1">
-            <h2 className="font-display text-sm font-bold text-text mb-2">
+            <h2 className="text-body font-bold text-text mb-2">
               {t('title')}
             </h2>
             <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">

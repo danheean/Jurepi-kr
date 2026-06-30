@@ -41,7 +41,7 @@ export async function Footer(): Promise<React.ReactNode> {
             const categoryTools = toolsByCategory.get(category) || [];
             return (
               <div key={category}>
-                <h3 className="font-display text-caption font-bold text-text uppercase tracking-wider mb-4">
+                <h3 className="text-caption font-bold text-text uppercase tracking-wider mb-4">
                   {t(`categories.${category}`)}
                 </h3>
                 {categoryTools.length > 0 ? (

@@ -68,7 +68,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/40 z-40"
+        className="fixed inset-0 bg-text/40 z-40"
         onClick={onClose}
         aria-hidden="true"
       />

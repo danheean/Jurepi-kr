@@ -40,6 +40,13 @@
     "description": "The page you requested does not exist.",
     "backHome": "Back to home"
   },
+  "toolPage": {
+    "back": "Back",
+    "loading": "Loading tool…",
+    "errorTitle": "Something went wrong",
+    "errorBody": "The tool encountered an error. Please try refreshing the page.",
+    "errorAction": "Refresh"
+  },
   "categories": {
     "all": "All",
     "random": "Random/Draw",

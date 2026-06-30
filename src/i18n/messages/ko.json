@@ -40,6 +40,13 @@
     "description": "요청한 페이지가 존재하지 않습니다.",
     "backHome": "홈으로 돌아가기"
   },
+  "toolPage": {
+    "back": "뒤로",
+    "loading": "도구를 불러오는 중…",
+    "errorTitle": "문제가 발생했어요",
+    "errorBody": "도구에서 오류가 발생했습니다. 페이지를 새로고침해 주세요.",
+    "errorAction": "새로고침"
+  },
   "categories": {
     "all": "전체",
     "random": "랜덤/추첨",

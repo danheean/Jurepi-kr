@@ -76,7 +76,7 @@ describe('ErrorBoundary Component', () => {
 
     const fallback = screen.getByText('Something went wrong').closest('div');
     expect(fallback).toHaveClass('rounded-lg', 'border');
-    expect(fallback).toHaveClass('bg-red-50');
+    expect(fallback).toHaveClass('bg-danger/10');
   });
 
   it('renders h2 with danger styling in fallback', () => {
@@ -92,7 +92,7 @@ describe('ErrorBoundary Component', () => {
 
     const heading = screen.getByRole('heading', { level: 2 });
     expect(heading).toHaveTextContent('Something went wrong');
-    expect(heading).toHaveClass('text-danger');
+    expect(heading).toHaveClass('text-danger-ink');
   });
 
   it('refresh button is clickable', async () => {

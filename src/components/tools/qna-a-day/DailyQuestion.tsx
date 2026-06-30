@@ -108,7 +108,7 @@ export function DailyQuestion() {
                   aria-controls={`${tab}-panel`}
                   className={`px-4 py-2 rounded-full text-body font-medium whitespace-nowrap transition-colors ${
                     activeTab === tab
-                      ? 'bg-brand text-white'
+                      ? 'bg-brand text-on-brand'
                       : 'bg-surface-muted text-text-secondary hover:text-text'
                   }`}
                 >

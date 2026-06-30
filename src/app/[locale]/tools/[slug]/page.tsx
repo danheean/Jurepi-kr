@@ -83,6 +83,7 @@ async function ToolContent({ slug }: { slug: string }) {
 export default async function ToolPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: 'toolPage' });
 
   return (
     <div className="bg-surface">
@@ -90,13 +91,17 @@ export default async function ToolPage({ params }: Props) {
         {/* Breadcrumb */}
         <div className="mb-8">
           <a href={`/${locale}`} className="text-brand hover:text-brand-strong">
-            ← Back
+            ← {t('back')}
           </a>
         </div>
 
         {/* Tool Content with Error Boundary */}
-        <ErrorBoundary>
-          <Suspense fallback={<div>Loading tool...</div>}>
+        <ErrorBoundary
+          title={t('errorTitle')}
+          body={t('errorBody')}
+          actionLabel={t('errorAction')}
+        >
+          <Suspense fallback={<div className="text-text-secondary">{t('loading')}</div>}>
             <ToolContent slug={slug} />
           </Suspense>
         </ErrorBoundary>
