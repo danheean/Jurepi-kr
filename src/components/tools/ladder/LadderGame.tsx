@@ -12,9 +12,9 @@ import { LadderHowTo } from './LadderHowTo';
 import { LadderFaq } from './LadderFaq';
 import { WinnerConfetti } from './WinnerConfetti';
 import { MIN_COL, BOARD_MAX, traceDurationMs } from './ladderLayout';
-import { softwareApplicationJsonLd } from '@/lib/seo';
+import { softwareApplicationJsonLd, absoluteToolUrl } from '@/lib/seo';
 import { playPop } from '@/lib/sound';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 export function LadderGame() {
   const ladder = useLadder(7);
@@ -86,10 +86,11 @@ export function LadderGame() {
     }
   }, [ladder.state.activeTrace, ladder]);
 
+  const locale = useLocale();
   const jsonLd = softwareApplicationJsonLd({
     name: t('title'),
     description: t('lead'),
-    url: 'https://jurepi.kr/tools/ladder',
+    url: absoluteToolUrl(locale, 'ladder'),
   });
 
   return (

@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
+import { ConsentProvider } from '@/components/consent/ConsentProvider';
 
 const defaultMessages = {
   navigation: {
@@ -137,7 +138,7 @@ const defaultMessages = {
 function AllTheProviders({ children }: { children: ReactNode }) {
   return (
     <NextIntlClientProvider locale="en" messages={defaultMessages as any}>
-      {children}
+      <ConsentProvider>{children}</ConsentProvider>
     </NextIntlClientProvider>
   );
 }

@@ -405,5 +405,12 @@
     "email": "dhan0213@naver.com",
     "blogLabel": "Blog",
     "note": "Check our blog for updates on new tools, improvements, and behind-the-scenes stories."
+  },
+  "consent": {
+    "title": "Analytics & Cookies",
+    "body": "Jurepi uses Google Analytics to collect anonymous usage statistics so we can improve your experience.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "learnMore": "Learn more"
   }
 }

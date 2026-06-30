@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { tools } from '@/tools/registry';
 import { toSearchableTools } from '@/lib/searchable-tools';
+import { ConsentReopenButton } from '@/components/consent/ConsentReopenButton';
 
 const FOOTER_CATEGORIES = ['random', 'calculator', 'text', 'converter', 'fun', 'mindset'] as const;
 
@@ -64,7 +65,7 @@ export async function Footer(): Promise<React.ReactNode> {
           })}
         </div>
 
-        {/* Legal links row */}
+        {/* Legal links row + Consent reopen */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-12">
           {legalLinks.map((link) => (
             <Link
@@ -75,6 +76,7 @@ export async function Footer(): Promise<React.ReactNode> {
               {link.label}
             </Link>
           ))}
+          <ConsentReopenButton />
         </div>
 
         {/* Copyright */}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useDailyJournal } from './useDailyJournal';
 import { QnaIntro } from './QnaIntro';
 import { ProgressChip } from './ProgressChip';
@@ -11,7 +11,7 @@ import { JournalPanel } from './JournalPanel';
 import { SettingsPanel } from './SettingsPanel';
 import { QnaHowTo } from './QnaHowTo';
 import { QnaFaq } from './QnaFaq';
-import { softwareApplicationJsonLd } from '@/lib/seo';
+import { softwareApplicationJsonLd, absoluteToolUrl } from '@/lib/seo';
 import { type DateKey } from '@/lib/qna-a-day/date';
 
 type TabKey = 'today' | 'calendar' | 'journal' | 'settings';
@@ -64,10 +64,11 @@ export function DailyQuestion() {
 
   // SoftwareApplication JSON-LD depends only on i18n strings — emit it during
   // SSR (not behind the `mounted` gate) so crawlers see it in the static HTML.
+  const locale = useLocale();
   const jsonLd = softwareApplicationJsonLd({
     name: t('meta.title'),
     description: t('meta.description'),
-    url: 'https://jurepi.kr/tools/qna-a-day',
+    url: absoluteToolUrl(locale, 'qna-a-day'),
   });
 
   return (

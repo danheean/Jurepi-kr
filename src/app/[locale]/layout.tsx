@@ -10,6 +10,8 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
+import { ConsentProvider } from '@/components/consent/ConsentProvider';
+import { ConsentBanner } from '@/components/consent/ConsentBanner';
 
 type Locale = (typeof routing.locales)[number];
 
@@ -40,14 +42,17 @@ export default async function LocaleLayout({ children, params }: Props) {
         <ThemeBootstrap />
       </head>
       <body>
-        <GoogleAnalytics />
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider>
-            <Header tools={searchableTools} />
-            <main id="main">{children}</main>
-            <Footer />
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        <ConsentProvider>
+          <GoogleAnalytics />
+          <NextIntlClientProvider messages={messages}>
+            <ThemeProvider>
+              <Header tools={searchableTools} />
+              <main id="main">{children}</main>
+              <Footer />
+            </ThemeProvider>
+            <ConsentBanner />
+          </NextIntlClientProvider>
+        </ConsentProvider>
       </body>
     </html>
   );

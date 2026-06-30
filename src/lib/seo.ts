@@ -107,6 +107,15 @@ export function buildPageMetadata({
 }
 
 /**
+ * Absolute canonical URL for a tool — used by client-side JSON-LD so structured
+ * data matches the <link rel="canonical"> built by buildToolMetadata.
+ */
+export function absoluteToolUrl(locale: string, slug: string): string {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jurepi.kr';
+  return `${siteUrl}/${locale}/tools/${slug}`;
+}
+
+/**
  * Build SoftwareApplication JSON-LD schema.
  * Structured data for search engines to understand the tool.
  */
