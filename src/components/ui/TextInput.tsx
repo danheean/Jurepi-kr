@@ -26,7 +26,7 @@ export function TextInput({
 
   return (
     <div className="w-full">
-      {label && <label className="text-sm font-button text-text">{label}</label>}
+      {label && <label className="text-sm text-text">{label}</label>}
       <div className="relative mt-1">
         <input
           type="text"
@@ -50,7 +50,7 @@ export function TextInput({
         {showCounter && maxChars && (
           <div
             className={`
-              absolute right-2 top-1/2 -translate-y-1/2 text-xs font-button
+              absolute right-2 top-1/2 -translate-y-1/2 text-xs
               ${charCount === maxChars ? 'text-danger-ink' : 'text-text-muted'}
             `}
           >

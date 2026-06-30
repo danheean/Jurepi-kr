@@ -43,7 +43,7 @@ export function Toggle({
           `}
         />
       </button>
-      {label && <label className="font-button text-text">{label}</label>}
+      {label && <label className="text-button text-text">{label}</label>}
     </div>
   );
 }

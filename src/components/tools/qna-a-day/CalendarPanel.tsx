@@ -133,7 +133,7 @@ export function CalendarPanel({
           ‹
         </button>
         <div className="text-center">
-          <div className="text-headline font-bold text-text">{selectedYear}</div>
+          <div className="font-display text-headline font-bold text-text">{selectedYear}</div>
           <div className="text-caption text-text-secondary">
             {t('calendar.answeredCountThisYear', { count: yearAnsweredCount })}
           </div>

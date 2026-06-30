@@ -7,13 +7,13 @@ export function LadderHowTo() {
 
   return (
     <details data-testid="howto-details" className="my-12">
-      <summary className="font-headline text-text cursor-pointer">
+      <summary className="font-display text-headline text-text cursor-pointer">
         {t('howTo.heading')}
       </summary>
 
       <section className="mt-8 space-y-8">
         <article className="space-y-4">
-          <h3 className="font-card-title text-text">
+          <h3 className="text-card-title text-text">
             {t('howTo.whatIsTitle')}
           </h3>
           <p className="font-body text-text-secondary leading-relaxed whitespace-pre-wrap">
@@ -22,7 +22,7 @@ export function LadderHowTo() {
         </article>
 
         <article className="space-y-4">
-          <h3 className="font-card-title text-text">
+          <h3 className="text-card-title text-text">
             {t('howTo.howToTitle')}
           </h3>
           <p className="font-body text-text-secondary leading-relaxed whitespace-pre-wrap">

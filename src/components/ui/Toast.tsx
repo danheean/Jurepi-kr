@@ -46,7 +46,7 @@ export function Toast({
       role="status"
       aria-live="polite"
       className={`
-        fixed bottom-4 right-4 px-4 py-3 rounded-md font-body-sm
+        fixed bottom-4 right-4 px-4 py-3 rounded-md text-body-sm
         shadow-pop transition-opacity duration-300
         ${typeClasses[type]}
         ${isVisible ? 'opacity-100' : 'opacity-0'}

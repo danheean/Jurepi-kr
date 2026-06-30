@@ -120,7 +120,7 @@ export function LadderSetup({ ladder }: LadderSetupProps) {
           <div className="space-y-3">
             {/* Player column header with auto-names control */}
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-card-title text-text">
+              <h3 className="text-card-title text-text">
                 {t('setup.playerPlaceholder')}
               </h3>
               <Toggle
@@ -167,7 +167,7 @@ export function LadderSetup({ ladder }: LadderSetupProps) {
           <div className="space-y-3">
             {/* Prize column header with result buttons */}
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-card-title text-text">
+              <h3 className="text-card-title text-text">
                 {t('setup.prizePlaceholder')}
               </h3>
             </div>

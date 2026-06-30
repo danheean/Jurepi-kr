@@ -17,7 +17,7 @@ export function LadderFaq() {
 
   return (
     <section className="my-12 space-y-6">
-      <h2 className="font-headline text-text">{t('faq.heading')}</h2>
+      <h2 className="font-display text-headline text-text">{t('faq.heading')}</h2>
 
       <div className="space-y-3">
         {faqItems.map((item, idx) => (
@@ -29,7 +29,7 @@ export function LadderFaq() {
               setExpandedIdx(expandedIdx === idx ? null : idx)
             }
           >
-            <summary className="font-card-title text-text cursor-pointer list-none">
+            <summary className="text-card-title text-text cursor-pointer list-none">
               {item.q}
             </summary>
             <p className="mt-3 font-body text-text-secondary leading-relaxed">

@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-// @ts-expect-error — plain .mjs node script, no types
 import { collectViolations } from '../../scripts/validate-color-tokens.mjs';
 
 /**

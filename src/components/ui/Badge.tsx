@@ -21,7 +21,7 @@ export function Badge({ children, variant = 'new', ...props }: BadgeProps) {
   return (
     <span
       className={`
-        inline-block px-2 py-1 rounded-full font-eyebrow
+        inline-block px-2 py-1 rounded-full text-eyebrow
         ${variantClasses[variant]}
       `}
       {...props}

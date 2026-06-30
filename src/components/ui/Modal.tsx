@@ -85,7 +85,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
           className="bg-surface rounded-xxl shadow-pop max-w-[28rem] w-full p-6 max-h-[90vh] overflow-auto focus:outline-none"
         >
           {title && (
-            <h2 id={titleId} className="font-headline text-text mb-4">
+            <h2 id={titleId} className="font-display text-headline text-text mb-4">
               {title}
             </h2>
           )}

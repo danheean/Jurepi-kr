@@ -9,7 +9,7 @@ export function QnaIntro() {
         {t('intro.eyebrow')}
       </div>
 
-      <h1 className="text-headline font-gmarket font-bold clamp-headline">
+      <h1 className="font-display font-bold text-display-lg text-text">
         {t('intro.title')}
       </h1>
 

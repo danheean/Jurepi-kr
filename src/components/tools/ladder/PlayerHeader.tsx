@@ -48,7 +48,7 @@ export function PlayerHeader({ ladder }: PlayerHeaderProps) {
             }}
             className={`
               absolute top-1/2 -translate-x-1/2 -translate-y-1/2
-              min-h-[44px] px-2 py-2 rounded-full font-button text-sm
+              min-h-[44px] px-2 py-2 rounded-full text-sm
               truncate text-center
               transition-all duration-200
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring

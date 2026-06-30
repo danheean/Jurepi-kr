@@ -28,7 +28,7 @@ describe('LadderIntro Component', () => {
   it('applies display-lg font class to heading', () => {
     render(<LadderIntro />);
     const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toHaveClass('font-display-lg');
+    expect(heading).toHaveClass('text-display-lg');
   });
 
   it('applies text class to heading', () => {
@@ -40,7 +40,7 @@ describe('LadderIntro Component', () => {
   it('applies body-lg font class to lead paragraph', () => {
     render(<LadderIntro />);
     const paragraph = screen.getByText('Decide fair orders for your group.');
-    expect(paragraph).toHaveClass('font-body-lg');
+    expect(paragraph).toHaveClass('text-body-lg');
   });
 
   it('applies text-secondary class to lead paragraph', () => {

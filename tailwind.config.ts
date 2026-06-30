@@ -78,8 +78,25 @@ const config: Config = {
         container: '1120px',
       },
       fontFamily: {
-        display: ['Gmarket Sans', 'sans-serif'],
-        body: ['Pretendard', 'system-ui', '-apple-system', 'sans-serif'],
+        // Reference the CSS-var source of truth (tokens.css) so the utilities
+        // track the actually-loaded faces — body resolves to 'Pretendard Variable'
+        // via the @supports override, display to Gmarket Sans.
+        display: 'var(--font-display)',
+        body: 'var(--font-body)',
+      },
+      // Type scale from docs/DESIGN.md. Display sizes clamp for responsive headings
+      // (max = the DESIGN px value); the rest are fixed rem per the product register.
+      fontSize: {
+        'display-xl': ['clamp(2rem, 6vw, 3.5rem)', { lineHeight: '1.1', letterSpacing: '-0.03em' }],
+        'display-lg': ['clamp(1.75rem, 5vw, 2.5rem)', { lineHeight: '1.15', letterSpacing: '-0.025em' }],
+        headline: ['1.5rem', { lineHeight: '1.2', letterSpacing: '-0.4px' }],
+        'card-title': ['1.0625rem', { lineHeight: '1.3', letterSpacing: '-0.2px' }],
+        'body-lg': ['1.125rem', { lineHeight: '1.6' }],
+        body: ['1rem', { lineHeight: '1.55' }],
+        'body-sm': ['0.875rem', { lineHeight: '1.5' }],
+        caption: ['0.8125rem', { lineHeight: '1.4' }],
+        button: ['0.9375rem', { lineHeight: '1.2' }],
+        eyebrow: ['0.75rem', { lineHeight: '1.2', letterSpacing: '0.6px' }],
       },
     },
   },

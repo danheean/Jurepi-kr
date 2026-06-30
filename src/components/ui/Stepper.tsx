@@ -30,7 +30,7 @@ export function Stepper({
 
   return (
     <div className="flex flex-col items-start gap-2">
-      {label && <label className="font-button text-text text-sm">{label}</label>}
+      {label && <label className="text-text text-sm">{label}</label>}
       <div className="flex items-center gap-2 bg-surface rounded-lg p-2 border border-hairline">
         <button
           onClick={handleMinus}
@@ -38,7 +38,7 @@ export function Stepper({
           data-testid="stepper-decrement"
           className={`
             w-10 h-10 flex items-center justify-center rounded-md
-            font-button text-lg transition-all
+            text-lg transition-all
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
             ${
               isAtMin
@@ -51,7 +51,7 @@ export function Stepper({
           −
         </button>
 
-        <div className="font-headline text-text min-w-[2rem] text-center">
+        <div className="font-display text-headline text-text min-w-[2rem] text-center">
           {value}
         </div>
 
@@ -61,7 +61,7 @@ export function Stepper({
           data-testid="stepper-increment"
           className={`
             w-10 h-10 flex items-center justify-center rounded-md
-            font-button text-lg transition-all
+            text-lg transition-all
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
             ${
               isAtMax

@@ -58,7 +58,7 @@ describe('Badge Component', () => {
   it('uses font-eyebrow typography', () => {
     render(<Badge>Typo</Badge>);
     const badge = screen.getByText('Typo');
-    expect(badge).toHaveClass('font-eyebrow');
+    expect(badge).toHaveClass('text-eyebrow');
   });
 
   it('renders multiple badges with different variants', () => {

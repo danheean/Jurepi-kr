@@ -122,7 +122,7 @@ export function ResultPanel({ ladder }: ResultPanelProps) {
       {/* Summary (phase = done) */}
       {ladder.state.phase === 'done' && (
         <div className="bg-surface-muted rounded-lg p-4" data-testid="result-summary">
-          <h3 className="font-card-title text-text mb-3">
+          <h3 className="text-card-title text-text mb-3">
             {t('panel.summaryTitle')}
           </h3>
           <div className="space-y-2">
@@ -141,7 +141,7 @@ export function ResultPanel({ ladder }: ResultPanelProps) {
                     {player.name || t('defaults.player', { n: idx + 1 })}
                   </span>
                   <span className="text-text-secondary">→</span>
-                  <span className="font-button">
+                  <span className="text-button">
                     {prize?.label || t('defaults.prizeOther')}
                   </span>
                 </div>

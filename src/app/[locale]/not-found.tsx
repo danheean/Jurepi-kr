@@ -19,7 +19,7 @@ export default async function NotFound(): Promise<React.ReactNode> {
       <p className="mb-8 max-w-[24rem] text-text-secondary">{t('description')}</p>
       <Link
         href="/"
-        className="inline-flex min-h-[44px] items-center rounded-lg bg-brand px-6 py-3 font-button text-on-brand transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2"
+        className="inline-flex min-h-[44px] items-center rounded-lg bg-brand px-6 py-3 text-button text-on-brand transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2"
       >
         {t('backHome')}
       </Link>

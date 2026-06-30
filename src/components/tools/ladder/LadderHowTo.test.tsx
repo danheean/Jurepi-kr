@@ -66,14 +66,14 @@ describe('LadderHowTo Component', () => {
   it('applies headline font class to summary', () => {
     const { container } = render(<LadderHowTo />);
     const summary = container.querySelector('summary');
-    expect(summary).toHaveClass('font-headline');
+    expect(summary).toHaveClass('text-headline');
   });
 
   it('applies card-title font class to subheadings', () => {
     render(<LadderHowTo />);
     const subheadings = screen.getAllByRole('heading', { level: 3 });
     subheadings.forEach((subheading) => {
-      expect(subheading).toHaveClass('font-card-title');
+      expect(subheading).toHaveClass('text-card-title');
     });
   });
 

@@ -106,7 +106,7 @@ describe('LadderFaq Component', () => {
     render(<LadderFaq />);
     const summaries = document.querySelectorAll('summary');
     summaries.forEach((summary) => {
-      expect(summary).toHaveClass('font-card-title');
+      expect(summary).toHaveClass('text-card-title');
     });
   });
 

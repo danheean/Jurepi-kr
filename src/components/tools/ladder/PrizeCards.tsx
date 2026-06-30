@@ -53,7 +53,7 @@ export function PrizeCards({ ladder }: PrizeCardsProps) {
             data-testid="prize-card"
             className={`
               absolute top-1/2
-              w-14 h-14 rounded-md font-button text-center
+              w-14 h-14 rounded-md text-button text-center
               flex items-center justify-center
               ${
                 hidden
