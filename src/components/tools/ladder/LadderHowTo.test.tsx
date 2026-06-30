@@ -3,16 +3,18 @@ import { LadderHowTo } from './LadderHowTo';
 import { describe, it, expect } from 'vitest';
 
 describe('LadderHowTo Component', () => {
-  it('renders main heading', () => {
-    render(<LadderHowTo />);
-    const heading = screen.getByRole('heading', { level: 2 });
-    expect(heading).toBeInTheDocument();
+  it('renders summary heading', () => {
+    const { container } = render(<LadderHowTo />);
+    const summary = container.querySelector('summary');
+    expect(summary).toBeInTheDocument();
+    expect(summary).toHaveTextContent('How to play');
   });
 
-  it('renders "How to play" heading from translation', () => {
-    render(<LadderHowTo />);
-    const heading = screen.getByRole('heading', { level: 2, name: /How to play/ });
-    expect(heading).toBeInTheDocument();
+  it('renders summary with "How to play" text', () => {
+    const { container } = render(<LadderHowTo />);
+    const summary = container.querySelector('summary');
+    expect(summary).toBeInTheDocument();
+    expect(summary).toHaveTextContent('How to play');
   });
 
   it('renders "What is the Ladder Game?" subheading', () => {
@@ -49,22 +51,22 @@ describe('LadderHowTo Component', () => {
     expect(articles).toHaveLength(2);
   });
 
-  it('applies space-y-8 to main container', () => {
+  it('applies space-y-8 to section inside details', () => {
     const { container } = render(<LadderHowTo />);
     const section = container.querySelector('section');
     expect(section).toHaveClass('space-y-8');
   });
 
-  it('applies my-12 for vertical margins', () => {
+  it('applies my-12 to details element', () => {
     const { container } = render(<LadderHowTo />);
-    const section = container.querySelector('section');
-    expect(section).toHaveClass('my-12');
+    const details = container.querySelector('details');
+    expect(details).toHaveClass('my-12');
   });
 
-  it('applies headline font class to main heading', () => {
-    render(<LadderHowTo />);
-    const heading = screen.getByRole('heading', { level: 2 });
-    expect(heading).toHaveClass('font-headline');
+  it('applies headline font class to summary', () => {
+    const { container } = render(<LadderHowTo />);
+    const summary = container.querySelector('summary');
+    expect(summary).toHaveClass('font-headline');
   });
 
   it('applies card-title font class to subheadings', () => {
@@ -103,5 +105,37 @@ describe('LadderHowTo Component', () => {
     paragraphs.forEach((paragraph) => {
       expect(paragraph).toHaveClass('leading-relaxed');
     });
+  });
+
+  // Help collapse feature tests
+  it('renders a details element with data-testid', () => {
+    render(<LadderHowTo />);
+    const details = screen.getByTestId('howto-details');
+    expect(details).toBeInTheDocument();
+    expect(details.tagName).toBe('DETAILS');
+  });
+
+  it('has no open attribute by default (collapsed)', () => {
+    render(<LadderHowTo />);
+    const details = screen.getByTestId('howto-details');
+    expect(details).not.toHaveAttribute('open');
+  });
+
+  it('renders summary with heading text', () => {
+    render(<LadderHowTo />);
+    // The summary should be the first child and contain the heading text
+    const details = screen.getByTestId('howto-details');
+    const summary = details.querySelector('summary');
+    expect(summary).toBeInTheDocument();
+    expect(summary).toHaveTextContent('How to play');
+  });
+
+  it('keeps all content in DOM for SEO when collapsed', () => {
+    render(<LadderHowTo />);
+    // Content should be in DOM (not just visible when expanded)
+    const details = screen.getByTestId('howto-details');
+    expect(details).toHaveTextContent('What is the Ladder Game?');
+    expect(details).toHaveTextContent('The Ladder Game is a classic method for fairly deciding outcomes.');
+    expect(details).toHaveTextContent('Start by selecting the number of players.');
   });
 });

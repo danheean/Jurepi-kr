@@ -21,9 +21,6 @@ const prizeCardsAllRevealed = async (cards: ReturnType<import('@playwright/test'
 
 test.describe('Ladder Game - E2E Integration', () => {
   test('Scenario 1: Full game with hidden results', async ({ page }) => {
-    // Headless Chromium blocks navigator.clipboard.writeText without permission;
-    // grant it so "결과 복사" hits the success path (toast) rather than the fallback.
-    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
     await page.goto('/ko/tools/ladder');
     await page.waitForLoadState('networkidle');
 
@@ -76,10 +73,14 @@ test.describe('Ladder Game - E2E Integration', () => {
     // Result summary shown (phase = done)
     await expect(page.locator('[data-testid="result-summary"]')).toBeVisible({ timeout: 5000 });
 
-    // Copy results -> toast (prize labels intentionally contain duplicates like 꽝,
-    // so we assert all 6 cards are revealed rather than unique label text).
-    await page.locator('button:has-text("결과 복사")').click();
-    await expect(page.locator('text=/복사되었습니다|Copied/')).toBeVisible({ timeout: 3000 });
+    // Download results button (replaces copy button)
+    const downloadBtn = page.locator('[data-testid="download-btn"]');
+    await expect(downloadBtn).toBeVisible({ timeout: 5000 });
+    const [ download ] = await Promise.all([
+      page.waitForEvent('download'),
+      downloadBtn.click()
+    ]);
+    expect(download.suggestedFilename()).toBe('jurepi-ladder-result.png');
 
     // Reshuffle: labels retained, reveals cleared (panel hides until next reveal)
     await page.locator('button:has-text("다시 섞기")').click();

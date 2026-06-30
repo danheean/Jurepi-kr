@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLadder } from './useLadder';
 import { LadderIntro } from './LadderIntro';
 import { LadderSetup } from './LadderSetup';
@@ -10,12 +10,15 @@ import { PrizeCards } from './PrizeCards';
 import { ResultPanel } from './ResultPanel';
 import { LadderHowTo } from './LadderHowTo';
 import { LadderFaq } from './LadderFaq';
+import { WinnerConfetti } from './WinnerConfetti';
 import { softwareApplicationJsonLd } from '@/lib/seo';
+import { playPop } from '@/lib/sound';
 import { useTranslations } from 'next-intl';
 
 export function LadderGame() {
   const ladder = useLadder(4);
   const t = useTranslations('tools.ladder');
+  const prevRevealedLengthRef = useRef(0);
 
   // Handle keyboard shortcuts
   useEffect(() => {
@@ -59,6 +62,15 @@ export function LadderGame() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [ladder]);
 
+  // Play sound when a new player is revealed
+  useEffect(() => {
+    const currentLength = ladder.state.revealed.length;
+    if (currentLength > prevRevealedLengthRef.current) {
+      playPop(ladder.state.soundOn);
+      prevRevealedLengthRef.current = currentLength;
+    }
+  }, [ladder.state.revealed.length, ladder.state.soundOn]);
+
   // Handle trace animation completion
   useEffect(() => {
     if (ladder.state.activeTrace) {
@@ -85,12 +97,16 @@ export function LadderGame() {
         {ladder.state.phase === 'setup' ? (
           <LadderSetup ladder={ladder} />
         ) : (
-          <>
+          <div className="relative">
             <PlayerHeader ladder={ladder} />
             <LadderBoard ladder={ladder} />
             <PrizeCards ladder={ladder} />
             <ResultPanel ladder={ladder} />
-          </>
+            <WinnerConfetti
+              active={ladder.state.phase === 'done'}
+              reducedMotion={ladder.prefers_reduced_motion}
+            />
+          </div>
         )}
       </div>
 

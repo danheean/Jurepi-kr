@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { selectMapping } from '@/lib/ladder-reducer';
+import { buildResultSvgString, ACCENT_HEX } from '@/lib/result-image';
+import { downloadResultImage } from './downloadResultImage';
 import { Button } from '@/components/ui/Button';
 import { Toggle } from '@/components/ui/Toggle';
 import { Toast } from '@/components/ui/Toast';
-import { Modal } from '@/components/ui/Modal';
 import type { UseLadderReturn } from './useLadder';
 
 const ACCENT_COLORS = [
@@ -25,33 +26,43 @@ interface ResultPanelProps {
 export function ResultPanel({ ladder }: ResultPanelProps) {
   const t = useTranslations('tools.ladder');
   const [showToast, setShowToast] = useState(false);
-  const [showCopyModal, setShowCopyModal] = useState(false);
 
   // Action panel (reveal-all / reshuffle / reset) is available as soon as a ladder
   // is built — and stays available after "다시 섞기" clears reveals. Only setup hides it.
   if (ladder.state.phase === 'setup') return null;
 
-  // Copy stays gated so hidden results can't leak before any reveal.
-  const canCopy =
+  // Download is gated so hidden results can't leak before any reveal.
+  const canDownload =
     ladder.state.revealed.length > 0 || !ladder.state.hideResults;
 
   const mapping = selectMapping(ladder.state);
-  const resultText = ladder.state.players
-    .map((player) => {
-      const prizeId = mapping[player.id];
-      const prize = ladder.state.prizes.find((p) => p.id === prizeId);
-      return `${player.name || t('defaults.player', { n: ladder.state.players.indexOf(player) + 1 })} → ${
-        prize?.label || t('defaults.prizeOther')
-      }`;
-    })
-    .join('\n');
 
-  const handleCopy = async () => {
+  const handleDownload = async () => {
     try {
-      await navigator.clipboard.writeText(resultText);
+      // Build rows for SVG
+      const rows = ladder.state.players.map((player, idx) => {
+        const prizeId = mapping[player.id];
+        const prize = ladder.state.prizes.find((p) => p.id === prizeId);
+        return {
+          name: player.name || t('defaults.player', { n: idx + 1 }),
+          label: prize?.label || t('defaults.prizeOther'),
+          accentHex: ACCENT_HEX[idx % ACCENT_HEX.length],
+        };
+      });
+
+      // Build SVG and download
+      const svgString = buildResultSvgString({
+        playerCount: ladder.state.playerCount,
+        rungs: ladder.state.rungs,
+        rows,
+        title: t('panel.summaryTitle'),
+      });
+
+      await downloadResultImage(svgString, 'jurepi-ladder-result.png');
       setShowToast(true);
-    } catch {
-      setShowCopyModal(true);
+    } catch (error) {
+      // Log error but don't crash; user can retry
+      console.error('Download failed:', error);
     }
   };
 
@@ -80,9 +91,14 @@ export function ResultPanel({ ladder }: ResultPanelProps) {
           {t('panel.reset')}
         </Button>
 
-        {canCopy && (
-          <Button variant="secondary" onClick={handleCopy}>
-            {t('panel.copy')}
+        {canDownload && (
+          <Button
+            variant="secondary"
+            onClick={handleDownload}
+            data-testid="download-btn"
+            aria-label={t('panel.download')}
+          >
+            {t('panel.download')}
           </Button>
         )}
       </div>
@@ -132,30 +148,8 @@ export function ResultPanel({ ladder }: ResultPanelProps) {
         </div>
       )}
 
-      {/* Copy fallback modal */}
-      <Modal
-        isOpen={showCopyModal}
-        onClose={() => setShowCopyModal(false)}
-        title={t('panel.copy')}
-        footer={
-          <Button
-            variant="secondary"
-            onClick={() => setShowCopyModal(false)}
-            className="w-full"
-          >
-            Close
-          </Button>
-        }
-      >
-        <textarea
-          value={resultText}
-          readOnly
-          className="w-full h-32 p-2 rounded border border-hairline bg-surface text-text font-body text-sm"
-        />
-      </Modal>
-
       <Toast
-        message={t('panel.copied')}
+        message={t('panel.downloaded')}
         type="success"
         duration={2000}
         open={showToast}

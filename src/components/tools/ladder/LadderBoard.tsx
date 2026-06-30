@@ -29,12 +29,31 @@ export function LadderBoard({ ladder, onTraceComplete }: LadderBoardProps) {
   const levelHeight = 40;
   const padding = 30;
 
-  // SVG dimensions
+  // SVG dimensions (add extra levelHeight for the floor)
   const svgWidth = padding * 2 + columnWidth * (playerCount - 1);
-  const svgHeight = padding * 2 + levelHeight * numLevels;
+  const svgHeight = padding * 2 + levelHeight * (numLevels + 1);
 
-  // Get path for a player
-  const playerPath = ladder.state.activeTrace
+  // Helper to build SVG path string with floor extension
+  const buildPathString = (pathPoints: Array<{ col: number; level: number }>) => {
+    if (pathPoints.length === 0) return '';
+
+    const floorY = padding + levelHeight * (numLevels + 1);
+    const pathStr = pathPoints
+      .map((point, idx) => {
+        const x = padding + point.col * columnWidth;
+        const y = padding + point.level * levelHeight;
+        return `${idx === 0 ? 'M' : 'L'} ${x} ${y}`;
+      })
+      .join(' ');
+
+    // Extend path to the floor
+    const lastPoint = pathPoints[pathPoints.length - 1];
+    const lastX = padding + lastPoint.col * columnWidth;
+    return `${pathStr} L ${lastX} ${floorY}`;
+  };
+
+  // Get active trace path
+  const activePlayerPath = ladder.state.activeTrace
     ? tracePath(rungs, ladder.state.players.findIndex(
         (p) => p.id === ladder.state.activeTrace
       ))
@@ -58,7 +77,7 @@ export function LadderBoard({ ladder, onTraceComplete }: LadderBoardProps) {
             x1={padding + col * columnWidth}
             y1={padding}
             x2={padding + col * columnWidth}
-            y2={padding + levelHeight * numLevels}
+            y2={padding + levelHeight * (numLevels + 1)}
             stroke="var(--hairline-strong)"
             strokeWidth="3"
             strokeLinecap="round"
@@ -86,17 +105,38 @@ export function LadderBoard({ ladder, onTraceComplete }: LadderBoardProps) {
           })
         )}
 
-        {/* Animated trace path */}
-        {ladder.state.activeTrace &&
-          playerPath.length > 0 && (
+        {/* Persistent trace paths for revealed players */}
+        {ladder.state.revealed.map((playerId) => {
+          // Skip if this is the active trace (render separately below)
+          if (playerId === ladder.state.activeTrace) return null;
+
+          const playerIdx = ladder.state.players.findIndex(
+            (p) => p.id === playerId
+          );
+          const revealedPath = tracePath(rungs, playerIdx);
+
+          return (
             <path
-              d={playerPath
-                .map((point, idx) => {
-                  const x = padding + point.col * columnWidth;
-                  const y = padding + point.level * levelHeight;
-                  return `${idx === 0 ? 'M' : 'L'} ${x} ${y}`;
-                })
-                .join(' ')}
+              key={`path-revealed-${playerId}`}
+              d={buildPathString(revealedPath)}
+              stroke={`var(--accent-${
+                ACCENT_COLORS[playerIdx % ACCENT_COLORS.length]
+              })`}
+              strokeWidth="4"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray="0"
+              aria-hidden="true"
+            />
+          );
+        })}
+
+        {/* Animated trace path for active trace */}
+        {ladder.state.activeTrace &&
+          activePlayerPath.length > 0 && (
+            <path
+              d={buildPathString(activePlayerPath)}
               stroke={`var(--accent-${
                 ACCENT_COLORS[
                   ladder.state.players.findIndex(

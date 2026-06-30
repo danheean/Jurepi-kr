@@ -6,26 +6,30 @@ export function LadderHowTo() {
   const t = useTranslations('tools.ladder');
 
   return (
-    <section className="my-12 space-y-8">
-      <h2 className="font-headline text-text">{t('howTo.heading')}</h2>
+    <details data-testid="howto-details" className="my-12">
+      <summary className="font-headline text-text cursor-pointer">
+        {t('howTo.heading')}
+      </summary>
 
-      <article className="space-y-4">
-        <h3 className="font-card-title text-text">
-          {t('howTo.whatIsTitle')}
-        </h3>
-        <p className="font-body text-text-secondary leading-relaxed whitespace-pre-wrap">
-          {t('howTo.whatIsBody')}
-        </p>
-      </article>
+      <section className="mt-8 space-y-8">
+        <article className="space-y-4">
+          <h3 className="font-card-title text-text">
+            {t('howTo.whatIsTitle')}
+          </h3>
+          <p className="font-body text-text-secondary leading-relaxed whitespace-pre-wrap">
+            {t('howTo.whatIsBody')}
+          </p>
+        </article>
 
-      <article className="space-y-4">
-        <h3 className="font-card-title text-text">
-          {t('howTo.howToTitle')}
-        </h3>
-        <p className="font-body text-text-secondary leading-relaxed whitespace-pre-wrap">
-          {t('howTo.howToBody')}
-        </p>
-      </article>
-    </section>
+        <article className="space-y-4">
+          <h3 className="font-card-title text-text">
+            {t('howTo.howToTitle')}
+          </h3>
+          <p className="font-body text-text-secondary leading-relaxed whitespace-pre-wrap">
+            {t('howTo.howToBody')}
+          </p>
+        </article>
+      </section>
+    </details>
   );
 }

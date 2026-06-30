@@ -15,6 +15,8 @@ export interface UseLadderReturn {
   setCount: (count: number) => void;
   setPlayerName: (index: number, name: string) => void;
   setPrizeLable: (index: number, label: string) => void;
+  setAllPlayerNames: (names: string[]) => void;
+  setAllPrizeLabels: (labels: string[]) => void;
   toggleHide: () => void;
   toggleSound: () => void;
   build: () => void;
@@ -71,6 +73,18 @@ export function useLadder(initialCount: number = 4): UseLadderReturn {
     []
   );
 
+  const setAllPlayerNames = useCallback(
+    (names: string[]) =>
+      dispatch({ type: 'SET_ALL_PLAYER_NAMES', names }),
+    []
+  );
+
+  const setAllPrizeLabels = useCallback(
+    (labels: string[]) =>
+      dispatch({ type: 'SET_ALL_PRIZE_LABELS', labels }),
+    []
+  );
+
   const toggleHide = useCallback(
     () => dispatch({ type: 'TOGGLE_HIDE' }),
     []
@@ -122,6 +136,8 @@ export function useLadder(initialCount: number = 4): UseLadderReturn {
     setCount,
     setPlayerName,
     setPrizeLable,
+    setAllPlayerNames,
+    setAllPrizeLabels,
     toggleHide,
     toggleSound,
     build,

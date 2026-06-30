@@ -41,6 +41,8 @@ export type LadderAction =
   | { type: 'SET_COUNT'; count: number }
   | { type: 'SET_PLAYER_NAME'; index: number; name: string }
   | { type: 'SET_PRIZE_LABEL'; index: number; label: string }
+  | { type: 'SET_ALL_PLAYER_NAMES'; names: string[] }
+  | { type: 'SET_ALL_PRIZE_LABELS'; labels: string[] }
   | { type: 'TOGGLE_HIDE' }
   | { type: 'TOGGLE_SOUND' }
   | { type: 'BUILD'; rng?: Rng }
@@ -129,6 +131,24 @@ export function ladderReducer(
       const newPrizes = state.prizes.map((p, i) =>
         i === index ? { ...p, label: truncated } : p
       );
+      return { ...state, prizes: newPrizes };
+    }
+
+    case 'SET_ALL_PLAYER_NAMES': {
+      const { names } = action;
+      const newPlayers = state.players.map((p, i) => ({
+        ...p,
+        name: (names[i] ?? '').substring(0, 12),
+      }));
+      return { ...state, players: newPlayers };
+    }
+
+    case 'SET_ALL_PRIZE_LABELS': {
+      const { labels } = action;
+      const newPrizes = state.prizes.map((p, i) => ({
+        ...p,
+        label: (labels[i] ?? '').substring(0, 12),
+      }));
       return { ...state, prizes: newPrizes };
     }
 

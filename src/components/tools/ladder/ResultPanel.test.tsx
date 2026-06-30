@@ -5,14 +5,14 @@ import { ResultPanel } from './ResultPanel';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
 
+// Mock downloadResultImage
+vi.mock('./downloadResultImage', () => ({
+  downloadResultImage: vi.fn().mockResolvedValue(undefined),
+}));
+
 describe('ResultPanel Component', () => {
   beforeEach(() => {
-    // Mock clipboard API
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn(() => Promise.resolve()),
-      },
-    });
+    vi.clearAllMocks();
   });
 
   it('hides only in setup; keeps action panel (reveal-all/reshuffle/reset) once built', () => {
@@ -32,11 +32,11 @@ describe('ResultPanel Component', () => {
     expect(screen.getByText(/Reveal all/i)).toBeInTheDocument();
     expect(screen.getByText(/Reshuffle/i)).toBeInTheDocument();
     expect(screen.getByText(/Reset/i)).toBeInTheDocument();
-    // Copy is gated before any reveal in hidden mode (no result leak via clipboard)
-    expect(screen.queryByText(/Copy results/i)).not.toBeInTheDocument();
+    // Download is gated before any reveal in hidden mode (no result leak)
+    expect(screen.queryByTestId('download-btn')).not.toBeInTheDocument();
   });
 
-  it('renders after first reveal', () => {
+  it('renders download button after first reveal', () => {
     const { result } = renderHook(() => useLadder(2));
     act(() => {
       result.current.build();
@@ -49,7 +49,7 @@ describe('ResultPanel Component', () => {
     expect(screen.getByText(/Reveal all/i)).toBeInTheDocument();
     expect(screen.getByText(/Reshuffle/i)).toBeInTheDocument();
     expect(screen.getByText(/Reset/i)).toBeInTheDocument();
-    expect(screen.getByText(/Copy results/i)).toBeInTheDocument();
+    expect(screen.getByTestId('download-btn')).toBeInTheDocument();
   });
 
   it('disables revealAll when phase=done', async () => {
@@ -107,7 +107,8 @@ describe('ResultPanel Component', () => {
     expect(result.current.state.phase).toBe('setup');
   });
 
-  it('copies results to clipboard', async () => {
+  it('downloads result image on button click', async () => {
+    const { downloadResultImage } = await import('./downloadResultImage');
     const { result } = renderHook(() => useLadder(2));
     const { rerender } = render(<ResultPanel ladder={result.current} />);
 
@@ -119,41 +120,19 @@ describe('ResultPanel Component', () => {
     });
     rerender(<ResultPanel ladder={result.current} />);
 
-    const copyBtn = screen.getByText(/Copy results/i);
-    await userEvent.click(copyBtn);
+    const downloadBtn = screen.getByTestId('download-btn');
+    await userEvent.click(downloadBtn);
 
     await waitFor(() => {
-      expect(navigator.clipboard.writeText).toHaveBeenCalled();
+      expect(downloadResultImage).toHaveBeenCalledWith(
+        expect.stringContaining('<svg'),
+        'jurepi-ladder-result.png'
+      );
     });
 
-    // Toast should show "Copied"
+    // Toast should show "Downloaded"
     await waitFor(() => {
-      expect(screen.getByText(/Copied/i)).toBeInTheDocument();
-    });
-  });
-
-  it('shows Modal fallback when clipboard fails', async () => {
-    // Mock clipboard failure
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn(() => Promise.reject(new Error('Denied'))),
-      },
-    });
-
-    const { result } = renderHook(() => useLadder(2));
-    const { rerender } = render(<ResultPanel ladder={result.current} />);
-
-    act(() => {
-      result.current.build();
-      result.current.revealAll();
-    });
-    rerender(<ResultPanel ladder={result.current} />);
-
-    const copyBtn = screen.getByText(/Copy results/i);
-    await userEvent.click(copyBtn);
-
-    await waitFor(() => {
-      expect(screen.getByRole('dialog')).toBeInTheDocument();
+      expect(screen.getByText(/Downloaded/i)).toBeInTheDocument();
     });
   });
 

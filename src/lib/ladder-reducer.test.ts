@@ -350,6 +350,150 @@ describe('ladder reducer', () => {
     });
   });
 
+  describe('SET_ALL_PLAYER_NAMES action', () => {
+    it('sets all player names from array', () => {
+      let state = initLadderState(3);
+      state = ladderReducer(state, {
+        type: 'SET_ALL_PLAYER_NAMES',
+        names: ['Alice', 'Bob', 'Carol'],
+      });
+      expect(state.players[0].name).toBe('Alice');
+      expect(state.players[1].name).toBe('Bob');
+      expect(state.players[2].name).toBe('Carol');
+    });
+
+    it('truncates each name to 12 chars', () => {
+      let state = initLadderState(2);
+      state = ladderReducer(state, {
+        type: 'SET_ALL_PLAYER_NAMES',
+        names: ['This is way too long', 'Short'],
+      });
+      expect(state.players[0].name).toBe('This is way ');
+      expect(state.players[0].name.length).toBe(12);
+      expect(state.players[1].name).toBe('Short');
+    });
+
+    it('fills missing names with empty string', () => {
+      let state = initLadderState(4);
+      state = ladderReducer(state, {
+        type: 'SET_ALL_PLAYER_NAMES',
+        names: ['Alice'],
+      });
+      expect(state.players[0].name).toBe('Alice');
+      expect(state.players[1].name).toBe('');
+      expect(state.players[2].name).toBe('');
+      expect(state.players[3].name).toBe('');
+    });
+
+    it('clears all names when passed empty array', () => {
+      let state = initLadderState(3);
+      state = ladderReducer(state, {
+        type: 'SET_PLAYER_NAME',
+        index: 0,
+        name: 'Alice',
+      });
+      state = ladderReducer(state, {
+        type: 'SET_ALL_PLAYER_NAMES',
+        names: [],
+      });
+      expect(state.players[0].name).toBe('');
+      expect(state.players[1].name).toBe('');
+      expect(state.players[2].name).toBe('');
+    });
+
+    it('preserves player IDs', () => {
+      let state = initLadderState(2);
+      const playerIds = state.players.map((p) => p.id);
+      state = ladderReducer(state, {
+        type: 'SET_ALL_PLAYER_NAMES',
+        names: ['Alice', 'Bob'],
+      });
+      expect(state.players.map((p) => p.id)).toEqual(playerIds);
+    });
+
+    it('does not mutate original state', () => {
+      const state = initLadderState(2);
+      const originalPlayers = state.players.map((p) => ({ ...p }));
+      ladderReducer(state, {
+        type: 'SET_ALL_PLAYER_NAMES',
+        names: ['Alice', 'Bob'],
+      });
+      expect(state.players).toEqual(originalPlayers);
+    });
+  });
+
+  describe('SET_ALL_PRIZE_LABELS action', () => {
+    it('sets all prize labels from array', () => {
+      let state = initLadderState(3);
+      state = ladderReducer(state, {
+        type: 'SET_ALL_PRIZE_LABELS',
+        labels: ['First', 'Second', 'Third'],
+      });
+      expect(state.prizes[0].label).toBe('First');
+      expect(state.prizes[1].label).toBe('Second');
+      expect(state.prizes[2].label).toBe('Third');
+    });
+
+    it('truncates each label to 12 chars', () => {
+      let state = initLadderState(2);
+      state = ladderReducer(state, {
+        type: 'SET_ALL_PRIZE_LABELS',
+        labels: ['This label is extremely long', 'Short'],
+      });
+      expect(state.prizes[0].label).toBe('This label i');
+      expect(state.prizes[0].label.length).toBe(12);
+      expect(state.prizes[1].label).toBe('Short');
+    });
+
+    it('fills missing labels with empty string', () => {
+      let state = initLadderState(4);
+      state = ladderReducer(state, {
+        type: 'SET_ALL_PRIZE_LABELS',
+        labels: ['Prize A'],
+      });
+      expect(state.prizes[0].label).toBe('Prize A');
+      expect(state.prizes[1].label).toBe('');
+      expect(state.prizes[2].label).toBe('');
+      expect(state.prizes[3].label).toBe('');
+    });
+
+    it('clears all labels when passed empty array', () => {
+      let state = initLadderState(3);
+      state = ladderReducer(state, {
+        type: 'SET_PRIZE_LABEL',
+        index: 0,
+        label: 'Prize A',
+      });
+      state = ladderReducer(state, {
+        type: 'SET_ALL_PRIZE_LABELS',
+        labels: [],
+      });
+      expect(state.prizes[0].label).toBe('');
+      expect(state.prizes[1].label).toBe('');
+      expect(state.prizes[2].label).toBe('');
+    });
+
+    it('preserves prize IDs', () => {
+      let state = initLadderState(2);
+      const prizeIds = state.prizes.map((p) => p.id);
+      state = ladderReducer(state, {
+        type: 'SET_ALL_PRIZE_LABELS',
+        labels: ['First', 'Second'],
+      });
+      expect(state.prizes.map((p) => p.id)).toEqual(prizeIds);
+    });
+
+    it('does not mutate original state', () => {
+      const state = initLadderState(2);
+      const originalPrizes = state.prizes.map((p) => ({ ...p }));
+      ladderReducer(state, {
+        type: 'SET_ALL_PRIZE_LABELS',
+        labels: ['First', 'Second'],
+      });
+      expect(state.prizes).toEqual(originalPrizes);
+    });
+  });
+
   describe('selectMapping selector', () => {
     it('returns playerId → prizeId mapping', () => {
       let state = initLadderState(3);

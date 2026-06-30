@@ -33,6 +33,14 @@ description: Jurepi의 Next.js 15 App Router 정적 사이트(SSG) 플랫폼을 
 - 도구 페이지는 Server Component가 SEO/레이아웃을 렌더하고, 인터랙티브 도구(예: `<LadderGame/>`)만 클라이언트. → JS 번들 최소화(랜딩 <150kb gz).
 - `"use client"`는 가능한 한 잎(leaf)에 가깝게. 큰 Server 트리 위에 client 잎.
 
+### 모든 도구 = SPA, 사용성 최우선 (제품 원칙)
+
+**모든 도구는 단일 페이지 앱(SPA)으로 구현한다 — 쉬운 UX와 사용성이 무엇보다 중요하다.** 사용자는 한 화면 안에서 페이지 이동·새로고침 없이 도구를 끝까지 사용할 수 있어야 한다.
+
+- **패턴:** SSG/SEO 셸(Server Component: 메타·breadcrumb·howTo/FAQ·JSON-LD·광고 슬롯) 위에 도구 본체를 하나의 클라이언트 컴포넌트(SPA)로 마운트한다. 상태·상호작용·결과는 전부 클라이언트에서(useReducer/훅) 처리하고 네비게이션을 강요하지 않는다. (사다리 = `[locale]/tools/[slug]/page.tsx` SSG 셸 + `<LadderGame/>` 클라이언트 SPA가 레퍼런스.)
+- **SEO와 SPA를 동시에:** SPA여도 howTo·FAQ 같은 장문 콘텐츠는 셸(SSR HTML)에 남겨 인덱싱되게 한다. 접을 때는 네이티브 `<details>`로 DOM에 유지(콘텐츠 제거 금지).
+- **사용성 기본기:** 합리적 기본값·자동 추천(예: 이름/결과 자동 채움)으로 입력 마찰을 줄이고, 도움말은 기본 접힘(필요 시 펼침), 결과는 한 번에 보고/복사보다 **다운로드(이미지)** 같이 바로 쓰는 산출물 제공, ≥44px 탭 타깃·focus-visible·reduced-motion 존중. "한 화면에서 쉽게 끝낸다"가 판단 기준.
+
 ## Provider 순서 (고정)
 
 ```

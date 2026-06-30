@@ -32,8 +32,9 @@ describe('LadderGame Component', () => {
 
   it('renders LadderHowTo section', () => {
     render(<LadderGame />);
-    const heading = screen.getByRole('heading', { level: 2, name: /How to play/ });
-    expect(heading).toBeInTheDocument();
+    const details = screen.getByTestId('howto-details');
+    expect(details).toBeInTheDocument();
+    expect(details).toHaveTextContent('How to play');
   });
 
   it('renders LadderFaq section', () => {

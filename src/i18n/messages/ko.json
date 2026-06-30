@@ -67,12 +67,29 @@
         "playerPlaceholder": "참가자 이름",
         "prizePlaceholder": "결과",
         "hideToggle": "결과 가리기",
-        "build": "사다리 만들기"
+        "build": "사다리 만들기",
+        "autoNames": "이름 자동 추천",
+        "reroll": "다시 추천",
+        "clearAll": "전체 지우기",
+        "resultWinner": "1명 당첨",
+        "resultRank": "순위"
       },
       "defaults": {
         "player": "참가자 {n}",
         "prizeWin": "당첨",
         "prizeOther": "꽝"
+      },
+      "fruits": {
+        "apple": "사과",
+        "grape": "포도",
+        "orange": "오렌지",
+        "strawberry": "딸기",
+        "peach": "복숭아",
+        "banana": "바나나",
+        "watermelon": "수박",
+        "kiwi": "키위",
+        "cherry": "체리",
+        "melon": "멜론"
       },
       "header": {
         "revealAria": "{name} 결과 보기"
@@ -88,7 +105,9 @@
         "copied": "복사되었습니다",
         "soundOn": "소리 켜기",
         "soundOff": "소리 끄기",
-        "summaryTitle": "최종 결과"
+        "summaryTitle": "최종 결과",
+        "download": "결과 다운로드",
+        "downloaded": "다운로드되었습니다"
       },
       "announce": {
         "result": "{name}님의 결과는 {prize}입니다"

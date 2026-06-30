@@ -67,12 +67,29 @@
         "playerPlaceholder": "Player name",
         "prizePlaceholder": "Outcome",
         "hideToggle": "Hide results",
-        "build": "Build ladder"
+        "build": "Build ladder",
+        "autoNames": "Auto-suggest names",
+        "reroll": "Shuffle again",
+        "clearAll": "Clear all",
+        "resultWinner": "One winner",
+        "resultRank": "Ranking"
       },
       "defaults": {
         "player": "Player {n}",
         "prizeWin": "Win",
         "prizeOther": "Lose"
+      },
+      "fruits": {
+        "apple": "Apple",
+        "grape": "Grape",
+        "orange": "Orange",
+        "strawberry": "Strawberry",
+        "peach": "Peach",
+        "banana": "Banana",
+        "watermelon": "Watermelon",
+        "kiwi": "Kiwi",
+        "cherry": "Cherry",
+        "melon": "Melon"
       },
       "header": {
         "revealAria": "Reveal {name}"
@@ -88,7 +105,9 @@
         "copied": "Copied",
         "soundOn": "Sound on",
         "soundOff": "Sound off",
-        "summaryTitle": "Results"
+        "summaryTitle": "Results",
+        "download": "Download result",
+        "downloaded": "Downloaded"
       },
       "announce": {
         "result": "{name}'s result is {prize}"
