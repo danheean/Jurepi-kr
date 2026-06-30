@@ -12,6 +12,15 @@
 @import 'tailwindcss';
 @config '../../tailwind.config.ts';
 
+/* Safelist accent utilities that are composed at runtime from data and therefore
+   are never present as complete static strings for Tailwind's scanner. The ladder
+   builds `bg-accent-${color}-soft` and `border-accent-${color}` for player/prize
+   chips (src/components/tools/ladder/{PlayerHeader,PrizeCards}.tsx); without this,
+   the saturated reveal border renders colorless for every accent. CSS-var usages
+   (confetti, trace strokes via var(--accent-*)) resolve at runtime and need nothing. */
+@source inline("bg-accent-{coral,mint,sky,sun,grape,rose}-soft");
+@source inline("border-accent-{coral,mint,sky,sun,grape,rose}");
+
 /* System font stack as fallback */
 @supports (font-variation-settings: normal) {
   :root {
