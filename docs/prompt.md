@@ -29,3 +29,6 @@
 4. 퍼센트 계산기 - 2026.06.30
 5. 타이머 - 2026.06.30
 6. 디데이 계산기 - 2026.06.30
+
+구글 애드센스를 추가할거야. 다음의 코드를 넣어줘
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8780683589195522" crossorigin="anonymous"></script>
