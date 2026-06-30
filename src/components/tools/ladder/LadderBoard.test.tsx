@@ -201,4 +201,52 @@ describe('LadderBoard Component', () => {
     paths = svg.querySelectorAll('path');
     expect(paths.length).toBeGreaterThan(0); // This should FAIL before the fix
   });
+
+  // BUG: trace must follow the rails/rungs at right angles, not cut diagonally.
+  it('draws the trace as an orthogonal (axis-aligned) path, not diagonals', () => {
+    const { result } = renderHook(() => useLadder(4));
+    const { rerender } = render(<LadderBoard ladder={result.current} />);
+
+    // Seeded build → guarantees rungs (and therefore at least one column change).
+    const rng = mulberry32(42);
+    act(() => {
+      result.current.dispatch({ type: 'BUILD', rng });
+    });
+    expect(result.current.state.rungs.length).toBeGreaterThan(0);
+
+    // Trace a player whose path actually changes column (so the test is meaningful).
+    const rungs = result.current.state.rungs;
+    let startCol = 0;
+    for (let c = 0; c < result.current.state.playerCount; c++) {
+      if (new Set(tracePath(rungs, c).map((p) => p.col)).size > 1) {
+        startCol = c;
+        break;
+      }
+    }
+    act(() => {
+      result.current.startTrace(result.current.state.players[startCol].id);
+    });
+    rerender(<LadderBoard ladder={result.current} />);
+
+    const svg = screen.getByRole('img');
+    const path = svg.querySelector('path');
+    expect(path).toBeInTheDocument();
+
+    // Parse the `d` into ordered [x,y] points from M/L commands.
+    const d = path!.getAttribute('d') || '';
+    const coords = Array.from(
+      d.matchAll(/[ML]\s*(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/g)
+    ).map((m) => [parseFloat(m[1]), parseFloat(m[2])] as [number, number]);
+    expect(coords.length).toBeGreaterThan(1);
+
+    // The trace must change column somewhere (meaningful test).
+    expect(new Set(coords.map((c) => c[0])).size).toBeGreaterThan(1);
+
+    // Every consecutive segment must be axis-aligned: same x OR same y (no diagonal).
+    for (let i = 1; i < coords.length; i++) {
+      const [x1, y1] = coords[i - 1];
+      const [x2, y2] = coords[i];
+      expect(x1 === x2 || y1 === y2).toBe(true);
+    }
+  });
 });

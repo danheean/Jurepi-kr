@@ -33,23 +33,34 @@ export function LadderBoard({ ladder, onTraceComplete }: LadderBoardProps) {
   const svgWidth = padding * 2 + columnWidth * (playerCount - 1);
   const svgHeight = padding * 2 + levelHeight * (numLevels + 1);
 
-  // Helper to build SVG path string with floor extension
+  // Build an orthogonal (Manhattan) path that overlays the rails and rungs:
+  // go straight down a rail, then horizontally across a rung, then down again —
+  // never diagonally. Each column change emits a vertical drop to the rung's Y
+  // followed by a horizontal segment along that rung.
   const buildPathString = (pathPoints: Array<{ col: number; level: number }>) => {
     if (pathPoints.length === 0) return '';
 
+    const xOf = (col: number) => padding + col * columnWidth;
+    const yOf = (level: number) => padding + level * levelHeight;
     const floorY = padding + levelHeight * (numLevels + 1);
-    const pathStr = pathPoints
-      .map((point, idx) => {
-        const x = padding + point.col * columnWidth;
-        const y = padding + point.level * levelHeight;
-        return `${idx === 0 ? 'M' : 'L'} ${x} ${y}`;
-      })
-      .join(' ');
 
-    // Extend path to the floor
-    const lastPoint = pathPoints[pathPoints.length - 1];
-    const lastX = padding + lastPoint.col * columnWidth;
-    return `${pathStr} L ${lastX} ${floorY}`;
+    let d = `M ${xOf(pathPoints[0].col)} ${yOf(pathPoints[0].level)}`;
+    for (let i = 1; i < pathPoints.length; i++) {
+      const prev = pathPoints[i - 1];
+      const cur = pathPoints[i];
+      if (prev.col !== cur.col) {
+        // Down the current rail to the rung's Y, then across the rung.
+        d += ` L ${xOf(prev.col)} ${yOf(cur.level)}`;
+        d += ` L ${xOf(cur.col)} ${yOf(cur.level)}`;
+      } else {
+        // Straight down.
+        d += ` L ${xOf(cur.col)} ${yOf(cur.level)}`;
+      }
+    }
+
+    // Extend straight down to the floor.
+    const last = pathPoints[pathPoints.length - 1];
+    return `${d} L ${xOf(last.col)} ${floorY}`;
   };
 
   // Get active trace path
@@ -148,9 +159,10 @@ export function LadderBoard({ ladder, onTraceComplete }: LadderBoardProps) {
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
+              pathLength={1}
               style={{
-                strokeDasharray: 1000,
-                strokeDashoffset: ladder.prefers_reduced_motion ? 0 : 1000,
+                strokeDasharray: 1,
+                strokeDashoffset: ladder.prefers_reduced_motion ? 0 : 1,
                 animation: ladder.prefers_reduced_motion
                   ? 'none'
                   : 'strokeDraw 280ms ease-out forwards',
