@@ -11,6 +11,9 @@ interface HeaderProps {
   tools: SearchableTool[];
 }
 
+const WORDMARK_CLASS =
+  'font-display text-xl font-bold text-brand hover:text-brand-strong transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-lg';
+
 export function Header({ tools }: HeaderProps): React.ReactNode {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -37,11 +40,8 @@ export function Header({ tools }: HeaderProps): React.ReactNode {
         aria-label="Main navigation"
         className="w-full h-full flex items-center justify-between px-4 sm:px-6 max-w-container mx-auto"
       >
-        {/* Left: Wordmark */}
-        <Link
-          href="/"
-          className="font-display text-xl font-bold text-brand hover:text-brand-strong transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-lg"
-        >
+        {/* Left: Wordmark — links to the dashboard home */}
+        <Link href="/" className={WORDMARK_CLASS}>
           Jurepi
         </Link>
 

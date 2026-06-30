@@ -18,22 +18,40 @@ export function HeroMascot({
   priority = false,
   className,
 }: HeroMascotProps): React.ReactNode {
+  // Optional external destination for the mascot (e.g. owner's blog).
+  // When unset/empty, the mascot stays a plain, non-interactive image.
+  const blogUrl = process.env.NEXT_PUBLIC_BLOG_URL?.trim();
+
+  const portrait = (
+    <div
+      className="rounded-full overflow-hidden shadow-card"
+      style={{ width: size, height: size, flexShrink: 0 }}
+    >
+      <Image
+        src="/mascot/jurepi-mascot-512.webp"
+        alt="Jurepi 마스코트"
+        width={size}
+        height={size}
+        priority={priority}
+        quality={85}
+        className="w-full h-full object-cover"
+      />
+    </div>
+  );
+
   return (
     <div className={`flex flex-col items-center gap-3 ${className || ''}`}>
-      <div
-        className="rounded-full overflow-hidden shadow-card"
-        style={{ width: size, height: size, flexShrink: 0 }}
-      >
-        <Image
-          src="/mascot/jurepi-mascot-512.webp"
-          alt="Jurepi 마스코트"
-          width={size}
-          height={size}
-          priority={priority}
-          quality={85}
-          className="w-full h-full object-cover"
-        />
-      </div>
+      {blogUrl ? (
+        <a
+          href={blogUrl}
+          aria-label="Jurepi 블로그"
+          className="rounded-full transition-transform duration-200 ease-out hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:scale-100"
+        >
+          {portrait}
+        </a>
+      ) : (
+        portrait
+      )}
       {greeting && (
         <div className="text-center">
           <p className="text-sm text-text-secondary font-medium">{greeting}</p>

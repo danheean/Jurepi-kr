@@ -44,7 +44,7 @@ describe('Header', () => {
     },
   ];
 
-  it('renders the wordmark link', () => {
+  it('renders the wordmark link to the dashboard home', () => {
     render(
       <ThemeProvider>
         <Header tools={mockTools} />

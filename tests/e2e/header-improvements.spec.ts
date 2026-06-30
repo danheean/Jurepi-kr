@@ -14,6 +14,15 @@ test('header search opens and lists tools on a tool page', async ({ page }) => {
   const combobox = page.getByRole('combobox');
   await expect(combobox).toBeVisible();
 
+  // Magnifier stays visible while open, and the input grows LEFT of it.
+  await expect(trigger).toBeVisible();
+  const tb = await trigger.boundingBox();
+  const ib = await combobox.boundingBox();
+  console.log('SEARCH_LAYOUT', JSON.stringify({ triggerX: tb?.x, inputRight: ib!.x + ib!.width }));
+  expect.soft(ib!.x + ib!.width).toBeLessThanOrEqual(tb!.x + 4);
+  // Roughly vertically aligned (same row) with the magnifier.
+  expect.soft(Math.abs((ib!.y + ib!.height / 2) - (tb!.y + tb!.height / 2))).toBeLessThanOrEqual(6);
+
   const listbox = page.getByRole('listbox');
   await expect(listbox).toBeVisible();
 

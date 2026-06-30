@@ -140,6 +140,17 @@ export function HeaderSearch({ tools }: HeaderSearchProps): React.ReactNode {
     [results, activeIndex]
   );
 
+  // Toggle open/close from the always-visible magnifier button.
+  const handleTriggerClick = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      setQuery('');
+      setActiveIndex(-1);
+    } else {
+      setIsOpen(true);
+    }
+  };
+
   // Render active tool option ID for aria-activedescendant
   const activeId =
     activeIndex >= 0 && activeIndex < results.length
@@ -147,24 +158,22 @@ export function HeaderSearch({ tools }: HeaderSearchProps): React.ReactNode {
       : '';
 
   return (
-    <div className="relative">
-      {/* Closed state: trigger button */}
-      {!isOpen && (
-        <IconButton
-          icon={<Search className="w-5 h-5" strokeWidth={1.75} />}
-          ariaLabel={t('header.searchPlaceholder')}
-          onClick={() => setIsOpen(true)}
-          size="md"
-          variant="ghost"
-          testId="header-search"
-        />
-      )}
+    <div className="relative flex items-center">
+      {/* Magnifier trigger — always visible */}
+      <IconButton
+        icon={<Search className="w-5 h-5" strokeWidth={1.75} />}
+        ariaLabel={t('header.searchPlaceholder')}
+        onClick={handleTriggerClick}
+        size="md"
+        variant="ghost"
+        testId="header-search"
+      />
 
-      {/* Open state: input + dropdown panel */}
+      {/* Open state: input grows leftward from the magnifier, same row */}
       {isOpen && (
         <div
           ref={wrapperRef}
-          className="absolute top-0 right-0 z-50 w-[280px] max-w-[calc(100vw-1.5rem)]"
+          className="absolute right-full top-1/2 -translate-y-1/2 mr-2 z-50 w-[180px] sm:w-[240px] max-w-[calc(100vw-2rem)]"
         >
           {/* Input with combobox role */}
           <input
