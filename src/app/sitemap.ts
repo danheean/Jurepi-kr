@@ -2,6 +2,9 @@ import type { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
 import { getLiveTools } from '@/tools/registry';
 
+// Required for output: 'export' — emit a static sitemap at build time.
+export const dynamic = 'force-static';
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jurepi.kr';
 
 export default function sitemap(): MetadataRoute.Sitemap {

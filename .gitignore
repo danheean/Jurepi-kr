@@ -3,6 +3,12 @@ node_modules/
 dist/
 build/
 out/
+
+# Cloudflare / Wrangler (local artifacts)
+.wrangler/
+.open-next/
+.dev.vars
+
 .env
 .env.local
 .env.development.local

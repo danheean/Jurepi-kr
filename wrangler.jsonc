@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "jurep-kr",
+  "compatibility_date": "2025-06-01",
+  // Assets-only Worker (no `main`): serves the Next.js static export from ./out.
+  // _headers (security headers) and _redirects (/ → /ko) live inside ./out
+  // (copied from public/ at build time) and are applied to every response.
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  }
+}
