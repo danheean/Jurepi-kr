@@ -127,7 +127,7 @@ export function CalendarPanel({
         <button
           onClick={() => setSelectedYear(Math.max(minYear, selectedYear - 1))}
           disabled={selectedYear <= minYear}
-          className="px-3 py-2 text-sm font-medium text-accent-grape hover:text-accent-grape-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-3 py-2 text-sm font-medium text-accent-grape-ink hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
           aria-label={t('calendar.prevYear')}
         >
           ‹
@@ -141,7 +141,7 @@ export function CalendarPanel({
         <button
           onClick={() => setSelectedYear(Math.min(maxYear, selectedYear + 1))}
           disabled={selectedYear >= maxYear}
-          className="px-3 py-2 text-sm font-medium text-accent-grape hover:text-accent-grape-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-3 py-2 text-sm font-medium text-accent-grape-ink hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
           aria-label={t('calendar.nextYear')}
         >
           ›
@@ -154,7 +154,7 @@ export function CalendarPanel({
           <button
             onClick={handlePrevMonth}
             disabled={selectedYear === minYear && displayMonth === 0}
-            className="px-2 py-1 text-sm font-medium text-accent-grape hover:text-accent-grape-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-2 py-1 text-sm font-medium text-accent-grape-ink hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
             aria-label={t('calendar.prevMonth')}
           >
             ‹
@@ -167,7 +167,7 @@ export function CalendarPanel({
           <button
             onClick={handleNextMonth}
             disabled={selectedYear === maxYear && displayMonth === 11}
-            className="px-2 py-1 text-sm font-medium text-accent-grape hover:text-accent-grape-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-2 py-1 text-sm font-medium text-accent-grape-ink hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
             aria-label={t('calendar.nextMonth')}
           >
             ›
@@ -210,7 +210,7 @@ export function CalendarPanel({
                     : isFuture
                       ? 'bg-surface-muted text-text-secondary'
                       : hasEntry
-                        ? 'bg-accent-grape-soft text-accent-grape'
+                        ? 'bg-accent-grape-soft text-accent-grape-ink'
                         : 'border border-hairline text-text-secondary hover:border-accent-grape'
                 } ${isSelected ? 'ring-2 ring-accent-grape' : ''}`}
               >

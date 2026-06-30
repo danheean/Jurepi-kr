@@ -5,7 +5,7 @@ export function QnaIntro() {
 
   return (
     <section className="space-y-4 mb-12">
-      <div className="text-xs font-semibold uppercase tracking-widest text-accent-grape">
+      <div className="text-xs font-semibold uppercase tracking-widest text-accent-grape-ink">
         {t('intro.eyebrow')}
       </div>
 

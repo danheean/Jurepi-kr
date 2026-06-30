@@ -163,7 +163,7 @@ export function AnswerComposer({
         placeholder={t('composer.placeholder')}
         maxLength={MAX_CHARS}
         className={`w-full min-h-[140px] p-4 rounded-lg border border-hairline focus:border-brand focus:ring-3 focus:ring-brand-soft resize-none font-body text-base leading-relaxed transition-colors ${
-          isWarning ? 'border-semantic-warning' : ''
+          isWarning ? 'border-warning-ink' : ''
         }`}
         aria-label={t('composer.placeholder')}
       />
@@ -185,7 +185,7 @@ export function AnswerComposer({
           {saved && !saving && (
             <div className="flex items-center gap-1.5 text-text-secondary">
               <svg
-                className="w-4 h-4 text-accent-grape"
+                className="w-4 h-4 text-accent-grape-ink"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -203,7 +203,7 @@ export function AnswerComposer({
         {/* Char counter */}
         <div
           className={`text-sm ${
-            isWarning ? 'text-semantic-warning font-medium' : 'text-text-secondary'
+            isWarning ? 'text-warning-ink font-medium' : 'text-text-secondary'
           }`}
         >
           {charCount} / {MAX_CHARS}
@@ -218,7 +218,7 @@ export function AnswerComposer({
           </span>
           <button
             onClick={handleUndo}
-            className="text-sm font-medium text-accent-grape hover:text-accent-grape-dark transition-colors"
+            className="text-sm font-medium text-accent-grape-ink hover:opacity-80 transition-opacity"
           >
             {t('composer.undo')}
           </button>
@@ -229,7 +229,7 @@ export function AnswerComposer({
       {text.length > 0 && !undoData && (
         <button
           onClick={handleClear}
-          className="text-sm text-text-secondary hover:text-semantic-error transition-colors"
+          className="text-sm text-text-secondary hover:text-danger-ink transition-colors"
         >
           {t('composer.delete')}
         </button>

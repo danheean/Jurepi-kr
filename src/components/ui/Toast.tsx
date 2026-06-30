@@ -13,8 +13,8 @@ interface ToastProps {
 }
 
 const typeClasses: Record<ToastType, string> = {
-  success: 'bg-text text-on-brand before:content-["✓"] before:text-semantic-success before:mr-2',
-  error: 'bg-text text-on-brand before:content-["✕"] before:text-semantic-danger before:mr-2',
+  success: 'bg-text text-on-brand before:content-["✓"] before:text-success before:mr-2',
+  error: 'bg-text text-on-brand before:content-["✕"] before:text-danger before:mr-2',
   info: 'bg-text text-on-brand',
 };
 

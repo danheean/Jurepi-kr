@@ -36,12 +36,19 @@
   /* Accent ink — dark, text-safe shade of an accent for labels on its *-soft tint (WCAG AA) */
   --accent-mint-ink: #0f766e; /* 4.82:1 on accent-mint-soft */
   --accent-sun-ink: #92400e; /* 6.32:1 on accent-sun-soft */
+  --accent-grape-ink: #6d28d9; /* 7.1:1 on white, 5.86:1 on accent-grape-soft */
 
   /* Semantic */
   --success: #22c55e;
   --warning: #f59e0b;
   --danger: #ef4444;
   --info: #3b82f6;
+
+  /* Semantic ink — dark, text-safe shades for semantic color used as text/icon
+     on light surfaces (WCAG AA). danger-ink doubles as the solid danger button
+     fill (white text = 6.47:1). */
+  --danger-ink: #b91c1c; /* 6.47:1 on white */
+  --warning-ink: #b45309; /* 5.02:1 on white */
 
   /* Focus */
   --focus-ring: #6c5ce7;
@@ -102,6 +109,10 @@
   --brand: #8b7bff;
   --brand-strong: #a294ff;
   --brand-soft: #2a2545;
+  /* Ink shades flip lighter so semantic/accent text stays AA on the dark surface */
+  --accent-grape-ink: #c4b5fd; /* 9.09:1 on dark surface */
+  --danger-ink: #f87171; /* 6.07:1 on dark surface */
+  --warning-ink: #fbbf24; /* 10.05:1 on dark surface */
 }
 
 /* Dark theme tokens via system preference (fallback when [data-theme] not set to 'light') */
@@ -118,6 +129,9 @@
     --brand: #8b7bff;
     --brand-strong: #a294ff;
     --brand-soft: #2a2545;
+    --accent-grape-ink: #c4b5fd;
+    --danger-ink: #f87171;
+    --warning-ink: #fbbf24;
   }
 }
 

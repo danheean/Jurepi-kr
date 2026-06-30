@@ -84,7 +84,7 @@ export function JournalPanel({
           className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
             selectedYear === null
               ? 'bg-brand text-white'
-              : 'bg-surface-muted text-text-secondary hover:bg-surface-muted-hover'
+              : 'bg-surface-muted text-text-secondary hover:bg-surface-sunken'
           }`}
         >
           {t('journal.yearAll')}
@@ -96,7 +96,7 @@ export function JournalPanel({
             className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
               selectedYear === year
                 ? 'bg-brand text-white'
-                : 'bg-surface-muted text-text-secondary hover:bg-surface-muted-hover'
+                : 'bg-surface-muted text-text-secondary hover:bg-surface-sunken'
             }`}
           >
             {year}
@@ -121,7 +121,7 @@ export function JournalPanel({
           </p>
           <button
             onClick={() => setSearchQuery('')}
-            className="text-sm font-medium text-accent-grape hover:text-accent-grape-dark transition-colors"
+            className="text-sm font-medium text-accent-grape-ink hover:opacity-80 transition-opacity"
           >
             {t('journal.clearSearch')}
           </button>

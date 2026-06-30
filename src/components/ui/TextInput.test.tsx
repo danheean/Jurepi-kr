@@ -65,7 +65,7 @@ describe('TextInput Component', () => {
       />
     );
     const counter = screen.getByText('12/12');
-    expect(counter).toHaveClass('text-semantic-danger');
+    expect(counter).toHaveClass('text-danger-ink');
   });
 
   it('calls onChange handler', async () => {

@@ -72,7 +72,7 @@ export function TodayPanel({
           </h2>
         </div>
         {todayKey === new Date().toISOString().split('T')[0] && (
-          <span className="inline-block px-2 py-1 rounded-full text-xs font-semibold bg-accent-grape-soft text-accent-grape">
+          <span className="inline-block px-2 py-1 rounded-full text-xs font-semibold bg-accent-grape-soft text-accent-grape-ink">
             {t('today.badge')}
           </span>
         )}
@@ -108,7 +108,7 @@ export function TodayPanel({
           {todayKey !== new Date().toISOString().split('T')[0] && (
             <button
               onClick={() => onNavigateDate(new Date().toISOString().split('T')[0] as DateKey)}
-              className="text-xs font-medium text-accent-grape hover:text-accent-grape-dark transition-colors"
+              className="text-xs font-medium text-accent-grape-ink hover:opacity-80 transition-opacity"
             >
               {t('today.backToToday')}
             </button>

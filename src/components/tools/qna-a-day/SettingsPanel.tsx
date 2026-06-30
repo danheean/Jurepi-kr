@@ -95,8 +95,8 @@ export function SettingsPanel({
     >
       {/* Storage error warning */}
       {storageError.type && (
-        <div className="p-4 rounded-lg bg-semantic-error/10 border border-semantic-error/30">
-          <p className="text-sm font-medium text-semantic-error mb-2">
+        <div className="p-4 rounded-lg bg-danger/10 border border-danger/30">
+          <p className="text-sm font-medium text-danger-ink mb-2">
             {storageError.type === 'UNAVAILABLE'
               ? t('settings.storageUnavailable')
               : storageError.type === 'QUOTA_EXCEEDED'
@@ -104,7 +104,7 @@ export function SettingsPanel({
                 : t('settings.corruptRecovered')}
           </p>
           {storageError.type === 'CORRUPT' && (
-            <button className="text-sm text-semantic-error hover:text-semantic-error-dark font-medium">
+            <button className="text-sm text-danger-ink hover:opacity-80 font-medium">
               {t('settings.downloadCorrupt')}
             </button>
           )}
@@ -124,7 +124,7 @@ export function SettingsPanel({
         <button
           onClick={handleExport}
           disabled={totalAnswered === 0}
-          className="px-4 py-2.5 rounded-lg bg-brand text-white font-medium text-sm hover:bg-brand-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-4 py-2.5 rounded-lg bg-brand text-on-brand font-medium text-sm hover:bg-brand-strong disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {t('settings.exportButton')}
         </button>
@@ -166,7 +166,7 @@ export function SettingsPanel({
                     target: { files: [new File([], '')] },
                   } as any);
                 }}
-                className="px-3 py-1.5 rounded text-sm font-medium bg-brand text-white hover:bg-brand-dark transition-colors"
+                className="px-3 py-1.5 rounded text-sm font-medium bg-brand text-on-brand hover:bg-brand-strong transition-colors"
               >
                 {t('settings.importMerge')}
               </button>
@@ -177,7 +177,7 @@ export function SettingsPanel({
                     target: { files: [new File([], '')] },
                   } as any);
                 }}
-                className="px-3 py-1.5 rounded text-sm font-medium bg-surface-muted text-text hover:bg-surface-muted-hover transition-colors"
+                className="px-3 py-1.5 rounded text-sm font-medium bg-surface-muted text-text hover:bg-surface-sunken transition-colors"
               >
                 {t('settings.importReplace')}
               </button>
@@ -193,13 +193,13 @@ export function SettingsPanel({
         </h3>
         <button
           onClick={() => setShowResetConfirm(true)}
-          className="px-4 py-2.5 rounded-lg bg-semantic-error/10 text-semantic-error font-medium text-sm hover:bg-semantic-error/20 transition-colors"
+          className="px-4 py-2.5 rounded-lg bg-danger/10 text-danger-ink font-medium text-sm hover:bg-danger/20 transition-colors"
         >
           {t('settings.resetButton')}
         </button>
 
         {showResetConfirm && (
-          <div className="p-4 rounded-lg border-2 border-semantic-error space-y-3 bg-surface">
+          <div className="p-4 rounded-lg border-2 border-danger space-y-3 bg-surface">
             <div>
               <p className="font-medium text-text mb-1">
                 {t('settings.resetConfirm')}
@@ -213,13 +213,13 @@ export function SettingsPanel({
               placeholder="'모두 삭제'를 입력하세요"
               value={resetConfirmText}
               onChange={(e) => setResetConfirmText(e.target.value)}
-              className="w-full px-3 py-2 rounded border border-semantic-error text-body transition-colors"
+              className="w-full px-3 py-2 rounded border border-danger text-body transition-colors"
             />
             <div className="flex gap-2">
               <button
                 onClick={handleReset}
                 disabled={resetConfirmText.toLowerCase() !== '모두 삭제'}
-                className="flex-1 px-3 py-2 rounded bg-semantic-error text-white font-medium text-sm hover:bg-semantic-error-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="flex-1 px-3 py-2 rounded bg-danger-ink text-white font-medium text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
               >
                 삭제
               </button>
@@ -228,7 +228,7 @@ export function SettingsPanel({
                   setShowResetConfirm(false);
                   setResetConfirmText('');
                 }}
-                className="flex-1 px-3 py-2 rounded bg-surface-muted text-text font-medium text-sm hover:bg-surface-muted-hover transition-colors"
+                className="flex-1 px-3 py-2 rounded bg-surface-muted text-text font-medium text-sm hover:bg-surface-sunken transition-colors"
               >
                 취소
               </button>
