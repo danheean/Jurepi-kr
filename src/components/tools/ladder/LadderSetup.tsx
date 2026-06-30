@@ -14,15 +14,6 @@ import {
 } from '@/lib/result-suggestions';
 import type { UseLadderReturn } from './useLadder';
 
-const ACCENT_COLORS = [
-  'coral',
-  'mint',
-  'sky',
-  'sun',
-  'grape',
-  'rose',
-];
-
 interface LadderSetupProps {
   ladder: UseLadderReturn;
 }
@@ -132,12 +123,7 @@ export function LadderSetup({ ladder }: LadderSetupProps) {
             )}
 
             {ladder.state.players.map((player, idx) => (
-              <div key={player.id} className="flex items-center gap-2">
-                <div
-                  className={`w-3 h-3 rounded-full flex-shrink-0 bg-accent-${
-                    ACCENT_COLORS[idx % ACCENT_COLORS.length]
-                  }`}
-                />
+              <div key={player.id}>
                 <TextInput
                   testId="player-input"
                   placeholder={`${t('setup.playerPlaceholder')} ${idx + 1}`}
@@ -147,7 +133,6 @@ export function LadderSetup({ ladder }: LadderSetupProps) {
                   }
                   maxChars={12}
                   showCounter={player.name.length > 8}
-                  className="flex-1"
                 />
               </div>
             ))}
@@ -186,12 +171,7 @@ export function LadderSetup({ ladder }: LadderSetupProps) {
             </div>
 
             {ladder.state.prizes.map((prize, idx) => (
-              <div key={prize.id} className="flex items-center gap-2">
-                <div
-                  className={`w-3 h-3 rounded-full flex-shrink-0 bg-accent-${
-                    ACCENT_COLORS[idx % ACCENT_COLORS.length]
-                  }`}
-                />
+              <div key={prize.id}>
                 <TextInput
                   testId="prize-input"
                   placeholder={`${t('setup.prizePlaceholder')} ${idx + 1}`}
@@ -201,20 +181,19 @@ export function LadderSetup({ ladder }: LadderSetupProps) {
                   }
                   maxChars={12}
                   showCounter={prize.label.length > 8}
-                  className="flex-1"
                 />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Hide results toggle and clear-all button */}
+        {/* Shuffle results toggle and clear-all button */}
         <div className="mb-6 py-4 border-t border-hairline space-y-3">
           <Toggle
-            testId="hide-results-toggle"
-            checked={ladder.state.hideResults}
-            onChange={() => ladder.toggleHide()}
-            label={t('setup.hideToggle')}
+            testId="shuffle-results-toggle"
+            checked={ladder.state.shuffleResults}
+            onChange={() => ladder.toggleShuffle()}
+            label={t('setup.shuffleToggle')}
           />
           <Button
             data-testid="clear-all-btn"

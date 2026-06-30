@@ -13,6 +13,8 @@ describe('result-image', () => {
           { name: 'Carol', label: 'Prize C', accentHex: '#38bdf8' },
           { name: 'Dave', label: 'Prize D', accentHex: '#fbbf24' },
         ],
+        playerNames: ['Alice', 'Bob', 'Carol', 'Dave'],
+        prizeLabels: ['Prize A', 'Prize B', 'Prize C', 'Prize D'],
         title: 'Ladder Results',
       };
       const svg = buildResultSvgString(params);
@@ -28,6 +30,8 @@ describe('result-image', () => {
           { name: 'B', label: 'P2', accentHex: '#2dd4bf' },
           { name: 'C', label: 'P3', accentHex: '#38bdf8' },
         ],
+        playerNames: ['A', 'B', 'C'],
+        prizeLabels: ['P1', 'P2', 'P3'],
         title: 'Test',
       };
       const svg = buildResultSvgString(params);
@@ -44,6 +48,8 @@ describe('result-image', () => {
           { name: 'C', label: 'P3', accentHex: '#38bdf8' },
           { name: 'D', label: 'P4', accentHex: '#fbbf24' },
         ],
+        playerNames: ['A', 'B', 'C', 'D'],
+        prizeLabels: ['P1', 'P2', 'P3', 'P4'],
         title: 'Test',
       };
       const svg = buildResultSvgString(params);
@@ -61,6 +67,8 @@ describe('result-image', () => {
           { name: 'C', label: 'P3', accentHex: '#38bdf8' },
           { name: 'D', label: 'P4', accentHex: '#fbbf24' },
         ],
+        playerNames: ['A', 'B', 'C', 'D'],
+        prizeLabels: ['P1', 'P2', 'P3', 'P4'],
         title: 'Test',
       };
       const svg = buildResultSvgString(params);
@@ -78,6 +86,8 @@ describe('result-image', () => {
           { name: 'Alice', label: 'Prize A', accentHex: '#ff7a85' },
           { name: 'Bob', label: 'Prize B', accentHex: '#2dd4bf' },
         ],
+        playerNames: ['Alice', 'Bob'],
+        prizeLabels: ['Prize A', 'Prize B'],
         title: 'Test Results',
       };
       const svg = buildResultSvgString(params);
@@ -92,6 +102,8 @@ describe('result-image', () => {
         playerCount: 1,
         rungs: [],
         rows: [{ name: 'Alice & Bob', label: 'Prize', accentHex: '#ff7a85' }],
+        playerNames: ['Alice & Bob'],
+        prizeLabels: ['Prize'],
         title: 'Test',
       };
       const svg = buildResultSvgString(params);
@@ -103,6 +115,8 @@ describe('result-image', () => {
         playerCount: 1,
         rungs: [],
         rows: [{ name: 'Alice', label: 'Prize <First>', accentHex: '#ff7a85' }],
+        playerNames: ['Alice'],
+        prizeLabels: ['Prize <First>'],
         title: 'Test',
       };
       const svg = buildResultSvgString(params);
@@ -115,6 +129,8 @@ describe('result-image', () => {
         playerCount: 1,
         rungs: [],
         rows: [{ name: 'Alice', label: 'Prize', accentHex: '#ff7a85' }],
+        playerNames: ['Alice'],
+        prizeLabels: ['Prize'],
         title: 'Test "Results" & Winners',
       };
       const svg = buildResultSvgString(params);
@@ -130,6 +146,8 @@ describe('result-image', () => {
           { name: 'A', label: 'P1', accentHex: '#ff7a85' },
           { name: 'B', label: 'P2', accentHex: '#2dd4bf' },
         ],
+        playerNames: ['A', 'B'],
+        prizeLabels: ['P1', 'P2'],
         title: 'My Test Title',
       };
       const svg = buildResultSvgString(params);
@@ -144,6 +162,8 @@ describe('result-image', () => {
           { name: 'Alice', label: 'First', accentHex: '#ff7a85' },
           { name: 'Bob', label: 'Second', accentHex: '#2dd4bf' },
         ],
+        playerNames: ['Alice', 'Bob'],
+        prizeLabels: ['First', 'Second'],
         title: 'Test',
       };
       const svg = buildResultSvgString(params);
@@ -161,6 +181,8 @@ describe('result-image', () => {
           { name: 'A', label: 'P1', accentHex: '#ff7a85' },
           { name: 'B', label: 'P2', accentHex: '#2dd4bf' },
         ],
+        playerNames: ['A', 'B'],
+        prizeLabels: ['P1', 'P2'],
         title: 'Symmetry Test',
       };
       const svg = buildResultSvgString(params);
@@ -186,6 +208,8 @@ describe('result-image', () => {
           { name: 'Alice', label: 'Prize', accentHex: '#ff7a85' },
           { name: 'Bob', label: 'Prize', accentHex: '#2dd4bf' },
         ],
+        playerNames: ['Alice', 'Bob'],
+        prizeLabels: ['Prize', 'Prize'],
         title: 'No Rungs',
       };
       const svg = buildResultSvgString(params);
@@ -201,6 +225,8 @@ describe('result-image', () => {
           { name: 'Alice', label: 'First', accentHex: '#ff7a85' },
           { name: 'Bob', label: 'Second', accentHex: '#2dd4bf' },
         ],
+        playerNames: ['Alice', 'Bob'],
+        prizeLabels: ['First', 'Second'],
         title: 'Two Players',
       };
       const svg = buildResultSvgString(params);
@@ -217,11 +243,39 @@ describe('result-image', () => {
           label: `Prize${i + 1}`,
           accentHex: '#ff7a85',
         })),
+        playerNames: Array.from({ length: 10 }, (_, i) => `Player${i + 1}`),
+        prizeLabels: Array.from({ length: 10 }, (_, i) => `Prize${i + 1}`),
         title: 'Ten Players',
       };
       const svg = buildResultSvgString(params);
       expect(svg).toContain('Player1');
       expect(svg).toContain('Player10');
+    });
+
+    it('renders playerNames at top and prizeLabels at bottom', () => {
+      const params: ResultImageParams = {
+        playerCount: 3,
+        rungs: [[true, false]],
+        rows: [
+          { name: 'Alice', label: 'Prize A', accentHex: '#ff7a85' },
+          { name: 'Bob', label: 'Prize B', accentHex: '#2dd4bf' },
+          { name: 'Carol', label: 'Prize C', accentHex: '#38bdf8' },
+        ],
+        playerNames: ['Alice', 'Bob', 'Carol'],
+        prizeLabels: ['Prize A', 'Prize B', 'Prize C'],
+        title: 'Test',
+      };
+      const svg = buildResultSvgString(params);
+      // Check that playerNames appear in the SVG
+      expect(svg).toContain('Alice');
+      expect(svg).toContain('Bob');
+      expect(svg).toContain('Carol');
+      // Check that prizeLabels appear in the SVG
+      expect(svg).toContain('Prize A');
+      expect(svg).toContain('Prize B');
+      expect(svg).toContain('Prize C');
+      // Check that there are NO <circle> elements (dots removed)
+      expect(svg).not.toMatch(/<circle/);
     });
   });
 });

@@ -67,7 +67,7 @@
         "countLabel": "Number of players",
         "playerPlaceholder": "Player name",
         "prizePlaceholder": "Outcome",
-        "hideToggle": "Hide results",
+        "shuffleToggle": "Shuffle results",
         "build": "Build ladder",
         "autoNames": "Auto-suggest names",
         "reroll": "Shuffle again",

@@ -28,7 +28,8 @@ export interface LadderState {
   playerCount: number; // 2..10
   players: Player[];
   prizes: Prize[];
-  hideResults: boolean; // default true
+  shuffleResults: boolean; // default true: shuffle prize slots; false: identity
+  prizeOrder: number[]; // slot index → prize input index, length n
   soundOn: boolean; // default false
   phase: LadderPhase;
   rungs: boolean[][];
@@ -43,7 +44,7 @@ export type LadderAction =
   | { type: 'SET_PRIZE_LABEL'; index: number; label: string }
   | { type: 'SET_ALL_PLAYER_NAMES'; names: string[] }
   | { type: 'SET_ALL_PRIZE_LABELS'; labels: string[] }
-  | { type: 'TOGGLE_HIDE' }
+  | { type: 'TOGGLE_SHUFFLE' }
   | { type: 'TOGGLE_SOUND' }
   | { type: 'BUILD'; rng?: Rng }
   | { type: 'START_TRACE'; playerId: string }
@@ -66,12 +67,14 @@ export function initLadderState(count: number = 4): LadderState {
     id: nanoid(),
     label: '',
   }));
+  const prizeOrder = Array.from({ length: playerCount }, (_, i) => i);
 
   return {
     playerCount,
     players,
     prizes,
-    hideResults: true,
+    shuffleResults: true,
+    prizeOrder,
     soundOn: false,
     phase: 'setup',
     rungs: [],
@@ -106,11 +109,15 @@ export function ladderReducer(
         newPrizes.push({ id: nanoid(), label: '' });
       }
 
+      // Reset prizeOrder to identity for new count
+      const newPrizeOrder = Array.from({ length: newCount }, (_, i) => i);
+
       return {
         ...state,
         playerCount: newCount,
         players: newPlayers,
         prizes: newPrizes,
+        prizeOrder: newPrizeOrder,
       };
     }
 
@@ -152,8 +159,8 @@ export function ladderReducer(
       return { ...state, prizes: newPrizes };
     }
 
-    case 'TOGGLE_HIDE': {
-      return { ...state, hideResults: !state.hideResults };
+    case 'TOGGLE_SHUFFLE': {
+      return { ...state, shuffleResults: !state.shuffleResults };
     }
 
     case 'TOGGLE_SOUND': {
@@ -164,11 +171,15 @@ export function ladderReducer(
       const rng = action.rng || cryptoRng;
       const permutation = uniformPermutation(state.playerCount, rng);
       const rungs = ladderFromPermutation(permutation, rng);
+      const prizeOrder = state.shuffleResults
+        ? uniformPermutation(state.playerCount, rng)
+        : Array.from({ length: state.playerCount }, (_, i) => i);
       return {
         ...state,
         phase: 'ready',
         permutation,
         rungs,
+        prizeOrder,
         revealed: [],
         activeTrace: null,
       };
@@ -224,22 +235,28 @@ export function ladderReducer(
       const rng = action.rng || cryptoRng;
       const permutation = uniformPermutation(state.playerCount, rng);
       const rungs = ladderFromPermutation(permutation, rng);
+      const prizeOrder = state.shuffleResults
+        ? uniformPermutation(state.playerCount, rng)
+        : Array.from({ length: state.playerCount }, (_, i) => i);
       return {
         ...state,
         phase: 'ready',
         permutation,
         rungs,
+        prizeOrder,
         revealed: [],
         activeTrace: null,
       };
     }
 
     case 'RESET': {
+      const prizeOrder = Array.from({ length: state.playerCount }, (_, i) => i);
       return {
         ...state,
         phase: 'setup',
         rungs: [],
         permutation: [],
+        prizeOrder,
         revealed: [],
         activeTrace: null,
       };
@@ -256,11 +273,12 @@ export function ladderReducer(
  */
 export function selectMapping(state: LadderState): Record<string, string> {
   const mapping: Record<string, string> = {};
-  const { permutation, players, prizes } = state;
+  const { permutation, players, prizes, prizeOrder } = state;
 
   for (let startCol = 0; startCol < players.length; startCol++) {
     const playerId = players[startCol].id;
-    const prizeIdx = permutation[startCol] ?? startCol; // fallback if permutation not yet set
+    const endCol = permutation[startCol] ?? startCol; // fallback if permutation not yet set
+    const prizeIdx = prizeOrder[endCol] ?? endCol; // apply prizeOrder shuffle
     const prizeId = prizes[prizeIdx]?.id ?? '';
     mapping[playerId] = prizeId;
   }

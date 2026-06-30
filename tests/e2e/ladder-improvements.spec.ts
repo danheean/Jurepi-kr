@@ -100,14 +100,15 @@ test.describe('Ladder Game - Improvements', () => {
     // Setup with default 4 players
     const playerInputs = page.locator('[data-testid="player-input"]');
     const prizeInputs = page.locator('[data-testid="prize-input"]');
-    await expect(playerInputs).toHaveCount(4);
+    await expect(playerInputs).toHaveCount(7);
 
-    for (let i = 0; i < 4; i++) {
+    const playerCount = await playerInputs.count();
+    for (let i = 0; i < playerCount; i++) {
       await playerInputs.nth(i).fill(`플레이어${i + 1}`);
     }
 
     // Fill prizes with descriptive values first
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < playerCount; i++) {
       await prizeInputs.nth(i).fill(`상품${i + 1}`);
     }
 
@@ -117,17 +118,17 @@ test.describe('Ladder Game - Improvements', () => {
     await winnerBtn.click();
     await page.waitForTimeout(200);
 
-    // Check prize inputs: one should be "당첨", rest should be "꽝"
+    // Check prize inputs: exactly one should be "당첨", the rest "꽝"
     let winCount = 0;
     let loseCount = 0;
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < playerCount; i++) {
       const value = await prizeInputs.nth(i).inputValue();
       if (value === '당첨') winCount++;
       if (value === '꽝') loseCount++;
     }
 
     expect(winCount).toBe(1);
-    expect(loseCount).toBe(3);
+    expect(loseCount).toBe(playerCount - 1);
   });
 
   test('Result rank button sets numbered prizes', async ({ page }) => {

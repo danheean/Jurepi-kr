@@ -17,7 +17,7 @@ import { playPop } from '@/lib/sound';
 import { useTranslations } from 'next-intl';
 
 export function LadderGame() {
-  const ladder = useLadder(4);
+  const ladder = useLadder(7);
   const t = useTranslations('tools.ladder');
   const prevRevealedLengthRef = useRef(0);
 

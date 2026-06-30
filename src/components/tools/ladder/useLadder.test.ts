@@ -7,12 +7,12 @@ describe('useLadder Hook', () => {
     vi.clearAllMocks();
   });
 
-  it('initializes with count=4 by default', () => {
+  it('initializes with count=7 by default', () => {
     const { result } = renderHook(() => useLadder());
-    expect(result.current.state.playerCount).toBe(4);
+    expect(result.current.state.playerCount).toBe(7);
     expect(result.current.state.phase).toBe('setup');
-    expect(result.current.state.players).toHaveLength(4);
-    expect(result.current.state.prizes).toHaveLength(4);
+    expect(result.current.state.players).toHaveLength(7);
+    expect(result.current.state.prizes).toHaveLength(7);
   });
 
   it('clamped count to 2..10', () => {
@@ -58,15 +58,15 @@ describe('useLadder Hook', () => {
       );
     });
 
-    it('toggleHide flips hideResults', () => {
+    it('toggleShuffle flips shuffleResults', () => {
       const { result } = renderHook(() => useLadder());
-      expect(result.current.state.hideResults).toBe(true);
+      expect(result.current.state.shuffleResults).toBe(true);
 
       act(() => {
-        result.current.toggleHide();
+        result.current.toggleShuffle();
       });
 
-      expect(result.current.state.hideResults).toBe(false);
+      expect(result.current.state.shuffleResults).toBe(false);
     });
 
     it('toggleSound flips soundOn', () => {
@@ -91,7 +91,9 @@ describe('useLadder Hook', () => {
       });
 
       expect(result.current.state.phase).toBe('ready');
-      expect(result.current.state.permutation.length).toBe(4);
+      expect(result.current.state.permutation.length).toBe(
+        result.current.state.playerCount
+      );
       expect(result.current.state.rungs.length).toBeGreaterThan(0);
     });
   });

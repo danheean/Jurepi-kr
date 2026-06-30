@@ -27,7 +27,12 @@ export function PrizeCards({ ladder }: PrizeCardsProps) {
       role="region"
       aria-label="Prize cards"
     >
-      {ladder.state.prizes.map((prize, col) => {
+      {Array.from({ length: n }, (_, col) => {
+        // Get prize for this slot (reflective of prizeOrder)
+        const prizeIdx = ladder.state.prizeOrder[col] ?? col;
+        const prize = ladder.state.prizes[prizeIdx];
+        if (!prize) return null;
+
         const landingPlayerIdx = inverse[col] ?? col;
         const landingPlayer = ladder.state.players[landingPlayerIdx];
         const isRevealed = landingPlayer
@@ -35,7 +40,8 @@ export function PrizeCards({ ladder }: PrizeCardsProps) {
           : false;
         const accentColor =
           ACCENT_COLORS[landingPlayerIdx % ACCENT_COLORS.length];
-        const hidden = ladder.state.hideResults && !isRevealed;
+        // Cards are hidden until revealed; once revealed, always shown
+        const hidden = !isRevealed;
 
         // Cards stay visible as '?' placeholders below each rail end, then pop to the
         // result on reveal. (Reduced motion: no scale animation.)

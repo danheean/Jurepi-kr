@@ -32,23 +32,31 @@ describe('ResultPanel Component', () => {
     expect(screen.getByText(/Reveal all/i)).toBeInTheDocument();
     expect(screen.getByText(/Reshuffle/i)).toBeInTheDocument();
     expect(screen.getByText(/Reset/i)).toBeInTheDocument();
-    // Download is gated before any reveal in hidden mode (no result leak)
+    // Download is only available in done phase (all results revealed)
     expect(screen.queryByTestId('download-btn')).not.toBeInTheDocument();
   });
 
-  it('renders download button after first reveal', () => {
+  it('renders download button only in done phase', () => {
     const { result } = renderHook(() => useLadder(2));
+    const { rerender } = render(<ResultPanel ladder={result.current} />);
+
     act(() => {
       result.current.build();
       result.current.startTrace(result.current.state.players[0].id);
       result.current.completeReveal(result.current.state.players[0].id);
     });
+    rerender(<ResultPanel ladder={result.current} />);
 
-    render(<ResultPanel ladder={result.current} />);
+    // Partial reveal (ready phase) — no download yet
+    expect(screen.queryByTestId('download-btn')).not.toBeInTheDocument();
 
-    expect(screen.getByText(/Reveal all/i)).toBeInTheDocument();
-    expect(screen.getByText(/Reshuffle/i)).toBeInTheDocument();
-    expect(screen.getByText(/Reset/i)).toBeInTheDocument();
+    // Complete all reveals
+    act(() => {
+      result.current.revealAll();
+    });
+    rerender(<ResultPanel ladder={result.current} />);
+
+    // Now in done phase — download available
     expect(screen.getByTestId('download-btn')).toBeInTheDocument();
   });
 

@@ -10,15 +10,6 @@ import { Toggle } from '@/components/ui/Toggle';
 import { Toast } from '@/components/ui/Toast';
 import type { UseLadderReturn } from './useLadder';
 
-const ACCENT_COLORS = [
-  'coral',
-  'mint',
-  'sky',
-  'sun',
-  'grape',
-  'rose',
-];
-
 interface ResultPanelProps {
   ladder: UseLadderReturn;
 }
@@ -31,9 +22,8 @@ export function ResultPanel({ ladder }: ResultPanelProps) {
   // is built — and stays available after "다시 섞기" clears reveals. Only setup hides it.
   if (ladder.state.phase === 'setup') return null;
 
-  // Download is gated so hidden results can't leak before any reveal.
-  const canDownload =
-    ladder.state.revealed.length > 0 || !ladder.state.hideResults;
+  // Download is available only in "done" phase (all results revealed).
+  const canDownload = ladder.state.phase === 'done';
 
   const mapping = selectMapping(ladder.state);
 
@@ -50,11 +40,28 @@ export function ResultPanel({ ladder }: ResultPanelProps) {
         };
       });
 
+      // Build player names in starting order
+      const playerNames = ladder.state.players.map((p, idx) =>
+        p.name || t('defaults.player', { n: idx + 1 })
+      );
+
+      // Build prize labels in slot order
+      const prizeLabels = Array.from(
+        { length: ladder.state.playerCount },
+        (_, col) => {
+          const idx = ladder.state.prizeOrder[col] ?? col;
+          const pr = ladder.state.prizes[idx];
+          return pr?.label || t('defaults.prizeOther');
+        }
+      );
+
       // Build SVG and download
       const svgString = buildResultSvgString({
         playerCount: ladder.state.playerCount,
         rungs: ladder.state.rungs,
         rows,
+        playerNames,
+        prizeLabels,
         title: t('panel.summaryTitle'),
       });
 
@@ -124,16 +131,12 @@ export function ResultPanel({ ladder }: ResultPanelProps) {
               const prize = ladder.state.prizes.find(
                 (p) => p.id === prizeId
               );
-              const accentColor = ACCENT_COLORS[idx % ACCENT_COLORS.length];
 
               return (
                 <div
                   key={player.id}
                   className="flex items-center gap-2 font-body text-text"
                 >
-                  <div
-                    className={`w-3 h-3 rounded-full bg-accent-${accentColor}`}
-                  />
                   <span className="flex-1">
                     {player.name || t('defaults.player', { n: idx + 1 })}
                   </span>

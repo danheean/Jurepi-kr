@@ -24,15 +24,14 @@ test.describe('Ladder Game - E2E Integration', () => {
     await page.goto('/ko/tools/ladder');
     await page.waitForLoadState('networkidle');
 
-    // Setup card visible (default 4 players)
+    // Setup card visible (default 7 players)
     const setupCard = page.locator('[data-testid="setup-card"]');
     await expect(setupCard).toBeVisible({ timeout: 5000 });
 
-    // Increment player count 4 -> 6
-    const plusButton = page.locator('[data-testid="stepper-increment"]').first();
-    await expect(plusButton).toBeVisible({ timeout: 5000 });
-    await plusButton.click();
-    await plusButton.click();
+    // Decrement player count 7 -> 6
+    const minusButton = page.locator('[data-testid="stepper-decrement"]').first();
+    await expect(minusButton).toBeVisible({ timeout: 5000 });
+    await minusButton.click();
 
     const playerInputs = page.locator('[data-testid="player-input"]');
     await expect(playerInputs).toHaveCount(6);
@@ -44,9 +43,9 @@ test.describe('Ladder Game - E2E Integration', () => {
     const prizeNames = ['꽝', '커피', '꽝', '당첨', '꽝', '청소'];
     for (let i = 0; i < 6; i++) await prizeInputs.nth(i).fill(prizeNames[i]);
 
-    // 결과 가리기 ON by default
-    const hideToggle = page.locator('[data-testid="hide-results-toggle"]');
-    expect(await hideToggle.getAttribute('aria-checked')).toBe('true');
+    // 결과 섞기 ON by default
+    const shuffleToggle = page.locator('[data-testid="shuffle-results-toggle"]');
+    expect(await shuffleToggle.getAttribute('aria-checked')).toBe('true');
 
     // Build
     await page.locator('button:has-text("사다리 만들기")').click();
@@ -107,38 +106,40 @@ test.describe('Ladder Game - E2E Integration', () => {
     }
   });
 
-  test('Scenario 2: Visible-results mode + edge counts', async ({ page }) => {
-    // Part A — visible mode: prizes shown immediately after build (no "?")
+  test('Scenario 2: Shuffle toggle + edge counts', async ({ page }) => {
+    // Part A — the shuffle toggle is independent of visibility: results stay
+    // hidden ('?') until revealed regardless of the shuffle setting.
     await page.goto('/ko/tools/ladder');
     await page.waitForLoadState('networkidle');
-    const hideToggle = page.locator('[data-testid="hide-results-toggle"]');
-    await expect(hideToggle).toBeVisible({ timeout: 5000 });
-    await hideToggle.click();
-    expect(await hideToggle.getAttribute('aria-checked')).toBe('false');
+    const shuffleToggle = page.locator('[data-testid="shuffle-results-toggle"]');
+    await expect(shuffleToggle).toBeVisible({ timeout: 5000 });
+    // Default ON; turn it OFF and confirm cards are still hidden after build.
+    expect(await shuffleToggle.getAttribute('aria-checked')).toBe('true');
+    await shuffleToggle.click();
+    expect(await shuffleToggle.getAttribute('aria-checked')).toBe('false');
     await page.locator('button:has-text("사다리 만들기")').click();
     const prizeCardsVis = page.locator('[data-testid="prize-card"]');
-    await expect(prizeCardsVis).toHaveCount(4, { timeout: 5000 });
-    for (let i = 0; i < 4; i++) {
-      expect((await prizeCardsVis.nth(i).textContent())?.trim()).not.toBe('?');
+    await expect(prizeCardsVis).toHaveCount(7, { timeout: 5000 });
+    for (let i = 0; i < 7; i++) {
+      await expect(prizeCardsVis.nth(i)).toHaveText('?', { timeout: 5000 });
     }
 
-    // Part B — minimum count (fresh load; default 4 -> 2). Avoids reset (panel-only).
+    // Part B — minimum count (fresh load; default 7 -> 2). Avoids reset (panel-only).
     await page.goto('/ko/tools/ladder');
     await page.waitForLoadState('networkidle');
     const minusButton = page.locator('[data-testid="stepper-decrement"]').first();
     await expect(minusButton).toBeVisible({ timeout: 5000 });
-    await minusButton.click(); // 4 -> 3
-    await minusButton.click(); // 3 -> 2
+    for (let i = 0; i < 5; i++) await minusButton.click(); // 7 -> 2
     await expect(minusButton).toBeDisabled();
     await page.locator('button:has-text("사다리 만들기")').click();
     await expect(page.locator('[data-testid="player-chip"]')).toHaveCount(2, { timeout: 5000 });
 
-    // Part C — maximum count (fresh load; default 4 -> 10) + narrow-viewport overflow
+    // Part C — maximum count (fresh load; default 7 -> 10) + narrow-viewport overflow
     await page.goto('/ko/tools/ladder');
     await page.waitForLoadState('networkidle');
     const plusButton = page.locator('[data-testid="stepper-increment"]').first();
     await expect(plusButton).toBeVisible({ timeout: 5000 });
-    for (let i = 0; i < 6; i++) await plusButton.click(); // 4 -> 10
+    for (let i = 0; i < 3; i++) await plusButton.click(); // 7 -> 10
     await expect(plusButton).toBeDisabled();
     await page.locator('button:has-text("사다리 만들기")').click();
     await expect(page.locator('[data-testid="player-chip"]')).toHaveCount(10, { timeout: 5000 });
@@ -161,7 +162,7 @@ test.describe('Ladder Game - E2E Integration', () => {
     const headingText = await heading.textContent();
     expect(headingText).toContain('Ladder Game');
 
-    // Build a ladder with default 4 players
+    // Build a ladder with default 7 players
     const buildButton = page.locator('button:has-text("Build")');
     await buildButton.click();
 
@@ -171,11 +172,11 @@ test.describe('Ladder Game - E2E Integration', () => {
 
     // Verify one player has been revealed
     const prizeCards = page.locator('[data-testid="prize-card"]');
-    await expect.poll(() => prizeCardsAllRevealed(prizeCards, 4), { timeout: 3000 }).toBeGreaterThan(0);
+    await expect.poll(() => prizeCardsAllRevealed(prizeCards, 7), { timeout: 3000 }).toBeGreaterThan(0);
 
     // Press "a" to reveal all
     await page.keyboard.press('a');
-    await expect.poll(() => prizeCardsAllRevealed(prizeCards, 4), { timeout: 5000 }).toBe(4);
+    await expect.poll(() => prizeCardsAllRevealed(prizeCards, 7), { timeout: 5000 }).toBe(7);
 
     // "r" reshuffle button exists (Reshuffle visible while panel shown)
     const reshuffleButton = page.locator('button:has-text("Reshuffle")');
@@ -204,7 +205,8 @@ test.describe('Ladder Game - E2E Integration', () => {
     await expect(heading).toBeVisible();
     expect(await heading.textContent()).toBeTruthy();
 
-    const ladderLink = page.locator('a[href*="/tools/ladder"]');
+    // Home page may expose multiple ladder links (tool card + footer); use the first.
+    const ladderLink = page.locator('a[href*="/tools/ladder"]').first();
     await expect(ladderLink).toBeVisible();
     await ladderLink.click();
     await page.waitForURL('**/tools/ladder');

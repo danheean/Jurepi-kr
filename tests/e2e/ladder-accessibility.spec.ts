@@ -11,13 +11,13 @@ test.describe('Ladder Game - Accessibility', () => {
     await page.waitForLoadState('networkidle');
 
     // Toggles should have aria-checked
-    const hideToggle = page.locator('[data-testid="hide-results-toggle"]');
+    const shuffleToggle = page.locator('[data-testid="shuffle-results-toggle"]');
     const autoNamesToggle = page.locator('[data-testid="auto-names-toggle"]');
 
-    const hideChecked = await hideToggle.getAttribute('aria-checked');
+    const shuffleChecked = await shuffleToggle.getAttribute('aria-checked');
     const autoChecked = await autoNamesToggle.getAttribute('aria-checked');
 
-    expect(hideChecked).toMatch(/^(true|false)$/);
+    expect(shuffleChecked).toMatch(/^(true|false)$/);
     expect(autoChecked).toMatch(/^(true|false)$/);
 
     // Stepper buttons should have aria-label

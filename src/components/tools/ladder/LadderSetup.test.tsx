@@ -93,20 +93,20 @@ describe('LadderSetup Component', () => {
     expect(counter).toBeInTheDocument();
   });
 
-  it('toggles hideResults', async () => {
+  it('toggles shuffleResults', async () => {
     const { result } = renderHook(() => useLadder(2));
     const { rerender } = render(<LadderSetup ladder={result.current} />);
 
-    let toggleButton = screen.getByTestId('hide-results-toggle');
+    let toggleButton = screen.getByTestId('shuffle-results-toggle');
     expect(toggleButton).toHaveAttribute('aria-checked', 'true'); // default ON
 
     act(() => {
-      result.current.toggleHide();
+      result.current.toggleShuffle();
     });
     rerender(<LadderSetup ladder={result.current} />);
 
-    expect(result.current.state.hideResults).toBe(false);
-    toggleButton = screen.getByTestId('hide-results-toggle');
+    expect(result.current.state.shuffleResults).toBe(false);
+    toggleButton = screen.getByTestId('shuffle-results-toggle');
     expect(toggleButton).toHaveAttribute('aria-checked', 'false');
   });
 

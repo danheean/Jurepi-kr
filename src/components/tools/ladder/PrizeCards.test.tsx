@@ -15,7 +15,7 @@ describe('PrizeCards Component', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('shows question marks when hideResults=true and not revealed', () => {
+  it('shows question marks when not revealed', () => {
     const { result } = renderHook(() => useLadder(2));
     const { rerender } = render(<PrizeCards ladder={result.current} />);
 
@@ -28,21 +28,28 @@ describe('PrizeCards Component', () => {
     expect(questionMarks).toHaveLength(2);
   });
 
-  it('shows labels when hideResults=false', () => {
+  it('shows labels when revealed', () => {
     const { result } = renderHook(() => useLadder(2));
     const { rerender } = render(<PrizeCards ladder={result.current} />);
 
     act(() => {
       result.current.setPrizeLable(0, 'Prize1');
       result.current.setPrizeLable(1, 'Prize2');
-      result.current.toggleHide();
       result.current.build();
     });
     rerender(<PrizeCards ladder={result.current} />);
 
-    expect(screen.getByText('Prize1')).toBeInTheDocument();
-    expect(screen.getByText('Prize2')).toBeInTheDocument();
-    expect(screen.queryByText('?')).not.toBeInTheDocument();
+    // Before reveal, all should be '?'
+    expect(screen.getAllByText('?')).toHaveLength(2);
+
+    // Reveal first player
+    act(() => {
+      result.current.completeReveal(result.current.state.players[0].id);
+    });
+    rerender(<PrizeCards ladder={result.current} />);
+
+    // One card revealed, one still '?'
+    expect(screen.getAllByText('?')).toHaveLength(1);
   });
 
   it('reveals the card at the END column the revealed player lands on (not the same index)', () => {
@@ -50,7 +57,9 @@ describe('PrizeCards Component', () => {
     const { rerender } = render(<PrizeCards ladder={result.current} />);
 
     // Seeded build → deterministic, non-identity permutation. Distinct labels per column.
+    // With shuffleResults=false, prizeOrder is identity, so card at endCol shows prize at endCol.
     act(() => {
+      result.current.toggleShuffle(); // Disable shuffle so prizeOrder is identity
       ['P0', 'P1', 'P2', 'P3'].forEach((l, i) =>
         result.current.setPrizeLable(i, l)
       );
@@ -72,6 +81,7 @@ describe('PrizeCards Component', () => {
     rerender(<PrizeCards ladder={result.current} />);
 
     // The card at the trace's END column is revealed...
+    // With prizeOrder=identity, slot endCol shows prize endCol, which is "P{endCol}"
     expect(screen.getByText(`P${endCol}`)).toBeInTheDocument();
     // ...and the same-index card (the OLD wrong target) stays hidden.
     expect(screen.queryByText(`P${pIdx}`)).not.toBeInTheDocument();
@@ -100,12 +110,11 @@ describe('PrizeCards Component', () => {
     const { rerender } = render(<PrizeCards ladder={result.current} />);
 
     act(() => {
-      result.current.toggleHide();
       result.current.build();
     });
     rerender(<PrizeCards ladder={result.current} />);
 
-    // Prize cards should exist (default labels rendered)
+    // Prize cards should exist (default labels rendered once revealed)
     const cards = result.current.state.prizes;
     expect(cards.length).toBe(2);
   });

@@ -28,6 +28,8 @@ export interface ResultImageParams {
   playerCount: number;
   rungs: boolean[][];
   rows: ResultImageRow[];
+  playerNames: string[];
+  prizeLabels: string[];
   title: string;
 }
 
@@ -56,17 +58,19 @@ export function buildResultSvgString(params: ResultImageParams): string {
   const COLUMN_WIDTH = 60;
   const LEVEL_HEIGHT = 40;
   const PADDING = 30;
+  const LABEL_PADDING = 15; // space for top/bottom labels
   const LEGEND_MARGIN_TOP = 40;
   const LEGEND_LINE_HEIGHT = 24;
+  const LABEL_FONT_SIZE = 12;
 
-  const { playerCount, rungs, rows, title } = params;
+  const { playerCount, rungs, rows, playerNames, prizeLabels, title } = params;
 
   const numLevels = rungs.length || 5;
   const numColumns = playerCount;
 
-  // Board dimensions
+  // Board dimensions (including space for labels)
   const boardWidth = PADDING * 2 + COLUMN_WIDTH * numColumns;
-  const boardHeight = PADDING * 2 + LEVEL_HEIGHT * (numLevels + 1);
+  const boardHeight = LABEL_PADDING * 2 + PADDING * 2 + LEVEL_HEIGHT * (numLevels + 1);
   const legendHeight = LEGEND_MARGIN_TOP + LEGEND_LINE_HEIGHT * (1 + rows.length);
   const totalHeight = boardHeight + legendHeight;
 
@@ -77,8 +81,8 @@ export function buildResultSvgString(params: ResultImageParams): string {
   svg += `<rect width="${boardWidth}" height="${totalHeight}" fill="${SURFACE_HEX}"/>`;
 
   // Draw vertical lines (one per column)
-  const verticalY1 = PADDING;
-  const verticalY2 = PADDING + LEVEL_HEIGHT * (numLevels + 1);
+  const verticalY1 = LABEL_PADDING + PADDING;
+  const verticalY2 = LABEL_PADDING + PADDING + LEVEL_HEIGHT * (numLevels + 1);
   for (let col = 0; col < numColumns; col++) {
     const x = PADDING + col * COLUMN_WIDTH + COLUMN_WIDTH / 2;
     svg += `<line x1="${x}" y1="${verticalY1}" x2="${x}" y2="${verticalY2}" stroke="${HAIRLINE_STRONG_HEX}" stroke-width="1"/>`;
@@ -87,13 +91,36 @@ export function buildResultSvgString(params: ResultImageParams): string {
   // Draw rungs (horizontal segments)
   for (let levelIdx = 0; levelIdx < rungs.length; levelIdx++) {
     const level = rungs[levelIdx];
-    const y = PADDING + (levelIdx + 1) * LEVEL_HEIGHT;
+    const y = LABEL_PADDING + PADDING + (levelIdx + 1) * LEVEL_HEIGHT;
     for (let col = 0; col < level.length; col++) {
       if (level[col]) {
         const x1 = PADDING + col * COLUMN_WIDTH + COLUMN_WIDTH / 2;
         const x2 = PADDING + (col + 1) * COLUMN_WIDTH + COLUMN_WIDTH / 2;
         svg += `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${HAIRLINE_STRONG_HEX}" stroke-width="2"/>`;
       }
+    }
+  }
+
+  // Draw player names at top (above board)
+  for (let col = 0; col < numColumns; col++) {
+    const name = playerNames[col] || '';
+    if (name) {
+      const x = PADDING + col * COLUMN_WIDTH + COLUMN_WIDTH / 2;
+      const y = LABEL_PADDING - 5;
+      const escapedName = escapeXml(name);
+      const accentColor = ACCENT_HEX[col % ACCENT_HEX.length];
+      svg += `<text x="${x}" y="${y}" font-size="${LABEL_FONT_SIZE}" text-anchor="middle" fill="${accentColor}">${escapedName}</text>`;
+    }
+  }
+
+  // Draw prize labels at bottom (below board)
+  for (let col = 0; col < numColumns; col++) {
+    const label = prizeLabels[col] || '';
+    if (label) {
+      const x = PADDING + col * COLUMN_WIDTH + COLUMN_WIDTH / 2;
+      const y = LABEL_PADDING + PADDING + LEVEL_HEIGHT * (numLevels + 1) + LABEL_PADDING - 3;
+      const escapedLabel = escapeXml(label);
+      svg += `<text x="${x}" y="${y}" font-size="${LABEL_FONT_SIZE}" text-anchor="middle" fill="${TEXT_HEX}">${escapedLabel}</text>`;
     }
   }
 
@@ -104,21 +131,16 @@ export function buildResultSvgString(params: ResultImageParams): string {
   const escapedTitle = escapeXml(title);
   svg += `<text x="${PADDING}" y="${legendStartY}" font-size="16" font-weight="bold" fill="${TEXT_HEX}">${escapedTitle}</text>`;
 
-  // Player → Prize rows
+  // Player → Prize rows (without color dots, use text color instead)
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
     const y = legendStartY + LEGEND_LINE_HEIGHT * (i + 1);
     const escapedName = escapeXml(row.name);
     const escapedLabel = escapeXml(row.label);
 
-    // Color dot
-    const dotX = PADDING;
-    const dotY = y - 6;
-    svg += `<circle cx="${dotX}" cy="${dotY}" r="4" fill="${row.accentHex}"/>`;
-
-    // Text: "{name} → {label}"
-    const textX = PADDING + 16;
-    svg += `<text x="${textX}" y="${y}" font-size="14" fill="${TEXT_HEX}">${escapedName} → ${escapedLabel}</text>`;
+    // Text: "{name} → {label}" in row's accent color
+    const textX = PADDING;
+    svg += `<text x="${textX}" y="${y}" font-size="14" fill="${row.accentHex}">${escapedName} → ${escapedLabel}</text>`;
   }
 
   svg += `</svg>`;

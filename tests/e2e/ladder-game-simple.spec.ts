@@ -13,8 +13,8 @@ test.describe('Ladder Game - Basic E2E', () => {
     const heading = page.locator('h1');
     await expect(heading).toBeVisible();
 
-    // Verify ladder game link exists
-    const ladderLink = page.locator('a[href*="/tools/ladder"]');
+    // Verify ladder game link exists (home may have multiple: tool card + footer)
+    const ladderLink = page.locator('a[href*="/tools/ladder"]').first();
     await expect(ladderLink).toBeVisible();
   });
 

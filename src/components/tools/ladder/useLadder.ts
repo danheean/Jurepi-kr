@@ -17,7 +17,7 @@ export interface UseLadderReturn {
   setPrizeLable: (index: number, label: string) => void;
   setAllPlayerNames: (names: string[]) => void;
   setAllPrizeLabels: (labels: string[]) => void;
-  toggleHide: () => void;
+  toggleShuffle: () => void;
   toggleSound: () => void;
   build: () => void;
   startTrace: (playerId: string) => void;
@@ -32,7 +32,7 @@ export interface UseLadderReturn {
   prefers_reduced_motion: boolean;
 }
 
-export function useLadder(initialCount: number = 4): UseLadderReturn {
+export function useLadder(initialCount: number = 7): UseLadderReturn {
   const [state, dispatch] = useReducer(
     ladderReducer,
     initialCount,
@@ -85,8 +85,8 @@ export function useLadder(initialCount: number = 4): UseLadderReturn {
     []
   );
 
-  const toggleHide = useCallback(
-    () => dispatch({ type: 'TOGGLE_HIDE' }),
+  const toggleShuffle = useCallback(
+    () => dispatch({ type: 'TOGGLE_SHUFFLE' }),
     []
   );
 
@@ -138,7 +138,7 @@ export function useLadder(initialCount: number = 4): UseLadderReturn {
     setPrizeLable,
     setAllPlayerNames,
     setAllPrizeLabels,
-    toggleHide,
+    toggleShuffle,
     toggleSound,
     build,
     startTrace,
