@@ -171,7 +171,7 @@ This repo includes an agent team (7) and skills (8) under `.claude/` that enforc
 The build team (`architect` · `domain-engineer` · `ui-engineer` · `platform-engineer` · `qa-integration`) and
 specialists (`seo-geo-engineer` · `deploy-engineer`) are coordinated by the orchestrator skill `jurepi-build`.
 
-📖 For the full composition, workflow, and non-negotiable gates, see **[the Development Harness doc → `docs/HARNESS.md`](docs/HARNESS.md)**.
+📖 For the full composition, workflow, and non-negotiable gates, see **[the Development Harness doc → `docs/HARNESS.en.md`](docs/HARNESS.en.md)**.
 
 ## 🌐 Deploy
 
@@ -188,7 +188,7 @@ the equivalents are moved to these files (copied into `out/` at build time):
 > **Verify the deploy:** after pushing, wait for the CF build to finish (tens of seconds to a few minutes), then
 > `curl -I https://apps.jurepi.kr` to confirm security headers · `/`→`/ko` · locale 200 · unknown path 404.
 > Local pre-check: `serve out` / `wrangler dev`. `NEXT_PUBLIC_*` are public (non-secret), committed in
-> `.env.production` and inlined at build. Details: [Development Harness doc](docs/HARNESS.md).
+> `.env.production` and inlined at build. Details: [Development Harness doc](docs/HARNESS.en.md).
 
 ## 📄 License
 

@@ -1,6 +1,6 @@
 # Jurepi Development Harness
 
-> **English** · [한국어](./HARNESS_KR.md)
+> **English** · [한국어](./HARNESS.md)
 
 Jurepi is built with a development harness made of an **agent team + skills**. With **Clean Architecture (layer separation)** and **TDD (test-first)** as its spine, an orchestrator coordinates layer-specific expert agents to complete each feature. The harness itself lives in the repo under `.claude/` (agents & skills) and `CLAUDE.md` (triggers & change log).
 
