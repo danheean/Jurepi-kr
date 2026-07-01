@@ -85,3 +85,6 @@ export function deleteRow(rows: QueryTableRow[], index: number): QueryTableRow[]
 export function addRow(rows: QueryTableRow[]): QueryTableRow[] {
   return [...rows, { key: '', value: '' }];
 }
+
+// Re-export for convenience
+export type { QueryTableRow };
