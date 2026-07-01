@@ -387,6 +387,10 @@
     "intro": "Handy tools, all free.",
     "sections": [
       {
+        "title": "Why we built it",
+        "body": "As the gap in access to AI's benefits keeps widening, we wanted to use that same technology to build tools that genuinely help everyone who visits—completely free. Tell us what tool or feature you need, and we'll build it and add it, one at a time."
+      },
+      {
         "title": "What is Jurepi?",
         "body": "Jurepi is a free online tool hub designed to make everyday tasks simpler. Whether you need to make a fair decision for your group, keep a daily reflection journal, or find quick answers to common problems, Jurepi has you covered. No sign-up, no login, no hassle—just open a tool and get started."
       },
