@@ -265,6 +265,47 @@
     }
   },
   {
+    "slug": "teul-ttak",
+    "topic": "mz",
+    "tags": [
+      "MZ",
+      "비하",
+      "세대",
+      "인터넷"
+    ],
+    "coinedYear": 2015,
+    "related": [],
+    "tone": "negative",
+    "ko": {
+      "term": "틀딱",
+      "definition": "'틀니가 딱딱거린다'에서 온 말로, 노인을 비하해 이르는 인터넷 속어.\n사고방식이 낡았거나 융통성이 없다고 여겨지는 나이 든 사람을 조롱할 때 쓰인다.\n명백한 노인 비하·연령 차별 표현이라 사용에 주의가 필요하다.\n",
+      "examples": [
+        "온라인 세대 갈등에서 어르신을 '틀딱'이라 부르는 건 명백한 혐오 표현이다.",
+        "나이를 이유로 누군가를 '틀딱'이라 깎아내리는 것은 삼가야 한다."
+      ],
+      "body": "**틀딱**은 '틀니가 딱딱거린다'를 줄인 말입니다. 2010년대 중반 온라인 커뮤니티에서\n세대 갈등이 심해지며 노인을 조롱하는 표현으로 퍼졌습니다.\n\n주의할 점:\n\n- 명백한 **노인 비하·연령 차별(ageism)** 표현입니다.\n- 상대의 나이를 이유로 깎아내리는 혐오 표현이므로 일상에서 사용을 권하지 않습니다.\n\n이 사전은 뜻을 설명할 뿐, 표현의 사용을 권장하지 않습니다.",
+      "reading": "틀딱",
+      "aliases": [
+        "틀니딱딱"
+      ],
+      "origin": "2010년대 중반 온라인 커뮤니티에서 세대 갈등이 격화되며 '틀니 딱딱'을 줄여 노인을 조롱하는 표현으로 확산."
+    },
+    "en": {
+      "term": "Teul-ttak",
+      "definition": "A derogatory Korean internet slang term for an old person, from '틀니 딱딱'\n(the clacking of dentures). Used to mock elderly people seen as outdated or\nstubborn. It is a clear ageist slur, so it should be used with caution.\n",
+      "examples": [
+        "Calling elders 'teul-ttak' in online generational fights is plainly hateful language.",
+        "Belittling someone as 'teul-ttak' because of their age should be avoided."
+      ],
+      "body": "**Teul-ttak** is short for '틀니 딱딱' (dentures clacking). It spread in the\nmid-2010s as online generational conflict intensified, used to mock older people.\n\nNote:\n\n- It is a clear **ageist / elder-demeaning** slur.\n- Because it puts someone down for their age, it is not recommended for everyday use.\n\nThis glossary explains the meaning only; it does not endorse using the term.",
+      "reading": "/tɯl.t͈ak/",
+      "aliases": [
+        "teul-ttak",
+        "denture-clacker"
+      ]
+    }
+  },
+  {
     "slug": "harness-engineering",
     "topic": "tech",
     "tags": [

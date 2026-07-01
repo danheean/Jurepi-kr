@@ -1,4 +1,9 @@
 import { test, expect } from '@playwright/test';
+import catalog from '../../src/components/tools/new-word/data/terms.generated.json';
+
+// Derive the expected term count from the generated catalog so adding/removing
+// a term does not silently break these assertions (repo lesson).
+const TOTAL = catalog.length;
 
 /**
  * E2E Tests for New Word Glossary
@@ -10,7 +15,7 @@ import { test, expect } from '@playwright/test';
  */
 
 test.describe('New Word Glossary - E2E Integration', () => {
-  test('Scenario 1: List renders 12 terms, bilingual card display', async ({ page }) => {
+  test('Scenario 1: List renders all terms, bilingual card display', async ({ page }) => {
     // Visit Korean locale
     await page.goto('/ko/tools/new-word');
     await page.waitForLoadState('networkidle');
@@ -22,7 +27,7 @@ test.describe('New Word Glossary - E2E Integration', () => {
 
     // Term list rendered
     const termCards = page.locator('[data-testid^="term-card-"]');
-    await expect(termCards).toHaveCount(12, { timeout: 5000 });
+    await expect(termCards).toHaveCount(TOTAL, { timeout: 5000 });
 
     // First card structure: Korean term + English subtitle
     const firstCard = termCards.nth(0);
@@ -48,7 +53,7 @@ test.describe('New Word Glossary - E2E Integration', () => {
     const termCards = page.locator('[data-testid^="term-card-"]');
     const cardCount = await termCards.count();
     expect(cardCount).toBeGreaterThan(0);
-    expect(cardCount).toBeLessThanOrEqual(12);
+    expect(cardCount).toBeLessThanOrEqual(TOTAL);
 
     // Clear search
     const clearBtn = page.locator('[data-testid="term-search-clear"]');
@@ -57,7 +62,7 @@ test.describe('New Word Glossary - E2E Integration', () => {
     await page.waitForTimeout(200);
 
     // Should restore full list
-    await expect(termCards).toHaveCount(12);
+    await expect(termCards).toHaveCount(TOTAL);
 
     // Click "기술" (tech) topic tab
     const techTab = page.locator('[data-testid="topic-tab-tech"]');
@@ -69,7 +74,7 @@ test.describe('New Word Glossary - E2E Integration', () => {
     const filteredCards = page.locator('[data-testid^="term-card-"]');
     const techCount = await filteredCards.count();
     expect(techCount).toBeGreaterThan(0);
-    expect(techCount).toBeLessThanOrEqual(12);
+    expect(techCount).toBeLessThanOrEqual(TOTAL);
 
     // Search non-existent term
     await searchInput.click();
@@ -221,7 +226,7 @@ test.describe('New Word Glossary - E2E Integration', () => {
         expect(json['@type']).toBe('DefinedTermSet');
         // schema.org DefinedTermSet uses `hasDefinedTerm` (array of DefinedTerm)
         expect(Array.isArray(json.hasDefinedTerm)).toBe(true);
-        expect(json.hasDefinedTerm.length).toBe(12);
+        expect(json.hasDefinedTerm.length).toBe(TOTAL);
         break;
       }
     }
@@ -313,7 +318,7 @@ test.describe('New Word Glossary - E2E Integration', () => {
 
     // Cards should stack single column
     const termCards = page.locator('[data-testid^="term-card-"]');
-    await expect(termCards).toHaveCount(12);
+    await expect(termCards).toHaveCount(TOTAL);
 
     // Click a card to open detail
     await termCards.nth(0).click();
