@@ -1,5 +1,14 @@
-프롬프트 이력
+## 프롬프트 이력
 
+### 2026-07-01
+다음 애드센스 정책 내용을 참고해서 구글 애드센스에 통과하려면 어떤 부분을 점검해야 하는지 분석해줘.
+- 애드센스 고품질 정책 | https://support.google.com/adsense/answer/1348700?hl=ko
+- 애드센스 프로그램 정책 |https://support.google.com/adsense/answer/48182?hl=ko
+- 사이트 승인 받는 방법: https://www.youtube.com/watch?v=lZUG0XGlZZY
+
+- 애드센스 정책 센터 | https://support.google.com/adsense/answer/48182?hl=ko
+
+### 2026-06-30
 사다리 타기 도구 개선 사항
 1. 모든 도구는 SPA로 구현해야 함
 - 사용자가 쉽게 사용하기 편해야 함 (쉬운 UX, 사용성이 무엇보다 중요)
