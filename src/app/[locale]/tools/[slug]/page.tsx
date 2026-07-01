@@ -9,6 +9,7 @@ import { buildToolMetadata } from '@/lib/seo';
 import { UrlEncoderIntro } from '@/components/tools/url-encoder/UrlEncoderIntro';
 import { UrlEncoderHowTo } from '@/components/tools/url-encoder/UrlEncoderHowTo';
 import { UrlEncoderFaq } from '@/components/tools/url-encoder/UrlEncoderFaq';
+import { UrlEncoderStructuredData } from '@/components/tools/url-encoder/UrlEncoderStructuredData';
 
 const LadderGame = dynamic(() =>
   import('@/components/tools/ladder/LadderGame').then((m) => ({
@@ -105,6 +106,7 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
   if (slug === 'url-encoder') {
     return (
       <>
+        <UrlEncoderStructuredData />
         <UrlEncoderIntro />
         <UrlEncoder locale={locale} />
         <UrlEncoderHowTo />
