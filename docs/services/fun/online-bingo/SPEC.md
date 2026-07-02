@@ -21,6 +21,8 @@ Online Bingo transforms a solo game into a **real-time multiplayer experience**.
 
 CRITICAL (real backend, stateful multiplayer): 100% client-side *UI* (React SPAs mounted on SSG routes), but state is DURABLE in Postgres + Realtime. This is a network-dependent tool (unlike roulette/rankings). Supabase anon key is safe (public, readonly in NEXT_PUBLIC_* env vars) because Row Level Security policies restrict reads/writes by room+player tokens. Server-authoritative operations (number assignment, re-rolls, draws, submit order) live in RPC functions / Edge Functions, never trusted to client. No accounts/login — tokens are anonymous per player per room.
 
+CRITICAL (host-only draw → massively scalable, 100+ players): Only the HOST drives the number draw / roulette slot. Participants NEVER draw — they only watch each drawn number broadcast in and auto-mark (confirm) their own card. This makes a room a **single-writer → many-readers fan-out**: one host write per draw broadcasts to all subscribers, so a room scales to **100+ concurrent participants** (not just a 4–10 party). Write load is bounded by the host (draws) plus one-time joins/re-rolls — it does NOT grow with player count; the marking work is client-side and per-device. Consequently, host-facing views (player roster, leaderboard) MUST handle large rosters efficiently (virtualized list + aggregate counts, not a naive 100-row re-render on every event).
+
 CRITICAL (multiplayer SPA): All interaction — creating rooms, joining by code, re-rolling numbers, marking ready, watching draws, watching other players mark, submitting bingo — is a single-page SPA (NO route reload). The tool route is SSG. The interactive game is a full client-side React island with real-time WebSocket subscription to Supabase Realtime channels.
 
 CRITICAL (mobile usability, important): This tool will be played primarily on smartphones during parties/gatherings. Mobile-first responsive design (320px critical), no overflow, large touch targets (≥44px), landscape/portrait swing, sound cues (beep on draw, fanfare on bingo), reduced-motion fallback. Performance must be tight — draws must appear ≤200ms after host triggers (broadcast via Realtime).
@@ -44,7 +46,7 @@ CRITICAL (mobile usability, important): This tool will be played primarily on sm
     - Drawing numbers: host can (a) manually type a number 1–100 (server dedups, rejects if already drawn); (b) spin a roulette (visual wheel shared from roulette SPEC, but draws are deterministic server-side from the same 1–100 pool, never drawn twice). Each draw → `record_draw(host_token, room_id, number)` → broadcasts to all players via Supabase Realtime "room:{room_id}" channel. All players auto-mark matching cells locally (deterministic, same logic).
     - Bingo detection: client-side pure logic (line detection: rows, cols, diagonals for 5x5 and 7x7; also blackout all N²-1 + center joker). Win condition gated by host setting (1 line → enable submit on first line; N lines → enable on Nth; blackout → enable on full grid). Player clicks "Submit" → records `submit_bingo(player_token, room_id, board_state: int[])` with board grid (for audit); server validates the bingo (re-runs line detection) → if valid, increments submit_order (server timestamp); host leaderboard shows player name + rank in real-time.
     - Leaderboard (host view): live list of all players (name, status: waiting/ready/submitted, card preview optional) + submission order (🥇 first, 🥈 second, etc.). Host can view submitted cards (zoomed table, not full grid). Host can reset/destroy room.
-    - Realtime: Supabase Realtime subscriptions on channel `room:{room_id}` broadcast: player_joined, player_ready, number_drawn, bingo_submitted. Latency ≤200ms typical (Supabase SLA). Subscribes on room load, unsubscribes on leave/destroy.
+    - Realtime: Supabase Realtime subscriptions on channel `room:{room_id}` broadcast: player_joined, player_ready, number_drawn, bingo_submitted. Latency ≤200ms typical (Supabase SLA). Subscribes on room load, unsubscribes on leave/destroy. **Single-writer fan-out**: only the host writes draws; all participants are read-only subscribers of the draw stream, so one channel broadcasts to 100+ clients with no per-player write growth.
     - Persistence & durability: state lives in Postgres (rooms, players, cards, drawn_numbers, submissions). Client caches in localStorage (room_id + player_token + current_card for fast UI redraw on mount). Refresh/reconnect → client sends player_token → server re-reads full room state → broadcast to client. All data deleted on room destroy (ON DELETE CASCADE players → purges submissions/draw events).
     - Mobile-first responsive: 320px minimum (landscape, tall phone); 375px typical; 768px tablet; 1024/1440px desktop. All UI adapts (grid scales, control panel stacks). Landscape phone bingo grid fills width with controls below. Sound (beeps on draw, fanfare on win) with toggle. No visual overflow at any breakpoint.
     - Sound: Web Audio API beeps (draw tick), chime (bingo alert), fanfare (winner), all settable volume + toggle in Settings.
@@ -144,7 +146,7 @@ src/components/tools/online-bingo/
 ├── PlayerReadyButton.tsx             # "Ready" button toggle (host hides); disables card rerolls while ready. Shows reroll count remaining (e.g., "3 rerolls left").
 ├── CardRerollButton.tsx              # "Re-roll Number" UI: click to select a cell, server re-rolls that cell with fresh random number, confirm → call rerollNumber RPC.
 ├── BingoSubmitButton.tsx             # "Submit Bingo" CTA; active only if detectBingo returns true for current board + win_condition. Calls submitBingo RPC. Shows confetti on success. Toast "Congratulations!" + rank.
-├── HostLeaderboard.tsx               # Host live view: list of all players (name, status, card thumbnail clickable), then submission leaderboard (🥇🥈🥉 + name + timestamp).
+├── HostLeaderboard.tsx               # Host live view: list of all players (name, status, card thumbnail clickable), then submission leaderboard (🥇🥈🥉 + name + timestamp). Virtualized / aggregated for large rosters (100+ players) — avoid full re-render per event.
 ├── BingoIntro.tsx                    # H1 + lead (SEO; server-render where possible)
 ├── BingoHowTo.tsx                    # "How to play online bingo" (SEO long-form) + rules variations.
 ├── BingoFaq.tsx                      # Q&A + FAQPage JSON-LD
@@ -208,7 +210,7 @@ public/sounds/
     Broadcast via Realtime "number_drawn" event → all clients mark matching cells.
   </draw_event>
   <constants>
-    - MIN_PLAYERS = 1 (solo play OK); typical 4–10 for party
+    - MIN_PLAYERS = 1 (solo play OK); typical 4–30, scales to 100+ (host-only draw = single-writer fan-out). RECOMMENDED_MAX ≈ 200 (Supabase Realtime free-tier concurrent-connection ceiling; raise on Pro).
     - GRID_SIZES = [5, 7]
     - NUMBERS_RANGE = 1–100
     - CHANGE_LIMITS = [3, 5, 7, 10] (user picker)
@@ -497,7 +499,7 @@ public/sounds/
 </security_considerations>
 
 <advanced_functionality>
-  <realtime_multiplayer>Real-time draw broadcasts via Supabase Realtime WebSocket. Latency ≤200ms typical. All players see draws simultaneously; auto-mark client-side (deterministic logic, all see same result).</realtime_multiplayer>
+  <realtime_multiplayer>Real-time draw broadcasts via Supabase Realtime WebSocket. Latency ≤200ms typical. All players see draws simultaneously; auto-mark client-side (deterministic logic, all see same result). Host-only draw (single writer) → the same broadcast reaches 4 or 400 subscribers identically; participant devices only receive + mark (never draw), so a room scales to 100+ players without extra write load.</realtime_multiplayer>
   <roulette_integration>Draw panel includes optional roulette wheel (reuse Roulette component) as an alternative to manual input. Host can adjust spin duration (milliseconds) to control animation length before reveal. Spins are deterministic (same 1–100 pool, no duplicates, no seeding bias). Visual animation + confetti on land.</roulette_integration>
   <leaderboard_live>Host sees real-time player list (join/leave, ready status) + submission leaderboard (🥇🥈🥉 with timestamps). Participant sees own rank + others' completion status (no card leakage).</leaderboard_live>
   <mobile_landscape>Bingo grid scales to landscape (width-constrained), controls below or tabbed (Settings / Game / Leaderboard tabs at bottom). Full responsiveness tested 320–1440px.</mobile_landscape>
@@ -602,6 +604,7 @@ public/sounds/
 
 <success_criteria>
   <multiplayer_realtime>Draws broadcast ≤200ms to all players (Supabase Realtime latency SLA). All players mark matching cells simultaneously (deterministic client-side logic). Leaderboard updates live (submit_order reflected in ≤500ms).</multiplayer_realtime>
+  <scalability>CRITICAL: host-only draw = single-writer fan-out → a room supports 100+ concurrent participants (verify draw broadcast + auto-mark hold at ~100 subscribers). Write volume is bounded by the host, independent of player count. Host roster/leaderboard virtualized (no jank at 100+ rows). Stay within Supabase Realtime connection ceiling (free-tier ≈200); document the tier limit.</scalability>
   <durability>CRITICAL: refresh mid-game → full state restored (drawn_numbers, player cards, ready status, submissions). Room persists in Postgres until host destroys. Zero data loss before destroy.</durability>
   <card_integrity>Numbers unique WITHIN each player's card (no repeats per card). SAME number may appear on multiple players' cards (standard bingo). Server assign_card RPC ensures within-card uniqueness. Rerolls never violate within-card uniqueness (server dedupes on a per-player basis).</card_integrity>
   <bingo_validation>detectBingo logic (client) + server re-validation on submit (RPC) prevent fake bingo wins. Chi-square test on random card assignment (fair distribution across 20 rooms × players).</bingo_validation>
@@ -675,6 +678,7 @@ public/sounds/
     3. **Center joker confusion**: center cell must always be pre-marked. Mitigation: schema marks it true, client-side logic always checks center == true before rendering as white.
     4. **Fake bingo on submit**: client detects bingo, but server re-validates before scoring. Mitigation: client logic duplicated in RPC (same detectBingo rules); client sends board_state snapshot; server re-runs to verify.
     5. **Mobile screen size**: 5x5 grid on 320px width → 60px per cell (OK, 2x font fits). 7x7 → 40px per cell (tight but readable, numbers scale). Mitigation: font-size clamp, test both sizes at 320px breakpoint.
+    6. **Scale to 100+ players**: many concurrent WebSocket subscribers on one room channel + a large host roster. Mitigation: host-only draw keeps writes O(draws) not O(players); participants are read-only subscribers; virtualize the host player/leaderboard list (windowed render, aggregate ready/submitted counts) and batch/coalesce Realtime events; stay under the Supabase Realtime concurrent-connection ceiling (free-tier ≈200, Pro higher) and surface a graceful "room full" message at the configured cap.
   </known_challenges_and_mitigations>
   <monitoring_and_operations>
     - Supabase dashboard: monitor RLS errors (401/403 on anon key calls), connection count, row count growth (rooms/players/submissions).
@@ -686,4 +690,4 @@ public/sounds/
 </project_specification>
 ```
 
-689 lines, English, final.
+693 lines, English, final.
