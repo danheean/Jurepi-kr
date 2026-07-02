@@ -1,0 +1,40 @@
+---
+title: "무료 개발 도구"
+description: "코드 배포, 생성, 분석에서 비용 없이 사용 가능한 강력한 도구와 서비스 모음"
+sections:
+  - heading: "코드 생성 & IDE"
+    links:
+      - label: "GitHub Copilot (무료 체험)"
+        url: "https://github.com/features/copilot"
+        description: "AI 코드 완성"
+      - label: "VS Code"
+        url: "https://code.visualstudio.com"
+        description: "무료 엔터프라이즈 에디터"
+      - label: "Replit"
+        url: "https://replit.com"
+        description: "온라인 IDE"
+  - heading: "배포 & 호스팅"
+    links:
+      - label: "Vercel"
+        url: "https://vercel.com"
+        description: "Next.js 최적화 호스팅 (무료)"
+      - label: "Netlify"
+        url: "https://www.netlify.com"
+        description: "정적 사이트 호스팅"
+      - label: "GitHub Pages"
+        url: "https://pages.github.com"
+        description: "무료 정적 사이트"
+  - heading: "분석 & 모니터링"
+    links:
+      - label: "Google Analytics"
+        url: "https://analytics.google.com"
+        description: "웹 분석"
+      - label: "Sentry"
+        url: "https://sentry.io"
+        description: "에러 추적 (무료 플랜)"
+      - label: "Lighthouse CI"
+        url: "https://github.com/GoogleChrome/lighthouse-ci"
+        description: "성능 모니터링"
+---
+
+비용 없는 개발자 친화적 도구들입니다.

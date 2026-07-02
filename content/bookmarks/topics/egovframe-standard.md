@@ -1,0 +1,55 @@
+---
+title: "전자정부 표준프레임워크"
+slug: "egovframe-standard"
+description: "행정안전부가 배포하는 오픈소스 표준프레임워크(eGovFrame). 공식 포털·문서, GitHub 저장소, 영상 강의를 한곳에 모았습니다."
+sections:
+  - heading: "공식 포털 · 문서"
+    links:
+      - label: "eGovFrame 공식 포털"
+        url: "https://www.egovframe.go.kr/home/main.do"
+        description: "표준프레임워크 포털 홈"
+      - label: "표준프레임워크 오픈커뮤니티"
+        url: "https://open.egovframe.org/"
+        description: "개발자 커뮤니티·기술 나눔"
+      - label: "개발환경 설치가이드 (위키)"
+        url: "https://www.egovframe.go.kr/wiki/doku.php?id=egovframework:dev2:clntinstall"
+        description: "개발자 개발환경 설치 안내"
+      - label: "개발환경 3.x 다운로드"
+        url: "https://www.egovframe.go.kr/home/ntt/nttRead.do?menuNo=41&bbsId=18&nttId=1790&menu=2"
+        description: "최신 개발환경 내려받기"
+      - label: "온라인 교육 콘텐츠"
+        url: "https://www.egovframe.go.kr/EgovEduMovie.jsp?menu=4&submenu=3"
+        description: "정기 개발자 교육 영상"
+  - heading: "GitHub 오픈소스 저장소"
+    links:
+      - label: "eGovFramework (조직)"
+        url: "https://github.com/eGovFramework"
+        description: "표준프레임워크센터 공식 GitHub"
+      - label: "egovframe-docs"
+        url: "https://github.com/eGovFramework/egovframe-docs"
+        description: "포털 가이드 문서"
+      - label: "egovframe-runtime"
+        url: "https://github.com/eGovFramework/egovframe-runtime"
+        description: "실행환경 모듈"
+      - label: "egovframe-common-components"
+        url: "https://github.com/eGovFramework/egovframe-common-components"
+        description: "재사용 공통 컴포넌트 253종"
+      - label: "egovframe-development"
+        url: "https://github.com/eGovFramework/egovframe-development"
+        description: "개발 도구 세트"
+  - heading: "YouTube 영상 강의"
+    links:
+      - label: "표준프레임워크 오픈커뮤니티 (채널)"
+        url: "https://www.youtube.com/channel/UCFA9XVr5KlHZ7yW4H93udAA"
+        description: "온라인 세미나·강의 채널"
+      - label: "강의01. 표준프레임워크 개요"
+        url: "https://www.youtube.com/watch?v=hoY1Z08VhH0"
+        description: "입문 개요 강의"
+      - label: "강의02. 개발환경 소개 및 개인빌드"
+        url: "https://www.youtube.com/watch?v=1_X8xRrF7DI"
+        description: "개발환경·구현도구 실습"
+---
+
+# 전자정부 표준프레임워크 (eGovFrame)
+
+공식 포털·문서, GitHub 저장소, 영상 강의를 주제별로 모은 큐레이션입니다.

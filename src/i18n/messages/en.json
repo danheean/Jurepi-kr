@@ -606,6 +606,91 @@
         "description": "Encode and decode URLs. Supports UTF-8 and EUC-KR (CP949) charsets. Query string editing, batch mode, recent history."
       }
     },
+    "bookmarks": {
+      "title": "Curated Bookmarks",
+      "description": "Find trusted curated links across architecture, frontend, design, development, and more.",
+      "meta": {
+        "title": "Curated Bookmarks · Trusted Resource Collections",
+        "description": "Discover trusted curated links across architecture, frontend, design, development, and more. Editor-selected resource collections."
+      },
+      "intro": {
+        "eyebrow": "BOOKMARKS TOOL",
+        "title": "Curated Bookmarks",
+        "lead": "Discover trusted curated links across architecture, frontend, design, development, and more."
+      },
+      "tabs": {
+        "filterLabel": "Filter bookmarks",
+        "all": "All",
+        "topics": "Topics",
+        "favorites": "Favorites",
+        "recent": "Recent bookmarks"
+      },
+      "search": {
+        "placeholder": "Search topics and resources…",
+        "label": "Search",
+        "resultCount": "{count} results",
+        "clearAria": "Clear search"
+      },
+      "empty": {
+        "noResults": "No topics match '{query}'",
+        "favorites": "Star topics to save them to favorites",
+        "noFavorites": "Star topics to save them to favorites",
+        "recent": "No topics viewed yet",
+        "clearSearch": "Clear search"
+      },
+      "list": {
+        "itemCount": "{sections} sections · {links} links",
+        "toggleFavorite": "Toggle favorite"
+      },
+      "link": {
+        "externalLink": "External link",
+        "openInNewTab": "Open in new tab"
+      },
+      "toast": {
+        "favoriteAdded": "Added to favorites",
+        "favoriteRemoved": "Removed from favorites"
+      },
+      "detail": {
+        "selectHint": "Select a topic to view its links here.",
+        "sections": "Sections",
+        "links": "Links",
+        "close": "Close"
+      },
+      "howTo": {
+        "heading": "How to Use Bookmarks",
+        "whatIsTitle": "What is Curated Bookmarks?",
+        "whatIsBody": "Curated Bookmarks brings together trusted resources across architecture, frontend, design, development, and more. Unlike crowdsourced collections, every resource is hand-picked and verified by editors to ensure consistent quality and reliability. Resources are organized by topic so you can quickly find great materials in your field of interest.",
+        "howToTitle": "How to Use",
+        "howToBody": "Select a topic from the filter or search for keywords. Click on a topic card to see the curated links in that area. Star your favorites to save them, and your recently viewed topics are automatically tracked for quick access.",
+        "featuresTitle": "Key Features",
+        "featuresBody": "Filter by topic, search in real-time, save favorites, track recently viewed topics. Every link is hand-curated by editors for quality and relevance, so you get trusted resources without having to sift through noise."
+      },
+      "faq": {
+        "heading": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "Can I add new topics?",
+            "a": "We currently feature editor-curated topics. You can submit new topic suggestions via the Contact page."
+          },
+          {
+            "q": "How are links selected?",
+            "a": "Editors personally visit and verify each resource to ensure it meets our standards for expertise and trustworthiness. We regularly check links to maintain their validity."
+          },
+          {
+            "q": "Where are my favorites and recent history stored?",
+            "a": "Everything is stored only in your browser and never uploaded or sent anywhere. Refresh the page and your saved favorites and recent history will still be there."
+          },
+          {
+            "q": "Do links open in a new tab?",
+            "a": "Yes, all external links open in a new tab so you stay on this page while browsing multiple resources."
+          },
+          {
+            "q": "What if a link doesn't work?",
+            "a": "Editors check links regularly, but external sites can change. If you find a broken link, please let us know via the Contact page."
+          }
+        ]
+      }
+    },
     "rankings": {
       "meta": {
         "title": "Rankings · Curated Top N Lists",

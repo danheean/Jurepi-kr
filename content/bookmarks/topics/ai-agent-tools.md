@@ -1,0 +1,38 @@
+---
+title: "AI 에이전트 도구"
+slug: "ai-agent-tools"
+description: "자율 개인 비서부터 코딩 에이전트 하네스까지, 요즘 주목받는 오픈소스 AI 에이전트 도구 모음."
+sections:
+  - heading: "개인 비서 에이전트"
+    links:
+      - label: "오픈클로 (OpenClaw) — GitHub"
+        url: "https://github.com/openclaw/openclaw"
+        description: "자율형 개인 AI 비서 오픈소스"
+      - label: "OpenClaw 공식 사이트"
+        url: "https://www.openclaw.ai/"
+        description: "설치·소개"
+      - label: "헤르메스 (Hermes Agent) — GitHub"
+        url: "https://github.com/NousResearch/hermes-agent"
+        description: "Nous Research의 자기개선 에이전트"
+      - label: "Hermes Agent 공식 사이트"
+        url: "https://hermes-agent.org/"
+        description: "영구 메모리·스킬 자동화"
+  - heading: "코딩 에이전트 하네스"
+    links:
+      - label: "OMC — Oh My Claude Code"
+        url: "https://github.com/yeachan-heo/oh-my-claudecode"
+        description: "Claude Code 팀 멀티 에이전트 오케스트레이션"
+      - label: "OMO — Oh My OpenAgent"
+        url: "https://github.com/code-yeongyu/oh-my-openagent"
+        description: "복잡한 코드베이스용 에이전트 하네스"
+      - label: "OMA — Oh My Agent"
+        url: "https://github.com/first-fluke/oh-my-agent"
+        description: "벤더 독립 포터블 에이전트 하네스"
+      - label: "MoAI — MoAI-ADK"
+        url: "https://github.com/modu-ai/moai-adk"
+        description: "SPEC-First 에이전틱 개발 키트"
+---
+
+# AI 에이전트 도구
+
+주목받는 오픈소스 AI 에이전트 도구 큐레이션입니다.

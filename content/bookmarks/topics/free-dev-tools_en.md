@@ -1,0 +1,40 @@
+---
+title: "Free Dev Tools"
+description: "Powerful tools and services for code generation, deployment, and analysis — all free"
+sections:
+  - heading: "Code Generation & IDE"
+    links:
+      - label: "GitHub Copilot (free trial)"
+        url: "https://github.com/features/copilot"
+        description: "AI code completion"
+      - label: "VS Code"
+        url: "https://code.visualstudio.com"
+        description: "Free enterprise editor"
+      - label: "Replit"
+        url: "https://replit.com"
+        description: "Online IDE"
+  - heading: "Deployment & Hosting"
+    links:
+      - label: "Vercel"
+        url: "https://vercel.com"
+        description: "Next.js optimized hosting (free)"
+      - label: "Netlify"
+        url: "https://www.netlify.com"
+        description: "Static site hosting"
+      - label: "GitHub Pages"
+        url: "https://pages.github.com"
+        description: "Free static hosting"
+  - heading: "Analytics & Monitoring"
+    links:
+      - label: "Google Analytics"
+        url: "https://analytics.google.com"
+        description: "Web analytics"
+      - label: "Sentry"
+        url: "https://sentry.io"
+        description: "Error tracking (free plan)"
+      - label: "Lighthouse CI"
+        url: "https://github.com/GoogleChrome/lighthouse-ci"
+        description: "Performance monitoring"
+---
+
+Developer-friendly tools without cost.

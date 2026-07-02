@@ -1,0 +1,40 @@
+---
+title: "Design Reference"
+description: "Everything about visual design: design systems, inspiration, tools"
+sections:
+  - heading: "Design Systems"
+    links:
+      - label: "Figma Design System"
+        url: "https://www.figma.com/community"
+        description: "Open-source design files"
+      - label: "Material Design"
+        url: "https://m3.material.io"
+        description: "Google's design language"
+      - label: "Radix UI"
+        url: "https://radix-ui.com"
+        description: "Accessibility-first components"
+  - heading: "Inspiration & Galleries"
+    links:
+      - label: "Dribbble"
+        url: "https://dribbble.com"
+        description: "Design portfolio platform"
+      - label: "Behance"
+        url: "https://www.behance.net"
+        description: "Creative portfolio network"
+      - label: "Pinterest Design"
+        url: "https://www.pinterest.com/search/pins/?q=ui+design"
+        description: "Visual inspiration"
+  - heading: "Tools"
+    links:
+      - label: "Figma"
+        url: "https://www.figma.com"
+        description: "Collaborative design tool"
+      - label: "Adobe XD"
+        url: "https://www.adobe.com/products/xd.html"
+        description: "UX/UI design software"
+      - label: "Penpot"
+        url: "https://penpot.app"
+        description: "Open-source design platform"
+---
+
+All resources needed for design work.

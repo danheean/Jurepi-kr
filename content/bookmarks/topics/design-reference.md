@@ -1,0 +1,40 @@
+---
+title: "디자인 참고"
+description: "디자인 시스템, 영감, 도구를 아우르는 시각 설계의 모든 것"
+sections:
+  - heading: "디자인 시스템"
+    links:
+      - label: "Figma Design System"
+        url: "https://www.figma.com/community"
+        description: "오픈소스 디자인 파일"
+      - label: "Material Design"
+        url: "https://m3.material.io"
+        description: "Google의 디자인 언어"
+      - label: "Radix UI"
+        url: "https://radix-ui.com"
+        description: "접근성 우선 컴포넌트"
+  - heading: "영감 & 갤러리"
+    links:
+      - label: "Dribbble"
+        url: "https://dribbble.com"
+        description: "디자인 포트폴리오 플랫폼"
+      - label: "Behance"
+        url: "https://www.behance.net"
+        description: "크리에이티브 포트폴리오"
+      - label: "Pinterest Design"
+        url: "https://www.pinterest.com/search/pins/?q=ui+design"
+        description: "시각 영감 모음"
+  - heading: "도구"
+    links:
+      - label: "Figma"
+        url: "https://www.figma.com"
+        description: "협업 디자인 도구"
+      - label: "Adobe XD"
+        url: "https://www.adobe.com/products/xd.html"
+        description: "UX/UI 디자인 소프트웨어"
+      - label: "Penpot"
+        url: "https://penpot.app"
+        description: "오픈소스 디자인 플랫폼"
+---
+
+디자인 작업에 필요한 모든 자료입니다.

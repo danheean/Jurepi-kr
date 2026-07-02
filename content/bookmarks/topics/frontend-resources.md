@@ -1,0 +1,40 @@
+---
+title: "프런트엔드 리소스"
+description: "React, TypeScript, Tailwind, 성능 최적화 등 현대적 웹 개발의 필수 도구와 가이드"
+sections:
+  - heading: "프레임워크 & 라이브러리"
+    links:
+      - label: "React 공식 문서"
+        url: "https://react.dev"
+        description: "최신 React 18+ API"
+      - label: "Next.js"
+        url: "https://nextjs.org"
+        description: "풀스택 React 프레임워크"
+      - label: "TypeScript 핸드북"
+        url: "https://www.typescriptlang.org/docs/"
+        description: "타입 안전성"
+  - heading: "CSS & 스타일링"
+    links:
+      - label: "Tailwind CSS"
+        url: "https://tailwindcss.com"
+        description: "유틸리티 우선 CSS"
+      - label: "CSS-in-JS Solutions"
+        url: "https://github.com/styled-components/styled-components"
+        description: "Styled Components"
+      - label: "CSS Grid & Flexbox"
+        url: "https://css-tricks.com/snippets/css/a-guide-to-flexbox/"
+        description: "레이아웃 마스터"
+  - heading: "성능 & 최적화"
+    links:
+      - label: "Web Vitals"
+        url: "https://web.dev/vitals/"
+        description: "Core Web Vitals 가이드"
+      - label: "Lighthouse"
+        url: "https://developers.google.com/web/tools/lighthouse"
+        description: "성능 감시 도구"
+      - label: "Bundle Analysis"
+        url: "https://webpack.js.org/plugins/webpack-bundle-analyzer/"
+        description: "번들 최적화"
+---
+
+현대 웹 개발의 필수 자료입니다.

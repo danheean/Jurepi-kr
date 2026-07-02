@@ -1,0 +1,40 @@
+---
+title: "Harness Engineering"
+description: "Trusted resources covering foundational software engineering philosophy and practical techniques"
+sections:
+  - heading: "Meta Skills"
+    links:
+      - label: "Agent Orchestration 101"
+        url: "https://anthropic.com/research"
+        description: "Foundations of AI agent design"
+      - label: "TDD: Test-Driven Development"
+        url: "https://martinfowler.com/bliki/TestDrivenDevelopment.html"
+        description: "Tests first, code second"
+      - label: "Code Review Best Practices"
+        url: "https://google.github.io/eng-practices/review/"
+        description: "Google's engineering guide"
+  - heading: "Skills"
+    links:
+      - label: "Clean Architecture"
+        url: "https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html"
+        description: "Layering and dependency inversion"
+      - label: "Git Workflow"
+        url: "https://www.atlassian.com/git/tutorials/comparing-workflows"
+        description: "Version control strategies"
+      - label: "Debugging Techniques"
+        url: "https://debuggingbook.org/"
+        description: "Systematic bug tracking"
+  - heading: "Techniques"
+    links:
+      - label: "Refactoring"
+        url: "https://refactoring.guru/"
+        description: "Catalog of code improvements"
+      - label: "Design Patterns"
+        url: "https://en.wikipedia.org/wiki/Design_Patterns"
+        description: "Solutions to recurring design problems"
+      - label: "Error Handling"
+        url: "https://joyeeling.medium.com/error-handling-best-practices-in-javascript-f5a5f4b87e84"
+        description: "Robust error handling"
+---
+
+Core resources for harness engineering.

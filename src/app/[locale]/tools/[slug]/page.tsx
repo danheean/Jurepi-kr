@@ -41,6 +41,12 @@ const Rankings = dynamic(() =>
   }))
 );
 
+const Bookmarks = dynamic(() =>
+  import('@/components/tools/bookmarks').then((m) => ({
+    default: m.Bookmarks,
+  }))
+);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
@@ -66,6 +72,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'rankings') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'bookmarks') {
     title = t('meta.title');
     description = t('meta.description');
   } else {
@@ -128,6 +137,14 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
     return (
       <Suspense fallback={<div className="text-text-secondary">Loading...</div>}>
         <Rankings />
+      </Suspense>
+    );
+  }
+
+  if (slug === 'bookmarks') {
+    return (
+      <Suspense fallback={<div className="text-text-secondary">Loading...</div>}>
+        <Bookmarks />
       </Suspense>
     );
   }

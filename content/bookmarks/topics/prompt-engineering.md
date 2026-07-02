@@ -1,0 +1,35 @@
+---
+title: "프롬프트 엔지니어링"
+slug: "prompt-engineering"
+description: "LLM에서 원하는 결과를 끌어내는 프롬프트 설계 기법. 공식 가이드와 실습형 학습 리소스를 모았습니다."
+sections:
+  - heading: "공식 가이드"
+    links:
+      - label: "Anthropic — 프롬프트 엔지니어링 개요"
+        url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview"
+        description: "Claude 공식 프롬프트 문서"
+      - label: "Anthropic 인터랙티브 튜토리얼 (GitHub)"
+        url: "https://github.com/anthropics/prompt-eng-interactive-tutorial"
+        description: "9챕터 실습 튜토리얼"
+      - label: "OpenAI — Prompt engineering 가이드"
+        url: "https://platform.openai.com/docs/guides/prompt-engineering"
+        description: "GPT 프롬프트 베스트 프랙티스"
+      - label: "Google — 프롬프트 전략 (Gemini)"
+        url: "https://ai.google.dev/gemini-api/docs/prompting-strategies"
+        description: "Gemini 프롬프트 전략"
+  - heading: "학습 리소스"
+    links:
+      - label: "Prompt Engineering Guide"
+        url: "https://www.promptingguide.ai/"
+        description: "기법 총정리 오픈 가이드"
+      - label: "Learn Prompting"
+        url: "https://learnprompting.org/"
+        description: "입문자용 무료 코스"
+      - label: "OpenAI Cookbook"
+        url: "https://cookbook.openai.com/"
+        description: "실전 예제 모음"
+---
+
+# 프롬프트 엔지니어링
+
+프롬프트 설계 공식 가이드와 학습 리소스 큐레이션입니다.

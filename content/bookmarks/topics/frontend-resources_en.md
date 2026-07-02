@@ -1,0 +1,40 @@
+---
+title: "Frontend Resources"
+description: "Essential tools and guides for modern web development: React, TypeScript, Tailwind, performance optimization"
+sections:
+  - heading: "Frameworks & Libraries"
+    links:
+      - label: "React Official Docs"
+        url: "https://react.dev"
+        description: "Latest React 18+ APIs"
+      - label: "Next.js"
+        url: "https://nextjs.org"
+        description: "Full-stack React framework"
+      - label: "TypeScript Handbook"
+        url: "https://www.typescriptlang.org/docs/"
+        description: "Type safety guide"
+  - heading: "CSS & Styling"
+    links:
+      - label: "Tailwind CSS"
+        url: "https://tailwindcss.com"
+        description: "Utility-first CSS"
+      - label: "CSS-in-JS Solutions"
+        url: "https://github.com/styled-components/styled-components"
+        description: "Styled Components"
+      - label: "CSS Grid & Flexbox"
+        url: "https://css-tricks.com/snippets/css/a-guide-to-flexbox/"
+        description: "Layout mastery"
+  - heading: "Performance & Optimization"
+    links:
+      - label: "Web Vitals"
+        url: "https://web.dev/vitals/"
+        description: "Core Web Vitals guide"
+      - label: "Lighthouse"
+        url: "https://developers.google.com/web/tools/lighthouse"
+        description: "Performance monitoring"
+      - label: "Bundle Analysis"
+        url: "https://webpack.js.org/plugins/webpack-bundle-analyzer/"
+        description: "Bundle optimization"
+---
+
+Essential resources for modern web development.

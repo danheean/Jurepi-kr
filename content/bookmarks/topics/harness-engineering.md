@@ -1,0 +1,40 @@
+---
+title: "하네스 엔지니어링"
+description: "소프트웨어 엔지니어링의 기초 철학과 실무 기법을 다루는 신뢰할 수 있는 자료 모음"
+sections:
+  - heading: "메타 스킬"
+    links:
+      - label: "Agent Orchestration 101"
+        url: "https://anthropic.com/research"
+        description: "AI 에이전트 설계의 기초"
+      - label: "TDD: Test-Driven Development"
+        url: "https://martinfowler.com/bliki/TestDrivenDevelopment.html"
+        description: "테스트 우선 개발"
+      - label: "Code Review Best Practices"
+        url: "https://google.github.io/eng-practices/review/"
+        description: "구글의 엔지니어 가이드"
+  - heading: "스킬"
+    links:
+      - label: "Clean Architecture"
+        url: "https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html"
+        description: "계층 분리와 의존성 역전"
+      - label: "Git Workflow"
+        url: "https://www.atlassian.com/git/tutorials/comparing-workflows"
+        description: "버전 관리 전략"
+      - label: "Debugging Techniques"
+        url: "https://debuggingbook.org/"
+        description: "체계적인 버그 추적"
+  - heading: "기법"
+    links:
+      - label: "Refactoring"
+        url: "https://refactoring.guru/"
+        description: "코드 개선 카탈로그"
+      - label: "Design Patterns"
+        url: "https://en.wikipedia.org/wiki/Design_Patterns"
+        description: "반복되는 설계 문제의 해결책"
+      - label: "Error Handling"
+        url: "https://joyeeling.medium.com/error-handling-best-practices-in-javascript-f5a5f4b87e84"
+        description: "견고한 에러 처리"
+---
+
+하네스 엔지니어링의 핵심 자료입니다.

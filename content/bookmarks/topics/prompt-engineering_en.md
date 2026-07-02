@@ -1,0 +1,35 @@
+---
+title: "Prompt Engineering"
+slug: "prompt-engineering"
+description: "Techniques for designing prompts that get the results you want from LLMs. Official guides and hands-on learning resources."
+sections:
+  - heading: "Official Guides"
+    links:
+      - label: "Anthropic — Prompt Engineering Overview"
+        url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview"
+        description: "Official Claude prompting docs"
+      - label: "Anthropic Interactive Tutorial (GitHub)"
+        url: "https://github.com/anthropics/prompt-eng-interactive-tutorial"
+        description: "9-chapter hands-on tutorial"
+      - label: "OpenAI — Prompt engineering guide"
+        url: "https://platform.openai.com/docs/guides/prompt-engineering"
+        description: "GPT prompting best practices"
+      - label: "Google — Prompting strategies (Gemini)"
+        url: "https://ai.google.dev/gemini-api/docs/prompting-strategies"
+        description: "Gemini prompting strategies"
+  - heading: "Learning Resources"
+    links:
+      - label: "Prompt Engineering Guide"
+        url: "https://www.promptingguide.ai/"
+        description: "Comprehensive open guide"
+      - label: "Learn Prompting"
+        url: "https://learnprompting.org/"
+        description: "Free beginner course"
+      - label: "OpenAI Cookbook"
+        url: "https://cookbook.openai.com/"
+        description: "Practical example collection"
+---
+
+# Prompt Engineering
+
+A curated set of official guides and learning resources for prompt design.

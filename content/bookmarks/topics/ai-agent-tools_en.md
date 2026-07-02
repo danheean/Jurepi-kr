@@ -1,0 +1,38 @@
+---
+title: "AI Agent Tools"
+slug: "ai-agent-tools"
+description: "From autonomous personal assistants to coding agent harnesses — a collection of trending open-source AI agent tools."
+sections:
+  - heading: "Personal Assistant Agents"
+    links:
+      - label: "OpenClaw — GitHub"
+        url: "https://github.com/openclaw/openclaw"
+        description: "Open-source autonomous personal AI assistant"
+      - label: "OpenClaw official site"
+        url: "https://www.openclaw.ai/"
+        description: "Setup & intro"
+      - label: "Hermes Agent — GitHub"
+        url: "https://github.com/NousResearch/hermes-agent"
+        description: "Self-improving agent by Nous Research"
+      - label: "Hermes Agent official site"
+        url: "https://hermes-agent.org/"
+        description: "Persistent memory & skill automation"
+  - heading: "Coding Agent Harnesses"
+    links:
+      - label: "OMC — Oh My Claude Code"
+        url: "https://github.com/yeachan-heo/oh-my-claudecode"
+        description: "Teams-first multi-agent orchestration for Claude Code"
+      - label: "OMO — Oh My OpenAgent"
+        url: "https://github.com/code-yeongyu/oh-my-openagent"
+        description: "Agent harness for complex codebases"
+      - label: "OMA — Oh My Agent"
+        url: "https://github.com/first-fluke/oh-my-agent"
+        description: "Portable, vendor-agnostic agent harness"
+      - label: "MoAI — MoAI-ADK"
+        url: "https://github.com/modu-ai/moai-adk"
+        description: "SPEC-First Agentic Development Kit"
+---
+
+# AI Agent Tools
+
+A curated set of trending open-source AI agent tools.

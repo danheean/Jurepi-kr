@@ -69,6 +69,17 @@ export const tools: ToolMeta[] = [
       'rankings', 'top', 'best', 'curator', 'movies', 'restaurants', 'travel', 'games', 'music'
     ],
   },
+  {
+    id: 'bookmarks',
+    slug: 'bookmarks',
+    category: 'dev',
+    icon: 'Bookmark',
+    accent: 'sky',
+    status: 'live',
+    isNew: true,
+    order: 18,
+    keywords: ['즐겨찾기','북마크','링크','모음','자료','큐레이션','리소스','하네스','엔지니어링','프런트엔드','디자인','개발','전자정부','표준프레임워크','egovframe','bookmarks','links','directory','resources','curated','dev','tools'],
+  },
 ];
 
 /** Get all live tools for static generation */

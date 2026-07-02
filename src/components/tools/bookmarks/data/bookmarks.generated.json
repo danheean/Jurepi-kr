@@ -1,0 +1,1032 @@
+[
+  {
+    "slug": "ai-agent-tools",
+    "ko": {
+      "title": "AI 에이전트 도구",
+      "description": "자율 개인 비서부터 코딩 에이전트 하네스까지, 요즘 주목받는 오픈소스 AI 에이전트 도구 모음.",
+      "sections": [
+        {
+          "heading": "개인 비서 에이전트",
+          "links": [
+            {
+              "label": "오픈클로 (OpenClaw) — GitHub",
+              "url": "https://github.com/openclaw/openclaw",
+              "description": "자율형 개인 AI 비서 오픈소스"
+            },
+            {
+              "label": "OpenClaw 공식 사이트",
+              "url": "https://www.openclaw.ai/",
+              "description": "설치·소개"
+            },
+            {
+              "label": "헤르메스 (Hermes Agent) — GitHub",
+              "url": "https://github.com/NousResearch/hermes-agent",
+              "description": "Nous Research의 자기개선 에이전트"
+            },
+            {
+              "label": "Hermes Agent 공식 사이트",
+              "url": "https://hermes-agent.org/",
+              "description": "영구 메모리·스킬 자동화"
+            }
+          ]
+        },
+        {
+          "heading": "코딩 에이전트 하네스",
+          "links": [
+            {
+              "label": "OMC — Oh My Claude Code",
+              "url": "https://github.com/yeachan-heo/oh-my-claudecode",
+              "description": "Claude Code 팀 멀티 에이전트 오케스트레이션"
+            },
+            {
+              "label": "OMO — Oh My OpenAgent",
+              "url": "https://github.com/code-yeongyu/oh-my-openagent",
+              "description": "복잡한 코드베이스용 에이전트 하네스"
+            },
+            {
+              "label": "OMA — Oh My Agent",
+              "url": "https://github.com/first-fluke/oh-my-agent",
+              "description": "벤더 독립 포터블 에이전트 하네스"
+            },
+            {
+              "label": "MoAI — MoAI-ADK",
+              "url": "https://github.com/modu-ai/moai-adk",
+              "description": "SPEC-First 에이전틱 개발 키트"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "AI Agent Tools",
+      "description": "From autonomous personal assistants to coding agent harnesses — a collection of trending open-source AI agent tools.",
+      "sections": [
+        {
+          "heading": "Personal Assistant Agents",
+          "links": [
+            {
+              "label": "OpenClaw — GitHub",
+              "url": "https://github.com/openclaw/openclaw",
+              "description": "Open-source autonomous personal AI assistant"
+            },
+            {
+              "label": "OpenClaw official site",
+              "url": "https://www.openclaw.ai/",
+              "description": "Setup & intro"
+            },
+            {
+              "label": "Hermes Agent — GitHub",
+              "url": "https://github.com/NousResearch/hermes-agent",
+              "description": "Self-improving agent by Nous Research"
+            },
+            {
+              "label": "Hermes Agent official site",
+              "url": "https://hermes-agent.org/",
+              "description": "Persistent memory & skill automation"
+            }
+          ]
+        },
+        {
+          "heading": "Coding Agent Harnesses",
+          "links": [
+            {
+              "label": "OMC — Oh My Claude Code",
+              "url": "https://github.com/yeachan-heo/oh-my-claudecode",
+              "description": "Teams-first multi-agent orchestration for Claude Code"
+            },
+            {
+              "label": "OMO — Oh My OpenAgent",
+              "url": "https://github.com/code-yeongyu/oh-my-openagent",
+              "description": "Agent harness for complex codebases"
+            },
+            {
+              "label": "OMA — Oh My Agent",
+              "url": "https://github.com/first-fluke/oh-my-agent",
+              "description": "Portable, vendor-agnostic agent harness"
+            },
+            {
+              "label": "MoAI — MoAI-ADK",
+              "url": "https://github.com/modu-ai/moai-adk",
+              "description": "SPEC-First Agentic Development Kit"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "context-engineering",
+    "ko": {
+      "title": "컨텍스트 엔지니어링",
+      "description": "AI 에이전트가 보는 컨텍스트(지시·메모리·검색·도구)를 설계하는 분야. 개념 아티클과 심화 자료를 모았습니다.",
+      "sections": [
+        {
+          "heading": "개념 · 아티클",
+          "links": [
+            {
+              "label": "Anthropic — Effective context engineering for AI agents",
+              "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+              "description": "Anthropic 공식 엔지니어링 블로그"
+            },
+            {
+              "label": "What is Context Engineering (Applied AI)",
+              "url": "https://appliedai.tools/context-engineering/what-is-context-engineering-learn-approaches-by-openai-anthropic-langchain/",
+              "description": "OpenAI·Anthropic·LangChain 접근 비교"
+            },
+            {
+              "label": "Contextual Engineering Guide (GitHub)",
+              "url": "https://github.com/FareedKhan-dev/contextual-engineering-guide",
+              "description": "LangChain 기반 실습 가이드"
+            }
+          ]
+        },
+        {
+          "heading": "심화 자료",
+          "links": [
+            {
+              "label": "Context Engineering for AI Agents — 2026 Guide",
+              "url": "https://www.paperclipped.de/en/blog/context-engineering-ai-agents/",
+              "description": "메모리 계층·압축 실무"
+            },
+            {
+              "label": "Everything is Context (arXiv)",
+              "url": "https://arxiv.org/abs/2512.05470",
+              "description": "에이전트 파일시스템 추상화 논문"
+            },
+            {
+              "label": "3 Principles for Context Engineering",
+              "url": "https://hugobowne.substack.com/p/ai-agent-harness-3-principles-for",
+              "description": "에이전트 하네스 3원칙"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Context Engineering",
+      "description": "The discipline of designing the context an AI agent sees — instructions, memory, retrieval, and tools. Concept articles and deep dives.",
+      "sections": [
+        {
+          "heading": "Concepts & Articles",
+          "links": [
+            {
+              "label": "Anthropic — Effective context engineering for AI agents",
+              "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+              "description": "Official Anthropic engineering blog"
+            },
+            {
+              "label": "What is Context Engineering (Applied AI)",
+              "url": "https://appliedai.tools/context-engineering/what-is-context-engineering-learn-approaches-by-openai-anthropic-langchain/",
+              "description": "OpenAI/Anthropic/LangChain approaches"
+            },
+            {
+              "label": "Contextual Engineering Guide (GitHub)",
+              "url": "https://github.com/FareedKhan-dev/contextual-engineering-guide",
+              "description": "Hands-on LangChain-based guide"
+            }
+          ]
+        },
+        {
+          "heading": "Deep Dives",
+          "links": [
+            {
+              "label": "Context Engineering for AI Agents — 2026 Guide",
+              "url": "https://www.paperclipped.de/en/blog/context-engineering-ai-agents/",
+              "description": "Memory tiers & compression in practice"
+            },
+            {
+              "label": "Everything is Context (arXiv)",
+              "url": "https://arxiv.org/abs/2512.05470",
+              "description": "Agentic file system abstraction paper"
+            },
+            {
+              "label": "3 Principles for Context Engineering",
+              "url": "https://hugobowne.substack.com/p/ai-agent-harness-3-principles-for",
+              "description": "Three principles for agent harnesses"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "design-reference",
+    "ko": {
+      "title": "디자인 참고",
+      "description": "디자인 시스템, 영감, 도구를 아우르는 시각 설계의 모든 것",
+      "sections": [
+        {
+          "heading": "디자인 시스템",
+          "links": [
+            {
+              "label": "Figma Design System",
+              "url": "https://www.figma.com/community",
+              "description": "오픈소스 디자인 파일"
+            },
+            {
+              "label": "Material Design",
+              "url": "https://m3.material.io",
+              "description": "Google의 디자인 언어"
+            },
+            {
+              "label": "Radix UI",
+              "url": "https://radix-ui.com",
+              "description": "접근성 우선 컴포넌트"
+            }
+          ]
+        },
+        {
+          "heading": "영감 & 갤러리",
+          "links": [
+            {
+              "label": "Dribbble",
+              "url": "https://dribbble.com",
+              "description": "디자인 포트폴리오 플랫폼"
+            },
+            {
+              "label": "Behance",
+              "url": "https://www.behance.net",
+              "description": "크리에이티브 포트폴리오"
+            },
+            {
+              "label": "Pinterest Design",
+              "url": "https://www.pinterest.com/search/pins/?q=ui+design",
+              "description": "시각 영감 모음"
+            }
+          ]
+        },
+        {
+          "heading": "도구",
+          "links": [
+            {
+              "label": "Figma",
+              "url": "https://www.figma.com",
+              "description": "협업 디자인 도구"
+            },
+            {
+              "label": "Adobe XD",
+              "url": "https://www.adobe.com/products/xd.html",
+              "description": "UX/UI 디자인 소프트웨어"
+            },
+            {
+              "label": "Penpot",
+              "url": "https://penpot.app",
+              "description": "오픈소스 디자인 플랫폼"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Design Reference",
+      "description": "Everything about visual design: design systems, inspiration, tools",
+      "sections": [
+        {
+          "heading": "Design Systems",
+          "links": [
+            {
+              "label": "Figma Design System",
+              "url": "https://www.figma.com/community",
+              "description": "Open-source design files"
+            },
+            {
+              "label": "Material Design",
+              "url": "https://m3.material.io",
+              "description": "Google's design language"
+            },
+            {
+              "label": "Radix UI",
+              "url": "https://radix-ui.com",
+              "description": "Accessibility-first components"
+            }
+          ]
+        },
+        {
+          "heading": "Inspiration & Galleries",
+          "links": [
+            {
+              "label": "Dribbble",
+              "url": "https://dribbble.com",
+              "description": "Design portfolio platform"
+            },
+            {
+              "label": "Behance",
+              "url": "https://www.behance.net",
+              "description": "Creative portfolio network"
+            },
+            {
+              "label": "Pinterest Design",
+              "url": "https://www.pinterest.com/search/pins/?q=ui+design",
+              "description": "Visual inspiration"
+            }
+          ]
+        },
+        {
+          "heading": "Tools",
+          "links": [
+            {
+              "label": "Figma",
+              "url": "https://www.figma.com",
+              "description": "Collaborative design tool"
+            },
+            {
+              "label": "Adobe XD",
+              "url": "https://www.adobe.com/products/xd.html",
+              "description": "UX/UI design software"
+            },
+            {
+              "label": "Penpot",
+              "url": "https://penpot.app",
+              "description": "Open-source design platform"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "egovframe-standard",
+    "ko": {
+      "title": "전자정부 표준프레임워크",
+      "description": "행정안전부가 배포하는 오픈소스 표준프레임워크(eGovFrame). 공식 포털·문서, GitHub 저장소, 영상 강의를 한곳에 모았습니다.",
+      "sections": [
+        {
+          "heading": "공식 포털 · 문서",
+          "links": [
+            {
+              "label": "eGovFrame 공식 포털",
+              "url": "https://www.egovframe.go.kr/home/main.do",
+              "description": "표준프레임워크 포털 홈"
+            },
+            {
+              "label": "표준프레임워크 오픈커뮤니티",
+              "url": "https://open.egovframe.org/",
+              "description": "개발자 커뮤니티·기술 나눔"
+            },
+            {
+              "label": "개발환경 설치가이드 (위키)",
+              "url": "https://www.egovframe.go.kr/wiki/doku.php?id=egovframework:dev2:clntinstall",
+              "description": "개발자 개발환경 설치 안내"
+            },
+            {
+              "label": "개발환경 3.x 다운로드",
+              "url": "https://www.egovframe.go.kr/home/ntt/nttRead.do?menuNo=41&bbsId=18&nttId=1790&menu=2",
+              "description": "최신 개발환경 내려받기"
+            },
+            {
+              "label": "온라인 교육 콘텐츠",
+              "url": "https://www.egovframe.go.kr/EgovEduMovie.jsp?menu=4&submenu=3",
+              "description": "정기 개발자 교육 영상"
+            }
+          ]
+        },
+        {
+          "heading": "GitHub 오픈소스 저장소",
+          "links": [
+            {
+              "label": "eGovFramework (조직)",
+              "url": "https://github.com/eGovFramework",
+              "description": "표준프레임워크센터 공식 GitHub"
+            },
+            {
+              "label": "egovframe-docs",
+              "url": "https://github.com/eGovFramework/egovframe-docs",
+              "description": "포털 가이드 문서"
+            },
+            {
+              "label": "egovframe-runtime",
+              "url": "https://github.com/eGovFramework/egovframe-runtime",
+              "description": "실행환경 모듈"
+            },
+            {
+              "label": "egovframe-common-components",
+              "url": "https://github.com/eGovFramework/egovframe-common-components",
+              "description": "재사용 공통 컴포넌트 253종"
+            },
+            {
+              "label": "egovframe-development",
+              "url": "https://github.com/eGovFramework/egovframe-development",
+              "description": "개발 도구 세트"
+            }
+          ]
+        },
+        {
+          "heading": "YouTube 영상 강의",
+          "links": [
+            {
+              "label": "표준프레임워크 오픈커뮤니티 (채널)",
+              "url": "https://www.youtube.com/channel/UCFA9XVr5KlHZ7yW4H93udAA",
+              "description": "온라인 세미나·강의 채널"
+            },
+            {
+              "label": "강의01. 표준프레임워크 개요",
+              "url": "https://www.youtube.com/watch?v=hoY1Z08VhH0",
+              "description": "입문 개요 강의"
+            },
+            {
+              "label": "강의02. 개발환경 소개 및 개인빌드",
+              "url": "https://www.youtube.com/watch?v=1_X8xRrF7DI",
+              "description": "개발환경·구현도구 실습"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "eGovFrame (Korea e-Government Standard Framework)",
+      "description": "Korea's open-source e-Government Standard Framework (eGovFrame) by MOIS. Official portal & docs, GitHub repositories, and video lectures curated in one place.",
+      "sections": [
+        {
+          "heading": "Official Portal & Docs",
+          "links": [
+            {
+              "label": "eGovFrame Official Portal",
+              "url": "https://www.egovframe.go.kr/home/main.do",
+              "description": "Standard Framework portal home"
+            },
+            {
+              "label": "eGovFrame Open Community",
+              "url": "https://open.egovframe.org/",
+              "description": "Developer community & knowledge sharing"
+            },
+            {
+              "label": "Dev Environment Install Guide (Wiki)",
+              "url": "https://www.egovframe.go.kr/wiki/doku.php?id=egovframework:dev2:clntinstall",
+              "description": "Developer setup instructions"
+            },
+            {
+              "label": "Dev Environment 3.x Download",
+              "url": "https://www.egovframe.go.kr/home/ntt/nttRead.do?menuNo=41&bbsId=18&nttId=1790&menu=2",
+              "description": "Get the latest dev environment"
+            },
+            {
+              "label": "Online Training Content",
+              "url": "https://www.egovframe.go.kr/EgovEduMovie.jsp?menu=4&submenu=3",
+              "description": "Regular developer training videos"
+            }
+          ]
+        },
+        {
+          "heading": "GitHub Repositories",
+          "links": [
+            {
+              "label": "eGovFramework (organization)",
+              "url": "https://github.com/eGovFramework",
+              "description": "Official GitHub of the framework center"
+            },
+            {
+              "label": "egovframe-docs",
+              "url": "https://github.com/eGovFramework/egovframe-docs",
+              "description": "Portal guide documents"
+            },
+            {
+              "label": "egovframe-runtime",
+              "url": "https://github.com/eGovFramework/egovframe-runtime",
+              "description": "Runtime environment modules"
+            },
+            {
+              "label": "egovframe-common-components",
+              "url": "https://github.com/eGovFramework/egovframe-common-components",
+              "description": "253 reusable common components"
+            },
+            {
+              "label": "egovframe-development",
+              "url": "https://github.com/eGovFramework/egovframe-development",
+              "description": "Set of development tools"
+            }
+          ]
+        },
+        {
+          "heading": "YouTube Video Lectures",
+          "links": [
+            {
+              "label": "eGovFrame Open Community (channel)",
+              "url": "https://www.youtube.com/channel/UCFA9XVr5KlHZ7yW4H93udAA",
+              "description": "Online seminars & lecture channel"
+            },
+            {
+              "label": "Lecture 01. Framework Overview",
+              "url": "https://www.youtube.com/watch?v=hoY1Z08VhH0",
+              "description": "Introductory overview lecture"
+            },
+            {
+              "label": "Lecture 02. Dev Environment & Build",
+              "url": "https://www.youtube.com/watch?v=1_X8xRrF7DI",
+              "description": "Dev environment & tooling walkthrough"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "free-dev-tools",
+    "ko": {
+      "title": "무료 개발 도구",
+      "description": "코드 배포, 생성, 분석에서 비용 없이 사용 가능한 강력한 도구와 서비스 모음",
+      "sections": [
+        {
+          "heading": "코드 생성 & IDE",
+          "links": [
+            {
+              "label": "GitHub Copilot (무료 체험)",
+              "url": "https://github.com/features/copilot",
+              "description": "AI 코드 완성"
+            },
+            {
+              "label": "VS Code",
+              "url": "https://code.visualstudio.com",
+              "description": "무료 엔터프라이즈 에디터"
+            },
+            {
+              "label": "Replit",
+              "url": "https://replit.com",
+              "description": "온라인 IDE"
+            }
+          ]
+        },
+        {
+          "heading": "배포 & 호스팅",
+          "links": [
+            {
+              "label": "Vercel",
+              "url": "https://vercel.com",
+              "description": "Next.js 최적화 호스팅 (무료)"
+            },
+            {
+              "label": "Netlify",
+              "url": "https://www.netlify.com",
+              "description": "정적 사이트 호스팅"
+            },
+            {
+              "label": "GitHub Pages",
+              "url": "https://pages.github.com",
+              "description": "무료 정적 사이트"
+            }
+          ]
+        },
+        {
+          "heading": "분석 & 모니터링",
+          "links": [
+            {
+              "label": "Google Analytics",
+              "url": "https://analytics.google.com",
+              "description": "웹 분석"
+            },
+            {
+              "label": "Sentry",
+              "url": "https://sentry.io",
+              "description": "에러 추적 (무료 플랜)"
+            },
+            {
+              "label": "Lighthouse CI",
+              "url": "https://github.com/GoogleChrome/lighthouse-ci",
+              "description": "성능 모니터링"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Free Dev Tools",
+      "description": "Powerful tools and services for code generation, deployment, and analysis — all free",
+      "sections": [
+        {
+          "heading": "Code Generation & IDE",
+          "links": [
+            {
+              "label": "GitHub Copilot (free trial)",
+              "url": "https://github.com/features/copilot",
+              "description": "AI code completion"
+            },
+            {
+              "label": "VS Code",
+              "url": "https://code.visualstudio.com",
+              "description": "Free enterprise editor"
+            },
+            {
+              "label": "Replit",
+              "url": "https://replit.com",
+              "description": "Online IDE"
+            }
+          ]
+        },
+        {
+          "heading": "Deployment & Hosting",
+          "links": [
+            {
+              "label": "Vercel",
+              "url": "https://vercel.com",
+              "description": "Next.js optimized hosting (free)"
+            },
+            {
+              "label": "Netlify",
+              "url": "https://www.netlify.com",
+              "description": "Static site hosting"
+            },
+            {
+              "label": "GitHub Pages",
+              "url": "https://pages.github.com",
+              "description": "Free static hosting"
+            }
+          ]
+        },
+        {
+          "heading": "Analytics & Monitoring",
+          "links": [
+            {
+              "label": "Google Analytics",
+              "url": "https://analytics.google.com",
+              "description": "Web analytics"
+            },
+            {
+              "label": "Sentry",
+              "url": "https://sentry.io",
+              "description": "Error tracking (free plan)"
+            },
+            {
+              "label": "Lighthouse CI",
+              "url": "https://github.com/GoogleChrome/lighthouse-ci",
+              "description": "Performance monitoring"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "frontend-resources",
+    "ko": {
+      "title": "프런트엔드 리소스",
+      "description": "React, TypeScript, Tailwind, 성능 최적화 등 현대적 웹 개발의 필수 도구와 가이드",
+      "sections": [
+        {
+          "heading": "프레임워크 & 라이브러리",
+          "links": [
+            {
+              "label": "React 공식 문서",
+              "url": "https://react.dev",
+              "description": "최신 React 18+ API"
+            },
+            {
+              "label": "Next.js",
+              "url": "https://nextjs.org",
+              "description": "풀스택 React 프레임워크"
+            },
+            {
+              "label": "TypeScript 핸드북",
+              "url": "https://www.typescriptlang.org/docs/",
+              "description": "타입 안전성"
+            }
+          ]
+        },
+        {
+          "heading": "CSS & 스타일링",
+          "links": [
+            {
+              "label": "Tailwind CSS",
+              "url": "https://tailwindcss.com",
+              "description": "유틸리티 우선 CSS"
+            },
+            {
+              "label": "CSS-in-JS Solutions",
+              "url": "https://github.com/styled-components/styled-components",
+              "description": "Styled Components"
+            },
+            {
+              "label": "CSS Grid & Flexbox",
+              "url": "https://css-tricks.com/snippets/css/a-guide-to-flexbox/",
+              "description": "레이아웃 마스터"
+            }
+          ]
+        },
+        {
+          "heading": "성능 & 최적화",
+          "links": [
+            {
+              "label": "Web Vitals",
+              "url": "https://web.dev/vitals/",
+              "description": "Core Web Vitals 가이드"
+            },
+            {
+              "label": "Lighthouse",
+              "url": "https://developers.google.com/web/tools/lighthouse",
+              "description": "성능 감시 도구"
+            },
+            {
+              "label": "Bundle Analysis",
+              "url": "https://webpack.js.org/plugins/webpack-bundle-analyzer/",
+              "description": "번들 최적화"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Frontend Resources",
+      "description": "Essential tools and guides for modern web development: React, TypeScript, Tailwind, performance optimization",
+      "sections": [
+        {
+          "heading": "Frameworks & Libraries",
+          "links": [
+            {
+              "label": "React Official Docs",
+              "url": "https://react.dev",
+              "description": "Latest React 18+ APIs"
+            },
+            {
+              "label": "Next.js",
+              "url": "https://nextjs.org",
+              "description": "Full-stack React framework"
+            },
+            {
+              "label": "TypeScript Handbook",
+              "url": "https://www.typescriptlang.org/docs/",
+              "description": "Type safety guide"
+            }
+          ]
+        },
+        {
+          "heading": "CSS & Styling",
+          "links": [
+            {
+              "label": "Tailwind CSS",
+              "url": "https://tailwindcss.com",
+              "description": "Utility-first CSS"
+            },
+            {
+              "label": "CSS-in-JS Solutions",
+              "url": "https://github.com/styled-components/styled-components",
+              "description": "Styled Components"
+            },
+            {
+              "label": "CSS Grid & Flexbox",
+              "url": "https://css-tricks.com/snippets/css/a-guide-to-flexbox/",
+              "description": "Layout mastery"
+            }
+          ]
+        },
+        {
+          "heading": "Performance & Optimization",
+          "links": [
+            {
+              "label": "Web Vitals",
+              "url": "https://web.dev/vitals/",
+              "description": "Core Web Vitals guide"
+            },
+            {
+              "label": "Lighthouse",
+              "url": "https://developers.google.com/web/tools/lighthouse",
+              "description": "Performance monitoring"
+            },
+            {
+              "label": "Bundle Analysis",
+              "url": "https://webpack.js.org/plugins/webpack-bundle-analyzer/",
+              "description": "Bundle optimization"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "harness-engineering",
+    "ko": {
+      "title": "하네스 엔지니어링",
+      "description": "소프트웨어 엔지니어링의 기초 철학과 실무 기법을 다루는 신뢰할 수 있는 자료 모음",
+      "sections": [
+        {
+          "heading": "메타 스킬",
+          "links": [
+            {
+              "label": "Agent Orchestration 101",
+              "url": "https://anthropic.com/research",
+              "description": "AI 에이전트 설계의 기초"
+            },
+            {
+              "label": "TDD: Test-Driven Development",
+              "url": "https://martinfowler.com/bliki/TestDrivenDevelopment.html",
+              "description": "테스트 우선 개발"
+            },
+            {
+              "label": "Code Review Best Practices",
+              "url": "https://google.github.io/eng-practices/review/",
+              "description": "구글의 엔지니어 가이드"
+            }
+          ]
+        },
+        {
+          "heading": "스킬",
+          "links": [
+            {
+              "label": "Clean Architecture",
+              "url": "https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html",
+              "description": "계층 분리와 의존성 역전"
+            },
+            {
+              "label": "Git Workflow",
+              "url": "https://www.atlassian.com/git/tutorials/comparing-workflows",
+              "description": "버전 관리 전략"
+            },
+            {
+              "label": "Debugging Techniques",
+              "url": "https://debuggingbook.org/",
+              "description": "체계적인 버그 추적"
+            }
+          ]
+        },
+        {
+          "heading": "기법",
+          "links": [
+            {
+              "label": "Refactoring",
+              "url": "https://refactoring.guru/",
+              "description": "코드 개선 카탈로그"
+            },
+            {
+              "label": "Design Patterns",
+              "url": "https://en.wikipedia.org/wiki/Design_Patterns",
+              "description": "반복되는 설계 문제의 해결책"
+            },
+            {
+              "label": "Error Handling",
+              "url": "https://joyeeling.medium.com/error-handling-best-practices-in-javascript-f5a5f4b87e84",
+              "description": "견고한 에러 처리"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Harness Engineering",
+      "description": "Trusted resources covering foundational software engineering philosophy and practical techniques",
+      "sections": [
+        {
+          "heading": "Meta Skills",
+          "links": [
+            {
+              "label": "Agent Orchestration 101",
+              "url": "https://anthropic.com/research",
+              "description": "Foundations of AI agent design"
+            },
+            {
+              "label": "TDD: Test-Driven Development",
+              "url": "https://martinfowler.com/bliki/TestDrivenDevelopment.html",
+              "description": "Tests first, code second"
+            },
+            {
+              "label": "Code Review Best Practices",
+              "url": "https://google.github.io/eng-practices/review/",
+              "description": "Google's engineering guide"
+            }
+          ]
+        },
+        {
+          "heading": "Skills",
+          "links": [
+            {
+              "label": "Clean Architecture",
+              "url": "https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html",
+              "description": "Layering and dependency inversion"
+            },
+            {
+              "label": "Git Workflow",
+              "url": "https://www.atlassian.com/git/tutorials/comparing-workflows",
+              "description": "Version control strategies"
+            },
+            {
+              "label": "Debugging Techniques",
+              "url": "https://debuggingbook.org/",
+              "description": "Systematic bug tracking"
+            }
+          ]
+        },
+        {
+          "heading": "Techniques",
+          "links": [
+            {
+              "label": "Refactoring",
+              "url": "https://refactoring.guru/",
+              "description": "Catalog of code improvements"
+            },
+            {
+              "label": "Design Patterns",
+              "url": "https://en.wikipedia.org/wiki/Design_Patterns",
+              "description": "Solutions to recurring design problems"
+            },
+            {
+              "label": "Error Handling",
+              "url": "https://joyeeling.medium.com/error-handling-best-practices-in-javascript-f5a5f4b87e84",
+              "description": "Robust error handling"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "prompt-engineering",
+    "ko": {
+      "title": "프롬프트 엔지니어링",
+      "description": "LLM에서 원하는 결과를 끌어내는 프롬프트 설계 기법. 공식 가이드와 실습형 학습 리소스를 모았습니다.",
+      "sections": [
+        {
+          "heading": "공식 가이드",
+          "links": [
+            {
+              "label": "Anthropic — 프롬프트 엔지니어링 개요",
+              "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
+              "description": "Claude 공식 프롬프트 문서"
+            },
+            {
+              "label": "Anthropic 인터랙티브 튜토리얼 (GitHub)",
+              "url": "https://github.com/anthropics/prompt-eng-interactive-tutorial",
+              "description": "9챕터 실습 튜토리얼"
+            },
+            {
+              "label": "OpenAI — Prompt engineering 가이드",
+              "url": "https://platform.openai.com/docs/guides/prompt-engineering",
+              "description": "GPT 프롬프트 베스트 프랙티스"
+            },
+            {
+              "label": "Google — 프롬프트 전략 (Gemini)",
+              "url": "https://ai.google.dev/gemini-api/docs/prompting-strategies",
+              "description": "Gemini 프롬프트 전략"
+            }
+          ]
+        },
+        {
+          "heading": "학습 리소스",
+          "links": [
+            {
+              "label": "Prompt Engineering Guide",
+              "url": "https://www.promptingguide.ai/",
+              "description": "기법 총정리 오픈 가이드"
+            },
+            {
+              "label": "Learn Prompting",
+              "url": "https://learnprompting.org/",
+              "description": "입문자용 무료 코스"
+            },
+            {
+              "label": "OpenAI Cookbook",
+              "url": "https://cookbook.openai.com/",
+              "description": "실전 예제 모음"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Prompt Engineering",
+      "description": "Techniques for designing prompts that get the results you want from LLMs. Official guides and hands-on learning resources.",
+      "sections": [
+        {
+          "heading": "Official Guides",
+          "links": [
+            {
+              "label": "Anthropic — Prompt Engineering Overview",
+              "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
+              "description": "Official Claude prompting docs"
+            },
+            {
+              "label": "Anthropic Interactive Tutorial (GitHub)",
+              "url": "https://github.com/anthropics/prompt-eng-interactive-tutorial",
+              "description": "9-chapter hands-on tutorial"
+            },
+            {
+              "label": "OpenAI — Prompt engineering guide",
+              "url": "https://platform.openai.com/docs/guides/prompt-engineering",
+              "description": "GPT prompting best practices"
+            },
+            {
+              "label": "Google — Prompting strategies (Gemini)",
+              "url": "https://ai.google.dev/gemini-api/docs/prompting-strategies",
+              "description": "Gemini prompting strategies"
+            }
+          ]
+        },
+        {
+          "heading": "Learning Resources",
+          "links": [
+            {
+              "label": "Prompt Engineering Guide",
+              "url": "https://www.promptingguide.ai/",
+              "description": "Comprehensive open guide"
+            },
+            {
+              "label": "Learn Prompting",
+              "url": "https://learnprompting.org/",
+              "description": "Free beginner course"
+            },
+            {
+              "label": "OpenAI Cookbook",
+              "url": "https://cookbook.openai.com/",
+              "description": "Practical example collection"
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

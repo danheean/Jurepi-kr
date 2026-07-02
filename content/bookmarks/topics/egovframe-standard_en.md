@@ -1,0 +1,55 @@
+---
+title: "eGovFrame (Korea e-Government Standard Framework)"
+slug: "egovframe-standard"
+description: "Korea's open-source e-Government Standard Framework (eGovFrame) by MOIS. Official portal & docs, GitHub repositories, and video lectures curated in one place."
+sections:
+  - heading: "Official Portal & Docs"
+    links:
+      - label: "eGovFrame Official Portal"
+        url: "https://www.egovframe.go.kr/home/main.do"
+        description: "Standard Framework portal home"
+      - label: "eGovFrame Open Community"
+        url: "https://open.egovframe.org/"
+        description: "Developer community & knowledge sharing"
+      - label: "Dev Environment Install Guide (Wiki)"
+        url: "https://www.egovframe.go.kr/wiki/doku.php?id=egovframework:dev2:clntinstall"
+        description: "Developer setup instructions"
+      - label: "Dev Environment 3.x Download"
+        url: "https://www.egovframe.go.kr/home/ntt/nttRead.do?menuNo=41&bbsId=18&nttId=1790&menu=2"
+        description: "Get the latest dev environment"
+      - label: "Online Training Content"
+        url: "https://www.egovframe.go.kr/EgovEduMovie.jsp?menu=4&submenu=3"
+        description: "Regular developer training videos"
+  - heading: "GitHub Repositories"
+    links:
+      - label: "eGovFramework (organization)"
+        url: "https://github.com/eGovFramework"
+        description: "Official GitHub of the framework center"
+      - label: "egovframe-docs"
+        url: "https://github.com/eGovFramework/egovframe-docs"
+        description: "Portal guide documents"
+      - label: "egovframe-runtime"
+        url: "https://github.com/eGovFramework/egovframe-runtime"
+        description: "Runtime environment modules"
+      - label: "egovframe-common-components"
+        url: "https://github.com/eGovFramework/egovframe-common-components"
+        description: "253 reusable common components"
+      - label: "egovframe-development"
+        url: "https://github.com/eGovFramework/egovframe-development"
+        description: "Set of development tools"
+  - heading: "YouTube Video Lectures"
+    links:
+      - label: "eGovFrame Open Community (channel)"
+        url: "https://www.youtube.com/channel/UCFA9XVr5KlHZ7yW4H93udAA"
+        description: "Online seminars & lecture channel"
+      - label: "Lecture 01. Framework Overview"
+        url: "https://www.youtube.com/watch?v=hoY1Z08VhH0"
+        description: "Introductory overview lecture"
+      - label: "Lecture 02. Dev Environment & Build"
+        url: "https://www.youtube.com/watch?v=1_X8xRrF7DI"
+        description: "Dev environment & tooling walkthrough"
+---
+
+# eGovFrame (Korea e-Government Standard Framework)
+
+A curated set of official portal & docs, GitHub repositories, and video lectures, organized by topic.
