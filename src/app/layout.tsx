@@ -25,6 +25,13 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
   },
+  // Search-engine site verification. Set at the root so it's inherited into the
+  // <head> of every prerendered page (verifiers may fetch any URL).
+  verification: {
+    other: {
+      'naver-site-verification': '66d158bb0b9b227ac53e363c3af2e9a54d55de4c',
+    },
+  },
 };
 
 export const viewport: Viewport = {
