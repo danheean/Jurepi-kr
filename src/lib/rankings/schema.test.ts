@@ -249,14 +249,14 @@ describe('schema — zod validation', () => {
   });
 
   describe('MergedRankingSchema', () => {
-    it('accepts valid merged ranking', () => {
+    it('accepts valid merged ranking with per-locale sourceNote', () => {
       const valid = {
         slug: 'llm-agent-leaderboard',
         field: 'ai',
         asOfDate: '2026-06',
-        sourceNote: 'Agent Arena leaderboard',
         ko: {
           title: 'LLM 에이전트 순위',
+          sourceNote: 'Agent Arena 리더보드',
           items: [
             { rank: 1, name: 'Claude Opus', description: 'Best' },
             { rank: 2, name: 'GPT 5.5', description: 'Strong' },
@@ -265,6 +265,7 @@ describe('schema — zod validation', () => {
         },
         en: {
           title: 'LLM Agent Leaderboard',
+          sourceNote: 'Agent Arena leaderboard',
           items: [
             { rank: 1, name: 'Claude Opus', description: 'Best' },
             { rank: 2, name: 'GPT 5.5', description: 'Strong' },
@@ -276,15 +277,14 @@ describe('schema — zod validation', () => {
       expect(result.success).toBe(true);
     });
 
-    it('accepts optional sourceUrl in merged ranking', () => {
+    it('allows EN sourceNote to differ from KO sourceNote', () => {
       const valid = {
         slug: 'programming-languages',
         field: 'programming',
         asOfDate: '2026-06',
-        sourceNote: 'TIOBE Index',
-        sourceUrl: 'https://www.tiobe.com/tiobe-index/',
         ko: {
           title: '프로그래밍 언어',
+          sourceNote: 'TIOBE 인덱스 기준',
           items: [
             { rank: 1, name: 'Python', description: 'Popular' },
             { rank: 2, name: 'C', description: 'System' },
@@ -293,6 +293,41 @@ describe('schema — zod validation', () => {
         },
         en: {
           title: 'Programming Languages',
+          sourceNote: 'Based on the TIOBE Index',
+          items: [
+            { rank: 1, name: 'Python', description: 'Popular' },
+            { rank: 2, name: 'C', description: 'System' },
+            { rank: 3, name: 'C++', description: 'Performance' },
+          ],
+        },
+      };
+      const result = MergedRankingSchema.safeParse(valid);
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.ko.sourceNote).toBe('TIOBE 인덱스 기준');
+        expect(result.data.en.sourceNote).toBe('Based on the TIOBE Index');
+        expect(result.data.ko.sourceNote).not.toBe(result.data.en.sourceNote);
+      }
+    });
+
+    it('accepts optional sourceUrl in merged ranking', () => {
+      const valid = {
+        slug: 'programming-languages',
+        field: 'programming',
+        asOfDate: '2026-06',
+        sourceUrl: 'https://www.tiobe.com/tiobe-index/',
+        ko: {
+          title: '프로그래밍 언어',
+          sourceNote: 'TIOBE',
+          items: [
+            { rank: 1, name: 'Python', description: 'Popular' },
+            { rank: 2, name: 'C', description: 'System' },
+            { rank: 3, name: 'C++', description: 'Performance' },
+          ],
+        },
+        en: {
+          title: 'Programming Languages',
+          sourceNote: 'TIOBE',
           items: [
             { rank: 1, name: 'Python', description: 'Popular' },
             { rank: 2, name: 'C', description: 'System' },
@@ -309,9 +344,9 @@ describe('schema — zod validation', () => {
         slug: 'Invalid Slug!',
         field: 'ai',
         asOfDate: '2026-06',
-        sourceNote: 'Source',
         ko: {
           title: 'Title',
+          sourceNote: 'Source',
           items: [
             { rank: 1, name: 'Item 1', description: 'Desc' },
             { rank: 2, name: 'Item 2', description: 'Desc' },
@@ -320,6 +355,7 @@ describe('schema — zod validation', () => {
         },
         en: {
           title: 'Title',
+          sourceNote: 'Source',
           items: [
             { rank: 1, name: 'Item 1', description: 'Desc' },
             { rank: 2, name: 'Item 2', description: 'Desc' },
@@ -336,13 +372,14 @@ describe('schema — zod validation', () => {
         slug: 'test',
         field: 'ai',
         // missing asOfDate
-        sourceNote: 'Source',
         ko: {
           title: 'Title',
+          sourceNote: 'Source',
           items: [{ rank: 1, name: 'Item', description: 'Desc' }],
         },
         en: {
           title: 'Title',
+          sourceNote: 'Source',
           items: [{ rank: 1, name: 'Item', description: 'Desc' }],
         },
       };

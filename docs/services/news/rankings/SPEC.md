@@ -126,7 +126,8 @@ src/
     - slug?: string — ASCII stable identifier (Korean file canonical; absent = derive from filename)
     - field: enum (movies, restaurants, travel, games, music, books, apps, startups, sports) — Korean file canonical; Phase 2 extensible
     - asOfDate: string ISO date (required) — publication date "2025-12", "2025-01-15", etc.
-    - sourceNote: string (required, max 200 chars) — provenance: "Editor's personal picks, Jan 2025" / "Based on Michelin Guide 2024" / etc.
+    - sourceNote: string (required, max 200 chars) — provenance, PER-LOCALE (KO file = Korean note, EN file = English note; EN inherits KO if omitted): "Editor's personal picks, Jan 2025" / "Based on Michelin Guide 2024" / etc.
+    - sourceUrl?: string (optional, valid http(s) URL) — clickable source link (canonical from KO; rel=noopener target=_blank), rendered in the ProvenanceBanner.
     - items: array (required, ≥3)
       - rank: number (1–N)
       - name: string (required)
@@ -141,9 +142,9 @@ src/
     - slug: string — unique identifier (unique per field+locale; favorites/recents reference)
     - field: enum — Korean file canonical
     - asOfDate: string ISO
-    - sourceNote: string — canonical or en-specific if different
-    - ko: { title, items: [{ rank, name, description, link?, imageUrl?, imageWidth?, imageHeight? }, ...] }
-    - en: { title, items: [...] } — items may differ (e.g., "Best Pizza Worldwide" vs "Best Pizza in Tokyo")
+    - sourceUrl?: string — optional clickable source link (canonical; rel=noopener). Rendered as a link in the ProvenanceBanner when present.
+    - ko: { title, sourceNote, items: [{ rank, name, description, link?, imageUrl?, imageWidth?, imageHeight? }, ...] }
+    - en: { title, sourceNote, items: [...] } — title/sourceNote/items are PER-LOCALE (localized like the rest of the app's content); EN inherits KO sourceNote if omitted. items may differ (e.g., "Best Pizza Worldwide" vs "Best Pizza in Tokyo").
     INVARIANT — PAIR/FIELDS/UNIQUENESS: every record has both ko+en; each has title + ≥3 items; slug unique within field; rank 1–N consecutive. Violation → generator build failure.
   </merged_ranking>
   <field note="grouping by domain; localized label from i18n">
@@ -259,7 +260,7 @@ src/
   <generation note="build time, scripts/generate-rankings.mjs">
     - Scan content/rankings/, exclude `_` prefix. Group by base filename into ko/en pairs.
     - gray-matter parse each file → zod RankingFileFront validate.
-    - mergePair: apply canonical rule (ko field/asOfDate/sourceNote canonical + en inherit if absent; ko/en items independent). resolveSlug.
+    - mergePair: apply canonical rule (ko field/asOfDate/sourceUrl canonical + en inherit if absent; sourceNote/title/items PER-LOCALE — EN sourceNote inherits KO if omitted, else independent). resolveSlug.
     - Validate (fail → process.exit(1) with file/field/reason): pair integrity, locale required fields, slug uniqueness per field, item count ≥3, consecutive ranks.
     - Sort (field order → asOfDate desc → title locale order), emit rankings.generated.json. Deterministic.
     - package.json wire: "predev": "node scripts/generate-rankings.mjs", "prebuild": "node scripts/generate-rankings.mjs".

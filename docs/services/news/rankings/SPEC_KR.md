@@ -126,7 +126,8 @@ src/
     - slug?: string — ASCII 안정 식별자(국문 파일이 canonical; 없으면 파일명에서 파생)
     - field: enum (movies, restaurants, travel, games, music, books, apps, startups, sports) — 국문 파일 canonical; Phase 2 확장 가능
     - asOfDate: string ISO 날짜 (필수) — 발행일 "2025-12", "2025-01-15" 등
-    - sourceNote: string (필수, 최대 200자) — 출처: "Editor's personal picks, Jan 2025" / "Based on Michelin Guide 2024" 등
+    - sourceNote: string (필수, 최대 200자) — 출처, 로케일별(KO 파일=한글 노트, EN 파일=영문 노트; EN 없으면 KO 상속): "Editor's personal picks, Jan 2025" / "Based on Michelin Guide 2024" 등
+    - sourceUrl?: string (선택, 유효 http(s) URL) — 클릭 가능한 출처 링크(KO canonical; rel=noopener target=_blank), 프로버넌스 배너에 렌더링.
     - items: array (필수, ≥3)
       - rank: number (1–N)
       - name: string (필수)
@@ -141,9 +142,9 @@ src/
     - slug: string — 유일 식별자(field+locale별 유일; 즐겨찾기/최근본 참조)
     - field: enum — 국문 파일 canonical
     - asOfDate: string ISO
-    - sourceNote: string — canonical, 다르면 en 전용
-    - ko: { title, items: [{ rank, name, description, link?, imageUrl?, imageWidth?, imageHeight? }, ...] }
-    - en: { title, items: [...] } — items가 다를 수 있음(예: "Best Pizza Worldwide" vs "Best Pizza in Tokyo")
+    - sourceUrl?: string — 선택적 클릭 가능한 출처 링크(canonical; rel=noopener). 있으면 프로버넌스 배너에 링크로 렌더.
+    - ko: { title, sourceNote, items: [{ rank, name, description, link?, imageUrl?, imageWidth?, imageHeight? }, ...] }
+    - en: { title, sourceNote, items: [...] } — title/sourceNote/items는 로케일별(앱의 나머지 콘텐츠처럼 지역화); EN이 sourceNote 생략 시 KO 상속. items가 다를 수 있음(예: "Best Pizza Worldwide" vs "Best Pizza in Tokyo").
     INVARIANT — 쌍/필드/유일성: 모든 레코드는 ko+en 둘 다 보유; 각각 title + ≥3 항목; slug는 field 내 유일; rank 1–N 연속. 위반 → 생성기 빌드 실패.
   </merged_ranking>
   <field note="분야별 그룹핑; i18n에서 현지화 라벨">
@@ -259,7 +260,7 @@ src/
   <generation note="빌드 타임, scripts/generate-rankings.mjs">
     - content/rankings/ 스캔, `_` 접두 제외. 기본 파일명으로 ko/en 쌍 그룹핑.
     - 각 파일 gray-matter 파싱 → zod RankingFileFront 검증.
-    - mergePair: canonical 규칙 적용(ko field/asOfDate/sourceNote canonical + 없으면 en 상속; ko/en items 독립). resolveSlug.
+    - mergePair: canonical 규칙 적용(ko field/asOfDate/sourceUrl canonical + 없으면 en 상속; sourceNote/title/items는 로케일별 — EN sourceNote 없으면 KO 상속, 있으면 독립). resolveSlug.
     - 검증(실패 → file/field/reason과 함께 process.exit(1)): 쌍 무결성, 로케일 필수 필드, field별 slug 유일성, 항목 수 ≥3, 연속 rank.
     - 정렬(field 순서 → asOfDate 내림차순 → title 로케일 순서), rankings.generated.json 산출. 결정적.
     - package.json 배선: "predev": "node scripts/generate-rankings.mjs", "prebuild": "node scripts/generate-rankings.mjs".

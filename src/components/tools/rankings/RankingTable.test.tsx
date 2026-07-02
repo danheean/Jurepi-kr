@@ -24,9 +24,9 @@ const mockRanking: MergedRanking = {
   slug: 'test-ranking',
   field: 'ai',
   asOfDate: '2026-06',
-  sourceNote: 'Test source',
   ko: {
     title: 'Test Ranking',
+    sourceNote: 'Source',
     items: [
       {
         rank: 1,
@@ -53,6 +53,7 @@ const mockRanking: MergedRanking = {
   },
   en: {
     title: 'Test Ranking',
+    sourceNote: 'Source',
     items: [
       { rank: 1, name: 'First Place', description: 'The best', link: 'https://example.com/1' },
       { rank: 2, name: 'Second Place', description: 'The second best' },

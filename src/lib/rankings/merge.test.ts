@@ -20,7 +20,7 @@ describe('merge — canonical rule application', () => {
     title: 'LLM Agent Leaderboard',
     field: 'ai',
     asOfDate: '2026-06',
-    sourceNote: 'Agent Arena 리더보드 기준',
+    sourceNote: 'Based on Agent Arena leaderboard',
     items: [
       { rank: 1, name: 'Claude Opus', description: 'Best agent' },
       { rank: 2, name: 'GPT 5.5', description: 'Strong performer' },
@@ -34,7 +34,8 @@ describe('merge — canonical rule application', () => {
       expect(merged.slug).toBe('llm-agent-leaderboard');
       expect(merged.field).toBe('ai');
       expect(merged.asOfDate).toBe('2026-06');
-      expect(merged.sourceNote).toBe('Agent Arena 리더보드 기준');
+      expect(merged.ko.sourceNote).toBe('Agent Arena 리더보드 기준');
+      expect(merged.en.sourceNote).toBe('Based on Agent Arena leaderboard');
       expect(merged.ko.title).toBe('LLM 에이전트 순위');
       expect(merged.en.title).toBe('LLM Agent Leaderboard');
     });
@@ -49,9 +50,11 @@ describe('merge — canonical rule application', () => {
       expect(merged.asOfDate).toBe(validKo.asOfDate);
     });
 
-    it('uses KO sourceNote as canonical', () => {
+    it('allows EN sourceNote to differ from KO sourceNote', () => {
       const merged = mergePair(validKo, validEn, 'test.md');
-      expect(merged.sourceNote).toBe(validKo.sourceNote);
+      expect(merged.ko.sourceNote).toBe(validKo.sourceNote);
+      expect(merged.en.sourceNote).toBe(validEn.sourceNote);
+      expect(merged.ko.sourceNote).not.toBe(merged.en.sourceNote);
     });
 
     it('uses KO sourceUrl as canonical (if present)', () => {
@@ -133,15 +136,17 @@ describe('merge — canonical rule application', () => {
       expect(errors.some((e) => e.includes('asOfDate must match'))).toBe(true);
     });
 
-    it('detects sourceNote mismatch', () => {
+    it('allows EN sourceNote to be different from KO', () => {
       const enWithDifferentNote = { ...validEn, sourceNote: 'Different source' };
       const { ranking, errors } = validatePair(
         'test.md',
         validKo,
         enWithDifferentNote
       );
-      expect(ranking).toBeNull();
-      expect(errors.some((e) => e.includes('sourceNote must match'))).toBe(true);
+      expect(ranking).not.toBeNull();
+      expect(errors).toEqual([]);
+      expect(ranking?.ko.sourceNote).toBe(validKo.sourceNote);
+      expect(ranking?.en.sourceNote).toBe('Different source');
     });
 
     it('detects sourceUrl mismatch', () => {
@@ -173,6 +178,27 @@ describe('merge — canonical rule application', () => {
       expect(errors.length).toBe(0);
       expect(ranking).not.toBeNull();
       expect(ranking?.field).toBe(validKo.field);
+      expect(ranking?.en.sourceNote).toBe(validKo.sourceNote);
+    });
+
+    it('allows EN sourceNote to be omitted and inherit from KO', () => {
+      const enWithoutSourceNote = {
+        title: 'LLM Agent Leaderboard',
+        field: 'ai',
+        asOfDate: '2026-06',
+        items: validEn.items,
+        // sourceNote omitted
+      };
+      const { ranking, errors } = validatePair(
+        'test.md',
+        validKo,
+        enWithoutSourceNote as RankingFileFront
+      );
+      expect(ranking).not.toBeNull();
+      expect(errors).toEqual([]);
+      expect(ranking?.ko.sourceNote).toBe(validKo.sourceNote);
+      expect(ranking?.en.sourceNote).toBe(validKo.sourceNote);
+      expect(ranking?.en.sourceNote).toBe(ranking?.ko.sourceNote);
     });
 
     it('returns error details in filename context', () => {

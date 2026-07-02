@@ -118,9 +118,9 @@ describe('favorites', () => {
         slug: 'ranking-1',
         field: 'ai',
         asOfDate: '2026-06',
-        sourceNote: 'Source',
         ko: {
           title: 'Test 1',
+          sourceNote: 'Source',
           items: [
             { rank: 1, name: 'Item', description: 'Desc' },
             { rank: 2, name: 'Item', description: 'Desc' },
@@ -129,6 +129,7 @@ describe('favorites', () => {
         },
         en: {
           title: 'Test 1',
+          sourceNote: 'Source',
           items: [
             { rank: 1, name: 'Item', description: 'Desc' },
             { rank: 2, name: 'Item', description: 'Desc' },
@@ -140,9 +141,9 @@ describe('favorites', () => {
         slug: 'ranking-2',
         field: 'programming',
         asOfDate: '2026-06',
-        sourceNote: 'Source',
         ko: {
           title: 'Test 2',
+          sourceNote: 'Source',
           items: [
             { rank: 1, name: 'Item', description: 'Desc' },
             { rank: 2, name: 'Item', description: 'Desc' },
@@ -151,6 +152,7 @@ describe('favorites', () => {
         },
         en: {
           title: 'Test 2',
+          sourceNote: 'Source',
           items: [
             { rank: 1, name: 'Item', description: 'Desc' },
             { rank: 2, name: 'Item', description: 'Desc' },

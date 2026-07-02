@@ -7,8 +7,9 @@ import { resolveSlug } from './slug';
 
 /**
  * Merge ko + en pair following canonical rule:
- * - Structural fields (field, asOfDate, sourceNote, sourceUrl) from KO canonical
+ * - Structural fields (field, asOfDate, sourceUrl) from KO canonical
  * - EN inherits if absent; must match if present (error if conflict)
+ * - sourceNote is per-locale (ko.sourceNote, en.sourceNote) — can differ
  * - Locale items (title, items[]) independent per locale
  *
  * INVARIANT: every merged record has both ko+en with ≥3 items each.
@@ -27,23 +28,28 @@ export function mergePair(
       `mergePair: KO field/asOfDate/sourceNote are required (${koFilename})`
     );
   }
+  if (!enFront.sourceNote) {
+    throw new Error(
+      `mergePair: EN sourceNote is required (or inherit from KO) (${koFilename})`
+    );
+  }
   const field = koFront.field;
   const asOfDate = koFront.asOfDate;
-  const sourceNote = koFront.sourceNote;
   const sourceUrl = koFront.sourceUrl;
 
   return {
     slug,
     field,
     asOfDate,
-    sourceNote,
     sourceUrl,
     ko: {
       title: koFront.title,
+      sourceNote: koFront.sourceNote,
       items: koFront.items,
     },
     en: {
       title: enFront.title,
+      sourceNote: enFront.sourceNote,
       items: enFront.items,
     },
   };
@@ -52,6 +58,7 @@ export function mergePair(
 /**
  * Validate ko+en pair and return merged record + errors.
  * Errors are non-blocking (collect all before failing).
+ * EN sourceNote can differ from KO (or be omitted to inherit KO).
  * Returns { ranking: MergedRanking | null, errors: string[] }.
  */
 export function validatePair(
@@ -94,7 +101,7 @@ export function validatePair(
     return { ranking: null, errors };
   }
 
-  // Canonical rule check: EN field/asOfDate/sourceNote must not override KO if present
+  // Canonical rule check: EN field/asOfDate/sourceUrl must not override KO if present
   if (en.field && en.field !== ko.field) {
     errors.push(
       `${koFilename}: EN field must match KO (KO="${ko.field}", EN="${en.field}")`
@@ -105,14 +112,20 @@ export function validatePair(
       `${koFilename}: EN asOfDate must match KO (KO="${ko.asOfDate}", EN="${en.asOfDate}")`
     );
   }
-  if (en.sourceNote && en.sourceNote !== ko.sourceNote) {
-    errors.push(`${koFilename}: EN sourceNote must match KO`);
-  }
   if (en.sourceUrl && en.sourceUrl !== ko.sourceUrl) {
     errors.push(`${koFilename}: EN sourceUrl must match KO`);
   }
 
-  const ranking = mergePair(ko, en, koFilename);
+  // EN sourceNote can differ from KO (localized), or inherit if omitted
+  const enSourceNote = en.sourceNote ?? ko.sourceNote;
+  if (!enSourceNote) {
+    errors.push(`${koFilename}: EN sourceNote is required (or inherit from KO)`);
+    return { ranking: null, errors };
+  }
+
+  // Merge with inherited EN sourceNote
+  const enWithSourceNote = { ...en, sourceNote: enSourceNote };
+  const ranking = mergePair(ko, enWithSourceNote as RankingFileFront, koFilename);
 
   return { ranking: errors.length === 0 ? ranking : null, errors };
 }

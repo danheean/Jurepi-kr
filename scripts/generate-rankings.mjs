@@ -37,10 +37,10 @@ const MergedRankingSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
   field: z.enum(['ai', 'programming', 'tech', 'games', 'movies', 'music']),
   asOfDate: z.string(),
-  sourceNote: z.string(),
   sourceUrl: z.string().url().optional(),
   ko: z.object({
     title: z.string(),
+    sourceNote: z.string(),
     items: z.array(
       z.object({
         rank: z.number().int(),
@@ -55,6 +55,7 @@ const MergedRankingSchema = z.object({
   }),
   en: z.object({
     title: z.string(),
+    sourceNote: z.string(),
     items: z.array(
       z.object({
         rank: z.number().int(),
@@ -96,26 +97,30 @@ function resolveSlug(front, filename) {
 
 /**
  * Merge ko + en pair following canonical rule.
+ * sourceNote is per-locale; EN can differ from KO or inherit if omitted.
  */
 function mergePair(koFront, enFront, koFilename = 'unknown.md') {
   const slug = resolveSlug(koFront, koFilename);
   const field = koFront.field;
   const asOfDate = koFront.asOfDate;
-  const sourceNote = koFront.sourceNote;
   const sourceUrl = koFront.sourceUrl;
+
+  // EN sourceNote can be different or omit to inherit from KO
+  const enSourceNote = enFront.sourceNote ?? koFront.sourceNote;
 
   return {
     slug,
     field,
     asOfDate,
-    sourceNote,
     sourceUrl,
     ko: {
       title: koFront.title,
+      sourceNote: koFront.sourceNote,
       items: koFront.items,
     },
     en: {
       title: enFront.title,
+      sourceNote: enSourceNote,
       items: enFront.items,
     },
   };
@@ -123,6 +128,7 @@ function mergePair(koFront, enFront, koFilename = 'unknown.md') {
 
 /**
  * Validate pair + merged record; collect all errors (non-blocking).
+ * EN sourceNote can differ from KO (localized), or inherit if omitted.
  */
 function validatePair(koFilename, koFront, enFront) {
   const errors = [];
@@ -148,7 +154,7 @@ function validatePair(koFilename, koFront, enFront) {
   const ko = koResult.data;
   const en = enResult.data;
 
-  // Canonical rule check: EN field/asOfDate/sourceNote/sourceUrl must match KO
+  // Canonical rule check: EN field/asOfDate/sourceUrl must match KO if present
   if (en.field && en.field !== ko.field) {
     errors.push(
       `${koFilename}: EN field must match KO (KO="${ko.field}", EN="${en.field}")`
@@ -157,11 +163,6 @@ function validatePair(koFilename, koFront, enFront) {
   if (en.asOfDate && en.asOfDate !== ko.asOfDate) {
     errors.push(
       `${koFilename}: EN asOfDate must match KO (KO="${ko.asOfDate}", EN="${en.asOfDate}")`
-    );
-  }
-  if (en.sourceNote && en.sourceNote !== ko.sourceNote) {
-    errors.push(
-      `${koFilename}: EN sourceNote must match KO`
     );
   }
   if (en.sourceUrl && en.sourceUrl !== ko.sourceUrl) {

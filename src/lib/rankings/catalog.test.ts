@@ -15,9 +15,9 @@ describe('catalog', () => {
       slug: 'llm-agents',
       field: 'ai',
       asOfDate: '2026-06',
-      sourceNote: 'Agent Arena',
       ko: {
         title: 'AI 에이전트 순위',
+        sourceNote: 'Source',
         items: [
           { rank: 1, name: 'Claude', description: 'Best' },
           { rank: 2, name: 'GPT', description: 'Good' },
@@ -26,6 +26,7 @@ describe('catalog', () => {
       },
       en: {
         title: 'AI Agent Leaderboard',
+        sourceNote: 'Source',
         items: [
           { rank: 1, name: 'Claude', description: 'Best' },
           { rank: 2, name: 'GPT', description: 'Good' },
@@ -37,9 +38,9 @@ describe('catalog', () => {
       slug: 'programming-langs',
       field: 'programming',
       asOfDate: '2026-06',
-      sourceNote: 'TIOBE',
       ko: {
         title: '프로그래밍 언어',
+        sourceNote: 'Source',
         items: [
           { rank: 1, name: 'Python', description: 'Popular' },
           { rank: 2, name: 'C', description: 'Systems' },
@@ -48,6 +49,7 @@ describe('catalog', () => {
       },
       en: {
         title: 'Programming Languages',
+        sourceNote: 'Source',
         items: [
           { rank: 1, name: 'Python', description: 'Popular' },
           { rank: 2, name: 'C', description: 'Systems' },
@@ -59,9 +61,9 @@ describe('catalog', () => {
       slug: 'best-games',
       field: 'games',
       asOfDate: '2026-06',
-      sourceNote: 'IGN',
       ko: {
         title: '게임 순위',
+        sourceNote: 'Source',
         items: [
           { rank: 1, name: 'Game A', description: 'Excellent' },
           { rank: 2, name: 'Game B', description: 'Great' },
@@ -70,6 +72,7 @@ describe('catalog', () => {
       },
       en: {
         title: 'Game Rankings',
+        sourceNote: 'Source',
         items: [
           { rank: 1, name: 'Game A', description: 'Excellent' },
           { rank: 2, name: 'Game B', description: 'Great' },

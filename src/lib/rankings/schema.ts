@@ -51,16 +51,17 @@ export type RankingFileFront = z.infer<typeof RankingFileFrontSchema>;
  * Merged ko+en record (catalog item).
  * Result of merging koFront + enFront via canonical rule.
  * This is what gets emitted to rankings.generated.json.
+ * sourceNote is now per-locale (ko.sourceNote, en.sourceNote).
  */
 export const MergedRankingSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/, 'slug must be alphanumeric+hyphen'),
   field: z.enum(['ai', 'programming', 'tech', 'games', 'movies', 'music']),
   asOfDate: z.string(), // ISO date
-  sourceNote: z.string(),
-  sourceUrl: z.string().url().optional(), // NEW: optional
+  sourceUrl: z.string().url().optional(),
 
   ko: z.object({
     title: z.string(),
+    sourceNote: z.string(),
     items: z.array(
       z.object({
         rank: z.number().int(),
@@ -75,6 +76,7 @@ export const MergedRankingSchema = z.object({
   }),
   en: z.object({
     title: z.string(),
+    sourceNote: z.string(),
     items: z.array(
       z.object({
         rank: z.number().int(),

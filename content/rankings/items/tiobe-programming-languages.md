@@ -3,7 +3,7 @@ title: 프로그래밍 언어 인기 순위
 slug: tiobe-programming-languages
 field: programming
 asOfDate: "2026-06"
-sourceNote: "TIOBE Index · 2026-06"
+sourceNote: "TIOBE 인덱스 기준 · 2026년 6월"
 sourceUrl: "https://www.tiobe.com/tiobe-index/"
 items:
   - rank: 1

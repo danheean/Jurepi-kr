@@ -2,7 +2,7 @@
 title: Programming Language Popularity
 field: programming
 asOfDate: "2026-06"
-sourceNote: "TIOBE Index · 2026-06"
+sourceNote: "Based on the TIOBE Index · June 2026"
 sourceUrl: "https://www.tiobe.com/tiobe-index/"
 items:
   - rank: 1

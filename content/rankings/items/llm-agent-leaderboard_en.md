@@ -2,7 +2,7 @@
 title: LLM Agent Leaderboard
 field: ai
 asOfDate: "2026-06"
-sourceNote: "Agent Arena Leaderboard · 2026-06-29"
+sourceNote: "Based on the Agent Arena leaderboard · June 29, 2026"
 sourceUrl: "https://arena.ai/leaderboard/agent"
 items:
   - rank: 1

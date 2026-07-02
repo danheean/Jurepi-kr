@@ -9,10 +9,10 @@ const mockRankings: MergedRanking[] = [
     slug: 'llm-agents',
     field: 'ai',
     asOfDate: '2026-06',
-    sourceNote: 'Test source',
     sourceUrl: 'https://example.com',
     ko: {
       title: 'LLM 에이전트',
+      sourceNote: 'Source',
       items: [
         {
           rank: 1,
@@ -33,6 +33,7 @@ const mockRankings: MergedRanking[] = [
     },
     en: {
       title: 'LLM Agents',
+      sourceNote: 'Source',
       items: [
         { rank: 1, name: 'Claude', description: 'Anthropic LLM' },
         { rank: 2, name: 'GPT-5', description: 'OpenAI LLM' },
@@ -44,9 +45,9 @@ const mockRankings: MergedRanking[] = [
     slug: 'programming-langs',
     field: 'programming',
     asOfDate: '2026-06',
-    sourceNote: 'TIOBE',
     ko: {
       title: '프로그래밍 언어',
+      sourceNote: 'Source',
       items: [
         { rank: 1, name: 'Python', description: 'Popular' },
         { rank: 2, name: 'JavaScript', description: 'Web' },
@@ -55,6 +56,7 @@ const mockRankings: MergedRanking[] = [
     },
     en: {
       title: 'Programming Languages',
+      sourceNote: 'Source',
       items: [
         { rank: 1, name: 'Python', description: 'Popular' },
         { rank: 2, name: 'JavaScript', description: 'Web' },

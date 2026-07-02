@@ -48,7 +48,7 @@ export function RankingDetail({ ranking, onClose }: RankingDetailProps) {
       {/* Provenance banner — CRITICAL trust surface */}
       <ProvenanceBanner
         asOfDate={ranking.asOfDate}
-        sourceNote={ranking.sourceNote}
+        sourceNote={localeData.sourceNote}
         sourceUrl={ranking.sourceUrl}
       />
 

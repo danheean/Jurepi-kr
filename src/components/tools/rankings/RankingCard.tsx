@@ -86,7 +86,7 @@ export function RankingCard({
           {ranking.asOfDate}
         </time>
         <span className="text-hairline-strong">·</span>
-        <span className="truncate">{ranking.sourceNote}</span>
+        <span className="truncate">{localeData.sourceNote}</span>
       </div>
     </div>
   );

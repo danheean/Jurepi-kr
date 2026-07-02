@@ -3,7 +3,7 @@ title: LLM 에이전트 순위
 slug: llm-agent-leaderboard
 field: ai
 asOfDate: "2026-06"
-sourceNote: "Agent Arena Leaderboard · 2026-06-29"
+sourceNote: "Agent Arena 리더보드 기준 · 2026-06-29"
 sourceUrl: "https://arena.ai/leaderboard/agent"
 items:
   - rank: 1

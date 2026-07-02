@@ -41,9 +41,9 @@ describe('search', () => {
         slug: 'llm-agents',
         field: 'ai',
         asOfDate: '2026-06',
-        sourceNote: 'Agent Arena',
         ko: {
           title: 'AI 에이전트 순위',
+          sourceNote: 'Source',
           items: [
             { rank: 1, name: 'Claude', description: '최고의 에이전트' },
             { rank: 2, name: 'GPT', description: '강력한 성능' },
@@ -52,6 +52,7 @@ describe('search', () => {
         },
         en: {
           title: 'AI Agent Leaderboard',
+          sourceNote: 'Source',
           items: [
             { rank: 1, name: 'Claude', description: 'Best agent' },
             { rank: 2, name: 'GPT', description: 'Strong performer' },
@@ -63,9 +64,9 @@ describe('search', () => {
         slug: 'programming-langs',
         field: 'programming',
         asOfDate: '2026-06',
-        sourceNote: 'TIOBE Index',
         ko: {
           title: '프로그래밍 언어 순위',
+          sourceNote: 'Source',
           items: [
             { rank: 1, name: 'Python', description: '가장 인기 있음' },
             { rank: 2, name: 'C', description: '시스템 언어' },
@@ -74,6 +75,7 @@ describe('search', () => {
         },
         en: {
           title: 'Programming Languages',
+          sourceNote: 'Source',
           items: [
             { rank: 1, name: 'Python', description: 'Most popular' },
             { rank: 2, name: 'C', description: 'Systems language' },
