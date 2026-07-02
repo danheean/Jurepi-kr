@@ -1,6 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
 import { getLiveTools } from '@/tools/registry';
+import { absoluteEntityUrl } from '@/lib/seo';
+import { byId } from '@/lib/new-word/catalog';
+import termsData from '@/components/tools/new-word/data/terms.generated.json';
 
 // Required for output: 'export' — emit a static sitemap at build time.
 export const dynamic = 'force-static';
@@ -53,6 +56,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: `${siteUrl}/${locale}/tools/${tool.slug}`,
         lastModified: new Date(),
         priority: 0.8,
+        changeFrequency: 'monthly',
+      } as any);
+    });
+  });
+
+  // Add new-word spoke pages (16 terms × 2 locales = 32 entries)
+  const catalog = termsData as any[];
+  catalog.forEach((term) => {
+    locales.forEach((locale) => {
+      const url = absoluteEntityUrl(locale, 'new-word', term.slug);
+      entries.push({
+        url,
+        lastModified: new Date(),
+        priority: 0.7,
         changeFrequency: 'monthly',
       } as any);
     });

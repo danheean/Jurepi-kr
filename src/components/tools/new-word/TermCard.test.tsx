@@ -100,6 +100,57 @@ describe('TermCard', () => {
     expect(screen.queryByText('tag4')).not.toBeInTheDocument();
   });
 
+  it('card is a crawlable anchor linking to the spoke page (visible, not hidden)', () => {
+    const onSelect = vi.fn();
+    const onToggleFav = vi.fn();
+
+    render(
+      <TermCard
+        term={mockTerm}
+        isSelected={false}
+        isFavorite={false}
+        onSelect={onSelect}
+        onToggleFav={onToggleFav}
+        currentLocale="ko"
+      />
+    );
+
+    const card = screen.getByTestId('term-card-test-slug');
+    // The card root itself is the crawlable link — real <a href> in the SSR HTML.
+    expect(card.tagName).toBe('A');
+    // href includes locale prefix from useLocale() (test-utils default locale 'en').
+    expect(card).toHaveAttribute(
+      'href',
+      expect.stringContaining('/tools/new-word/test-slug')
+    );
+    // Content must stay visible (regression guard: it was once wrapped in `hidden`).
+    expect(card).not.toHaveClass('hidden');
+    expect(screen.getByText('테스트 용어')).toBeInTheDocument();
+  });
+
+  it('plain click opens the SPA panel (preventDefault) instead of navigating', () => {
+    const onSelect = vi.fn();
+    const onToggleFav = vi.fn();
+
+    render(
+      <TermCard
+        term={mockTerm}
+        isSelected={false}
+        isFavorite={false}
+        onSelect={onSelect}
+        onToggleFav={onToggleFav}
+        currentLocale="ko"
+      />
+    );
+
+    const card = screen.getByTestId('term-card-test-slug');
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+    card.dispatchEvent(event);
+
+    expect(onSelect).toHaveBeenCalledWith('test-slug');
+    expect(event.defaultPrevented).toBe(true);
+  });
+
   it('calls onSelect when clicked', async () => {
     const onSelect = vi.fn();
     const onToggleFav = vi.fn();

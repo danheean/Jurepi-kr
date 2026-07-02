@@ -5,6 +5,10 @@ import {
   softwareApplicationJsonLd,
   faqPageJsonLd,
   definedTermSetJsonLd,
+  absoluteEntityUrl,
+  buildToolEntityMetadata,
+  definedTermJsonLd,
+  breadcrumbListJsonLd,
 } from './seo';
 
 describe('SEO Builders', () => {
@@ -320,6 +324,171 @@ describe('SEO Builders', () => {
       expect(jsonLd.description).toBe('A glossary of MZ & tech terms');
       const hasDefinedTerm = jsonLd.hasDefinedTerm as any[];
       expect(hasDefinedTerm[0]?.description).toBe('A test definition');
+    });
+  });
+
+  describe('absoluteEntityUrl', () => {
+    it('builds entity URL for spoke page with locale and tool slug and entity slug', () => {
+      const url = absoluteEntityUrl('ko', 'new-word', 'god-saeng');
+      expect(url).toBe('https://jurepi.kr/ko/tools/new-word/god-saeng');
+    });
+
+    it('builds entity URL with en locale', () => {
+      const url = absoluteEntityUrl('en', 'new-word', 'zetakorea');
+      expect(url).toBe('https://jurepi.kr/en/tools/new-word/zetakorea');
+    });
+
+    it('respects NEXT_PUBLIC_SITE_URL environment variable', () => {
+      const originalEnv = process.env.NEXT_PUBLIC_SITE_URL;
+      process.env.NEXT_PUBLIC_SITE_URL = 'https://custom.dev';
+
+      const url = absoluteEntityUrl('ko', 'new-word', 'test-term');
+      expect(url).toBe('https://custom.dev/ko/tools/new-word/test-term');
+
+      if (originalEnv === undefined) {
+        delete process.env.NEXT_PUBLIC_SITE_URL;
+      } else {
+        process.env.NEXT_PUBLIC_SITE_URL = originalEnv;
+      }
+    });
+  });
+
+  describe('buildToolEntityMetadata', () => {
+    it('builds metadata for entity (spoke) page with canonical entity URL', () => {
+      const metadata = buildToolEntityMetadata({
+        locale: 'ko',
+        toolSlug: 'new-word',
+        entitySlug: 'god-saeng',
+        title: '갓생 | Jurepi',
+        description: '참된 삶을 산다는 의미의 신조어',
+      });
+
+      expect(metadata.title).toBe('갓생 | Jurepi');
+      expect(metadata.description).toBe('참된 삶을 산다는 의미의 신조어');
+      expect(metadata.alternates?.canonical).toBe('https://jurepi.kr/ko/tools/new-word/god-saeng');
+    });
+
+    it('sets correct hreflang alternates for entity page (ko and en)', () => {
+      const metadata = buildToolEntityMetadata({
+        locale: 'ko',
+        toolSlug: 'new-word',
+        entitySlug: 'god-saeng',
+        title: 'Test',
+        description: 'Test',
+      });
+
+      expect(metadata.alternates?.languages).toEqual({
+        ko: 'https://jurepi.kr/ko/tools/new-word/god-saeng',
+        en: 'https://jurepi.kr/en/tools/new-word/god-saeng',
+      });
+    });
+
+    it('sets og.type to article', () => {
+      const metadata = buildToolEntityMetadata({
+        locale: 'en',
+        toolSlug: 'new-word',
+        entitySlug: 'god-saeng',
+        title: 'God-saeng',
+        description: 'Meaning a virtuous life',
+      });
+
+      expect((metadata.openGraph as any)?.type).toBe('article');
+    });
+
+    it('sets correct og.url to entity URL', () => {
+      const metadata = buildToolEntityMetadata({
+        locale: 'en',
+        toolSlug: 'new-word',
+        entitySlug: 'god-saeng',
+        title: 'Test',
+        description: 'Test',
+      });
+
+      expect(metadata.openGraph?.url).toBe('https://jurepi.kr/en/tools/new-word/god-saeng');
+    });
+  });
+
+  describe('definedTermJsonLd', () => {
+    it('builds DefinedTerm JSON-LD with correct @type and structure', () => {
+      const jsonLd = definedTermJsonLd({
+        name: '갓생',
+        description: '참된 삶을 사는 상태',
+        url: 'https://jurepi.kr/ko/tools/new-word/god-saeng',
+        inDefinedTermSetUrl: 'https://jurepi.kr/ko/tools/new-word',
+      });
+
+      expect(jsonLd['@context']).toBe('https://schema.org');
+      expect(jsonLd['@type']).toBe('DefinedTerm');
+      expect(jsonLd.name).toBe('갓생');
+      expect(jsonLd.description).toBe('참된 삶을 사는 상태');
+      expect(jsonLd.url).toBe('https://jurepi.kr/ko/tools/new-word/god-saeng');
+    });
+
+    it('sets inDefinedTermSet with @id', () => {
+      const jsonLd = definedTermJsonLd({
+        name: 'Test Term',
+        description: 'Test description',
+        url: 'https://example.com/term',
+        inDefinedTermSetUrl: 'https://example.com/glossary',
+      });
+
+      expect(jsonLd.inDefinedTermSet).toEqual({
+        '@id': 'https://example.com/glossary',
+      });
+    });
+  });
+
+  describe('breadcrumbListJsonLd', () => {
+    it('builds BreadcrumbList JSON-LD with itemListElement array', () => {
+      const items = [
+        { name: 'Home', url: 'https://jurepi.kr/ko' },
+        { name: 'Tools', url: 'https://jurepi.kr/ko/tools' },
+        { name: '신조어 사전', url: 'https://jurepi.kr/ko/tools/new-word' },
+      ];
+
+      const jsonLd = breadcrumbListJsonLd(items);
+
+      expect(jsonLd['@context']).toBe('https://schema.org');
+      expect(jsonLd['@type']).toBe('BreadcrumbList');
+      expect(jsonLd.numberOfItems).toBe(3);
+    });
+
+    it('maps items to itemListElement with 1-based position', () => {
+      const items = [
+        { name: 'Home', url: 'https://example.com' },
+        { name: 'Tools', url: 'https://example.com/tools' },
+      ];
+
+      const jsonLd = breadcrumbListJsonLd(items);
+      const itemListElement = jsonLd.itemListElement as any[];
+
+      expect(itemListElement).toHaveLength(2);
+      expect(itemListElement[0]).toEqual({
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://example.com',
+      });
+      expect(itemListElement[1]).toEqual({
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Tools',
+        item: 'https://example.com/tools',
+      });
+    });
+
+    it('handles empty breadcrumb array', () => {
+      const jsonLd = breadcrumbListJsonLd([]);
+
+      expect(jsonLd.numberOfItems).toBe(0);
+      expect(jsonLd.itemListElement).toEqual([]);
+    });
+
+    it('handles single breadcrumb item', () => {
+      const jsonLd = breadcrumbListJsonLd([{ name: 'Home', url: 'https://example.com' }]);
+
+      expect(jsonLd.numberOfItems).toBe(1);
+      expect((jsonLd.itemListElement as any[])[0]?.position).toBe(1);
     });
   });
 });

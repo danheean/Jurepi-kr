@@ -230,3 +230,112 @@ export function itemListJsonLd({
     })),
   };
 }
+
+/**
+ * Build absolute URL for an entity (spoke) page — canonical/JSON-LD/sitemap single source.
+ * Example: `/ko/tools/new-word/god-saeng` → `https://jurepi.kr/ko/tools/new-word/god-saeng`
+ */
+export function absoluteEntityUrl(locale: string, toolSlug: string, entitySlug: string): string {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jurepi.kr';
+  return `${siteUrl}/${locale}/tools/${toolSlug}/${entitySlug}`;
+}
+
+/**
+ * Build metadata for an entity (spoke) page — mirrors buildToolMetadata but for individual entities.
+ * Constructs canonical URL to entity page, hreflang alternates (ko/en), and Open Graph tags with type='article'.
+ */
+export function buildToolEntityMetadata({
+  locale,
+  toolSlug,
+  entitySlug,
+  title,
+  description,
+}: {
+  locale: string;
+  toolSlug: string;
+  entitySlug: string;
+  title: string;
+  description: string;
+}): Metadata {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jurepi.kr';
+  const canonicalUrl = absoluteEntityUrl(locale, toolSlug, entitySlug);
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        ko: absoluteEntityUrl('ko', toolSlug, entitySlug),
+        en: absoluteEntityUrl('en', toolSlug, entitySlug),
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      url: canonicalUrl,
+      siteName: 'Jurepi',
+      locale: locale === 'ko' ? 'ko_KR' : 'en_US',
+      images: [
+        {
+          url: `${siteUrl}/og-default.png`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`${siteUrl}/og-default.png`],
+    },
+  };
+}
+
+/**
+ * Build a single DefinedTerm JSON-LD.
+ * Used for spoke pages to mark up individual terms in a glossary.
+ */
+export function definedTermJsonLd({
+  name,
+  description,
+  url,
+  inDefinedTermSetUrl,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  inDefinedTermSetUrl: string;
+}): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    name,
+    description,
+    url,
+    inDefinedTermSet: {
+      '@id': inDefinedTermSetUrl,
+    },
+  };
+}
+
+/**
+ * Build BreadcrumbList JSON-LD.
+ * Structured data for breadcrumb navigation on spoke pages.
+ */
+export function breadcrumbListJsonLd(items: Array<{ name: string; url: string }>): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}

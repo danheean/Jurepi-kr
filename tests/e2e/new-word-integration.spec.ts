@@ -156,9 +156,10 @@ test.describe('New Word Glossary - E2E Integration', () => {
     const recentTab = page.locator('[data-testid="topic-tab-recent"]');
     await expect(recentTab).toBeVisible({ timeout: 5000 });
 
-    // Star the first card (favorite)
-    const firstCardAgain = page.locator('[data-testid^="term-card-"]').nth(0);
-    const starBtn = firstCardAgain.locator('[data-testid^="term-star-"]').first();
+    // Star the first card (favorite). The star button is a sibling of the card
+    // link (a button may not be nested inside an <a>), so select it at page level;
+    // DOM order keeps the first star aligned with the first card.
+    const starBtn = page.locator('[data-testid^="term-star-"]').nth(0);
     await expect(starBtn).toBeVisible();
     const ariaPressed = await starBtn.getAttribute('aria-pressed');
     await starBtn.click();
@@ -288,8 +289,8 @@ test.describe('New Word Glossary - E2E Integration', () => {
     const textContent = await firstCard.textContent();
     expect(ariaLabel || textContent).toBeTruthy();
 
-    // Stars should have aria-pressed
-    const starBtn = firstCard.locator('[data-testid^="term-star-"]').first();
+    // Stars should have aria-pressed (star button is a sibling of the card link)
+    const starBtn = page.locator('[data-testid^="term-star-"]').first();
     const ariaPressed = await starBtn.getAttribute('aria-pressed');
     expect(['true', 'false']).toContain(ariaPressed);
 
@@ -327,5 +328,71 @@ test.describe('New Word Glossary - E2E Integration', () => {
     // Detail should be visible (bottom-sheet on mobile, or visible panel)
     const detailPanel = page.locator('[data-testid="term-detail"]');
     await expect(detailPanel).toBeVisible({ timeout: 5000 });
+  });
+
+  test('Spoke pages: term detail route renders, breadcrumb, related + back navigation', async ({
+    page,
+  }) => {
+    const consoleErrors: string[] = [];
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') consoleErrors.push(msg.text());
+    });
+
+    // Direct navigation to a term spoke page (SEO entity URL)
+    await page.goto('/ko/tools/new-word/god-saeng');
+    await page.waitForLoadState('networkidle');
+
+    // H1 is the term itself
+    const h1 = page.locator('h1');
+    await expect(h1).toBeVisible({ timeout: 5000 });
+    await expect(h1).toContainText('갓생');
+
+    // Breadcrumb: 홈 › 신조어 용어사전 › 갓생
+    const breadcrumb = page.locator('[data-testid="spoke-breadcrumb"]');
+    await expect(breadcrumb).toBeVisible();
+    await expect(breadcrumb).toContainText('홈');
+    await expect(breadcrumb).toContainText('갓생');
+
+    // Definition body is visible (outside any gate)
+    const article = page.getByRole('article');
+    await expect(article).toContainText('MZ');
+
+    // Related link navigates to another spoke
+    const relatedLink = page.locator('[data-testid="spoke-related-link-king-batda"]');
+    await expect(relatedLink).toHaveAttribute(
+      'href',
+      '/ko/tools/new-word/king-batda'
+    );
+    await relatedLink.click();
+    await page.waitForLoadState('networkidle');
+    await expect(page).toHaveURL(/\/ko\/tools\/new-word\/king-batda$/);
+    await expect(page.locator('h1')).toBeVisible();
+
+    // Back-to-hub link returns to the glossary hub (SPA)
+    const backLink = page.locator('[data-testid="spoke-back-to-hub"]');
+    await expect(backLink).toHaveAttribute('href', '/ko/tools/new-word');
+    await backLink.click();
+    await page.waitForLoadState('networkidle');
+    await expect(page).toHaveURL(/\/ko\/tools\/new-word$/);
+    await expect(page.locator('[data-testid="term-search-input"]')).toBeVisible();
+
+    expect(consoleErrors).toEqual([]);
+  });
+
+  test('Hub cards are crawlable links to spoke pages', async ({ page }) => {
+    await page.goto('/ko/tools/new-word');
+    await page.waitForLoadState('networkidle');
+
+    // Every term card is a real anchor pointing at its spoke URL
+    const firstCard = page.locator('[data-testid^="term-card-"]').nth(0);
+    const href = await firstCard.getAttribute('href');
+    expect(href).toMatch(/^\/ko\/tools\/new-word\/[a-z0-9-]+$/);
+
+    // Navigating there loads the spoke page
+    await page.goto(href!);
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('[data-testid="spoke-breadcrumb"]')).toBeVisible({
+      timeout: 5000,
+    });
   });
 });
