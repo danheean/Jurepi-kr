@@ -1,9 +1,8 @@
 import { useTranslations } from 'next-intl';
 
 interface TopicTabsProps {
-  activeTab: 'all' | 'topics' | 'favorites' | 'recent';
-  setActiveTab: (tab: 'all' | 'topics' | 'favorites' | 'recent') => void;
-  topicsCount: number;
+  activeTab: 'all' | 'favorites' | 'recent';
+  setActiveTab: (tab: 'all' | 'favorites' | 'recent') => void;
   favCount: number;
   recentCount: number;
 }
@@ -19,7 +18,6 @@ interface TopicTabsProps {
 export function TopicTabs({
   activeTab,
   setActiveTab,
-  topicsCount,
   favCount,
   recentCount,
 }: TopicTabsProps) {
@@ -46,16 +44,6 @@ export function TopicTabs({
         className={`${baseClass} ${stateClass(activeTab === 'all')}`}
       >
         {t('tabs.all')}
-      </button>
-
-      {/* Topics */}
-      <button
-        type="button"
-        aria-pressed={activeTab === 'topics'}
-        onClick={() => setActiveTab('topics')}
-        className={`${baseClass} ${stateClass(activeTab === 'topics')}`}
-      >
-        {t('tabs.topics')}
       </button>
 
       {/* Favorites */}

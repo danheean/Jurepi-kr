@@ -51,7 +51,7 @@ export function YouTubeEmbed({ youtubeId, label, description }: YouTubeEmbedProp
               <button
                 type="button"
                 onClick={() => setIsLoaded(true)}
-                className="flex items-center justify-center w-16 h-16 rounded-full bg-accent-sky hover:bg-accent-sky/90 shadow-card hover:shadow-card-hover transition-all focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2 focus:ring-offset-surface-muted"
+                className="flex items-center justify-center w-16 h-16 rounded-full bg-black/70 hover:bg-black/80 shadow-card hover:shadow-card-hover transition-all focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2 focus:ring-offset-surface-muted"
                 aria-label={t('playVideo')}
               >
                 <Play className="w-7 h-7 text-white fill-white" aria-hidden="true" />

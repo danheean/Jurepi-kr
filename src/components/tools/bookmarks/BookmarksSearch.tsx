@@ -49,7 +49,7 @@ export function BookmarksSearch({ query, setQuery, resultCount }: BookmarksSearc
         )}
       </div>
       {resultCount > 0 && (
-        <p className="mt-1.5 text-xs text-text-secondary">
+        <p role="status" aria-live="polite" className="mt-1.5 text-xs text-text-secondary">
           {t('resultCount', { count: resultCount })}
         </p>
       )}

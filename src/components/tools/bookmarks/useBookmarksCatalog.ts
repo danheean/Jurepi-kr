@@ -22,8 +22,8 @@ export interface UseBookmarksCatalogReturn {
   query: string;
   setQuery: (q: string) => void;
   resultCount: number;
-  activeTab: 'all' | 'topics' | 'favorites' | 'recent';
-  setActiveTab: (tab: 'all' | 'topics' | 'favorites' | 'recent') => void;
+  activeTab: 'all' | 'favorites' | 'recent';
+  setActiveTab: (tab: 'all' | 'favorites' | 'recent') => void;
   favorites: string[];
   recents: string[];
   toggleFavorite: (slug: string) => void;
@@ -36,18 +36,17 @@ interface State {
   selectedSlug: string | null;
   query: string;
   queryDraft: string;
-  activeTab: 'all' | 'topics' | 'favorites' | 'recent';
+  activeTab: 'all' | 'favorites' | 'recent';
   mounted: boolean;
 }
 
 type Action =
-  | { type: 'SET_CATALOG'; payload: MergedTopic[] }
   | { type: 'SET_STORE'; payload: BookmarksStore }
   | { type: 'SET_MOUNTED' }
   | { type: 'SET_QUERY_DRAFT'; payload: string }
   | { type: 'COMMIT_QUERY'; payload: string }
   | { type: 'SELECT'; payload: string | null }
-  | { type: 'SET_TAB'; payload: 'all' | 'topics' | 'favorites' | 'recent' }
+  | { type: 'SET_TAB'; payload: 'all' | 'favorites' | 'recent' }
   | { type: 'TOGGLE_FAVORITE'; payload: string }
   | { type: 'SYNC_STORE'; payload: BookmarksStore };
 
@@ -70,8 +69,6 @@ function initialState(catalog: MergedTopic[] = []): State {
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'SET_CATALOG':
-      return { ...state, catalog: action.payload };
     case 'SET_STORE':
       return { ...state, store: action.payload };
     case 'SET_MOUNTED':
@@ -110,42 +107,36 @@ export function useBookmarksCatalog(initialCatalog: MergedTopic[] = []): UseBook
 
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Load catalog on mount (dynamic import for code-split)
+  // Hydrate persisted store on mount. The catalog itself is already bundled and
+  // passed in as `initialCatalog` (seeded into initial state), so there's no
+  // dynamic import here — a separate `import()` of the same JSON would not
+  // code-split (the module is in the main chunk via the static import) and only
+  // adds an async hop before the list is interactive.
   useEffect(() => {
-    const loadCatalog = async () => {
-      try {
-        const module = await import('./data/bookmarks.generated.json');
-        const topics = (module.default || module) as MergedTopic[];
-        dispatch({ type: 'SET_CATALOG', payload: topics });
+    const topics = initialCatalog;
 
-        // Load localStorage
-        const stored = localStorage.getItem(STORAGE_KEY);
-        let store: BookmarksStore;
-        if (stored) {
-          try {
-            const parsed = JSON.parse(stored);
-            const validated = BookmarksStoreSchema.safeParse(parsed);
-            store = validated.success ? validated.data : initialState().store;
-          } catch {
-            store = initialState().store;
-          }
-        } else {
-          store = initialState().store;
-        }
-
-        // Prune unknown slugs
-        store.recents = pruneUnknown(store.recents, topics);
-        store.favorites = pruneUnknown(store.favorites, topics);
-
-        dispatch({ type: 'SET_STORE', payload: store });
-        dispatch({ type: 'SET_MOUNTED' });
-      } catch (e) {
-        // Fallback: catalog load failure, empty catalog in-memory
-        dispatch({ type: 'SET_MOUNTED' });
+    let store: BookmarksStore;
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        const validated = BookmarksStoreSchema.safeParse(parsed);
+        store = validated.success ? validated.data : initialState().store;
+      } else {
+        store = initialState().store;
       }
-    };
+    } catch {
+      store = initialState().store;
+    }
 
-    loadCatalog();
+    // Prune unknown slugs against the current catalog
+    store.recents = pruneUnknown(store.recents, topics);
+    store.favorites = pruneUnknown(store.favorites, topics);
+
+    dispatch({ type: 'SET_STORE', payload: store });
+    dispatch({ type: 'SET_MOUNTED' });
+    // initialCatalog is a stable module reference; run once on mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Debounced query commit (stale closure fix)
@@ -192,7 +183,7 @@ export function useBookmarksCatalog(initialCatalog: MergedTopic[] = []): UseBook
         .map((slug) => state.catalog.find((t) => t.slug === slug) ?? null)
         .filter((t) => t !== null) as MergedTopic[];
     }
-    // activeTab === 'all' or 'topics' both show all catalog
+    // activeTab === 'all' shows the full catalog
 
     return filterTopics(result, state.query, locale);
   }, [state.catalog, state.activeTab, state.query, state.store.favorites, state.store.recents, locale]);

@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { Star } from 'lucide-react';
+import { Star, Bookmark } from 'lucide-react';
 import type { MergedTopic } from '@/lib/bookmarks/schema';
 
 interface TopicCardProps {
@@ -33,14 +33,20 @@ export function TopicCard({
     // favorite button sits above it via z-10. This keeps the two actions as
     // DOM siblings — no interactive element nested inside another.
     <article
-      className={`relative p-4 rounded-xl border-2 shadow-card transition-[color,box-shadow,border-color,transform] ${
+      className={`relative p-4 rounded-xl border-2 shadow-card transition-[color,box-shadow,border-color,transform] duration-200 ease-out motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${
         isSelected
-          ? 'border-accent-sky bg-accent-sky-soft shadow-card-hover'
-          : 'border-hairline bg-surface hover:shadow-card-hover hover:border-hairline-strong'
+          ? 'border-accent-sky-ink bg-accent-sky-soft shadow-card-hover'
+          : 'border-hairline bg-surface hover:-translate-y-0.5 hover:shadow-card-hover hover:border-hairline-strong'
       }`}
     >
-      {/* Header: title + favorite button */}
+      {/* Header: accent icon tile + title + favorite button */}
       <div className="flex items-start gap-3 mb-3">
+        <span
+          className="flex-shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-xl bg-accent-sky-soft text-accent-sky-ink"
+          aria-hidden="true"
+        >
+          <Bookmark className="w-5 h-5" />
+        </span>
         <div className="flex-1 min-w-0">
           <h3 className="leading-tight">
             <button
@@ -63,8 +69,8 @@ export function TopicCard({
           <Star
             className={`w-5 h-5 ${
               isFavorited
-                ? 'fill-accent-sky text-accent-sky'
-                : 'text-text-secondary hover:text-accent-sky'
+                ? 'fill-accent-sky-ink text-accent-sky-ink'
+                : 'text-text-secondary hover:text-accent-sky-ink'
             }`}
           />
         </button>

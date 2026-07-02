@@ -621,7 +621,6 @@
       "tabs": {
         "filterLabel": "북마크 필터",
         "all": "전체",
-        "topics": "주제",
         "favorites": "즐겨찾기",
         "recent": "최근 본 북마크"
       },
@@ -640,7 +639,8 @@
       },
       "list": {
         "itemCount": "{sections}개 섹션 · {links}개 링크",
-        "toggleFavorite": "즐겨찾기 토글"
+        "toggleFavorite": "즐겨찾기 토글",
+        "regionHeading": "주제 목록"
       },
       "link": {
         "externalLink": "외부 링크",
@@ -750,7 +750,11 @@
           "image": "이미지",
           "rankAria": "{rank}위",
           "linkAria": "{name} 링크",
-          "medal": ["🥇", "🥈", "🥉"]
+          "medal": [
+            "🥇",
+            "🥈",
+            "🥉"
+          ]
         }
       },
       "toast": {

@@ -621,7 +621,6 @@
       "tabs": {
         "filterLabel": "Filter bookmarks",
         "all": "All",
-        "topics": "Topics",
         "favorites": "Favorites",
         "recent": "Recent bookmarks"
       },
@@ -640,7 +639,8 @@
       },
       "list": {
         "itemCount": "{sections} sections · {links} links",
-        "toggleFavorite": "Toggle favorite"
+        "toggleFavorite": "Toggle favorite",
+        "regionHeading": "Topic list"
       },
       "link": {
         "externalLink": "External link",
@@ -750,7 +750,11 @@
           "image": "Image",
           "rankAria": "Rank {rank}",
           "linkAria": "{name} link",
-          "medal": ["🥇", "🥈", "🥉"]
+          "medal": [
+            "🥇",
+            "🥈",
+            "🥉"
+          ]
         }
       },
       "toast": {

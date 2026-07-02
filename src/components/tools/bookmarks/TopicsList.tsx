@@ -12,6 +12,9 @@ interface TopicsListProps {
   onToggleFavorite: (slug: string) => void;
   onClearQuery: () => void;
   locale: 'ko' | 'en';
+  /** When the detail pane is open, the list sits in a narrow left column on
+      desktop, so it collapses back to a single column there. */
+  detailOpen?: boolean;
 }
 
 export function TopicsList({
@@ -23,6 +26,7 @@ export function TopicsList({
   onToggleFavorite,
   onClearQuery,
   locale,
+  detailOpen = false,
 }: TopicsListProps) {
   const t = useTranslations('tools.bookmarks');
 
@@ -49,7 +53,11 @@ export function TopicsList({
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div
+      className={`grid grid-cols-1 gap-4 md:grid-cols-2 ${
+        detailOpen ? 'lg:grid-cols-1' : ''
+      }`}
+    >
       {topics.map((topic) => (
         <TopicCard
           key={topic.slug}

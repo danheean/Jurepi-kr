@@ -43,6 +43,7 @@
   --accent-rose-soft: #fee2e7;
 
   /* Accent ink — dark, text-safe shade of an accent for labels on its *-soft tint (WCAG AA) */
+  --accent-sky-ink: #0369a1; /* dark sky — 5.95:1 on white, text/link/icon-safe (bright --accent-sky is only 2.14:1) */
   --accent-mint-ink: #0f766e; /* 4.82:1 on accent-mint-soft */
   --accent-sun-ink: #92400e; /* 6.32:1 on accent-sun-soft */
   --accent-grape-ink: #8a5300; /* honey-gold ink — 6.3:1 on white, 5.2:1 on accent-grape-soft */
@@ -125,6 +126,7 @@
   --brand-ink-strong: #ffd98a;
   --focus-ring: #ffca5c;
   /* Ink shades flip lighter so semantic/accent text stays AA on the dark surface */
+  --accent-sky-ink: #7dd3fc; /* light sky — ~10:1 on dark surface */
   --accent-grape-ink: #f0bc5e; /* honey-gold ink — 8.9:1 on dark surface */
   --danger-ink: #f87171; /* 6.07:1 on dark surface */
   --warning-ink: #fbbf24; /* 10.05:1 on dark surface */
@@ -162,6 +164,7 @@
     --brand-ink: #ffca5c;
     --brand-ink-strong: #ffd98a;
     --focus-ring: #ffca5c;
+    --accent-sky-ink: #7dd3fc;
     --accent-grape-ink: #f0bc5e;
     --danger-ink: #f87171;
     --warning-ink: #fbbf24;

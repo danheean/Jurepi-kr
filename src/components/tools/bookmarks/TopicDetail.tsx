@@ -32,7 +32,9 @@ export function TopicDetail({ topic, onClose, locale }: TopicDetailProps) {
       {/* Header: title + close button (mobile) */}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <h2 className="text-xl font-bold text-text leading-tight">{localeData.title}</h2>
+          <h2 id="bookmarks-detail-heading" className="text-xl font-bold text-text leading-tight">
+            {localeData.title}
+          </h2>
           <p className="mt-2 text-sm text-text-secondary">{localeData.description}</p>
         </div>
         <button

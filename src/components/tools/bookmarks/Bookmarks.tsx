@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import type { MergedTopic } from '@/lib/bookmarks/schema';
 import bookmarksData from './data/bookmarks.generated.json';
 import { Toast } from '@/components/ui/Toast';
@@ -25,11 +26,47 @@ export function Bookmarks() {
 
   const [toast, setToast] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+
+  // Detail focus management: move focus + scroll to the panel on open, and
+  // return focus to the card that opened it on close. Without this, selecting a
+  // topic renders the detail below the whole grid (off-screen on mobile) with no
+  // signal to keyboard/SR users that anything happened.
+  const detailRef = useRef<HTMLElement>(null);
+  const lastTriggerRef = useRef<HTMLElement | null>(null);
+  const selectedSlug = r.selectedSlug;
 
   // Gate interactive content to mounted state (SSR + client hydration safety)
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // On select, bring the detail panel into view and focus it.
+  useEffect(() => {
+    if (selectedSlug && detailRef.current) {
+      detailRef.current.focus({ preventScroll: true });
+      detailRef.current.scrollIntoView({
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        block: 'start',
+      });
+    }
+  }, [selectedSlug, prefersReducedMotion]);
+
+  const handleSelect = useCallback(
+    (slug: string | null) => {
+      if (slug) {
+        lastTriggerRef.current = document.activeElement as HTMLElement | null;
+      }
+      r.select(slug);
+    },
+    [r]
+  );
+
+  const handleCloseDetail = useCallback(() => {
+    r.select(null);
+    // Restore focus to the originating card after the panel unmounts.
+    requestAnimationFrame(() => lastTriggerRef.current?.focus?.());
+  }, [r]);
 
   const handleToggleFav = useCallback(
     (slug: string) => {
@@ -50,9 +87,17 @@ export function Bookmarks() {
           in the prerendered HTML for search engines and answer engines. */}
       <BookmarksIntro />
 
-      {/* Interactive bookmarks island. Selector on top, detail below. */}
+      {/* Interactive bookmarks island. Stacked on mobile; on desktop it splits
+          into a two-pane layout (selector left, sticky detail right) once a
+          topic is picked, so the detail no longer sits below the whole grid. */}
       {mounted && (
-        <div className="space-y-6">
+        <div
+          className={`space-y-6 ${
+            r.selectedTopic
+              ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-start lg:gap-6 lg:space-y-0'
+              : ''
+          }`}
+        >
           <div className="min-w-0 space-y-4">
             <BookmarksSearch
               query={r.query}
@@ -62,26 +107,38 @@ export function Bookmarks() {
             <TopicTabs
               activeTab={r.activeTab}
               setActiveTab={r.setActiveTab}
-              topicsCount={r.catalog.length}
               favCount={r.favorites.length}
               recentCount={r.recents.length}
             />
+            {/* Scopes the h3 topic-card headings under an h2, keeping the
+                page heading order h1 → h2 → h3 (no skipped level). */}
+            <h2 className="sr-only">{t('list.regionHeading')}</h2>
             <TopicsList
               topics={r.filtered}
               selectedSlug={r.selectedSlug}
               favorites={r.favorites}
               query={r.query}
-              onSelect={r.select}
+              onSelect={handleSelect}
               onToggleFavorite={handleToggleFav}
               onClearQuery={handleClearQuery}
               locale={locale}
+              detailOpen={!!r.selectedTopic}
             />
           </div>
 
           {/* Detail: full-width panel, only shown once a topic is picked */}
           {r.selectedTopic && (
-            <section className="rounded-3xl border border-hairline bg-surface p-6 shadow-card">
-              <TopicDetail topic={r.selectedTopic} onClose={() => r.select(null)} locale={locale} />
+            <section
+              ref={detailRef}
+              tabIndex={-1}
+              aria-labelledby="bookmarks-detail-heading"
+              className="scroll-mt-20 rounded-3xl border border-hairline bg-surface p-6 shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto"
+            >
+              <TopicDetail
+                topic={r.selectedTopic}
+                onClose={handleCloseDetail}
+                locale={locale}
+              />
             </section>
           )}
         </div>
