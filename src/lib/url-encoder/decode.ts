@@ -46,6 +46,7 @@ export function decodeComponent(
     // URIError (native), TextDecoder error, or parsePercentBytes error
     return {
       error: {
+        code: 'malformedSequence',
         message: 'Malformed percent sequence or invalid bytes for the selected charset',
         details: extractErrorDetails(e),
       },
@@ -74,6 +75,7 @@ export function decodeUri(
   } catch (e) {
     return {
       error: {
+        code: 'malformedSequence',
         message: 'Malformed sequence or charset mismatch',
         details: extractErrorDetails(e),
       },

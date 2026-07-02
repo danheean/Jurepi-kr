@@ -509,7 +509,9 @@
         "aria": "Encoding/decoding result",
         "copyButton": "Copy result",
         "copied": "Copied",
-        "copyFail": "Copy failed (check browser settings)"
+        "copyFail": "Copy failed (check browser settings)",
+        "empty": "Result will appear here",
+        "processing": "Processing…"
       },
       "alreadyEncoded": {
         "hint": "This text looks already encoded. Encoding again may double-encode it.",
@@ -539,7 +541,9 @@
         "unencodableChar": "Character '{char}' cannot be represented in {charset}.",
         "unencodableCharDetails": "Switch to UTF-8 or remove this character.",
         "tableLoadFailed": "Couldn't load the EUC-KR encoder. Check your connection and try again.",
-        "inputTooLong": "Input is too long (max 10,000 characters)."
+        "inputTooLong": "Input is too long (max 10,000 characters).",
+        "encodingFailed": "Encoding failed.",
+        "encodingFailedDetails": "Check your input and try again."
       },
       "shortcuts": {
         "help": "Keyboard shortcuts",

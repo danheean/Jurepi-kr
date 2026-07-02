@@ -7,11 +7,12 @@ interface Props {
   value: string;
   onChange: (text: string) => void;
   onProcess: () => Promise<void>;
+  onCommit?: () => void;
   batchMode: boolean;
   onClear: () => void;
 }
 
-export function TextInput({ value, onChange, onProcess, batchMode, onClear }: Props) {
+export function TextInput({ value, onChange, onProcess, onCommit, batchMode, onClear }: Props) {
   const t = useTranslations('tools.url-encoder');
   const charCount = value.length;
   const warnThreshold = Math.floor(INPUT_MAX_LEN * 0.8);
@@ -35,6 +36,7 @@ export function TextInput({ value, onChange, onProcess, batchMode, onClear }: Pr
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
+          onBlur={onCommit}
           placeholder={t('input.placeholder')}
           aria-label={t('input.aria')}
           className="w-full min-h-32 p-4 border border-hairline rounded-lg bg-surface text-text placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-focus-ring resize-vertical font-mono text-sm"
@@ -45,6 +47,7 @@ export function TextInput({ value, onChange, onProcess, batchMode, onClear }: Pr
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
+          onBlur={onCommit}
           placeholder={t('input.placeholder')}
           aria-label={t('input.aria')}
           className="w-full px-4 py-3 border border-hairline rounded-lg bg-surface text-text placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-focus-ring font-mono text-sm"

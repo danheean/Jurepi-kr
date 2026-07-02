@@ -59,8 +59,10 @@ export async function encode(
       return {
         alreadyEncodedHint: false,
         error: {
+          code: 'unencodableChar',
           message: `Character '${e.char}' cannot be encoded in ${charset}`,
           details: `${e.message}. Switch to UTF-8 or remove this character.`,
+          params: { char: e.char, charset },
         },
       };
     }
@@ -68,6 +70,7 @@ export async function encode(
     return {
       alreadyEncodedHint: false,
       error: {
+        code: 'encodingFailed',
         message: 'Encoding failed',
         details: e instanceof Error ? e.message : String(e),
       },

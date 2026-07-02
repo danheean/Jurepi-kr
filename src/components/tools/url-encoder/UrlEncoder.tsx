@@ -22,8 +22,6 @@ export function UrlEncoder({ locale }: Props) {
   const t = useTranslations('tools.url-encoder');
   const [state, actions] = useUrlEncoder();
   const [mounted, setMounted] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
-  const [pendingInput, setPendingInput] = useState('');
 
   useEffect(() => {
     setMounted(true);
@@ -68,30 +66,19 @@ export function UrlEncoder({ locale }: Props) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [state.direction, state.mode, state.charset, state.batchMode, actions]);
 
+  // The result is computed live as the user types. Enter (and input blur) just
+  // commit the current input to recents for quick re-use.
   const handleProcess = async () => {
-    if (state.alreadyEncodedHint && state.direction === 'encode' && !showWarning) {
-      setPendingInput(state.text);
-      setShowWarning(true);
-      return;
-    }
-    setShowWarning(false);
     await actions.process();
     if (state.text.trim()) {
       actions.addRecent(state.text);
     }
   };
 
-  const handleWarningProceed = async () => {
-    setShowWarning(false);
-    await actions.process();
+  const handleCommit = () => {
     if (state.text.trim()) {
       actions.addRecent(state.text);
     }
-  };
-
-  const handleWarningCancel = () => {
-    setShowWarning(false);
-    setPendingInput('');
   };
 
   if (!mounted) {
@@ -125,6 +112,7 @@ export function UrlEncoder({ locale }: Props) {
             value={state.text}
             onChange={actions.setText}
             onProcess={handleProcess}
+            onCommit={handleCommit}
             batchMode={state.batchMode}
             onClear={actions.clearAll}
           />
@@ -140,13 +128,9 @@ export function UrlEncoder({ locale }: Props) {
             />
           )}
 
-          {/* Already encoded warning */}
-          {showWarning && state.alreadyEncodedHint && (
-            <AlreadyEncodedWarning
-              visible={showWarning}
-              onProceed={handleWarningProceed}
-              onCancel={handleWarningCancel}
-            />
+          {/* Already-encoded advisory (non-blocking; result still shows live) */}
+          {state.direction === 'encode' && state.alreadyEncodedHint && (
+            <AlreadyEncodedWarning visible={state.alreadyEncodedHint} />
           )}
         </div>
 

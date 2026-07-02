@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
 
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import { expect, it, describe } from 'vitest';
 import { useUrlEncoder } from './useUrlEncoder';
 
@@ -120,6 +120,54 @@ describe('useUrlEncoder hook', () => {
     const [state] = result.current;
     expect(state.result).toBe('hello world');
     expect(state.error).toBeNull();
+  });
+
+  it('recomputes result live when text changes (no explicit process call)', async () => {
+    const { result } = renderHook(() => useUrlEncoder());
+
+    act(() => {
+      result.current[1].setText('hello world');
+    });
+
+    await waitFor(() => {
+      expect(result.current[0].result).toBe('hello%20world');
+    });
+  });
+
+  it('recomputes (not clears) when direction toggles after a live result', async () => {
+    const { result } = renderHook(() => useUrlEncoder());
+
+    act(() => {
+      result.current[1].setText('hello%20world');
+    });
+    await waitFor(() => {
+      expect(result.current[0].result).toBe('hello%2520world');
+    });
+
+    act(() => {
+      result.current[1].setDirection('decode');
+    });
+    await waitFor(() => {
+      expect(result.current[0].result).toBe('hello world');
+    });
+  });
+
+  it('clears the live result when text becomes empty', async () => {
+    const { result } = renderHook(() => useUrlEncoder());
+
+    act(() => {
+      result.current[1].setText('abc');
+    });
+    await waitFor(() => {
+      expect(result.current[0].result).toBe('abc');
+    });
+
+    act(() => {
+      result.current[1].setText('');
+    });
+    await waitFor(() => {
+      expect(result.current[0].result).toBeNull();
+    });
   });
 
   it('handles empty input gracefully', async () => {

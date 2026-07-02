@@ -3,13 +3,29 @@
 import { useTranslations } from 'next-intl';
 import { Copy } from 'lucide-react';
 import { useState } from 'react';
+import type { UrlEncoderError, UrlEncoderErrorCode } from '@/lib/url-encoder/schema';
 
 interface Props {
   result: string | null;
-  error?: { message: string; details: string } | null;
+  error?: UrlEncoderError | null;
   onCopy: () => Promise<boolean>;
   isLoading?: boolean;
 }
+
+// Stable error codes → localized i18n keys (message + details).
+const ERROR_MESSAGE_KEY: Record<UrlEncoderErrorCode, string> = {
+  malformedSequence: 'errors.malformedSequence',
+  charsetMismatch: 'errors.charsetMismatch',
+  unencodableChar: 'errors.unencodableChar',
+  encodingFailed: 'errors.encodingFailed',
+};
+
+const ERROR_DETAILS_KEY: Record<UrlEncoderErrorCode, string> = {
+  malformedSequence: 'errors.malformedDetails',
+  charsetMismatch: 'errors.charsetMismatchDetails',
+  unencodableChar: 'errors.unencodableCharDetails',
+  encodingFailed: 'errors.encodingFailedDetails',
+};
 
 export function ResultOutput({ result, error, onCopy, isLoading }: Props) {
   const t = useTranslations('tools.url-encoder');
@@ -27,10 +43,19 @@ export function ResultOutput({ result, error, onCopy, isLoading }: Props) {
   };
 
   if (error) {
+    const localizedMessage = error.code
+      ? t(ERROR_MESSAGE_KEY[error.code], error.params ?? {})
+      : error.message;
+    const localizedDetails = error.code ? t(ERROR_DETAILS_KEY[error.code]) : error.details;
+
     return (
-      <div className="rounded-lg bg-danger/10 border border-danger/30 p-4 space-y-2">
-        <p className="font-semibold text-danger-ink text-sm">{error.message}</p>
-        <p className="text-xs text-text-secondary">{error.details}</p>
+      <div
+        className="rounded-lg bg-danger/10 border border-danger/30 p-4 space-y-2"
+        role="alert"
+        aria-live="assertive"
+      >
+        <p className="font-semibold text-danger-ink text-sm">{localizedMessage}</p>
+        <p className="text-xs text-text-secondary">{localizedDetails}</p>
       </div>
     );
   }
@@ -61,8 +86,11 @@ export function ResultOutput({ result, error, onCopy, isLoading }: Props) {
           </button>
         </>
       ) : (
-        <div className="bg-surface-muted border border-hairline rounded-lg p-8 text-center text-text-secondary text-sm">
-          {isLoading ? 'Processing...' : 'Result will appear here'}
+        <div
+          className="bg-surface-muted border border-hairline rounded-lg p-8 text-center text-text-secondary text-sm"
+          aria-live="polite"
+        >
+          {isLoading ? t('output.processing') : t('output.empty')}
         </div>
       )}
     </div>

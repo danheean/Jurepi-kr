@@ -40,12 +40,29 @@ export const queryTableSchema = z.object({
 export type QueryTableSchema = z.infer<typeof queryTableSchema>;
 
 /**
+ * Stable error codes → UI maps these to localized i18n messages.
+ * `message`/`details` remain populated with English fallbacks.
+ */
+export type UrlEncoderErrorCode =
+  | 'malformedSequence'
+  | 'charsetMismatch'
+  | 'unencodableChar'
+  | 'encodingFailed';
+
+export interface UrlEncoderError {
+  code: UrlEncoderErrorCode;
+  message: string;
+  details: string;
+  params?: { char?: string; charset?: string };
+}
+
+/**
  * Encode result.
  */
 export interface EncodeResult {
   result?: string;
   alreadyEncodedHint: boolean;
-  error?: { message: string; details: string } | null;
+  error?: UrlEncoderError | null;
 }
 
 /**
@@ -53,7 +70,7 @@ export interface EncodeResult {
  */
 export interface DecodeResult {
   result?: string;
-  error?: { message: string; details: string } | null;
+  error?: UrlEncoderError | null;
 }
 
 /**

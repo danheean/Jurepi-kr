@@ -74,10 +74,10 @@ test.describe('URL Encoder - E2E Integration', () => {
     const errorContainer = page.locator('div[class*="danger"]');
     await expect(errorContainer).toBeVisible({ timeout: 5000 });
 
-    // Error message should mention the malformed sequence
+    // Error message is localized (ko page → Korean "malformed percent sequence")
     const errorText = await errorContainer.textContent();
     expect(errorText).toBeTruthy();
-    expect(errorText?.toLowerCase()).toContain('malformed'.toLowerCase());
+    expect(errorText).toContain('잘못된 퍼센트 시퀀스');
   });
 
   /**
