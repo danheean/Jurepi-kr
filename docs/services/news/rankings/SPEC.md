@@ -1,8 +1,8 @@
-# Rankings by Field — Curated Top N Lists Across Many Domains — Service SPEC
+# 별별 랭킹 (Various Rankings) — Curated Top N Lists Across Many Domains — Service SPEC
 
 > This document is the **canonical (English) source** consumed by AI coding agents. The Korean translation should live in [`SPEC_KR.md`](SPEC_KR.md); keep both in sync when either changes.
 >
-> Build specification for **Rankings by Field** (분야별 랭킹 / 순위 캐탈로그) — a curated browsable collection of "Top N" ranked lists across domains (movies, books, restaurants, travel, games, music, tools, apps, etc.) stored as markdown files and auto-compiled into a searchable, interactive ranked-item interface. Content is managed as markdown pairs (`<ranking>.md` + `<ranking>_en.md`), and at build time a generator reads the folder, validates, and emits a static catalog. The tool mounts as a client-side SPA offering field tabs, search, favorites/recents, and per-ranking detail view with medal styling (🥇🥈🥉) and items (rank, name, description, link, image).
+> Build specification for **별별 랭킹 / Various Rankings** (Korean display name: **별별 랭킹**; English display name: *Various Rankings*) — a curated browsable collection of "Top N" ranked lists across domains (movies, books, restaurants, travel, games, music, tools, apps, etc.) stored as markdown files and auto-compiled into a searchable, interactive **ranked table** interface. Content is managed as markdown pairs (`<ranking>.md` + `<ranking>_en.md`), and at build time a generator reads the folder, validates, and emits a static catalog. The tool mounts as a client-side SPA offering field tabs, search, favorites/recents, and per-ranking detail view that renders items as a **table** (rank + medal 🥇🥈🥉, name, description, link, image) with a **prominently emphasized source & as-of-date provenance banner**.
 >
 > Internal service codename: `rankings`. Registry id: `rankings`. Public URL slug: `/[locale]/tools/rankings`.
 >
@@ -14,10 +14,14 @@
 ```xml
 <project_specification>
 
-<project_name>Rankings by Field — Curated Top N Ranked Lists (Jurepi tool, codename rankings, registry id rankings)</project_name>
+<project_name>별별 랭킹 (Various Rankings) — Curated Top N Ranked Lists rendered as tables (Jurepi tool, codename rankings, registry id rankings)</project_name>
 
 <overview>
-Rankings brings together trustworthy "Top N" lists curated by editors across domains users care about. Whether seeking the best movies this year, top restaurants by cuisine in a city, or most-used dev tools, a visitor searches for a field ("restaurants", "movies", "games"), browses the available ranked lists within that field, opens one, and reads items ranked 1–N with optional external links (Rotten Tomatoes, Michelin guide, YouTube) and hero images. Each ranking is **editor-authored markdown** — not user-voted, not AI-generated, not real-time — with an explicit "as-of date" and source/provenance note visible to the reader. This solves "What's genuinely the best X?"
+별별 랭킹 (Rankings) brings together trustworthy "Top N" lists curated by editors across domains users care about. Whether seeking the best movies this year, top restaurants by cuisine in a city, or most-used dev tools, a visitor searches for a field ("restaurants", "movies", "games"), browses the available ranked lists within that field, opens one, and reads items ranked 1–N **in a clean, scannable table** (rank column with medals + name + description + link/image) with optional external links (Rotten Tomatoes, Michelin guide, YouTube) and hero images. Each ranking is **editor-authored markdown** — not user-voted, not AI-generated, not real-time — with an explicit "as-of date" and source/provenance note. This solves "What's genuinely the best X?"
+
+CRITICAL (trust surface — TOP priority): a ranking is only useful if the reader can immediately judge **who ranked it and when**. The **source note (`sourceNote`) and as-of date (`asOfDate`) are the single most important UI elements** and MUST be rendered as a prominent, high-contrast provenance banner at the top of every detail view (NOT a muted caption) — plus a compact source+date line on every list card. Both fields are `required` in the schema; a ranking without them fails the build. Emphasis > decoration: this banner outranks medals, images, and links in visual priority.
+
+CRITICAL (presentation — table form): item lists render as a **semantic HTML `<table>`** (`<thead>` with column headers, `<tbody>` rows, `<caption>` for a11y), NOT as loose card/row stacks. Columns: rank (medal 🥇🥈🥉 for top 3), optional thumbnail, name, description, link. Table is responsive (horizontal scroll or column collapse at 320px, never overflow) and fully keyboard/screen-reader accessible.
 
 The tool's content model is fundamental: rankings are NOT code — they are **markdown files**. Create pairs in the content folder (`<ranking>.md` for Korean + `<ranking>_en.md` for English), and at **build time** a generator scans the folder, parses the frontmatter, validates it, and bakes it into a static catalog (rankings.generated.json). The tool then dynamically imports that catalog to render the list, search, and detail views. This means "drop a file in the folder and it appears" is REAL — all without a backend or database, via static generation.
 
@@ -43,7 +47,7 @@ CRITICAL (SPA, usability-first): every Jurepi tool is a client-side Single-Page 
     - **Ranking markdown templates**: annotated markdown templates (`content/rankings/_TEMPLATE.md`, `content/rankings/_TEMPLATE_en.md`) and authoring README to make adding new rankings easy.
     - Field tabs: derived from unique fields in the catalog (All / Movies / Restaurants / Travel / Games / etc.). Virtual tabs: Favorites (when pinned), Recent (when viewed).
     - Search: ranking titles, item names, descriptions, field names across BOTH locales, real-time filter (debounced). Case and diacritic insensitive.
-    - Detail view: ranking title, field badge, as-of date + source note, item list (rank 1–N with medal emoji 🥇🥈🥉 for top 3), item name, description, optional linked image (explicit width/height, lazy), external link (if present).
+    - Detail view: ranking title, field badge, **prominently emphasized provenance banner (source note + as-of date — high contrast, iconized, top of view)**, then an **item table** (`<table>`: rank 1–N with medal emoji 🥇🥈🥉 for top 3, optional thumbnail, name, description, external link if present, optional linked image with explicit width/height + lazy).
     - Favorites (pinned) + recent views — localStorage persistence, auto-prune of unknown ranking IDs.
     - Full keyboard support: "/" search focus, arrow keys item/ranking navigation, Enter to open, Esc to clear/close.
     - Tool-specific SEO long-form (rankings intro, "What are the best restaurants/games/movies?") + FAQ + **ItemList / ListItem JSON-LD** (schema.org type for rankings, ideal for GEO/AI answer citation), localized ko/en.
@@ -103,15 +107,17 @@ src/
 │   ├── FieldTabs.tsx                      # All / Movies / Restaurants / Travel / Games / (Favorites) / (Recent) pills
 │   ├── RankingSearch.tsx                  # Search input ("/" focus, clear, result count, aria)
 │   ├── RankingsList.tsx                   # Responsive card list; roving tabindex keyboard nav
-│   ├── RankingCard.tsx                    # One-ranking card: title, field badge, item count, as-of date, star
-│   ├── RankingDetail.tsx                  # Selected ranking: title, field, as-of date, source note, item list (medals, links, images)
-│   ├── RankingItem.tsx                    # Single ranked item: rank (+ medal emoji top 3), name, description, optional image/link
+│   ├── RankingCard.tsx                    # One-ranking card: title, field badge, item count, star + compact source+date line (always visible)
+│   ├── RankingDetail.tsx                  # Selected ranking: title, field, ProvenanceBanner, then RankingTable
+│   ├── ProvenanceBanner.tsx               # CRITICAL — high-contrast source note + as-of date callout (icon + emphasis); top of detail
+│   ├── RankingTable.tsx                   # Semantic <table>: thead (rank/name/description/link cols) + tbody rows + caption; responsive + a11y
+│   ├── RankingRow.tsx                     # One <tr>: rank cell (+ medal emoji top 3), optional thumbnail, name, description, optional link
 │   ├── RankingsIntro.tsx                  # H1 + lead (SEO; server-render where possible)
 │   ├── RankingsHowTo.tsx                  # "What are rankings?" / "Curated top lists" (SEO long-form)
 │   ├── RankingsFaq.tsx                    # Q&A + FAQPage + ItemList JSON-LD
 │   └── data/
 │       └── rankings.generated.json        # Generated artifact — [MergedRanking...]
-└── i18n/messages/{ko,en}.json             # tools.rankings.* UI chrome (tabs, search, field labels, toasts, how-to, FAQ, medal labels)
+└── i18n/messages/{ko,en}.json             # tools.rankings.* UI chrome (tabs, search, field labels, toasts, how-to, FAQ, medal labels, TABLE COLUMN HEADERS [rank/name/description/link], provenance labels [source/as-of date])
 </file_structure>
 
 <core_data_entities>
@@ -177,7 +183,10 @@ src/
         </rankings_list>
       </rankings_main>
       <ranking_detail>            <!-- Desktop: sticky right; mobile: bottom-sheet -->
-        <ranking_item />          <!-- × N: rank (medal), name, desc, optional link/image -->
+        <provenance_banner />     <!-- CRITICAL: emphasized source note + as-of date (top, high contrast) -->
+        <ranking_table>           <!-- Semantic <table>; thead + caption -->
+          <ranking_row />         <!-- × N <tr>: rank (medal), thumbnail?, name, desc, link? -->
+        </ranking_table>
       </ranking_detail>
     </rankings_layout>
     <rankings_how_to />           <!-- SEO long-form -->
@@ -189,7 +198,7 @@ src/
 <pages_and_interfaces>
   <rankings_intro>
     - Eyebrow: "순위 도구" / "RANKINGS TOOL" — 12px/700/0.6px, var(--brand-ink).
-    - H1: "분야별 랭킹" / "Rankings by Field" — Gmarket Sans clamp(28px,5vw,40px)/700, var(--text).
+    - H1: "별별 랭킹" / "Various Rankings" — Gmarket Sans clamp(28px,5vw,40px)/700, var(--text).
     - Lead: 1–2 sentences, body-lg: "영화·음식·여행·게임 등 다양한 분야의 신뢰할 수 있는 순위 목록을 찾아보세요." / English equivalent.
   </rankings_intro>
 
@@ -208,7 +217,7 @@ src/
 
   <rankings_list>
     - Responsive grid: 1-column <768px; 2-column ≥768px (when detail is docked).
-    - Each card: title (headline 18–20px var(--text)/700), field badge (rose-tinted pill), item count ("N개 항목"), as-of date (caption var(--text-muted)), star (favorite toggle).
+    - Each card: title (headline 18–20px var(--text)/700), field badge (rose-tinted pill), item count ("N개 항목"), star (favorite toggle), and a COMPACT SOURCE+DATE line (always visible, not hidden on hover): Calendar icon + as-of date and a truncated source note — e.g. "📅 2024-12 · 출처: Michelin Guide 2024". This is the card's trust cue; keep it legible (var(--text-secondary), not near-invisible muted).
     - Card: var(--surface) + 1px var(--hairline), radius var(--radius-lg), padding 16px, shadow --shadow-card.
     - States: hover translateY(-2px) + --shadow-card-hover; focus 2px var(--focus-ring); selected 2px var(--accent-rose) ring.
     - Roving tabindex; ArrowUp/Down move; Enter/Space open detail; "f" toggle favorite.
@@ -219,14 +228,22 @@ src/
     - Desktop (≥1024px): sticky right column, width 360px, var(--surface), radius var(--radius-xxl), padding 24px, shadow --shadow-card.
     - Mobile (<768px): slides-up bottom-sheet on selection; grab handle + close; backdrop dim.
     - Content (top → bottom):
-      1. Title: large headline 28px var(--text).
-      2. Field badge + as-of date eyebrow ("2024-12" / "Editor's picks, January 2025") + source note (caption var(--text-muted)).
-      3. Item list (ordered):
-         - Rank + medal emoji (🥇🥈🥉 for top 3, plain "4." for rest) in rose accent for top 3.
-         - Item name: bold 16px, description 14px var(--text-secondary).
-         - Link (if present): small rose-tinted "View on Rotten Tomatoes" with external icon (rel=noopener).
-         - Image (if present): responsive max-width 100%, lazy load, explicit dimensions.
-    - Empty/initial (not selected): hint "순위를 선택하면 항목들이 여기에 표시됩니다."
+      1. Title: large headline 28px var(--text) + field badge.
+      2. PROVENANCE BANNER — CRITICAL, most prominent element after the title. A distinct rose-tinted callout surface (var(--accent-rose-soft) bg, 1px var(--accent-rose) or hairline, radius --radius-lg, padding 12–16px), NOT a muted caption:
+         - As-of date: Calendar icon (16–18px) + label "기준일" / "As of" + value ("2024-12" / "January 2025") — value in var(--text)/600, high contrast.
+         - Source note: BookMarked/Info icon + label "출처" / "Source" + `sourceNote` value in var(--text)/500 (e.g., "Editor's picks, Jan 2025" / "Based on Michelin Guide 2024").
+         - Both lines readable at a glance; banner has aria-label grouping ("출처 및 기준일"). Contrast meets WCAG AA. This banner is the trust anchor — it must never be visually subordinate to the table.
+      3. Item TABLE (semantic `<table>`, ordered by rank):
+         - `<caption class="sr-only">` = "{ranking title} — {N}개 항목 순위표" for screen readers.
+         - `<thead>`: column headers (scope="col") — 순위/Rank, (썸네일/·) , 이름/Name, 설명/Description, 링크/Link. Header row var(--surface-muted).
+         - `<tbody>` rows (`<tr>`), zebra/hover via var(--surface-muted):
+           · Rank cell: medal emoji (🥇🥈🥉 top 3, plain "4." rest), rose accent text for top 3, tabular-nums.
+           · Thumbnail cell (if imageUrl): small fixed-size img (explicit width/height, lazy, rounded).
+           · Name cell: bold 15–16px var(--text).
+           · Description cell: 14px var(--text-secondary), plain text.
+           · Link cell (if present): small rose-tinted "View on Rotten Tomatoes" with external icon (rel=noopener target=_blank).
+         - Responsive: ≥768px full table; <768px horizontal scroll wrapper (overflow-x:auto, focusable region role="region" aria-label) OR stacked-row fallback — never overflow at 320px.
+    - Empty/initial (not selected): hint "순위를 선택하면 순위표가 여기에 표시됩니다."
   </ranking_detail>
 
   <keyboard_shortcuts_reference>
@@ -285,20 +302,25 @@ src/
 <aesthetic_guidelines>
   <source>CRITICAL: DESIGN.md is single source of all tokens. Below are tool-specific applications.</source>
   <accent_usage>
-    - Per-tool identity accent is ROSE (var(--accent-rose) / var(--accent-rose-soft)). Intro icon tile, card selected bar, top-3 medal text, favorite star (filled). (Category is mindset; this tool uses rose as its own accent.)
+    - Per-tool identity accent is ROSE (var(--accent-rose) / var(--accent-rose-soft)). Intro icon tile, card selected bar, top-3 medal text, favorite star (filled), and the PROVENANCE BANNER background/border. (Category is `news`; this tool uses rose as its own per-tool identity accent.)
     - CTAs (primary buttons) stay brand honey-gold var(--brand).
     - Field badge color: rose-tinted pill per ranking field.
   </accent_usage>
+  <provenance_banner note="CRITICAL — the trust anchor; source note + as-of date must be emphasized, never muted">
+    - Surface: var(--accent-rose-soft) background, 1px var(--accent-rose)/hairline border, radius --radius-lg, padding 12–16px, sits directly under the detail title.
+    - Icons: Calendar (as-of date), BookMarked/Info (source). Labels ("기준일"/"출처") in eyebrow weight; VALUES in var(--text) 600 high contrast (this is the point — the reader must instantly see who ranked it and when).
+    - Contrast: WCAG AA against rose-soft; must remain the second-most-prominent element (after title), above the table.
+  </provenance_banner>
   <surfaces>Card/detail = var(--surface) + 1px var(--hairline); detail radius --radius-xxl; item rows var(--surface-muted) chips on hover. Soft brand-tinted shadows.</surfaces>
   <typography>H1 Gmarket Sans (clamp 28–40px); ranking title (card 18–20px / detail 28px)/700; item name 16px/bold; description/note caption/eyebrow. Medal emojis for top 3.</typography>
   <motion>transform/opacity only: card hover translateY(-2px) 150ms, detail fade-in 150ms, mobile sheet slide-up 250ms. All gated by prefers-reduced-motion.</motion>
-  <accessibility>Card/star/link = labeled real buttons; roving-tabindex list; copy/favorite status aria-live="polite"; ≥44px tap targets; visible focus-visible ring var(--focus-ring); links rel=noopener; images lazy+explicit dimensions.</accessibility>
+  <accessibility>Card/star/link = labeled real buttons; roving-tabindex list; copy/favorite status aria-live="polite"; ≥44px tap targets; visible focus-visible ring var(--focus-ring); links rel=noopener; images lazy+explicit dimensions. TABLE: real `<table>`/`<thead>`/`<tbody>`/`<th scope="col">` + sr-only `<caption>`; horizontal-scroll wrapper is a focusable role="region" with aria-label; provenance banner grouped with aria-label ("출처 및 기준일"). No `<div>`-grid faking a table.</accessibility>
   <responsive>
     - ≥1024px: 2-split — main flex:1, detail sticky 360px right.
     - <1024px: single column; detail bottom-sheet. No overflow at 320px.
   </responsive>
-  <atmosphere>Bright, trustworthy "curated rankings": generous card spacing, medal emoji, clear as-of dates. Not a dense table; each ranking is a discoverable, tappable card.</atmosphere>
-  <icons>lucide-react: Search, Star/StarOff (favorite), ExternalLink (links), Trophy (tool card icon). Default 20px, stroke 1.75, currentColor. Registry card icon: `Trophy`.</icons>
+  <atmosphere>Bright, trustworthy "curated rankings": generous card spacing, medal emoji, clear as-of dates. The BROWSE layer is discoverable, tappable cards (not a dense list); the DETAIL layer renders the items as a clean, scannable table anchored by the emphasized source+date banner. Trust-first, editorial, not a spreadsheet.</atmosphere>
+  <icons>lucide-react: Search, Star/StarOff (favorite), ExternalLink (links), Trophy (tool card icon), Calendar (as-of date), BookMarked/Info (source note). Default 20px (16–18px inside provenance banner), stroke 1.75, currentColor. Registry card icon: `Trophy`.</icons>
 </aesthetic_guidelines>
 
 <security_considerations>
@@ -340,12 +362,13 @@ src/
     </steps>
   </test_scenario_2>
   <test_scenario_3>
-    <description>Detail, items with medals, links, images</description>
+    <description>Detail — emphasized provenance banner + item table (medals, links, images)</description>
     <steps>
-      1. Click "최고의 초밥" card → detail opens: title, field, as-of date, source note.
-      2. Item list renders: 🥇 Jiro Ono, 🥈 Mizutani, 🥉 Saito, 4. Sukiyabashi Jiro. Each has description.
-      3. Item 1 has link to IMDb (text "View on IMDb" rel=noopener) + hero image (lazy, explicit dims).
-      4. Image loads on scroll; link opens in new tab.
+      1. Click "최고의 초밥" card → detail opens: title + field badge, then the PROVENANCE BANNER prominently shows "기준일 2024-12" and "출처: Based on Michelin Guide 2024" (rose-soft callout, high contrast — NOT a muted caption). Verify banner is visually above/before the table.
+      2. Below it, a semantic `<table>` renders with `<thead>` column headers (순위/이름/설명/링크) and rows: 🥇 Jiro Ono, 🥈 Mizutani, 🥉 Saito, "4." Sukiyabashi Jiro. Each row has its description cell.
+      3. Row 1 has a link cell to IMDb (text "View on IMDb", rel=noopener, new tab) + thumbnail (lazy, explicit dims).
+      4. At 320px the table scrolls horizontally (focusable region) without page overflow; image loads on scroll; link opens in new tab.
+      5. Screen reader announces caption + column headers; provenance banner announced as a labeled group.
     </steps>
   </test_scenario_3>
   <test_scenario_4>
@@ -369,10 +392,11 @@ src/
 
 <success_criteria>
   <content_model>CRITICAL: drop `<ranking>.md` + `<ranking>_en.md` pair in content folder, rebuild, auto-reflect in list/search/detail with zero code change; generator validates pair/field/items/uniqueness, fails build with clear message on violation.</content_model>
-  <functionality>Searchable, field-filterable card list (both locales); detail with ranked items (medals, links, images); localStorage favorites + recent; seed 4+ fields × 2+ rankings each (8+ items per ranking).</functionality>
-  <user_experience>Search/filter instant; cards readable; ≥44px targets; visible focus; SPA — no route reload on any interaction.</user_experience>
+  <functionality>Searchable, field-filterable card list (both locales); detail renders items as a semantic `<table>` (medals, links, images); localStorage favorites + recent; seed 4+ fields × 2+ rankings each (8+ items per ranking).</functionality>
+  <trust_surface>CRITICAL: every detail view leads with an emphasized, high-contrast provenance banner showing source note + as-of date (not a muted caption); every list card shows a compact source+date line. Both fields required by schema — build fails if absent.</trust_surface>
+  <user_experience>Search/filter instant; cards readable; ≥44px targets; visible focus; table never overflows at 320px; SPA — no route reload on any interaction.</user_experience>
   <technical_quality>lib/rankings/* pure ≥80% unit coverage (schema/merge/slug/search/favorites); generator validation tests (pair-missing, dupe-slug, <3-items, bad-links → fail); TS 0 errors; <800 lines per file; catalog code-split, no i18n bundle bloat.</technical_quality>
-  <visual_design>DESIGN.md compliant; rose identity + brand honey-gold CTA; medal emoji for top 3; bright, editorial (not generic table); text-node render only.</visual_design>
+  <visual_design>DESIGN.md compliant; rose identity + brand honey-gold CTA; medal emoji for top 3; emphasized rose-soft provenance banner; clean editorial table (styled headers, zebra/hover, tabular-nums — intentional, not a raw spreadsheet); text-node render only.</visual_design>
   <accessibility>Full keyboard (roving list, "/", Enter, "f", Esc); aria-live state; labeled buttons; motion-respect; WCAG 2.1 AA.</accessibility>
   <performance>Tool route within platform budget; catalog dynamic import; CLS unaffected; LCP < 2.5s.</performance>
 </success_criteria>
@@ -394,7 +418,7 @@ src/
       status: 'live',
       isNew: true,
       order: 15,
-      keywords: ['랭킹','순위','영화','음식','여행','게임','음악','책','앱','추천','best','top','rankings','curator','ratings'],
+      keywords: ['별별랭킹','별별','랭킹','순위','영화','음식','여행','게임','음악','책','앱','추천','best','top','rankings','curator','ratings'],
     },
     ```
     Also add slug→component branch (<Rankings/>) and generateMetadata branch in tool route. No new category label needed.
@@ -410,7 +434,7 @@ src/
     3. tools.rankings.* messages (ko/en): field labels, tabs, search, toasts, empty states, how-to, FAQ, medal labels.
     4. useRankingsCatalog hook (dynamic import + localStorage + in-memory fallback).
     5. RankingSearch + FieldTabs + RankingsList/RankingCard (roving tabindex, states) + empty states.
-    6. RankingDetail (title/field/asOfDate/source-note + item list with medals/links/images).
+    6. RankingDetail: ProvenanceBanner (emphasized source note + as-of date — build/verify FIRST as the trust anchor) → RankingTable/RankingRow (semantic table, medals/links/thumbnails, responsive scroll).
     7. Keyboard shortcuts, motion-reduce, a11y (axe, aria-live).
     8. RankingsIntro/HowTo/Faq + SoftwareApplication + FAQPage + ItemList JSON-LD via platform lib/seo.ts.
     9. Registry status→live; slug→component + generateMetadata branches; E2E 1–5; visual regression 320/768/1024 both themes.
@@ -439,4 +463,4 @@ src/
 </project_specification>
 ```
 
-407 lines, English, final.
+466 lines, English, final.
