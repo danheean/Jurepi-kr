@@ -247,20 +247,20 @@ test.describe('Speed Quiz - E2E Integration', () => {
     const soundToggle = page.locator('[data-testid="sound-toggle"]');
     await expect(soundToggle).toBeVisible();
 
-    // Get current state
-    const initialState = await soundToggle.getAttribute('aria-pressed');
+    // It's an action-labeled toggle: aria-label names the next action and flips
+    // between mute/unmute as state changes.
+    const initialLabel = await soundToggle.getAttribute('aria-label');
+    expect(initialLabel).toBeTruthy();
 
-    // Click to toggle
+    // Click to toggle — label should change
     await soundToggle.click();
+    const newLabel = await soundToggle.getAttribute('aria-label');
+    expect(newLabel).not.toBe(initialLabel);
 
-    // State should change
-    const newState = await soundToggle.getAttribute('aria-pressed');
-    expect(newState).not.toBe(initialState);
-
-    // Toggle back
+    // Toggle back — label returns to the original
     await soundToggle.click();
-    const finalState = await soundToggle.getAttribute('aria-pressed');
-    expect(finalState).toBe(initialState);
+    const finalLabel = await soundToggle.getAttribute('aria-label');
+    expect(finalLabel).toBe(initialLabel);
   });
 
   /**

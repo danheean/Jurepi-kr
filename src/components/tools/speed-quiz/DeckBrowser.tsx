@@ -7,6 +7,21 @@ import { SoundToggle } from './SoundToggle';
 import type { UseSpeedQuizReturn } from './useSpeedQuiz';
 import type { MergedDeck } from '@/lib/speed-quiz/schema';
 
+// Category identity color (6-hue accent system) — shown as a dot on the group
+// heading so "color as meaning" lives at the group level after grouping.
+const CATEGORY_DOT: Record<string, string> = {
+  animals: 'bg-accent-coral',
+  food: 'bg-accent-mint',
+  sports: 'bg-accent-sky',
+  movies: 'bg-accent-sun',
+  kpop: 'bg-accent-grape',
+  countries: 'bg-accent-sky',
+  jobs: 'bg-accent-coral',
+  brands: 'bg-accent-sun',
+  proverbs: 'bg-accent-grape',
+  'historical-figures': 'bg-accent-rose',
+};
+
 interface DeckBrowserProps {
   quiz: UseSpeedQuizReturn;
   inputRef: React.RefObject<HTMLInputElement>;
@@ -31,8 +46,15 @@ export function DeckBrowser({ quiz, inputRef }: DeckBrowserProps) {
     quiz.favorites.length > 0 && { value: 'favorites', label: t('categories.favorites') },
   ].filter(Boolean) as Array<{ value: string; label: string }>;
 
-  const hasFavorites = quiz.favorites.length > 0;
-  const showFavoritesTab = quiz.activeCategory === 'favorites' || hasFavorites;
+  // Group the filtered decks by category (catalog is already category-ordered),
+  // so each category's A팀/B팀 sit together as a matched pair — tight grouping
+  // within a category, generous separation between categories.
+  const groups: Array<{ category: string; decks: MergedDeck[] }> = [];
+  for (const deck of quiz.filtered) {
+    const last = groups[groups.length - 1];
+    if (last && last.category === deck.category) last.decks.push(deck);
+    else groups.push({ category: deck.category, decks: [deck] });
+  }
 
   return (
     <div className="w-full">
@@ -100,22 +122,34 @@ export function DeckBrowser({ quiz, inputRef }: DeckBrowserProps) {
         </div>
       ) : (
         <div
-          className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+          className="grid gap-8 grid-cols-1 lg:grid-cols-2"
           data-testid="deck-grid"
         >
-          {quiz.filtered.map((deck) => (
-            <DeckCard
-              key={deck.slug}
-              deck={deck}
-              isFavorite={quiz.favorites.includes(deck.slug)}
-              onFavorite={() => quiz.toggleFavorite(deck.slug)}
-              onSelect={() => quiz.openSetup(deck.slug)}
-              wordCountLabel={t('deck.wordCount', { count: deck.words.length })}
-              addFavoriteLabel={t('deck.addFavorite')}
-              removeFavoriteLabel={t('deck.removeFavorite')}
-              difficultyLabel={t(`difficulty.${deck.difficulty}`)}
-              categoryLabel={t(`categories.${deck.category}`)}
-            />
+          {groups.map(({ category, decks }) => (
+            <section key={category} aria-label={t(`categories.${category}`)}>
+              <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-text-secondary">
+                <span
+                  className={`inline-block h-2.5 w-2.5 rounded-full ${CATEGORY_DOT[category] || 'bg-accent-sun'}`}
+                  aria-hidden="true"
+                />
+                {t(`categories.${category}`)}
+              </h3>
+              <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
+                {decks.map((deck) => (
+                  <DeckCard
+                    key={deck.slug}
+                    deck={deck}
+                    isFavorite={quiz.favorites.includes(deck.slug)}
+                    onFavorite={() => quiz.toggleFavorite(deck.slug)}
+                    onSelect={() => quiz.openSetup(deck.slug)}
+                    wordCountLabel={t('deck.wordCount', { count: deck.words.length })}
+                    addFavoriteLabel={t('deck.addFavorite')}
+                    removeFavoriteLabel={t('deck.removeFavorite')}
+                    difficultyLabel={t(`difficulty.${deck.difficulty}`)}
+                  />
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       )}

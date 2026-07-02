@@ -13,7 +13,6 @@ interface DeckCardProps {
   addFavoriteLabel: string;
   removeFavoriteLabel: string;
   difficultyLabel: string;
-  categoryLabel: string;
 }
 
 /**
@@ -29,7 +28,6 @@ export function DeckCard({
   addFavoriteLabel,
   removeFavoriteLabel,
   difficultyLabel,
-  categoryLabel,
 }: DeckCardProps) {
   const locale = useLocale() as 'ko' | 'en';
   // Difficulty stars
@@ -39,33 +37,6 @@ export function DeckCard({
       : deck.difficulty === 'normal'
         ? '⭐⭐'
         : '⭐⭐⭐';
-
-  // Accent color per category
-  const accentClass = {
-    animals: 'bg-accent-coral-soft',
-    food: 'bg-accent-mint-soft',
-    sports: 'bg-accent-sky-soft',
-    movies: 'bg-accent-sun-soft',
-    kpop: 'bg-accent-grape-soft',
-    countries: 'bg-accent-sky-soft',
-    jobs: 'bg-accent-coral-soft',
-    brands: 'bg-accent-sun-soft',
-    proverbs: 'bg-accent-grape-soft',
-    'historical-figures': 'bg-accent-rose-soft',
-  }[deck.category] || 'bg-accent-sun-soft';
-
-  const textClass = {
-    animals: 'text-accent-coral',
-    food: 'text-accent-mint-ink',
-    sports: 'text-accent-sky',
-    movies: 'text-accent-sun-ink',
-    kpop: 'text-accent-grape-ink',
-    countries: 'text-accent-sky',
-    jobs: 'text-accent-coral',
-    brands: 'text-accent-sun-ink',
-    proverbs: 'text-accent-grape-ink',
-    'historical-figures': 'text-accent-rose-ink',
-  }[deck.category] || 'text-accent-sun-ink';
 
   return (
     // Relative wrapper is non-interactive; the card and the favorite are two
@@ -78,18 +49,9 @@ export function DeckCard({
         data-testid={`deck-card-${deck.slug}`}
       >
         {/* Title (padded right to clear the favorite button) */}
-        <h3 className="text-lg font-bold text-text line-clamp-2 pr-12 mb-3">
+        <h3 className="text-lg font-bold text-text line-clamp-2 pr-12 mb-4">
           {deck[locale === 'en' ? 'en' : 'ko'].title}
         </h3>
-
-        {/* Category badge */}
-        <div className="mb-3">
-          <span
-            className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${accentClass} ${textClass}`}
-          >
-            {categoryLabel}
-          </span>
-        </div>
 
         {/* Difficulty stars + Word count */}
         <div className="flex items-center justify-between text-sm text-text-secondary">
