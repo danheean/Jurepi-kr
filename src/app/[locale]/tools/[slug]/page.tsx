@@ -10,6 +10,10 @@ import { UrlEncoderIntro } from '@/components/tools/url-encoder/UrlEncoderIntro'
 import { UrlEncoderHowTo } from '@/components/tools/url-encoder/UrlEncoderHowTo';
 import { UrlEncoderFaq } from '@/components/tools/url-encoder/UrlEncoderFaq';
 import { UrlEncoderStructuredData } from '@/components/tools/url-encoder/UrlEncoderStructuredData';
+import { SpeedQuizIntro } from '@/components/tools/speed-quiz/SpeedQuizIntro';
+import { SpeedQuizHowTo } from '@/components/tools/speed-quiz/SpeedQuizHowTo';
+import { SpeedQuizFaq } from '@/components/tools/speed-quiz/SpeedQuizFaq';
+import { SpeedQuizStructuredData } from '@/components/tools/speed-quiz/SpeedQuizStructuredData';
 
 const LadderGame = dynamic(() =>
   import('@/components/tools/ladder/LadderGame').then((m) => ({
@@ -47,6 +51,12 @@ const Bookmarks = dynamic(() =>
   }))
 );
 
+const SpeedQuiz = dynamic(() =>
+  import('@/components/tools/speed-quiz/SpeedQuiz').then((m) => ({
+    default: m.SpeedQuiz,
+  }))
+);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
@@ -75,6 +85,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'bookmarks') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'speed-quiz') {
     title = t('meta.title');
     description = t('meta.description');
   } else {
@@ -146,6 +159,18 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
       <Suspense fallback={<div className="text-text-secondary">Loading...</div>}>
         <Bookmarks />
       </Suspense>
+    );
+  }
+
+  if (slug === 'speed-quiz') {
+    return (
+      <>
+        <SpeedQuizStructuredData />
+        <SpeedQuizIntro />
+        <SpeedQuiz />
+        <SpeedQuizHowTo />
+        <SpeedQuizFaq />
+      </>
     );
   }
 

@@ -783,6 +783,146 @@
           }
         ]
       }
+    },
+    "speed-quiz": {
+      "title": "Speed Quiz Prompt Words",
+      "description": "A party & classroom speed-quiz game: reveal category prompt words (animals, food, Olympics & more) one at a time on a big screen and race the timer to guess.",
+      "meta": {
+        "title": "Speed Quiz Prompt Words · Party Game Host Tool",
+        "description": "Run a real-time party word-reveal game. Show prompt words on a large presenter-friendly display, start a countdown timer, and record guesses. Perfect for classrooms, parties, and team events."
+      },
+      "intro": {
+        "eyebrow": "Party Game Tool",
+        "title": "Speed Quiz Prompt Words",
+        "lead": "Select a category and difficulty level, then reveal prompt words one by one on a big screen. Run a countdown timer and record guesses as 'correct,' 'pass,' or 'timeout.' See final scores and the complete word list at the end."
+      },
+      "categories": {
+        "all": "All",
+        "animals": "Animals",
+        "food": "Food",
+        "sports": "Sports & Olympics",
+        "movies": "Movies",
+        "kpop": "K-pop",
+        "countries": "Countries",
+        "jobs": "Jobs",
+        "brands": "Brands",
+        "proverbs": "Proverbs",
+        "historical-figures": "Historical Figures",
+        "favorites": "Favorites"
+      },
+      "difficulty": {
+        "easy": "Easy",
+        "normal": "Normal",
+        "hard": "Hard"
+      },
+      "search": {
+        "placeholder": "Search by category or game name…",
+        "clear": "Clear search",
+        "noResults": "No games matching '{query}'"
+      },
+      "deck": {
+        "wordCount": "{count} words",
+        "addFavorite": "Add to favorites",
+        "removeFavorite": "Remove from favorites"
+      },
+      "setup": {
+        "title": "Game Setup",
+        "difficulty": "Difficulty",
+        "roundTime": "Round Time",
+        "time30": "30 seconds",
+        "time60": "60 seconds",
+        "time90": "90 seconds",
+        "unlimited": "Unlimited",
+        "shuffle": "Shuffle words",
+        "hints": "Show hints",
+        "start": "Start Game",
+        "cancel": "Cancel"
+      },
+      "board": {
+        "correct": "Correct",
+        "pass": "Pass",
+        "undo": "Undo",
+        "end": "End Game",
+        "correctScore": "Correct: {count}",
+        "passScore": "Pass: {count}",
+        "hintLabel": "Hint",
+        "timeUp": "Time's up",
+        "of": "{current} / {total}"
+      },
+      "summary": {
+        "titleDone": "Game Over!",
+        "titleTimeout": "Time's Up",
+        "correct": "{count} correct",
+        "pass": "{count} passed",
+        "timeout": "{count} timeouts",
+        "results": "Results",
+        "wordList": "Word List",
+        "replay": "Play Again",
+        "home": "Home"
+      },
+      "sound": {
+        "mute": "Mute sound",
+        "unmute": "Unmute sound"
+      },
+      "keyboard": {
+        "title": "Keyboard Shortcuts",
+        "space": "Space — Next word",
+        "pass": "→ — Pass",
+        "undo": "← — Undo",
+        "end": "Esc — End game",
+        "help": "? — Help",
+        "close": "Enter — Close help"
+      },
+      "empty": {
+        "noDecks": "No games available yet"
+      },
+      "howTo": {
+        "title": "How to Use Speed Quiz",
+        "lead": "Speed Quiz is a presenter-led party game where you reveal prompt words one at a time and others try to guess them.",
+        "steps": [
+          {
+            "title": "Choose Category and Difficulty",
+            "body": "Browse the available categories (Animals, Movies, K-pop, Proverbs, etc.) and select your difficulty level (Easy, Normal, Hard). Click on a game card to open the setup screen."
+          },
+          {
+            "title": "Configure Your Game",
+            "body": "Set the round time (30s, 60s, 90s, or unlimited). Decide whether to shuffle words and whether to show hints during play. Then tap 'Start Game.'"
+          },
+          {
+            "title": "Run the Game",
+            "body": "A large prompt word appears on the screen with a bold countdown timer running. As people shout answers, tap 'Correct' to advance with a point, or 'Pass' to skip. You can also use Space, arrows, or other keyboard shortcuts."
+          },
+          {
+            "title": "Review Results",
+            "body": "After all words are revealed or time runs out, the summary screen shows your score breakdown (correct, pass, timeout) and the complete word list for reference."
+          }
+        ]
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "What is Speed Quiz?",
+            "a": "Speed Quiz is a presenter-led party game where one person displays prompt words on a big screen one at a time, others shout answers, and the presenter records correct guesses, passes, or timeouts. It's great for classrooms, parties, and team events."
+          },
+          {
+            "q": "How many people can play?",
+            "a": "There's no limit! You can play with 2 people or 100+. One person acts as the presenter (controlling the screen) and everyone else participates."
+          },
+          {
+            "q": "Can I control it with just a keyboard?",
+            "a": "Yes, absolutely. Use Space for the next word, Right arrow to pass, Left arrow to undo, and Esc to end. This makes it easy to run the game fast without a mouse."
+          },
+          {
+            "q": "How do hints work?",
+            "a": "Before starting, turn on 'Show hints' in the setup. During the game, each word will display an optional hint below it. Disable hints if you want a harder challenge."
+          },
+          {
+            "q": "Where is my data stored?",
+            "a": "All game data stays in your browser's local storage—nothing is sent to any server. Game progress resets on page refresh, but your favorites and recent games are saved locally."
+          }
+        ]
+      }
     }
   },
   "about": {

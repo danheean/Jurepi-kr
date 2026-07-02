@@ -1,0 +1,2562 @@
+[
+  {
+    "slug": "animals-a",
+    "category": "animals",
+    "difficulty": "easy",
+    "words": [
+      {
+        "term": "사자"
+      },
+      {
+        "term": "호랑이"
+      },
+      {
+        "term": "곰"
+      },
+      {
+        "term": "코끼리"
+      },
+      {
+        "term": "기린"
+      },
+      {
+        "term": "펭귄"
+      },
+      {
+        "term": "독수리"
+      },
+      {
+        "term": "상어"
+      },
+      {
+        "term": "뱀"
+      },
+      {
+        "term": "개구리"
+      }
+    ],
+    "ko": {
+      "title": "동물 A팀",
+      "words": [
+        {
+          "term": "사자"
+        },
+        {
+          "term": "호랑이"
+        },
+        {
+          "term": "곰"
+        },
+        {
+          "term": "코끼리"
+        },
+        {
+          "term": "기린"
+        },
+        {
+          "term": "펭귄"
+        },
+        {
+          "term": "독수리"
+        },
+        {
+          "term": "상어"
+        },
+        {
+          "term": "뱀"
+        },
+        {
+          "term": "개구리"
+        }
+      ]
+    },
+    "en": {
+      "title": "Animals Team A",
+      "words": [
+        {
+          "term": "Lion"
+        },
+        {
+          "term": "Tiger"
+        },
+        {
+          "term": "Bear"
+        },
+        {
+          "term": "Elephant"
+        },
+        {
+          "term": "Giraffe"
+        },
+        {
+          "term": "Penguin"
+        },
+        {
+          "term": "Eagle"
+        },
+        {
+          "term": "Shark"
+        },
+        {
+          "term": "Snake"
+        },
+        {
+          "term": "Frog"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "animals-b",
+    "category": "animals",
+    "difficulty": "easy",
+    "words": [
+      {
+        "term": "토끼"
+      },
+      {
+        "term": "여우"
+      },
+      {
+        "term": "올빼미"
+      },
+      {
+        "term": "물고기"
+      },
+      {
+        "term": "돼지"
+      },
+      {
+        "term": "소"
+      },
+      {
+        "term": "말"
+      },
+      {
+        "term": "거북이"
+      },
+      {
+        "term": "고래"
+      },
+      {
+        "term": "나비"
+      }
+    ],
+    "ko": {
+      "title": "동물 B팀",
+      "words": [
+        {
+          "term": "토끼"
+        },
+        {
+          "term": "여우"
+        },
+        {
+          "term": "올빼미"
+        },
+        {
+          "term": "물고기"
+        },
+        {
+          "term": "돼지"
+        },
+        {
+          "term": "소"
+        },
+        {
+          "term": "말"
+        },
+        {
+          "term": "거북이"
+        },
+        {
+          "term": "고래"
+        },
+        {
+          "term": "나비"
+        }
+      ]
+    },
+    "en": {
+      "title": "Animals Team B",
+      "words": [
+        {
+          "term": "Rabbit"
+        },
+        {
+          "term": "Fox"
+        },
+        {
+          "term": "Owl"
+        },
+        {
+          "term": "Fish"
+        },
+        {
+          "term": "Pig"
+        },
+        {
+          "term": "Cow"
+        },
+        {
+          "term": "Horse"
+        },
+        {
+          "term": "Turtle"
+        },
+        {
+          "term": "Whale"
+        },
+        {
+          "term": "Butterfly"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "food-a",
+    "category": "food",
+    "difficulty": "easy",
+    "words": [
+      {
+        "term": "김밥"
+      },
+      {
+        "term": "떡볶이"
+      },
+      {
+        "term": "피자"
+      },
+      {
+        "term": "우동"
+      },
+      {
+        "term": "햄버거"
+      },
+      {
+        "term": "스파게티"
+      },
+      {
+        "term": "초밥"
+      },
+      {
+        "term": "카레"
+      },
+      {
+        "term": "김치"
+      },
+      {
+        "term": "계란"
+      }
+    ],
+    "ko": {
+      "title": "음식 A팀",
+      "words": [
+        {
+          "term": "김밥"
+        },
+        {
+          "term": "떡볶이"
+        },
+        {
+          "term": "피자"
+        },
+        {
+          "term": "우동"
+        },
+        {
+          "term": "햄버거"
+        },
+        {
+          "term": "스파게티"
+        },
+        {
+          "term": "초밥"
+        },
+        {
+          "term": "카레"
+        },
+        {
+          "term": "김치"
+        },
+        {
+          "term": "계란"
+        }
+      ]
+    },
+    "en": {
+      "title": "Food Team A",
+      "words": [
+        {
+          "term": "Kimbap"
+        },
+        {
+          "term": "Tteokbokki"
+        },
+        {
+          "term": "Pizza"
+        },
+        {
+          "term": "Udon"
+        },
+        {
+          "term": "Hamburger"
+        },
+        {
+          "term": "Spaghetti"
+        },
+        {
+          "term": "Sushi"
+        },
+        {
+          "term": "Curry"
+        },
+        {
+          "term": "Kimchi"
+        },
+        {
+          "term": "Egg"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "food-b",
+    "category": "food",
+    "difficulty": "easy",
+    "words": [
+      {
+        "term": "쌀밥"
+      },
+      {
+        "term": "국밥"
+      },
+      {
+        "term": "라면"
+      },
+      {
+        "term": "빵"
+      },
+      {
+        "term": "불고기"
+      },
+      {
+        "term": "치킨"
+      },
+      {
+        "term": "밥"
+      },
+      {
+        "term": "국수"
+      },
+      {
+        "term": "치즈"
+      },
+      {
+        "term": "포도"
+      }
+    ],
+    "ko": {
+      "title": "음식 B팀",
+      "words": [
+        {
+          "term": "쌀밥"
+        },
+        {
+          "term": "국밥"
+        },
+        {
+          "term": "라면"
+        },
+        {
+          "term": "빵"
+        },
+        {
+          "term": "불고기"
+        },
+        {
+          "term": "치킨"
+        },
+        {
+          "term": "밥"
+        },
+        {
+          "term": "국수"
+        },
+        {
+          "term": "치즈"
+        },
+        {
+          "term": "포도"
+        }
+      ]
+    },
+    "en": {
+      "title": "Food Team B",
+      "words": [
+        {
+          "term": "Rice Bowl"
+        },
+        {
+          "term": "Soup"
+        },
+        {
+          "term": "Ramen"
+        },
+        {
+          "term": "Bread"
+        },
+        {
+          "term": "Bulgogi"
+        },
+        {
+          "term": "Chicken"
+        },
+        {
+          "term": "Noodles"
+        },
+        {
+          "term": "Pasta"
+        },
+        {
+          "term": "Cheese"
+        },
+        {
+          "term": "Grape"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "sports-a",
+    "category": "sports",
+    "difficulty": "normal",
+    "words": [
+      {
+        "term": "농구",
+        "hint": "NBA, 슛"
+      },
+      {
+        "term": "체조",
+        "hint": "몸 움직임, 메달"
+      },
+      {
+        "term": "수영",
+        "hint": "물 속 경기"
+      },
+      {
+        "term": "양궁",
+        "hint": "화살, 한국 강세"
+      },
+      {
+        "term": "축구",
+        "hint": "골, 11명"
+      },
+      {
+        "term": "테니스",
+        "hint": "라켓, 공"
+      },
+      {
+        "term": "배구",
+        "hint": "네트, 팀 스포츠"
+      },
+      {
+        "term": "펜싱",
+        "hint": "칼, 결투"
+      },
+      {
+        "term": "조정",
+        "hint": "보트, 물"
+      },
+      {
+        "term": "근력운동",
+        "hint": "무게, 근육"
+      }
+    ],
+    "ko": {
+      "title": "스포츠·올림픽 A팀",
+      "words": [
+        {
+          "term": "농구",
+          "hint": "NBA, 슛"
+        },
+        {
+          "term": "체조",
+          "hint": "몸 움직임, 메달"
+        },
+        {
+          "term": "수영",
+          "hint": "물 속 경기"
+        },
+        {
+          "term": "양궁",
+          "hint": "화살, 한국 강세"
+        },
+        {
+          "term": "축구",
+          "hint": "골, 11명"
+        },
+        {
+          "term": "테니스",
+          "hint": "라켓, 공"
+        },
+        {
+          "term": "배구",
+          "hint": "네트, 팀 스포츠"
+        },
+        {
+          "term": "펜싱",
+          "hint": "칼, 결투"
+        },
+        {
+          "term": "조정",
+          "hint": "보트, 물"
+        },
+        {
+          "term": "근력운동",
+          "hint": "무게, 근육"
+        }
+      ]
+    },
+    "en": {
+      "title": "Sports & Olympics Team A",
+      "words": [
+        {
+          "term": "Basketball",
+          "hint": "NBA, shooting"
+        },
+        {
+          "term": "Gymnastics",
+          "hint": "Body movement, medals"
+        },
+        {
+          "term": "Swimming",
+          "hint": "Water sport"
+        },
+        {
+          "term": "Archery",
+          "hint": "Arrows, Korea strong"
+        },
+        {
+          "term": "Football",
+          "hint": "Goal, 11 players"
+        },
+        {
+          "term": "Tennis",
+          "hint": "Racket, ball"
+        },
+        {
+          "term": "Volleyball",
+          "hint": "Net, team sport"
+        },
+        {
+          "term": "Fencing",
+          "hint": "Sword, duel"
+        },
+        {
+          "term": "Rowing",
+          "hint": "Boat, water"
+        },
+        {
+          "term": "Weightlifting",
+          "hint": "Weights, muscle"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "sports-b",
+    "category": "sports",
+    "difficulty": "normal",
+    "words": [
+      {
+        "term": "탁구",
+        "hint": "작은 공, 라켓"
+      },
+      {
+        "term": "배드민턴",
+        "hint": "셔틀콕"
+      },
+      {
+        "term": "하키",
+        "hint": "얼음, 스틱"
+      },
+      {
+        "term": "레슬링",
+        "hint": "격투, 매트"
+      },
+      {
+        "term": "유도",
+        "hint": "던지기, 일본"
+      },
+      {
+        "term": "카누",
+        "hint": "물, 노"
+      },
+      {
+        "term": "승마",
+        "hint": "말, 점프"
+      },
+      {
+        "term": "사격",
+        "hint": "총, 표적"
+      },
+      {
+        "term": "당구",
+        "hint": "큐, 볼"
+      },
+      {
+        "term": "스키",
+        "hint": "눈, 산"
+      }
+    ],
+    "ko": {
+      "title": "스포츠·올림픽 B팀",
+      "words": [
+        {
+          "term": "탁구",
+          "hint": "작은 공, 라켓"
+        },
+        {
+          "term": "배드민턴",
+          "hint": "셔틀콕"
+        },
+        {
+          "term": "하키",
+          "hint": "얼음, 스틱"
+        },
+        {
+          "term": "레슬링",
+          "hint": "격투, 매트"
+        },
+        {
+          "term": "유도",
+          "hint": "던지기, 일본"
+        },
+        {
+          "term": "카누",
+          "hint": "물, 노"
+        },
+        {
+          "term": "승마",
+          "hint": "말, 점프"
+        },
+        {
+          "term": "사격",
+          "hint": "총, 표적"
+        },
+        {
+          "term": "당구",
+          "hint": "큐, 볼"
+        },
+        {
+          "term": "스키",
+          "hint": "눈, 산"
+        }
+      ]
+    },
+    "en": {
+      "title": "Sports & Olympics Team B",
+      "words": [
+        {
+          "term": "Ping Pong",
+          "hint": "Small ball, racket"
+        },
+        {
+          "term": "Badminton",
+          "hint": "Shuttlecock"
+        },
+        {
+          "term": "Ice Hockey",
+          "hint": "Ice, stick"
+        },
+        {
+          "term": "Wrestling",
+          "hint": "Combat, mat"
+        },
+        {
+          "term": "Judo",
+          "hint": "Throwing, Japan"
+        },
+        {
+          "term": "Canoeing",
+          "hint": "Water, paddle"
+        },
+        {
+          "term": "Equestrian",
+          "hint": "Horse, jumping"
+        },
+        {
+          "term": "Shooting",
+          "hint": "Gun, target"
+        },
+        {
+          "term": "Billiards",
+          "hint": "Cue, balls"
+        },
+        {
+          "term": "Skiing",
+          "hint": "Snow, mountain"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "movies-a",
+    "category": "movies",
+    "difficulty": "normal",
+    "words": [
+      {
+        "term": "기생충",
+        "hint": "봉준호, 한국영화"
+      },
+      {
+        "term": "타이타닉",
+        "hint": "배, 빙산"
+      },
+      {
+        "term": "아바타",
+        "hint": "판도라, 3D"
+      },
+      {
+        "term": "인셉션",
+        "hint": "꿈, 크리스토퍼 놀란"
+      },
+      {
+        "term": "살인의 추억",
+        "hint": "연쇄살인, 한국"
+      },
+      {
+        "term": "미션 임파서블",
+        "hint": "톰 크루즈"
+      },
+      {
+        "term": "해리 포터",
+        "hint": "마법, 호그와트"
+      },
+      {
+        "term": "반지의 제왕",
+        "hint": "반지, 판타지"
+      },
+      {
+        "term": "돈 룩 업",
+        "hint": "혜성, 코미디"
+      },
+      {
+        "term": "스파이더맨",
+        "hint": "웹 슈팅, 슈퍼히어로"
+      }
+    ],
+    "ko": {
+      "title": "영화 A팀",
+      "words": [
+        {
+          "term": "기생충",
+          "hint": "봉준호, 한국영화"
+        },
+        {
+          "term": "타이타닉",
+          "hint": "배, 빙산"
+        },
+        {
+          "term": "아바타",
+          "hint": "판도라, 3D"
+        },
+        {
+          "term": "인셉션",
+          "hint": "꿈, 크리스토퍼 놀란"
+        },
+        {
+          "term": "살인의 추억",
+          "hint": "연쇄살인, 한국"
+        },
+        {
+          "term": "미션 임파서블",
+          "hint": "톰 크루즈"
+        },
+        {
+          "term": "해리 포터",
+          "hint": "마법, 호그와트"
+        },
+        {
+          "term": "반지의 제왕",
+          "hint": "반지, 판타지"
+        },
+        {
+          "term": "돈 룩 업",
+          "hint": "혜성, 코미디"
+        },
+        {
+          "term": "스파이더맨",
+          "hint": "웹 슈팅, 슈퍼히어로"
+        }
+      ]
+    },
+    "en": {
+      "title": "Movies Team A",
+      "words": [
+        {
+          "term": "Parasite",
+          "hint": "Bong Joon-ho, Korea"
+        },
+        {
+          "term": "Titanic",
+          "hint": "Ship, iceberg"
+        },
+        {
+          "term": "Avatar",
+          "hint": "Pandora, 3D"
+        },
+        {
+          "term": "Inception",
+          "hint": "Dreams, Nolan"
+        },
+        {
+          "term": "Memories of Murder",
+          "hint": "Serial killer, Korea"
+        },
+        {
+          "term": "Mission Impossible",
+          "hint": "Tom Cruise"
+        },
+        {
+          "term": "Harry Potter",
+          "hint": "Magic, Hogwarts"
+        },
+        {
+          "term": "Lord of the Rings",
+          "hint": "Ring, fantasy"
+        },
+        {
+          "term": "Don't Look Up",
+          "hint": "Comet, comedy"
+        },
+        {
+          "term": "Spider-Man",
+          "hint": "Web shooting, superhero"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "movies-b",
+    "category": "movies",
+    "difficulty": "normal",
+    "words": [
+      {
+        "term": "쇼생크 탈옥",
+        "hint": "교도소, 희망"
+      },
+      {
+        "term": "다크나이트",
+        "hint": "배트맨, 조커"
+      },
+      {
+        "term": "포레스트 검프",
+        "hint": "인생, 달콤함"
+      },
+      {
+        "term": "맨 온 파이어",
+        "hint": "복수, 댄젤 워싱턴"
+      },
+      {
+        "term": "매트릭스",
+        "hint": "버추얼 세계, 빨간약"
+      },
+      {
+        "term": "글래디에이터",
+        "hint": "로마, 검투사"
+      },
+      {
+        "term": "간디",
+        "hint": "인도, 비폭력"
+      },
+      {
+        "term": "캐스트 어웨이",
+        "hint": "무인도, 톰 행크스"
+      },
+      {
+        "term": "이티",
+        "hint": "외계인, 어린이"
+      },
+      {
+        "term": "주라기 공원",
+        "hint": "공룡, 과학"
+      }
+    ],
+    "ko": {
+      "title": "영화 B팀",
+      "words": [
+        {
+          "term": "쇼생크 탈옥",
+          "hint": "교도소, 희망"
+        },
+        {
+          "term": "다크나이트",
+          "hint": "배트맨, 조커"
+        },
+        {
+          "term": "포레스트 검프",
+          "hint": "인생, 달콤함"
+        },
+        {
+          "term": "맨 온 파이어",
+          "hint": "복수, 댄젤 워싱턴"
+        },
+        {
+          "term": "매트릭스",
+          "hint": "버추얼 세계, 빨간약"
+        },
+        {
+          "term": "글래디에이터",
+          "hint": "로마, 검투사"
+        },
+        {
+          "term": "간디",
+          "hint": "인도, 비폭력"
+        },
+        {
+          "term": "캐스트 어웨이",
+          "hint": "무인도, 톰 행크스"
+        },
+        {
+          "term": "이티",
+          "hint": "외계인, 어린이"
+        },
+        {
+          "term": "주라기 공원",
+          "hint": "공룡, 과학"
+        }
+      ]
+    },
+    "en": {
+      "title": "Movies Team B",
+      "words": [
+        {
+          "term": "The Shawshank Redemption",
+          "hint": "Prison, hope"
+        },
+        {
+          "term": "The Dark Knight",
+          "hint": "Batman, Joker"
+        },
+        {
+          "term": "Forrest Gump",
+          "hint": "Life, sweetness"
+        },
+        {
+          "term": "Man on Fire",
+          "hint": "Revenge, Denzel Washington"
+        },
+        {
+          "term": "The Matrix",
+          "hint": "Virtual world, red pill"
+        },
+        {
+          "term": "Gladiator",
+          "hint": "Rome, gladiator"
+        },
+        {
+          "term": "Gandhi",
+          "hint": "India, nonviolence"
+        },
+        {
+          "term": "Cast Away",
+          "hint": "Island, Tom Hanks"
+        },
+        {
+          "term": "E.T.",
+          "hint": "Alien, children"
+        },
+        {
+          "term": "Jurassic Park",
+          "hint": "Dinosaurs, science"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "kpop-a",
+    "category": "kpop",
+    "difficulty": "normal",
+    "words": [
+      {
+        "term": "BTS",
+        "hint": "방탄소년단, 그룹"
+      },
+      {
+        "term": "블랙핑크",
+        "hint": "여성 그룹"
+      },
+      {
+        "term": "IVE",
+        "hint": "최신 여성 그룹"
+      },
+      {
+        "term": "뉴진스",
+        "hint": "하이브, 신예"
+      },
+      {
+        "term": "스트레이 키즈",
+        "hint": "JYP, 남성 그룹"
+      },
+      {
+        "term": "트와이스",
+        "hint": "9명, 여성 그룹"
+      },
+      {
+        "term": "엑소",
+        "hint": "SM, 남성 그룹"
+      },
+      {
+        "term": "세븐틴",
+        "hint": "플레디스, 13명"
+      },
+      {
+        "term": "보아",
+        "hint": "여가수, 베테랑"
+      },
+      {
+        "term": "이방",
+        "hint": "싱가포르 래퍼"
+      }
+    ],
+    "ko": {
+      "title": "K-pop A팀",
+      "words": [
+        {
+          "term": "BTS",
+          "hint": "방탄소년단, 그룹"
+        },
+        {
+          "term": "블랙핑크",
+          "hint": "여성 그룹"
+        },
+        {
+          "term": "IVE",
+          "hint": "최신 여성 그룹"
+        },
+        {
+          "term": "뉴진스",
+          "hint": "하이브, 신예"
+        },
+        {
+          "term": "스트레이 키즈",
+          "hint": "JYP, 남성 그룹"
+        },
+        {
+          "term": "트와이스",
+          "hint": "9명, 여성 그룹"
+        },
+        {
+          "term": "엑소",
+          "hint": "SM, 남성 그룹"
+        },
+        {
+          "term": "세븐틴",
+          "hint": "플레디스, 13명"
+        },
+        {
+          "term": "보아",
+          "hint": "여가수, 베테랑"
+        },
+        {
+          "term": "이방",
+          "hint": "싱가포르 래퍼"
+        }
+      ]
+    },
+    "en": {
+      "title": "K-pop Team A",
+      "words": [
+        {
+          "term": "BTS",
+          "hint": "Bangtan Sonyeondan, group"
+        },
+        {
+          "term": "BLACKPINK",
+          "hint": "Female group"
+        },
+        {
+          "term": "IVE",
+          "hint": "Latest female group"
+        },
+        {
+          "term": "NewJeans",
+          "hint": "HYBE, rookies"
+        },
+        {
+          "term": "Stray Kids",
+          "hint": "JYP, male group"
+        },
+        {
+          "term": "TWICE",
+          "hint": "9 members, female group"
+        },
+        {
+          "term": "EXO",
+          "hint": "SM, male group"
+        },
+        {
+          "term": "SEVENTEEN",
+          "hint": "Pledis, 13 members"
+        },
+        {
+          "term": "BoA",
+          "hint": "Soloist, veteran"
+        },
+        {
+          "term": "Jay Park",
+          "hint": "Singaporean rapper"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "kpop-b",
+    "category": "kpop",
+    "difficulty": "normal",
+    "words": [
+      {
+        "term": "싸이",
+        "hint": "강남스타일"
+      },
+      {
+        "term": "르세라핌",
+        "hint": "소스뮤직, 여성 그룹"
+      },
+      {
+        "term": "에스파",
+        "hint": "SM, 가상 아바타"
+      },
+      {
+        "term": "에일리",
+        "hint": "여가수, 알앤비"
+      },
+      {
+        "term": "사이",
+        "hint": "보이밴드, 3명"
+      },
+      {
+        "term": "빅뱅",
+        "hint": "YG, 전설의 그룹"
+      },
+      {
+        "term": "슈퍼주니어",
+        "hint": "SM, 남성 그룹"
+      },
+      {
+        "term": "에프엑스",
+        "hint": "에스엠, 한국 걸그룹"
+      },
+      {
+        "term": "태양",
+        "hint": "빅뱅 멤버"
+      },
+      {
+        "term": "민지",
+        "hint": "뉴진스 멤버"
+      }
+    ],
+    "ko": {
+      "title": "K-pop B팀",
+      "words": [
+        {
+          "term": "싸이",
+          "hint": "강남스타일"
+        },
+        {
+          "term": "르세라핌",
+          "hint": "소스뮤직, 여성 그룹"
+        },
+        {
+          "term": "에스파",
+          "hint": "SM, 가상 아바타"
+        },
+        {
+          "term": "에일리",
+          "hint": "여가수, 알앤비"
+        },
+        {
+          "term": "사이",
+          "hint": "보이밴드, 3명"
+        },
+        {
+          "term": "빅뱅",
+          "hint": "YG, 전설의 그룹"
+        },
+        {
+          "term": "슈퍼주니어",
+          "hint": "SM, 남성 그룹"
+        },
+        {
+          "term": "에프엑스",
+          "hint": "에스엠, 한국 걸그룹"
+        },
+        {
+          "term": "태양",
+          "hint": "빅뱅 멤버"
+        },
+        {
+          "term": "민지",
+          "hint": "뉴진스 멤버"
+        }
+      ]
+    },
+    "en": {
+      "title": "K-pop Team B",
+      "words": [
+        {
+          "term": "PSY",
+          "hint": "Gangnam Style"
+        },
+        {
+          "term": "LE SSERAFIM",
+          "hint": "Source Music, female group"
+        },
+        {
+          "term": "AESPA",
+          "hint": "SM, virtual avatars"
+        },
+        {
+          "term": "Ailee",
+          "hint": "Soloist, R&B"
+        },
+        {
+          "term": "SHY",
+          "hint": "Boy band, 3 members"
+        },
+        {
+          "term": "BIGBANG",
+          "hint": "YG, legendary group"
+        },
+        {
+          "term": "Super Junior",
+          "hint": "SM, male group"
+        },
+        {
+          "term": "f(x)",
+          "hint": "SM, girl group"
+        },
+        {
+          "term": "Taeyang",
+          "hint": "BIGBANG member"
+        },
+        {
+          "term": "Hanni",
+          "hint": "NewJeans member"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "countries-a",
+    "category": "countries",
+    "difficulty": "normal",
+    "words": [
+      {
+        "term": "일본",
+        "hint": "스시, 사무라이"
+      },
+      {
+        "term": "프랑스",
+        "hint": "에펠탑, 와인"
+      },
+      {
+        "term": "중국",
+        "hint": "만리장성, 만두"
+      },
+      {
+        "term": "미국",
+        "hint": "자유의 여신상, 뉴욕"
+      },
+      {
+        "term": "이탈리아",
+        "hint": "피자, 로마"
+      },
+      {
+        "term": "스페인",
+        "hint": "플라멩고, 파엘라"
+      },
+      {
+        "term": "그리스",
+        "hint": "올리브, 소크라테스"
+      },
+      {
+        "term": "브라질",
+        "hint": "아마존, 축구"
+      },
+      {
+        "term": "호주",
+        "hint": "캥거루, 시드니"
+      },
+      {
+        "term": "캐나다",
+        "hint": "나이아가라, 메이플"
+      }
+    ],
+    "ko": {
+      "title": "나라 A팀",
+      "words": [
+        {
+          "term": "일본",
+          "hint": "스시, 사무라이"
+        },
+        {
+          "term": "프랑스",
+          "hint": "에펠탑, 와인"
+        },
+        {
+          "term": "중국",
+          "hint": "만리장성, 만두"
+        },
+        {
+          "term": "미국",
+          "hint": "자유의 여신상, 뉴욕"
+        },
+        {
+          "term": "이탈리아",
+          "hint": "피자, 로마"
+        },
+        {
+          "term": "스페인",
+          "hint": "플라멩고, 파엘라"
+        },
+        {
+          "term": "그리스",
+          "hint": "올리브, 소크라테스"
+        },
+        {
+          "term": "브라질",
+          "hint": "아마존, 축구"
+        },
+        {
+          "term": "호주",
+          "hint": "캥거루, 시드니"
+        },
+        {
+          "term": "캐나다",
+          "hint": "나이아가라, 메이플"
+        }
+      ]
+    },
+    "en": {
+      "title": "Countries Team A",
+      "words": [
+        {
+          "term": "Japan",
+          "hint": "Sushi, samurai"
+        },
+        {
+          "term": "France",
+          "hint": "Eiffel Tower, wine"
+        },
+        {
+          "term": "China",
+          "hint": "Great Wall, dumplings"
+        },
+        {
+          "term": "USA",
+          "hint": "Statue of Liberty, NYC"
+        },
+        {
+          "term": "Italy",
+          "hint": "Pizza, Rome"
+        },
+        {
+          "term": "Spain",
+          "hint": "Flamenco, paella"
+        },
+        {
+          "term": "Greece",
+          "hint": "Olives, Socrates"
+        },
+        {
+          "term": "Brazil",
+          "hint": "Amazon, football"
+        },
+        {
+          "term": "Australia",
+          "hint": "Kangaroo, Sydney"
+        },
+        {
+          "term": "Canada",
+          "hint": "Niagara Falls, maple"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "countries-b",
+    "category": "countries",
+    "difficulty": "normal",
+    "words": [
+      {
+        "term": "영국",
+        "hint": "버킹엄 궁전, 홍차"
+      },
+      {
+        "term": "독일",
+        "hint": "맥주, 벤츠"
+      },
+      {
+        "term": "러시아",
+        "hint": "크렘린, 발레"
+      },
+      {
+        "term": "인도",
+        "hint": "타지마할, 카레"
+      },
+      {
+        "term": "태국",
+        "hint": "코끼리, 방콕"
+      },
+      {
+        "term": "싱가포르",
+        "hint": "마라, 도시국가"
+      },
+      {
+        "term": "멕시코",
+        "hint": "타코, 피라미드"
+      },
+      {
+        "term": "남아프리카",
+        "hint": "사자, 사파리"
+      },
+      {
+        "term": "네덜란드",
+        "hint": "풍차, 튤립"
+      },
+      {
+        "term": "스위스",
+        "hint": "시계, 초콜릿"
+      }
+    ],
+    "ko": {
+      "title": "나라 B팀",
+      "words": [
+        {
+          "term": "영국",
+          "hint": "버킹엄 궁전, 홍차"
+        },
+        {
+          "term": "독일",
+          "hint": "맥주, 벤츠"
+        },
+        {
+          "term": "러시아",
+          "hint": "크렘린, 발레"
+        },
+        {
+          "term": "인도",
+          "hint": "타지마할, 카레"
+        },
+        {
+          "term": "태국",
+          "hint": "코끼리, 방콕"
+        },
+        {
+          "term": "싱가포르",
+          "hint": "마라, 도시국가"
+        },
+        {
+          "term": "멕시코",
+          "hint": "타코, 피라미드"
+        },
+        {
+          "term": "남아프리카",
+          "hint": "사자, 사파리"
+        },
+        {
+          "term": "네덜란드",
+          "hint": "풍차, 튤립"
+        },
+        {
+          "term": "스위스",
+          "hint": "시계, 초콜릿"
+        }
+      ]
+    },
+    "en": {
+      "title": "Countries Team B",
+      "words": [
+        {
+          "term": "UK",
+          "hint": "Buckingham Palace, tea"
+        },
+        {
+          "term": "Germany",
+          "hint": "Beer, Mercedes"
+        },
+        {
+          "term": "Russia",
+          "hint": "Kremlin, ballet"
+        },
+        {
+          "term": "India",
+          "hint": "Taj Mahal, curry"
+        },
+        {
+          "term": "Thailand",
+          "hint": "Elephants, Bangkok"
+        },
+        {
+          "term": "Singapore",
+          "hint": "Marina Bay, city-state"
+        },
+        {
+          "term": "Mexico",
+          "hint": "Tacos, pyramids"
+        },
+        {
+          "term": "South Africa",
+          "hint": "Lions, safari"
+        },
+        {
+          "term": "Netherlands",
+          "hint": "Windmills, tulips"
+        },
+        {
+          "term": "Switzerland",
+          "hint": "Watches, chocolate"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "jobs-a",
+    "category": "jobs",
+    "difficulty": "easy",
+    "words": [
+      {
+        "term": "의사"
+      },
+      {
+        "term": "선생님"
+      },
+      {
+        "term": "경찰"
+      },
+      {
+        "term": "소방관"
+      },
+      {
+        "term": "요리사"
+      },
+      {
+        "term": "파일럿"
+      },
+      {
+        "term": "간호사"
+      },
+      {
+        "term": "건축가"
+      },
+      {
+        "term": "변호사"
+      },
+      {
+        "term": "농부"
+      }
+    ],
+    "ko": {
+      "title": "직업 A팀",
+      "words": [
+        {
+          "term": "의사"
+        },
+        {
+          "term": "선생님"
+        },
+        {
+          "term": "경찰"
+        },
+        {
+          "term": "소방관"
+        },
+        {
+          "term": "요리사"
+        },
+        {
+          "term": "파일럿"
+        },
+        {
+          "term": "간호사"
+        },
+        {
+          "term": "건축가"
+        },
+        {
+          "term": "변호사"
+        },
+        {
+          "term": "농부"
+        }
+      ]
+    },
+    "en": {
+      "title": "Jobs Team A",
+      "words": [
+        {
+          "term": "Doctor"
+        },
+        {
+          "term": "Teacher"
+        },
+        {
+          "term": "Police"
+        },
+        {
+          "term": "Firefighter"
+        },
+        {
+          "term": "Chef"
+        },
+        {
+          "term": "Pilot"
+        },
+        {
+          "term": "Nurse"
+        },
+        {
+          "term": "Architect"
+        },
+        {
+          "term": "Lawyer"
+        },
+        {
+          "term": "Farmer"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "jobs-b",
+    "category": "jobs",
+    "difficulty": "easy",
+    "words": [
+      {
+        "term": "엔지니어"
+      },
+      {
+        "term": "미용사"
+      },
+      {
+        "term": "기자"
+      },
+      {
+        "term": "배우"
+      },
+      {
+        "term": "음악가"
+      },
+      {
+        "term": "청소원"
+      },
+      {
+        "term": "택시기사"
+      },
+      {
+        "term": "주방장"
+      },
+      {
+        "term": "음악교사"
+      },
+      {
+        "term": "과학자"
+      }
+    ],
+    "ko": {
+      "title": "직업 B팀",
+      "words": [
+        {
+          "term": "엔지니어"
+        },
+        {
+          "term": "미용사"
+        },
+        {
+          "term": "기자"
+        },
+        {
+          "term": "배우"
+        },
+        {
+          "term": "음악가"
+        },
+        {
+          "term": "청소원"
+        },
+        {
+          "term": "택시기사"
+        },
+        {
+          "term": "주방장"
+        },
+        {
+          "term": "음악교사"
+        },
+        {
+          "term": "과학자"
+        }
+      ]
+    },
+    "en": {
+      "title": "Jobs Team B",
+      "words": [
+        {
+          "term": "Engineer"
+        },
+        {
+          "term": "Beautician"
+        },
+        {
+          "term": "Journalist"
+        },
+        {
+          "term": "Actor"
+        },
+        {
+          "term": "Musician"
+        },
+        {
+          "term": "Cleaner"
+        },
+        {
+          "term": "Taxi Driver"
+        },
+        {
+          "term": "Chef"
+        },
+        {
+          "term": "Music Teacher"
+        },
+        {
+          "term": "Scientist"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "brands-a",
+    "category": "brands",
+    "difficulty": "normal",
+    "words": [
+      {
+        "term": "삼성",
+        "hint": "전자, 한국"
+      },
+      {
+        "term": "LG",
+        "hint": "가전, 디스플레이"
+      },
+      {
+        "term": "현대",
+        "hint": "자동차, 기아"
+      },
+      {
+        "term": "CJ",
+        "hint": "CGV, 컨텐츠"
+      },
+      {
+        "term": "SK",
+        "hint": "에너지, 화학"
+      },
+      {
+        "term": "롯데",
+        "hint": "백화점, 과자"
+      },
+      {
+        "term": "코카콜라",
+        "hint": "음료, 빨간색"
+      },
+      {
+        "term": "나이키",
+        "hint": "운동화, 체크 마크"
+      },
+      {
+        "term": "애플",
+        "hint": "아이폰, 사과"
+      },
+      {
+        "term": "아마존",
+        "hint": "온라인 쇼핑, AWS"
+      }
+    ],
+    "ko": {
+      "title": "브랜드 A팀",
+      "words": [
+        {
+          "term": "삼성",
+          "hint": "전자, 한국"
+        },
+        {
+          "term": "LG",
+          "hint": "가전, 디스플레이"
+        },
+        {
+          "term": "현대",
+          "hint": "자동차, 기아"
+        },
+        {
+          "term": "CJ",
+          "hint": "CGV, 컨텐츠"
+        },
+        {
+          "term": "SK",
+          "hint": "에너지, 화학"
+        },
+        {
+          "term": "롯데",
+          "hint": "백화점, 과자"
+        },
+        {
+          "term": "코카콜라",
+          "hint": "음료, 빨간색"
+        },
+        {
+          "term": "나이키",
+          "hint": "운동화, 체크 마크"
+        },
+        {
+          "term": "애플",
+          "hint": "아이폰, 사과"
+        },
+        {
+          "term": "아마존",
+          "hint": "온라인 쇼핑, AWS"
+        }
+      ]
+    },
+    "en": {
+      "title": "Brands Team A",
+      "words": [
+        {
+          "term": "Samsung",
+          "hint": "Electronics, Korea"
+        },
+        {
+          "term": "LG",
+          "hint": "Appliances, displays"
+        },
+        {
+          "term": "Hyundai",
+          "hint": "Automobiles, Kia"
+        },
+        {
+          "term": "CJ",
+          "hint": "CGV, content"
+        },
+        {
+          "term": "SK",
+          "hint": "Energy, chemicals"
+        },
+        {
+          "term": "Lotte",
+          "hint": "Department store, snacks"
+        },
+        {
+          "term": "Coca-Cola",
+          "hint": "Beverage, red"
+        },
+        {
+          "term": "Nike",
+          "hint": "Sneakers, checkmark"
+        },
+        {
+          "term": "Apple",
+          "hint": "iPhone, apple"
+        },
+        {
+          "term": "Amazon",
+          "hint": "Online shopping, AWS"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "brands-b",
+    "category": "brands",
+    "difficulty": "normal",
+    "words": [
+      {
+        "term": "구글",
+        "hint": "검색, 안드로이드"
+      },
+      {
+        "term": "마이크로소프트",
+        "hint": "윈도우, 엑셀"
+      },
+      {
+        "term": "페이스북",
+        "hint": "메타, SNS"
+      },
+      {
+        "term": "넷플릭스",
+        "hint": "스트리밍, 드라마"
+      },
+      {
+        "term": "스포티파이",
+        "hint": "음악, 재생목록"
+      },
+      {
+        "term": "우버",
+        "hint": "택시, 배달"
+      },
+      {
+        "term": "에어비엔비",
+        "hint": "숙박, 공유경제"
+      },
+      {
+        "term": "토요타",
+        "hint": "자동차, 일본"
+      },
+      {
+        "term": "맥도날드",
+        "hint": "패스트푸드, 금아치"
+      },
+      {
+        "term": "스타벅스",
+        "hint": "커피, 로고"
+      }
+    ],
+    "ko": {
+      "title": "브랜드 B팀",
+      "words": [
+        {
+          "term": "구글",
+          "hint": "검색, 안드로이드"
+        },
+        {
+          "term": "마이크로소프트",
+          "hint": "윈도우, 엑셀"
+        },
+        {
+          "term": "페이스북",
+          "hint": "메타, SNS"
+        },
+        {
+          "term": "넷플릭스",
+          "hint": "스트리밍, 드라마"
+        },
+        {
+          "term": "스포티파이",
+          "hint": "음악, 재생목록"
+        },
+        {
+          "term": "우버",
+          "hint": "택시, 배달"
+        },
+        {
+          "term": "에어비엔비",
+          "hint": "숙박, 공유경제"
+        },
+        {
+          "term": "토요타",
+          "hint": "자동차, 일본"
+        },
+        {
+          "term": "맥도날드",
+          "hint": "패스트푸드, 금아치"
+        },
+        {
+          "term": "스타벅스",
+          "hint": "커피, 로고"
+        }
+      ]
+    },
+    "en": {
+      "title": "Brands Team B",
+      "words": [
+        {
+          "term": "Google",
+          "hint": "Search, Android"
+        },
+        {
+          "term": "Microsoft",
+          "hint": "Windows, Excel"
+        },
+        {
+          "term": "Facebook",
+          "hint": "Meta, social media"
+        },
+        {
+          "term": "Netflix",
+          "hint": "Streaming, drama"
+        },
+        {
+          "term": "Spotify",
+          "hint": "Music, playlists"
+        },
+        {
+          "term": "Uber",
+          "hint": "Taxi, delivery"
+        },
+        {
+          "term": "Airbnb",
+          "hint": "Lodging, sharing economy"
+        },
+        {
+          "term": "Toyota",
+          "hint": "Automobile, Japan"
+        },
+        {
+          "term": "McDonald's",
+          "hint": "Fast food, golden arches"
+        },
+        {
+          "term": "Starbucks",
+          "hint": "Coffee, logo"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "proverbs-a",
+    "category": "proverbs",
+    "difficulty": "hard",
+    "words": [
+      {
+        "term": "닭 쫓던 개 지쳐 넘어진다",
+        "hint": "헛된 노력의 결과"
+      },
+      {
+        "term": "호랑이 굴에 들어가야 호랑이를 잡는다",
+        "hint": "위험을 무릅써야 한다"
+      },
+      {
+        "term": "등잔 밑이 어둡다",
+        "hint": "가장 가까운 것을 모른다"
+      },
+      {
+        "term": "말 한마디에 천냥 빚을 갚는다",
+        "hint": "말의 힘"
+      },
+      {
+        "term": "원숭이도 나무에서 떨어진다",
+        "hint": "아무리 잘하는 사람도 실수한다"
+      },
+      {
+        "term": "천 리 길도 한 걸음부터",
+        "hint": "거대한 일도 작은 시작부터"
+      },
+      {
+        "term": "기울어진 운동장",
+        "hint": "불공평한 환경"
+      },
+      {
+        "term": "개밥 먹다",
+        "hint": "말을 듣지 않음"
+      },
+      {
+        "term": "구더기 무서워 장을 못 담근다",
+        "hint": "과도한 두려움"
+      },
+      {
+        "term": "하늘이 무너져도 솟아날 구멍이 있다",
+        "hint": "절망적인 상황도 해결책이 있다"
+      }
+    ],
+    "ko": {
+      "title": "속담 A팀",
+      "words": [
+        {
+          "term": "닭 쫓던 개 지쳐 넘어진다",
+          "hint": "헛된 노력의 결과"
+        },
+        {
+          "term": "호랑이 굴에 들어가야 호랑이를 잡는다",
+          "hint": "위험을 무릅써야 한다"
+        },
+        {
+          "term": "등잔 밑이 어둡다",
+          "hint": "가장 가까운 것을 모른다"
+        },
+        {
+          "term": "말 한마디에 천냥 빚을 갚는다",
+          "hint": "말의 힘"
+        },
+        {
+          "term": "원숭이도 나무에서 떨어진다",
+          "hint": "아무리 잘하는 사람도 실수한다"
+        },
+        {
+          "term": "천 리 길도 한 걸음부터",
+          "hint": "거대한 일도 작은 시작부터"
+        },
+        {
+          "term": "기울어진 운동장",
+          "hint": "불공평한 환경"
+        },
+        {
+          "term": "개밥 먹다",
+          "hint": "말을 듣지 않음"
+        },
+        {
+          "term": "구더기 무서워 장을 못 담근다",
+          "hint": "과도한 두려움"
+        },
+        {
+          "term": "하늘이 무너져도 솟아날 구멍이 있다",
+          "hint": "절망적인 상황도 해결책이 있다"
+        }
+      ]
+    },
+    "en": {
+      "title": "Proverbs Team A",
+      "words": [
+        {
+          "term": "Dog chasing chicken falls exhausted",
+          "hint": "Futile effort"
+        },
+        {
+          "term": "Must enter tiger's cave to catch tiger",
+          "hint": "Must take risks"
+        },
+        {
+          "term": "Dark under the lamp",
+          "hint": "Don't see closest thing"
+        },
+        {
+          "term": "One word pays thousand-gold debt",
+          "hint": "Power of words"
+        },
+        {
+          "term": "Monkey falls from tree",
+          "hint": "Even experts make mistakes"
+        },
+        {
+          "term": "Thousand-mile journey starts one step",
+          "hint": "Great things start small"
+        },
+        {
+          "term": "Tilted playground",
+          "hint": "Unfair situation"
+        },
+        {
+          "term": "Eating dog food",
+          "hint": "Not listening"
+        },
+        {
+          "term": "Fear maggots, can't make paste",
+          "hint": "Excessive fear"
+        },
+        {
+          "term": "Even if sky falls, hole to escape",
+          "hint": "Despair has solutions"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "proverbs-b",
+    "category": "proverbs",
+    "difficulty": "hard",
+    "words": [
+      {
+        "term": "세 살 버릇 여든까지 간다",
+        "hint": "어릴 적 습관의 중요성"
+      },
+      {
+        "term": "유명한 절도는 상관하지 않는다",
+        "hint": "유명인의 작은 과오"
+      },
+      {
+        "term": "죽어서 눈 뜬다",
+        "hint": "너무 늦을 때 깨닫다"
+      },
+      {
+        "term": "호미로 막을 것을 가래로 막는다",
+        "hint": "작은 문제가 커짐"
+      },
+      {
+        "term": "제 코가 석자",
+        "hint": "자기 일만 관심"
+      },
+      {
+        "term": "먹는 것이 최고다",
+        "hint": "식욕이 지상 최고"
+      },
+      {
+        "term": "하나를 보면 열을 안다",
+        "hint": "작은 것으로 전체 파악"
+      },
+      {
+        "term": "나이 먹는 것만 먹는다",
+        "hint": "나이만 먹고 성장 없음"
+      },
+      {
+        "term": "귀에 닭똥",
+        "hint": "말이 귀에 들어오지 않음"
+      },
+      {
+        "term": "두 말 하면 잔소리",
+        "hint": "한 번의 말이 충분함"
+      }
+    ],
+    "ko": {
+      "title": "속담 B팀",
+      "words": [
+        {
+          "term": "세 살 버릇 여든까지 간다",
+          "hint": "어릴 적 습관의 중요성"
+        },
+        {
+          "term": "유명한 절도는 상관하지 않는다",
+          "hint": "유명인의 작은 과오"
+        },
+        {
+          "term": "죽어서 눈 뜬다",
+          "hint": "너무 늦을 때 깨닫다"
+        },
+        {
+          "term": "호미로 막을 것을 가래로 막는다",
+          "hint": "작은 문제가 커짐"
+        },
+        {
+          "term": "제 코가 석자",
+          "hint": "자기 일만 관심"
+        },
+        {
+          "term": "먹는 것이 최고다",
+          "hint": "식욕이 지상 최고"
+        },
+        {
+          "term": "하나를 보면 열을 안다",
+          "hint": "작은 것으로 전체 파악"
+        },
+        {
+          "term": "나이 먹는 것만 먹는다",
+          "hint": "나이만 먹고 성장 없음"
+        },
+        {
+          "term": "귀에 닭똥",
+          "hint": "말이 귀에 들어오지 않음"
+        },
+        {
+          "term": "두 말 하면 잔소리",
+          "hint": "한 번의 말이 충분함"
+        }
+      ]
+    },
+    "en": {
+      "title": "Proverbs Team B",
+      "words": [
+        {
+          "term": "Habits at three, continue to eighty",
+          "hint": "Importance of childhood habits"
+        },
+        {
+          "term": "Famous theft not punished",
+          "hint": "Overlooking celebrity flaws"
+        },
+        {
+          "term": "Eyes open after death",
+          "hint": "Realization too late"
+        },
+        {
+          "term": "Use spade where hoe suffices",
+          "hint": "Small problem becomes big"
+        },
+        {
+          "term": "My nose is three feet",
+          "hint": "Only care about self"
+        },
+        {
+          "term": "Eating is the highest good",
+          "hint": "Appetite is supreme"
+        },
+        {
+          "term": "See one know ten",
+          "hint": "Understand whole from part"
+        },
+        {
+          "term": "Only age, not growth",
+          "hint": "Age without development"
+        },
+        {
+          "term": "Chicken dung in ear",
+          "hint": "Words don't reach ear"
+        },
+        {
+          "term": "Say twice, it's nagging",
+          "hint": "Once is enough"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "historical-figures-a",
+    "category": "historical-figures",
+    "difficulty": "hard",
+    "words": [
+      {
+        "term": "세종대왕",
+        "hint": "한글 창제, 조선"
+      },
+      {
+        "term": "이순신 장군",
+        "hint": "임진왜란, 해전"
+      },
+      {
+        "term": "나폴레옹",
+        "hint": "프랑스, 황제"
+      },
+      {
+        "term": "클레오파트라",
+        "hint": "이집트, 여왕"
+      },
+      {
+        "term": "링컨",
+        "hint": "미국, 노예해방"
+      },
+      {
+        "term": "간디",
+        "hint": "인도, 비폭력"
+      },
+      {
+        "term": "마리 퀴리",
+        "hint": "과학자, 방사능"
+      },
+      {
+        "term": "아인슈타인",
+        "hint": "물리학자, 상대성이론"
+      },
+      {
+        "term": "레오나르도 다빈치",
+        "hint": "르네상스, 예술"
+      },
+      {
+        "term": "조지 워싱턴",
+        "hint": "미국 초대 대통령"
+      }
+    ],
+    "ko": {
+      "title": "역사인물 A팀",
+      "words": [
+        {
+          "term": "세종대왕",
+          "hint": "한글 창제, 조선"
+        },
+        {
+          "term": "이순신 장군",
+          "hint": "임진왜란, 해전"
+        },
+        {
+          "term": "나폴레옹",
+          "hint": "프랑스, 황제"
+        },
+        {
+          "term": "클레오파트라",
+          "hint": "이집트, 여왕"
+        },
+        {
+          "term": "링컨",
+          "hint": "미국, 노예해방"
+        },
+        {
+          "term": "간디",
+          "hint": "인도, 비폭력"
+        },
+        {
+          "term": "마리 퀴리",
+          "hint": "과학자, 방사능"
+        },
+        {
+          "term": "아인슈타인",
+          "hint": "물리학자, 상대성이론"
+        },
+        {
+          "term": "레오나르도 다빈치",
+          "hint": "르네상스, 예술"
+        },
+        {
+          "term": "조지 워싱턴",
+          "hint": "미국 초대 대통령"
+        }
+      ]
+    },
+    "en": {
+      "title": "Historical Figures Team A",
+      "words": [
+        {
+          "term": "King Sejong",
+          "hint": "Hangul creation, Joseon"
+        },
+        {
+          "term": "Admiral Yi Sun-sin",
+          "hint": "Imjin War, naval battle"
+        },
+        {
+          "term": "Napoleon",
+          "hint": "France, emperor"
+        },
+        {
+          "term": "Cleopatra",
+          "hint": "Egypt, queen"
+        },
+        {
+          "term": "Abraham Lincoln",
+          "hint": "USA, emancipation"
+        },
+        {
+          "term": "Mahatma Gandhi",
+          "hint": "India, nonviolence"
+        },
+        {
+          "term": "Marie Curie",
+          "hint": "Scientist, radioactivity"
+        },
+        {
+          "term": "Albert Einstein",
+          "hint": "Physicist, relativity"
+        },
+        {
+          "term": "Leonardo da Vinci",
+          "hint": "Renaissance, art"
+        },
+        {
+          "term": "George Washington",
+          "hint": "First US president"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "historical-figures-b",
+    "category": "historical-figures",
+    "difficulty": "hard",
+    "words": [
+      {
+        "term": "장보고",
+        "hint": "통일신라, 해상왕"
+      },
+      {
+        "term": "장개석",
+        "hint": "중국, 타이완"
+      },
+      {
+        "term": "토머스 제퍼슨",
+        "hint": "미국 대통령, 독립선언"
+      },
+      {
+        "term": "베에토벤",
+        "hint": "음악가, 교향곡 9번"
+      },
+      {
+        "term": "카를 마르크스",
+        "hint": "철학자, 공산주의"
+      },
+      {
+        "term": "시몬 볼리바르",
+        "hint": "남미 독립, 장군"
+      },
+      {
+        "term": "플로렌스 나이팅게일",
+        "hint": "간호사, 현대 간호"
+      },
+      {
+        "term": "스티브 잡스",
+        "hint": "애플, 혁신가"
+      },
+      {
+        "term": "마크 트웨인",
+        "hint": "작가, 모험소설"
+      },
+      {
+        "term": "톨스토이",
+        "hint": "러시아, 작가"
+      }
+    ],
+    "ko": {
+      "title": "역사인물 B팀",
+      "words": [
+        {
+          "term": "장보고",
+          "hint": "통일신라, 해상왕"
+        },
+        {
+          "term": "장개석",
+          "hint": "중국, 타이완"
+        },
+        {
+          "term": "토머스 제퍼슨",
+          "hint": "미국 대통령, 독립선언"
+        },
+        {
+          "term": "베에토벤",
+          "hint": "음악가, 교향곡 9번"
+        },
+        {
+          "term": "카를 마르크스",
+          "hint": "철학자, 공산주의"
+        },
+        {
+          "term": "시몬 볼리바르",
+          "hint": "남미 독립, 장군"
+        },
+        {
+          "term": "플로렌스 나이팅게일",
+          "hint": "간호사, 현대 간호"
+        },
+        {
+          "term": "스티브 잡스",
+          "hint": "애플, 혁신가"
+        },
+        {
+          "term": "마크 트웨인",
+          "hint": "작가, 모험소설"
+        },
+        {
+          "term": "톨스토이",
+          "hint": "러시아, 작가"
+        }
+      ]
+    },
+    "en": {
+      "title": "Historical Figures Team B",
+      "words": [
+        {
+          "term": "Jang Bogo",
+          "hint": "Unified Silla, sea king"
+        },
+        {
+          "term": "Chiang Kai-shek",
+          "hint": "China, Taiwan"
+        },
+        {
+          "term": "Thomas Jefferson",
+          "hint": "US president, Declaration"
+        },
+        {
+          "term": "Ludwig van Beethoven",
+          "hint": "Composer, Symphony 9"
+        },
+        {
+          "term": "Karl Marx",
+          "hint": "Philosopher, communism"
+        },
+        {
+          "term": "Simón Bolívar",
+          "hint": "South America, general"
+        },
+        {
+          "term": "Florence Nightingale",
+          "hint": "Nurse, modern nursing"
+        },
+        {
+          "term": "Steve Jobs",
+          "hint": "Apple, innovator"
+        },
+        {
+          "term": "Mark Twain",
+          "hint": "Author, adventure"
+        },
+        {
+          "term": "Leo Tolstoy",
+          "hint": "Russia, author"
+        }
+      ]
+    }
+  }
+]

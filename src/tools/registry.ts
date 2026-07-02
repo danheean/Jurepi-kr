@@ -80,6 +80,17 @@ export const tools: ToolMeta[] = [
     order: 18,
     keywords: ['즐겨찾기','북마크','링크','모음','자료','큐레이션','리소스','하네스','엔지니어링','프런트엔드','디자인','개발','전자정부','표준프레임워크','egovframe','bookmarks','links','directory','resources','curated','dev','tools'],
   },
+  {
+    id: 'speed-quiz',
+    slug: 'speed-quiz',
+    category: 'fun',
+    icon: 'Zap',
+    accent: 'sun',
+    status: 'live',
+    isNew: true,
+    order: 8,
+    keywords: ['스피드퀴즈','제시어','파티게임','캐치마인드','게임','속담','영화','음악','단어','대사','캐릭터','배우','용어','단어게임','교실','학교','팀게임','진행자','speed quiz','prompt words','party game','charades','quiz','word game','classroom','game show','presenter','movies','k-pop','celebrities','keyword','hint'],
+  },
 ];
 
 /** Get all live tools for static generation */
