@@ -36,7 +36,7 @@ export function FieldTabs({
 
   return (
     <div
-      className="flex gap-2 overflow-x-auto pb-2 -mb-2"
+      className="flex gap-2 overflow-x-auto pb-2"
       role="group"
       aria-label={t('tabs.filterLabel')}
     >

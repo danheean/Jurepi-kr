@@ -156,8 +156,8 @@ export function TermDetail({
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 px-4 py-4 space-y-6">
+      {/* Content — extra top padding separates it from the sticky language toggle */}
+      <div className="flex-1 px-4 pt-6 pb-4 space-y-6">
         {displayKo && renderContent('ko')}
         {displayEn && renderContent('en')}
 
