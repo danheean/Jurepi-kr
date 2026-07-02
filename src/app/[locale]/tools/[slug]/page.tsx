@@ -14,6 +14,10 @@ import { SpeedQuizIntro } from '@/components/tools/speed-quiz/SpeedQuizIntro';
 import { SpeedQuizHowTo } from '@/components/tools/speed-quiz/SpeedQuizHowTo';
 import { SpeedQuizFaq } from '@/components/tools/speed-quiz/SpeedQuizFaq';
 import { SpeedQuizStructuredData } from '@/components/tools/speed-quiz/SpeedQuizStructuredData';
+import { AgeCalculatorIntro } from '@/components/tools/age-calculator/AgeCalculatorIntro';
+import { AgeCalculatorHowTo } from '@/components/tools/age-calculator/AgeCalculatorHowTo';
+import { AgeCalculatorFaq } from '@/components/tools/age-calculator/AgeCalculatorFaq';
+import { AgeCalculatorStructuredData } from '@/components/tools/age-calculator/AgeCalculatorStructuredData';
 
 const LadderGame = dynamic(() =>
   import('@/components/tools/ladder/LadderGame').then((m) => ({
@@ -57,6 +61,12 @@ const SpeedQuiz = dynamic(() =>
   }))
 );
 
+const AgeCalculator = dynamic(() =>
+  import('@/components/tools/age-calculator/AgeCalculator').then((m) => ({
+    default: m.AgeCalculator,
+  }))
+);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
@@ -88,6 +98,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'speed-quiz') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'age-calculator') {
     title = t('meta.title');
     description = t('meta.description');
   } else {
@@ -170,6 +183,18 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
         <SpeedQuiz />
         <SpeedQuizHowTo />
         <SpeedQuizFaq />
+      </>
+    );
+  }
+
+  if (slug === 'age-calculator') {
+    return (
+      <>
+        <AgeCalculatorStructuredData />
+        <AgeCalculatorIntro />
+        <AgeCalculator />
+        <AgeCalculatorHowTo />
+        <AgeCalculatorFaq />
       </>
     );
   }

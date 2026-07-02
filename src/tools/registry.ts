@@ -91,6 +91,17 @@ export const tools: ToolMeta[] = [
     order: 8,
     keywords: ['스피드퀴즈','제시어','파티게임','캐치마인드','게임','속담','영화','음악','단어','대사','캐릭터','배우','용어','단어게임','교실','학교','팀게임','진행자','speed quiz','prompt words','party game','charades','quiz','word game','classroom','game show','presenter','movies','k-pop','celebrities','keyword','hint'],
   },
+  {
+    id: 'age-calculator',
+    slug: 'age-calculator',
+    category: 'calculator',
+    icon: 'Cake',
+    accent: 'mint',
+    status: 'live',
+    isNew: true,
+    order: 3,
+    keywords: ['나이','나이 계산','나이 계산기','만 나이','연 나이','세는 나이','생년월일','생일','띠','별자리','요일','살아온 날','age','age calculator','how old','birthday','zodiac','star sign','manNai','korean age'],
+  },
 ];
 
 /** Get all live tools for static generation */

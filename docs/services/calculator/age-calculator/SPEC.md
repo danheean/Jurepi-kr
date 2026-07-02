@@ -17,7 +17,9 @@
 <overview>
 Age Calculator answers the question "How old am I?" with three age conventions and a collection of date facts. Users input a birthdate and optionally an "as-of" reference date (default: today in local time). The tool computes: (1) **만 나이** (international / Korea's legal standard since June 2023 age-unification law) = exact years since birth; (2) **연 나이** (calendar-year based) = current year − birth year; (3) **세는 나이** (traditional Korean counting age) = birth year + 1, increments on every Lunar New Year (note: tool warns that Korea unified to 만 나이 in 2023). Plus: exact days lived, years/months/days breakdown, next birthday countdown, day of week born, Korean zodiac (띠; map via lunar calendar heuristic), Western star sign. All calculations are pure domain logic, immutable and fully unit-tested.
 
-CRITICAL (client-only, SSG): 100% client-side. No backend, no database. The only first-party persistence is `localStorage` (people/birthdays), and nothing is ever sent over the network.
+Two localStorage-backed conveniences reduce friction on repeat visits: (a) **recent lookups** — every valid calculation auto-saves its birthdate (no name required) to a most-recent-first list, so a returning user re-checks with one click instead of re-typing; (b) **favorite people** — explicit, named saves. Recent is low-friction/automatic; favorites are deliberate/named. Both are client-only.
+
+CRITICAL (client-only, SSG): 100% client-side. No backend, no database. The only first-party persistence is `localStorage` (recent lookups + favorite people/birthdays), and nothing is ever sent over the network.
 
 CRITICAL (local-time dates, never UTC): All date math uses LOCAL midnight (Date constructor via year/month/day, never UTC). Parsing a birthdate string "2000-03-15" creates `new Date(2000, 2, 15)` (local midnight), not a UTC Date. This ensures day-of-week and age calculations respect the user's local time zone. Reference qna-a-day/date.ts for the pattern.
 
@@ -37,7 +39,8 @@ CRITICAL (SPA, usability-first): Per platform rule, every Jurepi tool is a clien
   <in_scope>
     - Birthdate input (datepicker or text input YYYY-MM-DD); optional "as-of" date input (default today, local time).
     - Pure domain layer: age calculations (만/연/세는), day-of-week, Korean zodiac (띠) lookup, Western star sign, days lived, years/months/days breakdown, next-birthday countdown.
-    - localStorage persistence: save/load/delete favorite people (name + birthdate); auto-prune unknown keys; max 20 saved people.
+    - localStorage persistence (recent lookups): auto-save each valid birthdate to a most-recent-first, de-duplicated list (max 10); one-click re-check; clear-all; fail gracefully.
+    - localStorage persistence (favorite people): save/load/delete favorite people (name + birthdate); auto-prune unknown keys; max 20 saved people.
     - Result display: age summary card (three conventions side-by-side with explanation), date facts panel (zodiac, star sign, DoW, days lived, breakdown, countdown, Korean-to-international age note).
     - Copy result to clipboard (age summary + details); copy birthdate string.
     - Tool-specific SEO long-form ("How old am I?" / "Age calculation conventions in Korea") + FAQ (FAQPage JSON-LD) + HowTo JSON-LD (birthdate input → age display).
@@ -64,7 +67,7 @@ CRITICAL (SPA, usability-first): Per platform rule, every Jurepi tool is a clien
     <date_handling>Local-time dates only via `new Date(year, month-1, day)` (never UTC constructor or Date.parse). Reference src/lib/qna-a-day/date.ts pattern: toDateKey, parseDateKey, addDays, isLeapYear, daysInMonth. Avoid Date.prototype.toISOString() / UTC getters.</date_handling>
     <locale_for_intl>Extract locale via `useLocale()` hook (returns BCP-47 "ko"/"en"). Pass to `Intl.DateTimeFormat`, `toLocaleDateString()`. NEVER pass i18n message keys to Intl.</locale_for_intl>
     <validation>zod v3.x for birthdate schema (valid local date, not future, not >150 years old). Reuse repo's zod.
-    <storage>localStorage key: `jurepi-age-calculator-people` (JSON array of {id, name, birthdate}). Auto-prune unknown keys; max 20. Fail gracefully if localStorage unavailable (session-only, no throw).</storage>
+    <storage>Two localStorage keys: `jurepi-age-calculator-people` (JSON array of {id, name, birthdate}, max 20) and `jurepi-age-calculator-recents` (JSON array of DateKey strings, max 10). Auto-prune unknown/malformed entries. Fail gracefully if localStorage unavailable (session-only, no throw).</storage>
     <clipboard>navigator.clipboard.writeText → execCommand fallback → silent fail (copy is nice-to-have). Success toast only on real success.</clipboard>
     <animation>Native CSS transitions only (input focus, card hover lift, result cross-fade). No animation library.</animation>
   </module_specific>
@@ -81,6 +84,7 @@ src/
 │   ├── age.ts                             # 만나이(manNai), 연나이(yeonNai), 세는나이(seeneunNai), dayOfWeek, daysLived, breakdown
 │   ├── zodiac.ts                          # Korean zodiac (띠) lookup by year; Western star sign by month/day
 │   ├── people.ts                          # Immutable ops: addPerson, removePerson, updatePerson, pruneUnknown
+│   ├── recents.ts                         # Immutable ops: pushRecent (dedupe+prepend+truncate), pruneUnknown, (de)serialize (mirror url-encoder/recents.ts)
 │   └── age.test.ts, zodiac.test.ts, etc.  # Vitest ≥80% coverage
 ├── components/tools/age-calculator/
 │   ├── AgeCalculator.tsx                  # Orchestrator (Client Component) — owns birthdate + asOf state + useAgeLookup()
@@ -89,6 +93,7 @@ src/
 │   ├── AgeSummary.tsx                     # Three-column age cards (만/연/세는) with icons + brief explanation
 │   ├── DateFacts.tsx                      # Zodiac, star sign, DoW, days lived, breakdown, countdown, Korean age note
 │   ├── PeopleList.tsx                     # Favorites: saved people cards, add/remove, select to prefill birthdate
+│   ├── RecentLookups.tsx                  # Recent birthdates (auto-saved), one-click re-check, clear-all
 │   ├── AgeCalculatorIntro.tsx             # H1 + lead (SEO; server-render where possible)
 │   ├── AgeCalculatorHowTo.tsx             # "How to calculate age" + Korean age conventions explained
 │   ├── AgeCalculatorFaq.tsx               # Q&A + FAQPage JSON-LD
@@ -126,8 +131,15 @@ src/
     localStorage key: `jurepi-age-calculator-people`
     INVARIANT: read is zod-parsed; fail → start fresh (no throw). Unknown keys ignored.
   </people_store>
+  <recent_lookup>
+    - Stored as a plain birthdate DateKey string (YYYY-MM-DD). No id, no name (distinct from person_record).
+    - List is most-recent-first, de-duplicated by birthdate, capped at MAX_RECENTS (10).
+    - localStorage key: `jurepi-age-calculator-recents` (JSON array of DateKey strings).
+    - Auto-captured on every VALID calculation (not on invalid/rejected input). Selecting a recent prefills the birthdate input and recalculates.
+    INVARIANT: read is pruned (drop non-string / empty / malformed-DateKey entries); fail → start fresh (no throw).
+  </recent_lookup>
   <constants>
-    - MAX_PEOPLE = 20; AGE_MAX_YEARS = 150; COPY_TOAST_MS = 1600ms.
+    - MAX_PEOPLE = 20; MAX_RECENTS = 10; AGE_MAX_YEARS = 150; COPY_TOAST_MS = 1600ms.
   </constants>
 </core_data_entities>
 
@@ -150,6 +162,9 @@ src/
         <date_facts />            <!-- Zodiac, star sign, DoW, days lived, breakdown, countdown -->
         <copy_button />           <!-- Copy all results to clipboard -->
       </result_panel>
+      <recent_panel>              <!-- Recent lookups: auto-saved birthdates, one-click re-check -->
+        <recent_lookups />
+      </recent_panel>
       <people_panel>              <!-- Favorites: browse saved people, select to prefill -->
         <people_list />
       </people_panel>
@@ -192,6 +207,14 @@ src/
     - Countdown: "다음 생일까지" + "X일".
   </date_facts>
 
+  <recent_lookups>
+    - Section "최근 계산"/"Recent" — shown only when the list is non-empty.
+    - Horizontal chips (or compact row) of recent birthdates, most-recent-first, each formatted locale-aware (Intl); tap a chip to re-check (prefills birthdate input + recalculates). Optional per-chip resulting 만 나이 hint.
+    - "지우기"/"Clear" button clears the whole recent list (localStorage + state).
+    - Distinct from Favorites: recents are automatic + nameless; favorites are deliberate + named. A recent birthdate can be promoted to a favorite via the add-person flow.
+    - Empty: section hidden (no empty-state text needed; recents appear after first calculation).
+  </recent_lookups>
+
   <people_list>
     - Collapsible section "자주 계산하는 사람들"/"Favorite People" (if any saved).
     - Each person: name + birthdate (formatted locale-aware), tap to select (prefills birthdate input), remove button (×).
@@ -220,6 +243,12 @@ src/
     - Zodiac (띠): 12-year cycle (rat, ox, tiger, …). Lookup by (birthYear % 12), map to localized name from i18n tools.age-calculator.zodiac.*.
     - Star sign: lookup by (month, day), e.g., (3,15)=Aries. Map to localized name + Unicode symbol.
   </zodiac>
+  <recents_persistence>
+    - localStorage read on mount: parse `jurepi-age-calculator-recents` → prune to valid DateKey strings → in-memory state; fail → start fresh (no throw).
+    - On every valid calculation: pushRecent(list, birthdate, MAX_RECENTS) (dedupe by birthdate, prepend, cap 10) → JSON.stringify → setItem. Invalid/rejected input does NOT record a recent.
+    - Clear: reset to [] → removeItem/setItem. Quota/private-mode → keep in-memory, fully usable.
+    - Pure ops live in recents.ts (mirror src/lib/url-encoder/recents.ts); the hook owns localStorage I/O.
+  </recents_persistence>
   <people_persistence>
     - localStorage read on mount: zod parse `jurepi-age-calculator-people` → in-memory state; fail → start fresh.
     - Add person: nanoid id, zod validate {name, birthdate} → immutable append → setItem.
@@ -280,13 +309,14 @@ src/
     </steps>
   </test_scenario_2>
   <test_scenario_3>
-    <description>Save/load people, ko/en locale swap</description>
+    <description>Recent lookups, save/load people, ko/en locale swap</description>
     <steps>
-      1. Save person: name "Jane", birthdate "1995-06-20" → appears in favorites list.
-      2. Tap Jane → birthdate input fills "1995-06-20", ages recalculate.
-      3. Remove Jane (×) → favorites list empty.
-      4. Reload page → localStorage empty (confirms persistence worked).
-      5. Switch locale /ko → /en → chrome English, age cards/facts labels English; zodiac/star signs English; next-birthday countdown unchanged (numeric).
+      1. Calculate "2000-03-15" then "1990-12-01" → both appear in "최근 계산" (most-recent-first: 1990-12-01, 2000-03-15). Re-calculating "2000-03-15" moves it to front (deduped, no duplicate).
+      2. Tap a recent chip → birthdate input fills that date, ages recalculate. Reload page → recents persist (list restored from localStorage). "지우기"/Clear → recents section hidden + localStorage cleared.
+      3. Save person: name "Jane", birthdate "1995-06-20" → appears in favorites list.
+      4. Tap Jane → birthdate input fills "1995-06-20", ages recalculate.
+      5. Remove Jane (×) → favorites list empty.
+      6. Switch locale /ko → /en → chrome English, recents/age cards/facts labels English; zodiac/star signs English; recent chip dates re-formatted for en locale; next-birthday countdown unchanged (numeric).
     </steps>
   </test_scenario_3>
   <test_scenario_4>
@@ -311,7 +341,7 @@ src/
 </final_integration_test>
 
 <success_criteria>
-  <functionality>Birthdate input → three-age display (만/연/세는) + date facts (zodiac/star/DoW/days/breakdown/countdown) + explain Korean age unification 2023. Save/load people (localStorage, max 20). Copy result. No future/invalid dates allowed.</functionality>
+  <functionality>Birthdate input → three-age display (만/연/세는) + date facts (zodiac/star/DoW/days/breakdown/countdown) + explain Korean age unification 2023. Recent lookups auto-saved (localStorage, max 10, dedupe, clear-all) for one-click re-check. Save/load people (localStorage, max 20). Copy result. No future/invalid dates allowed.</functionality>
   <user_experience>Instant recalculation on birthdate change; card layout feels clear; ≥44px targets; visible focus; SPA — no route reload on any interaction. Locale swap (ko/en) fully reflected.</user_experience>
   <technical_quality>lib/age-calculator/* pure ≥80% unit coverage (date/age/zodiac/people); TS 0 errors; <800 lines per file. Local-time dates (no UTC); Intl locale from useLocale() (no i18n keys to Intl); localStorage graceful fail.</technical_quality>
   <visual_design>DESIGN.md compliant; mint identity; bright, friendly age-fact explorer. Date facts feel like discovery. No dense tables.</visual_design>
@@ -348,12 +378,12 @@ src/
     4. People persistence: localStorage save/load/prune with zod schema.
   </critical_paths>
   <recommended_implementation_order>
-    1. lib/age-calculator/{date,schema,age,zodiac,people}.ts Vitest (RED→GREEN): local-date conversion, age calculations (all three), zodiac/star lookup, person immutable ops, localStorage schema.
+    1. lib/age-calculator/{date,schema,age,zodiac,people,recents}.ts Vitest (RED→GREEN): local-date conversion, age calculations (all three), zodiac/star lookup, person immutable ops, recents immutable ops (pushRecent dedupe/cap, prune, (de)serialize), localStorage schema.
     2. tools.age-calculator.* messages (ko/en): age labels, zodiac names, star names, error messages.
     3. useAgeLookup hook (birthdate parsing + age calculations + localStorage people + copy adapter).
     4. BirthdateInput (date input or datepicker + as-of toggle + validation feedback).
     5. AgeSummary + DateFacts (cards, Intl-formatted day-of-week, zodiac display).
-    6. PeopleList (favorites browser, add/remove).
+    6. RecentLookups (auto-saved chips, re-check, clear) + PeopleList (favorites browser, add/remove).
     7. Keyboard shortcuts, motion-reduce, a11y (axe, focus-visible, aria-live).
     8. AgeCalculatorIntro/HowTo/Faq + SoftwareApplication + FAQPage + HowTo JSON-LD via platform lib/seo.ts.
     9. Registry status→live; slug→component + generateMetadata branches; E2E 1–5; visual regression 320/768/1024 both themes.

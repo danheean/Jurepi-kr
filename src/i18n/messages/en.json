@@ -795,6 +795,152 @@
         ]
       }
     },
+    "age-calculator": {
+      "title": "Age Calculator",
+      "description": "Calculate your exact age in multiple ways: legal age (Korean), calendar-year age, and traditional Korean counting age. See your zodiac sign, birth day of week, and more.",
+      "meta": {
+        "title": "Age Calculator · Calculate Your Age Accurately",
+        "description": "Calculate and compare three ways of calculating age used in Korea: legal age (만 나이), calendar year age, and traditional counting age. Includes zodiac, star sign, day of week, and days lived."
+      },
+      "intro": {
+        "eyebrow": "Calculator Tool",
+        "title": "Age Calculator",
+        "lead": "Enter your birthdate to see your legal age, calendar-year age, and traditional age at a glance. Also displays your birth day, zodiac sign, and star sign."
+      },
+      "input": {
+        "birthdateLegend": "Birthdate",
+        "birthdatePlaceholder": "YYYY-MM-DD",
+        "birthdateHelp": "Example: 2000-03-15",
+        "asOfToggle": "Reference date",
+        "asOfLabel": "Set reference date",
+        "asOfDate": "Reference date",
+        "asOfPlaceholder": "YYYY-MM-DD",
+        "asOfHelp": "Default: today (local time)",
+        "errorInvalidDate": "Please enter a valid date (YYYY-MM-DD)",
+        "errorFutureDate": "Cannot calculate age for future dates",
+        "errorTooOld": "Cannot calculate age for dates older than 150 years"
+      },
+      "ageSummary": {
+        "title": "Age",
+        "manNai": {
+          "label": "Legal age",
+          "unit": "years",
+          "explanation": "Korean legal age standard (2023 onward)"
+        },
+        "yeonNai": {
+          "label": "Calendar year age",
+          "unit": "years",
+          "explanation": "Current year minus birth year"
+        },
+        "seeneunNai": {
+          "label": "Traditional age",
+          "unit": "years",
+          "explanation": "Korean traditional counting method (now unified with legal age)"
+        },
+        "note": "Since June 28, 2023, South Korea has unified its legal age standard to use the legal age (만 나이) method."
+      },
+      "dateFacts": {
+        "title": "Birth Information",
+        "zodiac": "Zodiac",
+        "starSign": "Star sign",
+        "dayOfWeek": "Day of week",
+        "daysLived": "Days lived",
+        "breakdown": "Exact age",
+        "countdown": "Days until birthday"
+      },
+      "zodiac": {
+        "rat": "Year of the Rat",
+        "ox": "Year of the Ox",
+        "tiger": "Year of the Tiger",
+        "rabbit": "Year of the Rabbit",
+        "dragon": "Year of the Dragon",
+        "snake": "Year of the Snake",
+        "horse": "Year of the Horse",
+        "goat": "Year of the Goat",
+        "monkey": "Year of the Monkey",
+        "rooster": "Year of the Rooster",
+        "dog": "Year of the Dog",
+        "pig": "Year of the Pig"
+      },
+      "starSign": {
+        "aries": "♈ Aries",
+        "taurus": "♉ Taurus",
+        "gemini": "♊ Gemini",
+        "cancer": "♋ Cancer",
+        "leo": "♌ Leo",
+        "virgo": "♍ Virgo",
+        "libra": "♎ Libra",
+        "scorpio": "♏ Scorpio",
+        "sagittarius": "♐ Sagittarius",
+        "capricorn": "♑ Capricorn",
+        "aquarius": "♒ Aquarius",
+        "pisces": "♓ Pisces"
+      },
+      "recents": {
+        "heading": "Recent calculations",
+        "clear": "Clear all",
+        "ariaReuse": "Calculate again with {datekey}"
+      },
+      "people": {
+        "heading": "Frequently calculated people",
+        "addButton": "Add person",
+        "addModal": {
+          "title": "Add person",
+          "nameLabel": "Name",
+          "namePlaceholder": "Example: John Doe",
+          "birthdateLabel": "Birthdate",
+          "birthdatePlaceholder": "YYYY-MM-DD",
+          "save": "Save",
+          "cancel": "Cancel"
+        },
+        "removeButton": "Remove",
+        "selectAria": "Calculate with {name}'s birthdate",
+        "emptyState": "Save birthdate and click to instantly calculate."
+      },
+      "actions": {
+        "copy": "Copy results",
+        "copied": "Copied",
+        "enter": "Press Enter to calculate"
+      },
+      "howTo": {
+        "heading": "How to use Age Calculator",
+        "whatIsTitle": "What is Age Calculator?",
+        "whatIsBody": "Age Calculator helps you understand the three ways of calculating age used in Korea: legal age (만 나이), calendar-year age, and traditional counting age. Since Korea unified to legal age in 2023, most official contexts use that standard—but many people still think in calendar-year terms or refer back to traditional counting. This tool clears up the confusion by showing all three at once, plus your zodiac sign and other birth details.",
+        "howToTitle": "How to use",
+        "howToBody": "Enter your birthdate in YYYY-MM-DD format (for example, 2000-03-15) in the birthdate field. By default, the tool calculates age as of today. If you want to see what your age was on a different date, turn on the 'Reference date' toggle and pick a specific date. Press Enter or finish typing to see your results instantly.",
+        "featuresTitle": "Features",
+        "featuresBody": "Save your family members' and friends' birthdates so you can instantly recalculate by clicking their name. The 'Recent calculations' list automatically saves dates you've looked up before, so you don't have to type them again. Copy your results and paste them into messages or notes to share with others."
+      },
+      "faq": {
+        "heading": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "What's the difference between legal age, calendar year age, and traditional age?",
+            "a": "Legal age is how many times your birthday has passed since birth—it's the international standard and Korea's official legal standard. Calendar-year age is simply the current year minus your birth year. Traditional age is a Korean custom where you're considered 1 year old at birth and gain a year on January 1st every year. Korea officially switched to legal age in June 2023."
+          },
+          {
+            "q": "What if I was born on February 29 (leap day)?",
+            "a": "People born on February 29 celebrate their birthday on February 28 or March 1 in non-leap years. This tool automatically calculates your age correctly regardless of the reference year."
+          },
+          {
+            "q": "Is my information saved?",
+            "a": "Your recent calculation history and saved people are stored only in this browser's local storage and never sent to any server. If you clear your browser data, this information will be deleted."
+          },
+          {
+            "q": "Can I calculate age as of a past or future date?",
+            "a": "Yes, turn on the 'Reference date' toggle to pick any date in the past or future. This lets you calculate what someone's age was or will be on a specific date."
+          },
+          {
+            "q": "Does it work on mobile?",
+            "a": "Yes, it works great on mobile browsers with no app needed."
+          },
+          {
+            "q": "Are the zodiac and star sign calculations accurate?",
+            "a": "This tool uses traditional lunar-based calculation methods. The zodiac and star sign follow the conventions commonly used in Korean culture. (More precise lunar calendar calculations may be added in future updates)"
+          }
+        ]
+      }
+    },
     "speed-quiz": {
       "title": "Speed Quiz Prompt Words",
       "description": "A party & classroom speed-quiz game: reveal category prompt words (animals, food, Olympics & more) one at a time on a big screen and race the timer to guess.",
