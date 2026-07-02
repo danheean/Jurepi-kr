@@ -45,6 +45,48 @@
     }
   },
   {
+    "slug": "al-bba-no",
+    "topic": "mz",
+    "tags": [
+      "MZ",
+      "인터넷",
+      "밈"
+    ],
+    "coinedYear": 2022,
+    "related": [],
+    "tone": "negative",
+    "ko": {
+      "term": "알빠노",
+      "definition": "'(내가) 알 바 아니다'에 경상도 사투리 의문 어미 '-노'를 붙인 말.\n상대의 사정이나 문제에 전혀 관심 없음을 냉소적으로 드러낼 때 쓴다.\n",
+      "examples": [
+        "그건 네 사정이고, 난 알빠노.",
+        "회사 야근이 많든 말든 나랑 무슨 상관, 알빠노?"
+      ],
+      "body": "타인의 고민에 거리를 두는 요즘 온라인 정서를 담은 표현입니다.\n비슷한 맥락의 '누칼협'(누가 칼 들고 협박했냐)과 자주 함께 쓰입니다.",
+      "reading": "알빠노",
+      "aliases": [
+        "알빠임",
+        "내가알빠"
+      ],
+      "origin": "2022년 리그 오브 레전드 스트리머 방송에서 쓰인 뒤 온라인 커뮤니티로 확산됨."
+    },
+    "en": {
+      "term": "Not My Problem",
+      "definition": "A Korean slang from \"그건 내가 알 바 아니다\" (that's not mine to care about),\nending with the Gyeongsang-dialect question particle \"-no.\" Used to cynically\nexpress total indifference to someone else's situation or problem.\n",
+      "examples": [
+        "That's your problem, not mine—al-bba-no.",
+        "Whether the company makes you work overtime, why would I care? Not my problem."
+      ],
+      "body": "Captures the detached, self-focused mood of today's online culture.\nOften paired with \"누칼협\" (who held a knife to your throat?), a similar phrase.",
+      "reading": "/al-p͈a-no/",
+      "aliases": [
+        "why should I care",
+        "not my business"
+      ],
+      "origin": "Spread from a League of Legends streamer broadcast in 2022, then across online communities."
+    }
+  },
+  {
     "slug": "wannaes",
     "topic": "mz",
     "tags": [
@@ -303,6 +345,47 @@
         "teul-ttak",
         "denture-clacker"
       ]
+    }
+  },
+  {
+    "slug": "jeo-me-chu",
+    "topic": "mz",
+    "tags": [
+      "MZ",
+      "줄임말",
+      "음식"
+    ],
+    "related": [],
+    "tone": "neutral",
+    "ko": {
+      "term": "저메추",
+      "definition": "'저녁 메뉴 추천'을 줄인 말.\n저녁에 뭘 먹을지 고민될 때 추천을 구하거나 서로 메뉴를 공유할 때 쓴다.\n",
+      "examples": [
+        "다들 오늘 저메추 좀. 치킨 아니면 떡볶이 고민 중.",
+        "저메추 받습니다~ 자취생 한 그릇 요리로."
+      ],
+      "body": "'점메추'(점심 메뉴 추천)와 짝을 이루는 표현으로,\n끼니마다 메뉴 고민을 나누는 일상 대화에서 자주 쓰입니다.",
+      "reading": "저메추",
+      "aliases": [
+        "저녁메뉴추천",
+        "점메추"
+      ],
+      "origin": "'별걸 다 줄이는' 줄임말 유행 속에서 온라인 커뮤니티·SNS를 통해 확산됨."
+    },
+    "en": {
+      "term": "Dinner Menu Rec",
+      "definition": "Short for \"저녁 메뉴 추천\" (dinner menu recommendation).\nUsed to ask for or share suggestions when you can't decide what to eat for dinner.\n",
+      "examples": [
+        "Need a dinner menu rec, everyone—torn between chicken and tteokbokki.",
+        "Taking dinner menu recs~ something I can cook in one bowl as a solo diner."
+      ],
+      "body": "Pairs with \"점메추\" (lunch menu rec) and shows up constantly in everyday chats\nabout what to eat, meal after meal.",
+      "reading": "/jʌ-me-tɕʰu/",
+      "aliases": [
+        "dinner rec",
+        "what to eat for dinner"
+      ],
+      "origin": "Spread through online communities and SNS amid the trend of abbreviating everything."
     }
   },
   {
