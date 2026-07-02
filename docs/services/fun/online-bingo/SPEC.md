@@ -2,7 +2,7 @@
 
 > This document is the **canonical (English) source** consumed by AI coding agents. The Korean translation should live in [`SPEC_KR.md`](SPEC_KR.md); keep both in sync when either changes.
 >
-> Build specification for **온라인 빙고 / Online Bingo** (Korean display name: **온라인 빙고**; English display name: *Online Bingo — Real-time Multiplayer Rooms*) — a real-time multiplayer game where a host creates a bingo room, participants join via invite code, each participant receives a unique card (5x5 or 7x7 grid, no duplicates), the host draws numbers or spins a roulette wheel to reveal them to all players in real-time, players mark matching numbers on their cards, and the first to complete a bingo (1 line, N lines, or blackout) submits and wins. This is **the first Jurepi tool with a real backend** (Supabase Postgres + Realtime + Row Level Security) — client-side state lives in the browser, but durability (no data loss until room is destroyed, auto-restore on refresh/reconnect) is guaranteed by the Postgres schema and Realtime subscriptions. Mobile-first, responsive, sound enabled, SEO-friendly, i18n ko/en.
+> Build specification for **온라인 빙고 / Online Bingo** (Korean display name: **온라인 빙고**; English display name: *Online Bingo — Real-time Multiplayer Rooms*) — a real-time multiplayer game where a host creates a bingo room, participants join via invite code, each participant receives a card (5x5 or 7x7 grid; numbers unique within the card, and the same number may appear on other players' cards per standard bingo), the host draws numbers or spins a roulette wheel to reveal them to all players in real-time, players mark matching numbers on their cards, and the first to complete a bingo (1 line, N lines, or blackout) submits and wins. This is **the first Jurepi tool with a real backend** (Supabase Postgres + Realtime + Row Level Security) — client-side state lives in the browser, but durability (no data loss until room is destroyed, auto-restore on refresh/reconnect) is guaranteed by the Postgres schema and Realtime subscriptions. Mobile-first, responsive, sound enabled, SEO-friendly, i18n ko/en.
 >
 > Internal service codename: `online-bingo`. Registry id: `online-bingo`. Public URL slug: `/[locale]/tools/online-bingo`.
 >
@@ -17,30 +17,30 @@
 <project_name>온라인 빙고 (Online Bingo — Real-time Multiplayer Rooms) (Jurepi tool, codename online-bingo, registry id online-bingo)</project_name>
 
 <overview>
-Online Bingo transforms a solo game into a **real-time multiplayer experience**. A host creates a room, sets bingo grid size (5x5 with 24 numbers + center joker, or 7x7 with 48 numbers + center joker), defines the number-swap limit (default 5 changes per player), sets the win condition (default 1 line; also N lines or blackout), and specifies a start deadline (10/20/30 minutes — participants must join and click "Ready" within that window). Participants join via a randomly-generated 6-digit invite code, enter their name (duplicates rejected per room), and receive a server-assigned bingo card (no duplicates, numbers 1–100). Players can shuffle their card (limited swaps, server dedupes), then mark "Ready". Once ready, the host can draw numbers one-by-one (manual input or spinning a roulette wheel). Every drawn number broadcasts to all players in real-time via Supabase Realtime, auto-marking matching cells. The first player to complete a bingo (rows, columns, diagonals, or full blackout per win condition) can submit. The host sees a live leaderboard of submissions in order. **CRITICAL DURABILITY**: All room state (players, cards, drawn numbers, submissions) lives in Postgres. Refresh or network drop → client reconnects and reads full room state from DB → state restored. Host destroys room → ON DELETE CASCADE purges all data. Nothing disappears until room is destroyed.
+Online Bingo transforms a solo game into a **real-time multiplayer experience**. A host creates a room, sets bingo grid size (5x5 with 24 numbers + center joker, or 7x7 with 48 numbers + center joker), defines the number re-roll limit (default 5 re-rolls per player), sets the win condition (default 1 line; also N lines or blackout), and specifies a start deadline (10/20/30 minutes — participants must join and click "Ready" within that window). Participants join via a randomly-generated 6-digit invite code, enter their name (duplicates rejected per room), and receive a server-assigned bingo card (numbers 1–100, unique within the card; the same number may appear on other players' cards — standard bingo). Players can re-roll individual numbers (limited count; the server picks a fresh number not already on that card), then mark "Ready". Once ready, the host can draw numbers one-by-one (manual input or spinning a roulette wheel). Every drawn number broadcasts to all players in real-time via Supabase Realtime, auto-marking matching cells. The first player to complete a bingo (rows, columns, diagonals, or full blackout per win condition) can submit. The host sees a live leaderboard of submissions in order. **CRITICAL DURABILITY**: All room state (players, cards, drawn numbers, submissions) lives in Postgres. Refresh or network drop → client reconnects and reads full room state from DB → state restored. Host destroys room → ON DELETE CASCADE purges all data. Nothing disappears until room is destroyed.
 
-CRITICAL (real backend, stateful multiplayer): 100% client-side *UI* (React SPAs mounted on SSG routes), but state is DURABLE in Postgres + Realtime. This is a network-dependent tool (unlike roulette/rankings). Supabase anon key is safe (public, readonly in NEXT_PUBLIC_* env vars) because Row Level Security policies restrict reads/writes by room+player tokens. Server-authoritative operations (number assignment, swaps, draws, submit order) live in RPC functions / Edge Functions, never trusted to client. No accounts/login — tokens are anonymous per player per room.
+CRITICAL (real backend, stateful multiplayer): 100% client-side *UI* (React SPAs mounted on SSG routes), but state is DURABLE in Postgres + Realtime. This is a network-dependent tool (unlike roulette/rankings). Supabase anon key is safe (public, readonly in NEXT_PUBLIC_* env vars) because Row Level Security policies restrict reads/writes by room+player tokens. Server-authoritative operations (number assignment, re-rolls, draws, submit order) live in RPC functions / Edge Functions, never trusted to client. No accounts/login — tokens are anonymous per player per room.
 
-CRITICAL (multiplayer SPA): All interaction — creating rooms, joining by code, shuffling cards, marking ready, watching draws, watching other players mark, submitting bingo — is a single-page SPA (NO route reload). The tool route is SSG. The interactive game is a full client-side React island with real-time WebSocket subscription to Supabase Realtime channels.
+CRITICAL (multiplayer SPA): All interaction — creating rooms, joining by code, re-rolling numbers, marking ready, watching draws, watching other players mark, submitting bingo — is a single-page SPA (NO route reload). The tool route is SSG. The interactive game is a full client-side React island with real-time WebSocket subscription to Supabase Realtime channels.
 
 CRITICAL (mobile usability, important): This tool will be played primarily on smartphones during parties/gatherings. Mobile-first responsive design (320px critical), no overflow, large touch targets (≥44px), landscape/portrait swing, sound cues (beep on draw, fanfare on bingo), reduced-motion fallback. Performance must be tight — draws must appear ≤200ms after host triggers (broadcast via Realtime).
 </overview>
 
 <platform_integration>
   - Route: /[locale]/tools/online-bingo (SSG; registry slug "online-bingo", id "online-bingo", status "coming_soon", accent "cyan" or "sky", category "fun").
-  - Provided by the platform (do NOT reimplement): app shell (Header/Footer/LocaleSwitcher/ThemeToggle), ConsentBanner, AdSlot, Toast system, design tokens (tokens.css ↔ DESIGN.md), i18n runtime, Error Boundary around the tool module, lib/seo.ts metadata builder, breadcrumb + in_content ad wrapper.
-  - Consumes: i18n namespace `tools.online-bingo.*` (UI chrome: create room, join room, invite code, ready, draw, bingo!, submit, leaderboard, swaps left, etc.); NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY (for Supabase JS client).
+  - Provided by the platform (do NOT reimplement): app shell (Header/Footer/LocaleSwitcher/ThemeToggle), ConsentBanner, AdSlot (placed BELOW the tool), Toast system, design tokens (tokens.css ↔ DESIGN.md), i18n runtime, Error Boundary around the tool module, lib/seo.ts metadata builder, breadcrumb + in_content ad wrapper.
+  - Consumes: i18n namespace `tools.online-bingo.*` (UI chrome: create room, join room, invite code, ready, draw, bingo!, submit, leaderboard, rerolls left, etc.); NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY (for Supabase JS client).
   - Platform prerequisite: Supabase project created + RLS policies configured + schema migrations applied (one-time setup by deploy-engineer or Jurepi ops). Env vars (.env.production) committed for static export; anon key is safe (public, RLS enforced).
   - No new category needed; `fun` category already exists. Tool keeps default category accent or defines per-tool accent "sky"/"cyan" for ice theme.
 </platform_integration>
 
 <scope_boundaries>
   <in_scope>
-    - Room management: host creates room (size 5x5/7x7, swaps limit, win condition, start deadline), generates 6-digit invite code, gets unique host_token for admin control. Room status: waiting (before start deadline), playing (after deadline or host starts), finished (someone won, can still view).
-    - Participant join: open rooms list with invite codes visible (or card view), join by code + enter name (dupe-check per room), receive unique player_token + server-assigned bingo card.
-    - Card assignment: server RPC `assign_card(room_id, player_id, grid_size)` generates random unique numbers 1–100, no duplicates per room. Returns card as 2D array. Center cell (5x5[2,2] or 7x7[3,3]) is joker (always open).
-    - Number swaps: player can request `swap_numbers(player_token, room_id, card_indices: [i, j])` (swap two cells). Server dedups, updates card, broadcasts to player only (private, not public). Limited count (5 default), tracked per player.
-    - Ready state: player clicks "Ready" → `set_ready(player_token, room_id, ready: true)` → broadcasts to host (host sees all players + ready count); once ready, swaps disabled (must "unready" to swap again). Host sees timer countdown to start deadline.
+    - Room management: host creates room (size 5x5/7x7, reroll limit, win condition, start deadline, optional roulette spin duration ms for host control), generates 6-digit invite code, gets unique host_token for admin control. Room status: waiting (before start deadline), playing (after deadline or host starts), finished (someone won, can still view).
+    - Participant join: browse open rooms list (shows room metadata: host name, size 5x5/7x7, player count, status; does NOT show invite codes), join by code (6-digit code required to enter) + enter name (dupe-check per room), receive unique player_token + server-assigned bingo card.
+    - Card assignment: server RPC `assign_card(room_id, player_id, grid_size)` generates random numbers 1–100, unique WITHIN each player's card (no repeats on same card), but SAME number may appear on multiple players' cards (standard bingo rule). Returns card as 2D array. Center cell (5x5[2,2] or 7x7[3,3]) is joker (always open).
+    - Number rerolls: player can request a re-roll on a single card cell — `reroll_number(player_token, room_id, cell_index: int)` → server generates a fresh random number 1–100 (not already on that player's card, ensuring within-card uniqueness), replaces that cell, increments `rerolls_used` (capped at `change_limit`, default 5), returns new card. Server dedupes on a per-player basis. Broadcast to player only (private, not public). Limited count (5 default), tracked per player.
+    - Ready state: player clicks "Ready" → `set_ready(player_token, room_id, ready: true)` → broadcasts to host (host sees all players + ready count); once ready, re-rolls disabled (must "unready" to re-roll again). Host sees timer countdown to start deadline.
     - Drawing numbers: host can (a) manually type a number 1–100 (server dedups, rejects if already drawn); (b) spin a roulette (visual wheel shared from roulette SPEC, but draws are deterministic server-side from the same 1–100 pool, never drawn twice). Each draw → `record_draw(host_token, room_id, number)` → broadcasts to all players via Supabase Realtime "room:{room_id}" channel. All players auto-mark matching cells locally (deterministic, same logic).
     - Bingo detection: client-side pure logic (line detection: rows, cols, diagonals for 5x5 and 7x7; also blackout all N²-1 + center joker). Win condition gated by host setting (1 line → enable submit on first line; N lines → enable on Nth; blackout → enable on full grid). Player clicks "Submit" → records `submit_bingo(player_token, room_id, board_state: int[])` with board grid (for audit); server validates the bingo (re-runs line detection) → if valid, increments submit_order (server timestamp); host leaderboard shows player name + rank in real-time.
     - Leaderboard (host view): live list of all players (name, status: waiting/ready/submitted, card preview optional) + submission order (🥇 first, 🥈 second, etc.). Host can view submitted cards (zoomed table, not full grid). Host can reset/destroy room.
@@ -82,8 +82,8 @@ CRITICAL (mobile usability, important): This tool will be played primarily on sm
     </supabase>
     <database_schema note="Postgres schema, deployed via migration">
       Tables:
-      - rooms (id UUID PK, invite_code UNIQUE CHAR(6), host_token UUID UNIQUE, size INT 5 or 7, change_limit INT default 5, win_condition ENUM 1line/Nline/blackout, start_deadline TIMESTAMP, status ENUM waiting/playing/finished, drawn_numbers INT[], created_at TIMESTAMP). Indexes: invite_code (join by code), host_token (host auth), status (list rooms).
-      - players (id UUID PK, room_id UUID FK → rooms.id ON DELETE CASCADE, name VARCHAR(50) UNIQUE per room (checked at DB constraint or app level), player_token UUID UNIQUE, card INT[] (flattened 1D array or JSON array), swaps_used INT default 0, ready BOOL default false, joined_at TIMESTAMP). Indexes: room_id, player_token (auth).
+      - rooms (id UUID PK, invite_code UNIQUE CHAR(6), host_token UUID UNIQUE, size INT 5 or 7, change_limit INT default 5, win_condition ENUM 1line/Nline/blackout, start_deadline TIMESTAMP, roulette_spin_ms INT default 3000, status ENUM waiting/playing/finished, drawn_numbers INT[], created_at TIMESTAMP). Indexes: invite_code (join by code), host_token (host auth), status (list rooms).
+      - players (id UUID PK, room_id UUID FK → rooms.id ON DELETE CASCADE, name VARCHAR(50) UNIQUE per room (checked at DB constraint or app level), player_token UUID UNIQUE, card INT[] (flattened 1D array or JSON array, numbers unique within-card only), rerolls_used INT default 0, ready BOOL default false, joined_at TIMESTAMP). Indexes: room_id, player_token (auth).
       - submissions (id UUID PK, room_id UUID FK, player_id UUID FK, board_state INT[], submit_order SERIAL per room (enforces first-come ranking), submitted_at TIMESTAMP). Indexes: room_id, submit_order.
       Optional: draw_events (id, room_id, number INT, drawn_at TIMESTAMP) for audit trail (not required for MVP).
       RLS Policies:
@@ -95,8 +95,8 @@ CRITICAL (mobile usability, important): This tool will be played primarily on sm
       Channels: `room:{room_id}` broadcasts JSON events (player_joined, number_drawn, player_ready, bingo_submitted). Client subscribes on room load, listens for updates, applies state changes locally (draw marking, leaderboard refresh, player ready status).
     </realtime>
     <rpc_functions note="Postgres stored procedures or Edge Functions (Deno) for server logic">
-      - assign_card(room_id, player_id, grid_size) → returns card INT[] (random unique 1–100, center joker).
-      - swap_numbers(player_token, room_id, indices: [a, b]) → if swaps_used < change_limit, swap, increment swaps_used, return new card. Else error.
+      - assign_card(room_id, player_id, grid_size) → returns card INT[] (random 1–100, unique within card, center joker).
+      - reroll_number(player_token, room_id, cell_index) → if rerolls_used < change_limit, generate fresh random 1–100 not on player's card, replace card[cell_index], increment rerolls_used, return new card. Else error.
       - record_draw(host_token, room_id, number INT) → if not already drawn, append to drawn_numbers, broadcast "number_drawn" via Realtime, return success. Else error.
       - set_ready(player_token, room_id, ready BOOL) → updates ready, broadcasts "player_ready" (include player name + count ready/total).
       - submit_bingo(player_token, room_id, board_state INT[]) → validates bingo (client sends grid, server re-computes), if valid insert submission (with server-generated timestamp for submit_order), broadcast "bingo_submitted". Else error (fake bingo rejected).
@@ -135,14 +135,14 @@ src/lib/online-bingo/
 
 src/components/tools/online-bingo/
 ├── OnlineBingo.tsx                   # Client Component; owns room_id, player_token, player_card, drawn_numbers state + useOnlineBingo() owner
-├── useOnlineBingo.ts                 # Hook: fetch room + subscribe Realtime "room:{id}" channel, localStorage cache, Supabase calls (draw, swap, ready, submit)
-├── HostCreateRoom.tsx                # Host-only form: size (5x5/7x7), swaps limit, win condition, start deadline (picker 10/20/30 min). POST to Supabase create_room RPC. Returns room_id + invite_code + host_token.
+├── useOnlineBingo.ts                 # Hook: fetch room + subscribe Realtime "room:{id}" channel, localStorage cache, Supabase calls (draw, reroll, ready, submit)
+├── HostCreateRoom.tsx                # Host-only form: size (5x5/7x7), reroll limit, win condition, start deadline (picker 10/20/30 min). POST to Supabase create_room RPC. Returns room_id + invite_code + host_token.
 ├── ParticipantJoin.tsx               # Participant-only form: invite code (6-digit input or paste from share), name input (dupe-check client + server). POST to Supabase join_room RPC. Returns player_token + card.
 ├── RoomLobby.tsx                     # Waiting-room state: participant shows "Please wait for host to start" + invite code display + host list. Host shows all players (name, status ready/not) + "Start Game" button (gray until start_deadline OR all ready).
 ├── BingoGrid.tsx                     # 5x5 or 7x7 grid display; rows/cols/cells; center joker always marked; clickable cells toggle mark (client-only visual, no server call); mark on draw auto-apply. aria-label per cell. Responsive (scales width on mobile).
 ├── DrawPanel.tsx                     # Host-only: two modes (a) manual input (number 1–100 picker/text field) (b) roulette wheel (reuses Roulette SVG). Each draw → call recordDraw RPC → broadcasts.
-├── PlayerReadyButton.tsx             # "Ready" button toggle (host hides); disables card swaps while ready. Shows swap count remaining (e.g., "3 swaps left").
-├── CardShuffleButton.tsx             # "Shuffle" / "Swap" UI: click → modal/dialog with two cells selector (or drag-and-drop), confirm → call swapNumbers RPC.
+├── PlayerReadyButton.tsx             # "Ready" button toggle (host hides); disables card rerolls while ready. Shows reroll count remaining (e.g., "3 rerolls left").
+├── CardRerollButton.tsx              # "Re-roll Number" UI: click to select a cell, server re-rolls that cell with fresh random number, confirm → call rerollNumber RPC.
 ├── BingoSubmitButton.tsx             # "Submit Bingo" CTA; active only if detectBingo returns true for current board + win_condition. Calls submitBingo RPC. Shows confetti on success. Toast "Congratulations!" + rank.
 ├── HostLeaderboard.tsx               # Host live view: list of all players (name, status, card thumbnail clickable), then submission leaderboard (🥇🥈🥉 + name + timestamp).
 ├── BingoIntro.tsx                    # H1 + lead (SEO; server-render where possible)
@@ -155,7 +155,7 @@ src/components/tools/online-bingo/
 ├── RoomDestroyButton.tsx             # Host-only: "End Game" / "Destroy Room" (confirms before calling destroyRoom RPC).
 └── confetti.ts                       # Dependency-free confetti (CSS keyframe + element spawn on bingo, respects prefers-reduced-motion).
 
-src/i18n/messages/{ko,en}.json       # tools.online-bingo.* UI chrome (create, join, ready, draw, bingo, submit, leaderboard, swaps, size, condition, etc.)
+src/i18n/messages/{ko,en}.json       # tools.online-bingo.* UI chrome (create, join, ready, draw, bingo, submit, leaderboard, rerolls, size, condition, etc.)
 
 public/sounds/
 ├── draw-tick.wav                     # Beep on draw (~100ms)
@@ -169,7 +169,7 @@ public/sounds/
     - invite_code: CHAR(6) unique (random digits "123456")
     - host_token: UUID unique (host auth, random on create)
     - size: INT (5 or 7) — grid size
-    - change_limit: INT (default 5) — swaps per player
+    - change_limit: INT (default 5) — re-rolls per player
     - win_condition: ENUM ("1line" | "Nlines" | "blackout")
     - start_deadline: TIMESTAMP ISO (10/20/30 min from now)
     - status: ENUM ("waiting" | "playing" | "finished")
@@ -182,11 +182,11 @@ public/sounds/
     - room_id: UUID FK → rooms.id (cascade delete)
     - name: VARCHAR(50) unique per room (app enforces case-insensitive dupe-check)
     - player_token: UUID unique (player auth, random on join)
-    - card: INT[] (flattened 1D 25 or 49 elements) — numbers assigned server-side
-    - swaps_used: INT default 0 (increments on each swap, max change_limit)
-    - ready: BOOL default false (can mark ready when all swaps finalized)
+    - card: INT[] (flattened 1D 25 or 49 elements) — numbers assigned server-side, unique within this card only
+    - rerolls_used: INT default 0 (increments on each reroll, max change_limit)
+    - ready: BOOL default false (can mark ready when all rerolls finalized)
     - joined_at: TIMESTAMP
-    INVARIANT: card assigned server-side (random 1–100, no dupes per room), center always joker.
+    INVARIANT: card assigned server-side (random 1–100, within-card unique only, not unique per room), center always joker.
   </player>
   <submission note="one per bingo per game">
     - id: UUID
@@ -198,9 +198,9 @@ public/sounds/
     INVARIANT: one submission per player (or allow resubmit? MVP: one per room per player).
   </submission>
   <bingo_card note="client-side derived">
-    - grid: 2D array INT[size][size] (5x5 → 25 cells, 7x7 → 49 cells)
+    - grid: 2D array INT[size][size] (5x5 → 25 cells, 7x7 → 49 cells), numbers unique within card (no repeats per card) but same number may appear on other players' cards (standard bingo)
     - marked: 2D array BOOL[size][size] (tracks which cells marked; center always true)
-    - INVARIANT: grid immutable per session (swaps modify card in DB, client re-fetches). Center cell [size//2][size//2] always joker (marked = true always).
+    - INVARIANT: grid mutable per session (rerolls update card in DB, client re-fetches). Center cell [size//2][size//2] always joker (marked = true always). Within-card uniqueness enforced by server.
   </bingo_card>
   <draw_event note="transient broadcast">
     - number: INT (1–100)
@@ -230,17 +230,18 @@ public/sounds/
   <online_bingo>                     <!-- "use client"; owns room_id + player_token + card + drawn_numbers + ready state + useOnlineBingo() owner -->
     <bingo_intro />                  <!-- H1 + lead (server-render where possible) -->
     <bingo_dispatcher>               <!-- Conditional render: not-in-room vs in-lobby vs in-game-host vs in-game-participant -->
+      <room_browser />               <!-- Open rooms list (metadata only, no codes shown) -->
       <host_create_room />           <!-- Form if not in room and is host; creates room, stores tokens locally. -->
-      <participant_join />           <!-- Form if not in room and is participant; joins by code. -->
+      <participant_join />           <!-- Form if not in room and is participant; joins by code (required). -->
       <room_lobby />                 <!-- Waiting state: all players listed, ready counts, host can start game. -->
       <game_host_layout>             <!-- Host during playing: draw panel (left/top), leaderboard (right/below). -->
         <draw_panel />               <!-- Manual number input or roulette wheel. -->
         <host_leaderboard />         <!-- Live players list + submissions. -->
       </game_host_layout>
-      <game_participant_layout>      <!-- Participant during playing: bingo grid (center), controls (swaps, ready, submit). -->
+      <game_participant_layout>      <!-- Participant during playing: bingo grid (center), controls (reroll, ready, submit). -->
         <bingo_grid />               <!-- 5x5 or 7x7 clickable grid. -->
         <player_controls>
-          <card_shuffle_button />    <!-- Swap cells (if ready=false). -->
+          <card_reroll_button />     <!-- Re-roll a number (if ready=false). -->
           <player_ready_button />    <!-- Ready toggle. -->
           <bingo_submit_button />    <!-- Submit (if bingo detected). -->
         </player_controls>
@@ -262,14 +263,20 @@ public/sounds/
 
   <host_create_room>
     - Card surface: var(--surface) + 1px var(--hairline), radius var(--radius-lg), padding 24px/16px mobile
-    - Form: size picker (5x5 / 7x7 icon radio), swaps limit (3/5/7/10 button group), win condition (1line/Nlines/blackout radio), start deadline (10/20/30 min segmented control)
+    - Form: size picker (5x5 / 7x7 icon radio), reroll limit (3/5/7/10 button group), win condition (1line/Nlines/blackout radio), start deadline (10/20/30 min segmented control)
     - CTA: "방 만들기" / "Create Room" button (brand color), generates room, displays invite code (large, copy-to-clipboard button)
     - Invite code display: "초대 코드 123456" / "Invite Code 123456" (44px monospace font, high contrast, copy button)
   </host_create_room>
 
+  <room_browser>
+    - Visible list of open rooms (status = "waiting" or "playing"): displays room metadata (host nickname + size 5x5/7x7, player count, status chip).
+    - Does NOT show invite codes (codes protected, not leaked in list).
+    - Clicking a room may focus/prefill the join form but does NOT auto-join (requires code entry).
+  </room_browser>
+
   <participant_join>
     - Card surface: same as above
-    - Form: invite code input (6-digit, auto-focus, auto-paste-trigger), name input (max 30 chars, checks dupe real-time)
+    - Form: invite code input (6-digit, required, auto-focus, auto-paste-trigger), name input (max 30 chars, checks dupe real-time)
     - Error toast: "이미 있는 이름입니다" / "Name already taken in this room" (retry with new name)
     - CTA: "참여하기" / "Join Room" button, calls join RPC, loads game state
   </participant_join>
@@ -279,7 +286,7 @@ public/sounds/
     - Host controls: "게임 시작" / "Start Game" button (brand), enabled if all players ready or deadline reached
     - Player list: grid/list of all players (name, status chip: "준비 완료" / "Ready" green, "준비 안 함" / "Not Ready" gray), live updates
     - Participant view: same info, "준비하기" / "Ready" button toggles ready state
-    - Invite code re-display (participant can show to others to join)
+    - Invite code re-display (participant can show to others to join). Open rooms browser also available (room list, no codes shown; code entry required to join).
   </room_lobby>
 
   <bingo_grid>
@@ -309,18 +316,17 @@ public/sounds/
 
   <player_controls>
     - Layout: stacked column (mobile) or flex row (desktop), max-width 100% no overflow
-    - Card Shuffle button: "카드 섞기" / "Shuffle Card" (disabled if ready or swaps exhausted); opens modal with two-cell selector
-    - Shuffle modal: grid with "Click 2 cells to swap" instruction, two cells highlight, "확인" / "Confirm" button calls swapNumbers RPC, "취소" / "Cancel" closes
+    - Card Reroll button: "번호 다시 뽑기" / "Re-roll Number" (disabled if ready or rerolls exhausted); on click, player taps a cell to select it, server generates fresh random number not on that player's card, cell updates
     - Ready button: "준비 완료" / "Ready" toggle (true → "준비 취소" / "Unready"); large, prominent (var(--brand) when ready, var(--surface) when not)
     - Submit button: "제출" / "Submit" (brand color, large), disabled if no bingo detected, on click calls submitBingo RPC
-    - Swap counter: "남은 교환: 3" / "Swaps left: 3" (small caption, updated real-time)
+    - Reroll counter: "남은 교환: 3" / "Rerolls left: 3" (small caption, updated real-time)
   </player_controls>
 
   <draw_panel>
     - Host-only control panel
     - Two tabs: "숫자 입력" / "Manual" and "룰렛 돌리기" / "Spin Roulette"
     - Manual tab: number input (1–100, reject if already drawn, show "이미 뽑은 번호" / "Already drawn" toast), "뽑기" / "Draw" button
-    - Roulette tab: reuse Roulette.tsx SVG wheel (1–100 pool, shrinks as numbers drawn), spin animation, reveals number, "뽑기" / "Draw" button confirms (calls recordDraw RPC)
+    - Roulette tab: reuse Roulette.tsx SVG wheel (1–100 pool, shrinks as numbers drawn), spin animation (duration configurable by host: slider 1000–5000ms, default 3000ms), reveals number, "뽑기" / "Draw" button confirms (calls recordDraw RPC)
     - Drawn numbers list: scrollable list below or side panel showing "1, 5, 12, 18, ..." in order (small font)
     - aria-live region announces each draw
   </draw_panel>
@@ -356,14 +362,14 @@ public/sounds/
     - Destroy: host clicks "End Game" → destroyRoom RPC deletes room (ON DELETE CASCADE purges players/submissions/events) → all clients disconnect (Realtime channel closed) → redirect to tool lobby
   </room_lifecycle>
   <card_assignment>
-    - assignCard RPC: input (room_id, player_id, grid_size) → generates random 1–100 set (no dupes per room, exclude center joker), assigns to player, returns INT[] array (flattened)
+    - assignCard RPC: input (room_id, player_id, grid_size) → generates random 1–100 set (unique WITHIN the card only — duplicates across players are allowed, standard bingo; exclude center joker), assigns to player, returns INT[] array (flattened)
     - Center joker: always included in the "assigned" set but marked as a reserved cell (logic: for 5x5 center = index 12; for 7x7 center = index 24, both implicitly marked)
   </card_assignment>
-  <number_swaps>
-    - swapNumbers RPC: input (player_token, room_id, [index_a, index_b]) → validates player_token, checks swaps_used < change_limit, swaps two numbers in card array, increments swaps_used, returns new card array
-    - Client-side: swap button shows "카드 섞기" + modal with grid, user clicks two cells, confirm sends indices to server, server returns new card, client re-renders grid
-    - Swap counter: displayed always, updated on each swap or server refresh
-  </number_swaps>
+  <number_rerolls>
+    - rerollNumber RPC: input (player_token, room_id, cell_index) → validates player_token, checks rerolls_used < change_limit, generates fresh random number 1–100 (not already on player's card), replaces card[cell_index], increments rerolls_used, returns new card array
+    - Client-side: re-roll button shows "번호 다시 뽑기" / "Re-roll Number", user clicks a cell to select it, confirm sends cell_index to server, server returns updated card, client re-renders grid with new number in that cell
+    - Reroll counter: displayed always, updated on each reroll or server refresh
+  </number_rerolls>
   <bingo_detection>
     - Pure client-side logic: detectBingo(grid, size, winCondition) → bool
     - For 5x5 and 7x7: check all rows (5 or 7), all columns (5 or 7), both diagonals (2)
@@ -384,7 +390,7 @@ public/sounds/
     - Server: Postgres source of truth. On mount/reconnect, client sends player_token → server returns full room state → client merges (server wins on conflict).
     - On destroy: DELETE rooms WHERE id = room_id (cascade) → all data purged → client localStorage not deleted (but room inaccessible since no room in DB).
   </persistence>
-  <i18n>All UI chrome from tools.online-bingo.* (ko/en): create/join/ready/draw/bingo/submit/leaderboard/swaps/size/conditions/etc. Room content (invite code, player names, drawn numbers) is user input, locale-agnostic.</i18n>
+  <i18n>All UI chrome from tools.online-bingo.* (ko/en): create/join/ready/draw/bingo/submit/leaderboard/rerolls/size/conditions/etc. Room content (invite code, player names, drawn numbers) is user input, locale-agnostic.</i18n>
 </core_functionality>
 
 <error_handling>
@@ -396,7 +402,7 @@ public/sounds/
     - Duplicate invite code (create): <0.1% chance, re-generate if collision detected
     - Duplicate player name (join): client-side debounced check, server enforces UNIQUE constraint, toast error + focus name input
     - Invalid bingo submit (fake bingo): server re-validates on board_state, rejects if no bingo, client shows toast "유효하지 않은 빙고" / "Invalid bingo"
-    - Exceed swap limit: client disables shuffle button + toast "더 이상 교환할 수 없습니다" / "No swaps left"
+    - Exceed reroll limit: client disables re-roll button + toast "더 이상 다시 뽑을 수 없습니다" / "No rerolls left"
   </validation>
   <storage>
     - localStorage unavailable (private mode, quota): in-memory state only, fully usable for single session (not persistent). No error shown; tool works normally.
@@ -492,7 +498,7 @@ public/sounds/
 
 <advanced_functionality>
   <realtime_multiplayer>Real-time draw broadcasts via Supabase Realtime WebSocket. Latency ≤200ms typical. All players see draws simultaneously; auto-mark client-side (deterministic logic, all see same result).</realtime_multiplayer>
-  <roulette_integration>Draw panel includes optional roulette wheel (reuse Roulette component) as an alternative to manual input. Spins are deterministic (same 1–100 pool, no duplicates, no seeding bias). Visual animation + confetti on land.</roulette_integration>
+  <roulette_integration>Draw panel includes optional roulette wheel (reuse Roulette component) as an alternative to manual input. Host can adjust spin duration (milliseconds) to control animation length before reveal. Spins are deterministic (same 1–100 pool, no duplicates, no seeding bias). Visual animation + confetti on land.</roulette_integration>
   <leaderboard_live>Host sees real-time player list (join/leave, ready status) + submission leaderboard (🥇🥈🥉 with timestamps). Participant sees own rank + others' completion status (no card leakage).</leaderboard_live>
   <mobile_landscape>Bingo grid scales to landscape (width-constrained), controls below or tabbed (Settings / Game / Leaderboard tabs at bottom). Full responsiveness tested 320–1440px.</mobile_landscape>
   <sound_cues>Web Audio API beeps (draw tick), fanfare (on-own bingo), alert chime (other-player bingo, participant learns of competitor). Toggle + volume control. Reduced-motion disables all audio motion, keeps sound.</sound_cues>
@@ -502,7 +508,7 @@ public/sounds/
   <test_scenario_1>
     <description>Create room, generate invite code, join by code (participant perspective)</description>
     <steps>
-      1. Host fills form: size 5x5, swaps 5, win condition "1line", deadline 10min. Click "방 만들기" / "Create Room".
+      1. Host fills form: size 5x5, rerolls 5, win condition "1line", deadline 10min. Click "방 만들기" / "Create Room".
       2. Server creates room, returns invite code (e.g., "123456"), displays it prominently (44px monospace).
       3. Participant navigates to tool, enters code "123456" + name "Alice". Click "참여하기" / "Join Room".
       4. Server validates code (found), validates name (not dupe), assigns random card (24 unique numbers), returns player_token.
@@ -511,13 +517,13 @@ public/sounds/
     </steps>
   </test_scenario_1>
   <test_scenario_2>
-    <description>Card assignment and shuffling (no duplicate numbers across players)</description>
+    <description>Card assignment and rerolling (unique within-card, duplicates across players allowed)</description>
     <steps>
-      1. Room with Alice (card: [1,5,12,…,99]) and Bob (card: [2,8,14,…,100]) — verify no overlap (server assigned, no dupes per room).
+      1. Room with Alice (card: [1,5,12,…,99]) and Bob (card: [1,8,14,…,100]) — verify Alice's card has no internal dupes, Bob's card has no internal dupes, but BOTH can have the number 1 (same number on different cards is OK, standard bingo).
       2. Center joker (index 12 for 5x5): verify always marked (gold star, ⭐).
-      3. Alice shuffles (swaps cells 0↔3): calls swapNumbers RPC, server increments swaps_used (now 1/5), returns new card.
-      4. Verify shuffle counter: "남은 교환: 4" / "Swaps left: 4".
-      5. Alice clicks "준비 완료" / "Ready" → ready button becomes "준비 취소" / "Unready", shuffle button disables, server broadcasts player_ready event.
+      3. Alice rerolls cell 0 (currently "1"): clicks re-roll button, taps cell 0, server generates fresh random 1–100 not already on Alice's card (e.g., "42"), replaces cell 0. Calls rerollNumber RPC, server increments rerolls_used (now 1/5), returns new card.
+      4. Verify reroll counter: "남은 교환: 4" / "Rerolls left: 4".
+      5. Alice clicks "준비 완료" / "Ready" → ready button becomes "준비 취소" / "Unready", re-roll button disables, server broadcasts player_ready event.
       6. Host sees Alice status changed to "준비 완료", ready count "1/2" (if 2 players).
     </steps>
   </test_scenario_2>
@@ -558,13 +564,15 @@ public/sounds/
     </steps>
   </test_scenario_5>
   <test_scenario_6>
-    <description>Host destroys room, all data purged, participants disconnected</description>
+    <description>Room browse list (no invite code leak) and host destroys room</description>
     <steps>
-      1. Game finished (Alice won). Host clicks "게임 끝내기" / "End Game" → confirm dialog "방을 폐기하시겠습니까?" / "Destroy room?".
-      2. Host confirms → calls destroyRoom RPC (host_token verified). Server DELETE FROM rooms WHERE id = room_id (ON DELETE CASCADE deletes players/submissions/events).
-      3. Realtime channel "room:{room_id}" closes for all subscribers. Participants see "연결 끊김" / "Disconnected" banner → "재연결" / "Retry" button.
-      4. On retry, fetch room (404 not found) → redirect to tool lobby "방을 찾을 수 없습니다" / "Room not found".
-      5. Verify zero data persists (all Postgres rows deleted). localStorage still has old room_id/token (stale, unused).
+      1. Participant visits join screen: sees room list (room label "Host1 · 5x5", player count "2/8", status "Waiting") but NO invite codes shown.
+      2. Clicking a room may focus the code input but does NOT auto-join. Participant must MANUALLY enter the 6-digit code to join (e.g., "123456").
+      3. After joining, game proceeds. Once finished (Alice won): Host clicks "게임 끝내기" / "End Game" → confirm dialog "방을 폐기하시겠습니까?" / "Destroy room?".
+      4. Host confirms → calls destroyRoom RPC (host_token verified). Server DELETE FROM rooms WHERE id = room_id (ON DELETE CASCADE deletes players/submissions/events).
+      5. Realtime channel "room:{room_id}" closes for all subscribers. Participants see "연결 끊김" / "Disconnected" banner → "재연결" / "Retry" button.
+      6. On retry, fetch room (404 not found) → redirect to tool lobby "방을 찾을 수 없습니다" / "Room not found".
+      7. Verify zero data persists (all Postgres rows deleted). localStorage still has old room_id/token (stale, unused).
     </steps>
   </test_scenario_6>
   <test_scenario_7>
@@ -595,10 +603,10 @@ public/sounds/
 <success_criteria>
   <multiplayer_realtime>Draws broadcast ≤200ms to all players (Supabase Realtime latency SLA). All players mark matching cells simultaneously (deterministic client-side logic). Leaderboard updates live (submit_order reflected in ≤500ms).</multiplayer_realtime>
   <durability>CRITICAL: refresh mid-game → full state restored (drawn_numbers, player cards, ready status, submissions). Room persists in Postgres until host destroys. Zero data loss before destroy.</durability>
-  <card_integrity>No duplicate numbers across players in same room. Server assign_card RPC ensures uniqueness. Swaps never violate uniqueness (server handles deduping).</card_integrity>
+  <card_integrity>Numbers unique WITHIN each player's card (no repeats per card). SAME number may appear on multiple players' cards (standard bingo). Server assign_card RPC ensures within-card uniqueness. Rerolls never violate within-card uniqueness (server dedupes on a per-player basis).</card_integrity>
   <bingo_validation>detectBingo logic (client) + server re-validation on submit (RPC) prevent fake bingo wins. Chi-square test on random card assignment (fair distribution across 20 rooms × players).</bingo_validation>
   <user_experience>Create room ≤2s (invite code generated). Join room ≤3s (card assigned, state loaded). Draw propagates ≤200ms. Bingo alert shows <100ms after client detects. Keyboard-navigable grid (no mouse required). ≥44px tap targets. No page overflow ≤1440px.</user_experience>
-  <technical_quality>lib/online-bingo/* pure ≥80% unit coverage (grid/bingo-detection/invite-code). RPC functions audit-tested (assign-card no-dup, swap-dedupe, draw-dedupe, bingo-validation). TS 0 errors. <800 lines per file. Supabase JS client graceful fallback (disconnection handled).</technical_quality>
+  <technical_quality>lib/online-bingo/* pure ≥80% unit coverage (grid/bingo-detection/invite-code). RPC functions audit-tested (assign-card within-card-unique, reroll-dedupe, draw-dedupe, bingo-validation). TS 0 errors. <800 lines per file. Supabase JS client graceful fallback (disconnection handled).</technical_quality>
   <visual_design>DESIGN.md compliant; category accent (sky/coral) on grid marked cells + CTA buttons (brand gold). Mobile-first responsive (320–1440px, no overflow). Joker distinct (gold ⭐). Marked cells saturated, unmarked light. Typography readable all sizes.</visual_design>
   <accessibility>Full keyboard (grid arrow/space, button tab/enter). Roving tabindex. aria-live draw/bingo announcements. Visible focus 2px ring. WCAG 2.1 AA contrast (4.5:1 body, 3:1 large). Reduced-motion: instant reveal, no animation scaling. Screen reader: aria-label per cell, button labels.</accessibility>
   <performance>Tool route within platform budget. Realtime subscriptions <100ms to establish. Card grid render <50ms. LCP <2.5s on first load. No layout shifts (fixed grid aspect ratio, no CLS). Conversational latency ≤200ms (Realtime + RPC roundtrip).</performance>
@@ -629,14 +637,14 @@ public/sounds/
   <supabase_prerequisite>
     1. Create Supabase project (free tier OK for MVP)
     2. Run migration (001_create_bingo_schema.sql) → tables + RLS policies
-    3. Deploy RPC functions (assign_card, swap_numbers, record_draw, set_ready, submit_bingo, destroy_room, etc.)
+    3. Deploy RPC functions (assign_card, reroll_number, record_draw, set_ready, submit_bingo, destroy_room, etc.)
     4. Copy NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY to .env.production (committed for static export)
     5. Test RLS (anon key cannot write without correct player_token/host_token)
   </supabase_prerequisite>
   <critical_paths>
     1. **Durability**: Postgres schema (rooms/players/submissions) + RPC transactions (atomicity). Refresh flow: client → server fetch → Realtime subscribe. ON DELETE CASCADE for room destroy.
     2. **Real-time**: Supabase Realtime subscriptions on "room:{id}" channel. Broadcast design (JSON events: player_joined, number_drawn, player_ready, bingo_submitted). All clients receive within ≤200ms.
-    3. **Server-authoritative**: assign_card (no dupes), swap_numbers (dedupe on client + server), record_draw (dedupe), submit_bingo (re-validate). Never trust client bingo claim.
+    3. **Server-authoritative**: assign_card (within-card unique), reroll_number (fresh in-card-unique number), record_draw (dedupe), submit_bingo (re-validate). Never trust client bingo claim.
     4. **Card logic**: 5x5 (25 cells, center = 12) vs 7x7 (49 cells, center = 24). Center always joker (marked = true). Bingo lines (5 rows + 5 cols + 2 diagonals for 5x5; 7 rows + 7 cols + 2 diags for 7x7).
     5. **Mobile UX**: Responsive grid (aspect-ratio 1/1), landscape support, large buttons, sound toggles, performance ≤200ms draw latency.
   </critical_paths>
@@ -656,7 +664,7 @@ public/sounds/
   </recommended_implementation_order>
   <testing_strategy>
     - Vitest ≥80%: grid (mark/unmark/flip), bingo-detection (5x5 rows/cols/diags/blackout, 7x7 same, win-conditions), invite-code (format, uniqueness collision risk).
-    - RPC fixtures: assign-card (no dupes), swap-dedupe (same number twice = error), record-draw (repeat = error), bingo-validation (fake board rejected).
+    - RPC fixtures: assign-card (within-card unique), reroll-dedupe (re-roll never duplicates a number already on the card), record-draw (repeat = error), bingo-validation (fake board rejected).
     - E2E Playwright: scenarios 1–8 (create → join → draw → bingo → leaderboard → destroy, mobile responsive, i18n, network resilience).
     - Accessibility: axe scan, keyboard nav (grid arrow/space, buttons tab/enter), screen reader (aria-live, labels), reduced-motion (instant reveal).
     - Performance: Realtime subscription <100ms, draw broadcast ≤200ms, grid render <50ms, LCP <2.5s.
@@ -678,4 +686,4 @@ public/sounds/
 </project_specification>
 ```
 
-1018 lines, English, final.
+689 lines, English, final.
