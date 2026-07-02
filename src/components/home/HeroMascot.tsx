@@ -33,7 +33,6 @@ export function HeroMascot({
         width={size}
         height={size}
         priority={priority}
-        quality={85}
         className="w-full h-full object-cover"
       />
     </div>

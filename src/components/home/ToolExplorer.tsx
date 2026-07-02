@@ -65,7 +65,13 @@ export function ToolExplorer({
   }, [query, category]);
 
   return (
-    <div className="bg-surface py-16 md:py-20 lg:py-24">
+    <section
+      aria-labelledby="tools-heading"
+      className="bg-background pt-4 pb-16 md:pt-6 md:pb-20 lg:pb-24"
+    >
+      <h2 id="tools-heading" className="sr-only">
+        {t('toolsHeading')}
+      </h2>
       <div className="space-y-12">
         <div className="mx-auto max-w-container px-6 md:px-8 lg:px-12">
           <SearchBar
@@ -98,6 +104,6 @@ export function ToolExplorer({
           testId={testId ? `${testId}-grid` : undefined}
         />
       </div>
-    </div>
+    </section>
   );
 }

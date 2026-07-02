@@ -16,6 +16,7 @@ const config: Config = {
         'brand-ink': 'var(--brand-ink)',
         'brand-ink-strong': 'var(--brand-ink-strong)',
         'focus-ring': 'var(--focus-ring)',
+        background: 'var(--bg)',
         surface: 'var(--surface)',
         'surface-muted': 'var(--surface-muted)',
         'surface-sunken': 'var(--surface-sunken)',

@@ -13,7 +13,7 @@ export async function Hero(): Promise<React.ReactNode> {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative overflow-hidden bg-surface px-6 pt-20 pb-16 md:px-8 md:pt-24 md:pb-20 lg:px-12"
+      className="relative overflow-hidden bg-background px-6 pt-20 pb-16 md:px-8 md:pt-24 md:pb-20 lg:px-12"
     >
       {/* Decorative accent blobs (static, identity-only, never CTA) */}
       <div

@@ -48,12 +48,12 @@ export async function Footer(): Promise<React.ReactNode> {
                   {t(`categories.${category}`)}
                 </h3>
                 {categoryTools.length > 0 ? (
-                  <ul className="space-y-2">
+                  <ul className="space-y-0.5">
                     {categoryTools.map((tool) => (
                       <li key={tool.slug}>
                         <Link
                           href={`/tools/${tool.slug}`}
-                          className="text-body-sm text-text-secondary hover:text-brand-ink transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded"
+                          className="inline-flex min-h-[36px] items-center text-body-sm text-text-secondary hover:text-brand-ink transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded"
                         >
                           {tool.name}
                         </Link>
@@ -74,7 +74,7 @@ export async function Footer(): Promise<React.ReactNode> {
             <Link
               key={link.href}
               href={link.href}
-              className="text-body-sm text-text-secondary hover:text-brand-ink transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded"
+              className="inline-flex min-h-[44px] items-center text-body-sm text-text-secondary hover:text-brand-ink transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded"
             >
               {link.label}
             </Link>
@@ -84,7 +84,7 @@ export async function Footer(): Promise<React.ReactNode> {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t('footer.sourceAria')}
-            className="inline-flex items-center gap-1.5 text-body-sm text-text-secondary hover:text-brand-ink transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded"
+            className="inline-flex min-h-[44px] items-center gap-1.5 text-body-sm text-text-secondary hover:text-brand-ink transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded"
           >
             <svg
               width="16"

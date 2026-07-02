@@ -36,6 +36,7 @@ const defaultMessages = {
     subhead: 'Discover useful tools in one place.',
     searchPlaceholder: 'Search tools…',
     searchAria: 'Search tools',
+    toolsHeading: 'All tools',
     mascotGreeting: 'Find the tool you need!',
     resultCount: '{count, plural, one {# tool} other {# tools}}',
   },

@@ -53,7 +53,7 @@ html {
 body {
   font-family: var(--font-body);
   color: var(--text);
-  background-color: var(--surface);
+  background-color: var(--bg);
   line-height: 1.55;
 }
 

@@ -124,7 +124,7 @@ export default async function ToolPage({ params }: Props) {
   const t = await getTranslations({ locale, namespace: 'toolPage' });
 
   return (
-    <div className="bg-surface">
+    <div className="bg-background">
       <div className="mx-auto max-w-container px-6 py-16">
         {/* Breadcrumb */}
         <div className="mb-8">
