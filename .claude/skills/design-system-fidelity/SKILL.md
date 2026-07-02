@@ -43,6 +43,14 @@ DESIGN.md의 핵심 4가지를 모든 화면이 보여야 한다(design-quality 
 - **프레젠테이션(presentational) 리프 컴포넌트는 `window`/`document` 전역 리스너를 달지 않는다.** 키보드·전역 단축키는 오케스트레이터/훅이 소유하고 리프는 props 콜백만 호출한다. speed-quiz GameBoard가 오케스트레이터와 **중복 `keydown`을 등록**해 잠재 이중발화(현상은 단발이었으나 취약·계약 위반) — 리프에서 리스너 제거, 키보드는 단일 소유자.
 - 완료 전 **열린 상태를 실제로 띄워 너비를 눈으로 확인**한다(존재 검사로는 붕괴를 못 본다 — `integration-qa`의 boundingBox 게이트와 짝).
 
+## 크롤 가능 카드/링크 (SEO 스포크) — 가시 콘텐츠를 숨기지 말 것
+
+카드를 검색 크롤용 링크로 만들 땐(허브→스포크 내부 링크), **카드 루트 자체를 *가시* `<a href>`로** 삼는다. onClick에서 평범한 클릭이면 `e.preventDefault()`→SPA 콜백(수식/보조 클릭은 통과시켜 새 탭 허용).
+
+- **금지: 가시 콘텐츠를 `hidden`(=`display:none`) 요소로 감싸기.** 크롤 링크를 넣겠다고 카드 본문(용어명·정의·태그)을 `<a className="hidden">` 안에 넣으면 **화면 카드가 통째로 비어버린다**(실제: new-word TermCard — 크롤러엔 href 보이나 사용자 화면은 빈 카드. tsc·유닛·빌드·프리렌더 grep 전부 그린, 전체 E2E `toBeVisible` "element is not visible"로만 적발). 링크는 숨기는 게 아니라 **보이는 카드 그 자체**여야 한다.
+- **인터랙티브 자식은 앵커 밖 형제로.** 즐겨찾기 버튼 등은 `<a>` 안에 넣으면 무효 HTML(button-in-anchor) — `relative` 래퍼에 앵커와 버튼을 형제로 두고 버튼을 `absolute` 배치, `onClick`은 `stopPropagation`+`preventDefault`.
+- 완료 전 **렌더된 카드를 실제로 띄워(스크린샷/a11y 트리) 본문이 보이는지** 확인 — DOM 존재(`getByText`)는 `display:none`을 통과시킨다(`jurepi-tdd` 참조).
+
 ## anti-template 규율 (banned)
 
 - 위계 없는 균일 카드 그리드, 균일 패딩/라운드/그림자 도배 금지.
