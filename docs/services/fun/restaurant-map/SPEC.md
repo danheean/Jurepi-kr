@@ -108,7 +108,7 @@ src/
 │   ├── schema.ts                         # zod: PlaceFileFront(ko/en), Place, MergedPlaceList, StoreSchema + STORE_VERSION
 │   ├── merge.ts                          # mergePair(koFront, enFront): apply canonical rule → MergedPlaceList; validatePair
 │   ├── slug.ts                           # slugify(title), resolveSlug(front, filename)
-│   ├── catalog.ts                        # Typed access: allPlaceLists, byId, byRegion, byCategory, regions(), categories(); geo bounds validation
+│   ├── catalog.ts                        # Typed access: allPlaceLists, byId, byPlaceId (favorites/recents/map-selection), byRegion, byCategory, regions(), categories(); geo bounds validation
 │   ├── search.ts                         # filterPlaces(places, query, locale): name+category+region+city, both locales; normalize
 │   ├── geo.ts                            # haversineDistance(lat1, lng1, lat2, lng2): km; isValidCoord(lat, lng): bounds check
 │   └── favorites.ts                      # Immutable ops: toggleFavorite, pushRecent(max), pruneUnknown(ids, catalog)
@@ -247,6 +247,7 @@ places:
     - imageUrl?: string (optional, external or local asset path, explicit dimensions required)
     - imageWidth?: number (px, required if imageUrl set)
     - imageHeight?: number (px, required if imageUrl set)
+    - id: string — **derived at merge time, NOT authored in markdown**: `${listSlug}#${index}` (index = position in the `places[]` array, 0-based, stable across rebuilds as long as authors don't reorder places). This is the favorites/recents/map-marker/selection identity (see `<merged_place_list>`, `<restaurant_map_store>`).
     INVARIANT: name/lat/lng/category/address/description/personalNote non-empty, coordinate bounds valid, ≥3 places per list. zod parse failure → collect as error (build failure candidate).
   </place>
   <place_list_file_front note="individual markdown file frontmatter (parse unit)">
@@ -262,14 +263,14 @@ places:
     INVARIANT: title/region/asOfDate/sourceNote/places non-empty, places ≥3, all coords valid, category known. zod parse failure → collect as error (build failure candidate).
   </place_list_file_front>
   <merged_place_list note="ko+en merge result; catalog record; restaurant-map.generated.json item">
-    - slug: string — unique identifier (unique per region+locale; favorites/recents reference)
+    - slug: string — unique identifier for the THEMED LIST (unique per region; used for routing/sitemap-style grouping, NOT the favorites/recents/selection identity — see place.id below)
     - region: enum — Korean file canonical
     - city?: string — optional city/district
     - asOfDate: string ISO
     - sourceUrl?: string — optional clickable source link (canonical; rel=noopener).
-    - ko: { title, sourceNote, places: [{ name, lat, lng, category, address, description, link?, priceRange?, imageUrl?, imageWidth?, imageHeight? }, ...] }
-    - en: { title, sourceNote, places: [...] } — title/sourceNote/places are PER-LOCALE; EN inherits KO sourceNote if omitted. places may differ (e.g., different restaurant names or descriptions per market).
-    INVARIANT — PAIR/FIELDS/UNIQUENESS: every record has both ko+en; each has title + ≥3 valid places; slug unique within region; lat/lng bounds valid. Violation → generator build failure.
+    - ko: { title, sourceNote, places: [{ id, name, lat, lng, category, address, description, personalNote, link?, priceRange?, imageUrl?, imageWidth?, imageHeight? }, ...] }
+    - en: { title, sourceNote, places: [...] } — title/sourceNote/places are PER-LOCALE; EN inherits KO sourceNote if omitted. places may differ (e.g., different restaurant names or descriptions per market), but ko.places[i] and en.places[i] at the same index represent the SAME real-world place (same id `${slug}#${i}`, same lat/lng expected) — this is what makes cross-locale favorites/recents/map-selection consistent when switching locale.
+    INVARIANT — PAIR/FIELDS/UNIQUENESS: every record has both ko+en; each has title + ≥3 valid places; slug unique within region; ko/en places arrays same length (index-aligned); lat/lng bounds valid. Violation → generator build failure.
   </merged_place_list>
   <region note="geographic grouping; localized label from i18n">
     - id: enum (seoul, busan, daegu, daejeon, gwangju, ulsan, gyeonggi, gangwon, chungbuk, chungnam, jeonbuk, jeonnam, gyeongbuk, gyeongnam, jeju, nationwide). Display order: per REGION_ORDER (nationwide sorts last among real regions, before virtual tabs). Label: tools.restaurant-map.regions.<id> (nationwide → "전국" / "Nationwide").
@@ -280,12 +281,12 @@ places:
   </category>
   <restaurant_map_store note="single localStorage blob">
     - version: number (STORE_VERSION, starts at 1)
-    - favorites: string[] — place list slugs, insertion order
-    - recents: string[] — place list slugs, most-recent-first, RECENTS_MAX = 20, de-duplicated
+    - favorites: string[] — **place ids** (`${listSlug}#${index}`, e.g. "seoul-jokbal#0"), insertion order. Favoriting is per-restaurant, not per-themed-list (a user favorites specific places they like within a list, not the whole curated collection).
+    - recents: string[] — place ids, most-recent-first, RECENTS_MAX = 20, de-duplicated. Pushed when a place is selected (map marker or card click), not on hover/search.
     - userGeo?: { lat: number; lng: number; timestamp: number } — cached geolocation result (for performance; retry if stale)
     - meta: { lastRegion?: string; createdAt: number }
     localStorage key: `jurepi-restaurant-map`
-    INVARIANT: read is zod-parsed; fail → start fresh (no throw). Unknown ids pruned on load.
+    INVARIANT: read is zod-parsed; fail → start fresh (no throw). Unknown place ids (list slug no longer in catalog, or index out of range for that list) pruned on load via `pruneUnknown(ids, catalog)`.
   </restaurant_map_store>
   <constants>
     - RECENTS_MAX = 20; SEARCH_DEBOUNCE = 120ms; REGION_ORDER = ['all', 'seoul', 'busan', 'daegu', 'daejeon', 'gwangju', 'ulsan', 'gyeonggi', 'gangwon', 'chungbuk', 'chungnam', 'jeonbuk', 'jeonnam', 'gyeongbuk', 'gyeongnam', 'jeju', 'nationwide', 'favorites', 'recent']; CATEGORY_ORDER = ['all', 'cafe', 'korean', 'japanese', 'chinese', 'brunch', 'bar', 'dessert', 'other']; MAP_CENTER_DEFAULT = { lat: 37.5665, lng: 126.9780 } (Seoul); PLACE_ICON_SIZE = 24px; CLUSTER_RADIUS = 80px.
@@ -402,8 +403,8 @@ places:
     - package.json wire: "predev": "node scripts/generate-restaurant-map.mjs", "prebuild": "node scripts/generate-restaurant-map.mjs".
   </generation>
   <catalog_access note="runtime pure layer">
-    - allPlaceLists(): MergedPlaceList[] (generation order). byId(slug), byRegion(region). regions(): live region ids in catalog. categories(): live category ids from all places.
-    - Tests assert catalog uniqueness, region validity, locale completeness, coordinate bounds.
+    - allPlaceLists(): MergedPlaceList[] (generation order). byId(slug): MergedPlaceList | null (list lookup), byPlaceId(placeId, locale): Place | null (parses `${listSlug}#${index}`, resolves through byId + index — used by favorites/recents/map-selection). byRegion(region). regions(): live region ids in catalog. categories(): live category ids from all places.
+    - Tests assert catalog uniqueness, region validity, locale completeness, coordinate bounds, byPlaceId round-trips for every place in every seed list (both locales).
   </catalog_access>
   <search>
     - filterPlaces(places, query, locale): blank query → as-is. Else normalize (trim, NFC, lowercase, strip diacritics). Match if ANY of: ko.title, en.title, ko.region, en.region, ko.places[].name, en.places[].name, ko.places[].category, en.places[].category. Stable order.
@@ -423,11 +424,12 @@ places:
     - With geolocation, calculate Haversine distance to each place, display on card (km, 1 decimal), optionally sort by distance.
     - If location stale (>1hr), prompt user to refresh.
   </geolocation>
-  <favorites_and_recents note="immutable — return new arrays/store">
-    - toggleFavorite(list, slug): add if absent, remove if present (preserve order).
-    - pushRecent(list, slug, max=20): move/insert to front, de-dupe, truncate.
-    - pruneUnknown(ids, catalog): drop ids not in current catalog (run on load).
+  <favorites_and_recents note="immutable — return new arrays/store; operates on PLACE ids (`${listSlug}#${index}`), not list slugs — see <restaurant_map_store>">
+    - toggleFavorite(ids, placeId): add if absent, remove if present (preserve order).
+    - pushRecent(ids, placeId, max=20): move/insert to front, de-dupe, truncate.
+    - pruneUnknown(ids, catalog): drop ids whose listSlug is missing from the catalog OR whose index is out of range for that list's current places[] length (run on load — content edits that remove/reorder places invalidate stale ids).
     - Recent push: when place is selected (click marker or card). Search/hover don't trigger.
+    - "즐겨찾기"/"최근" virtual region tabs render the flat set of places (across all lists) whose id is in favorites/recents — not the lists that contain them.
   </favorites_and_recents>
   <persistence_adapter useRestaurantMapCatalog>
     - Mount: dynamic catalog import; read `jurepi-restaurant-map` → zod → pruneUnknown → state; fail → start fresh (no throw). Absent localStorage → in-memory for session (fully usable, non-persistent).
