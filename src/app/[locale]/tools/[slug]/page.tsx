@@ -31,6 +31,10 @@ import { DevPeopleIntro } from '@/components/tools/dev-people/DevPeopleIntro';
 import { DevPeopleHowTo } from '@/components/tools/dev-people/DevPeopleHowTo';
 import { DevPeopleFaq } from '@/components/tools/dev-people/DevPeopleFaq';
 import { DevPeopleStructuredData } from '@/components/tools/dev-people/DevPeopleStructuredData';
+import { TransparentBgIntro } from '@/components/tools/transparent-background/TransparentBgIntro';
+import { TransparentBgHowTo } from '@/components/tools/transparent-background/TransparentBgHowTo';
+import { TransparentBgFaq } from '@/components/tools/transparent-background/TransparentBgFaq';
+import { TransparentBgStructuredData } from '@/components/tools/transparent-background/TransparentBgStructuredData';
 
 const LadderGame = dynamic(() =>
   import('@/components/tools/ladder/LadderGame').then((m) => ({
@@ -98,6 +102,12 @@ const DevPeople = dynamic(() =>
   }))
 );
 
+const TransparentBackgroundMaker = dynamic(() =>
+  import('@/components/tools/transparent-background/TransparentBackgroundMaker').then((m) => ({
+    default: m.TransparentBackgroundMaker,
+  }))
+);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
@@ -141,6 +151,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'dev-people') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'transparent-background') {
     title = t('meta.title');
     description = t('meta.description');
   } else {
@@ -271,6 +284,18 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
         <DevPeople />
         <DevPeopleHowTo />
         <DevPeopleFaq />
+      </>
+    );
+  }
+
+  if (slug === 'transparent-background') {
+    return (
+      <>
+        <TransparentBgStructuredData />
+        <TransparentBgIntro />
+        <TransparentBackgroundMaker />
+        <TransparentBgHowTo />
+        <TransparentBgFaq />
       </>
     );
   }

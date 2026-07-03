@@ -129,6 +129,17 @@ export const tools: ToolMeta[] = [
     ],
   },
   {
+    id: 'transparent-background',
+    slug: 'transparent-background',
+    category: 'converter',
+    icon: 'Zap',
+    accent: 'sky',
+    status: 'live',
+    isNew: true,
+    order: 22,
+    keywords: ['배경제거', '투명', '배경투명', '로컬', 'remove background', 'transparent', 'single-color', 'local', 'privacy'],
+  },
+  {
     id: 'dev-people',
     slug: 'dev-people',
     category: 'dev',
@@ -136,7 +147,7 @@ export const tools: ToolMeta[] = [
     accent: 'sky',
     status: 'live',
     isNew: true,
-    order: 22,
+    order: 23,
     keywords: [
       '개발인물','개발인물사전','개발자','프로그래머','컴퓨터과학','인물','전기','biography',
       '제프리힌턴','로버트마틴','에리히감마','리처드스톨먼','제임스고슬링','브렌던아이크','리누스토발즈',
