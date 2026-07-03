@@ -49,7 +49,7 @@ export function AgeSummary({ age }: Props) {
             }}
           >
             {/* Age number */}
-            <div className="text-5xl font-bold text-accent-mint mb-2">{value}</div>
+            <div className="text-5xl font-bold text-accent-mint-ink mb-2">{value}</div>
 
             {/* Label + unit */}
             <div className="mb-2">

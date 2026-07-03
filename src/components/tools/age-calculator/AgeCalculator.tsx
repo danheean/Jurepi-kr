@@ -89,7 +89,7 @@ export function AgeCalculator() {
                 disabled={!birthdate}
                 className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium text-sm transition-all ${
                   copyState === 'success'
-                    ? 'bg-success text-white'
+                    ? 'bg-success text-on-success'
                     : 'bg-brand text-on-brand hover:bg-brand-strong'
                 } ${!birthdate ? 'opacity-50 cursor-not-allowed' : ''}`}
                 aria-label={t('actions.copy')}

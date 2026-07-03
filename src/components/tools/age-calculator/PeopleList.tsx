@@ -97,7 +97,7 @@ export function PeopleList({ people, onAdd, onRemove, onSelect }: Props) {
             >
               <button
                 onClick={() => onSelect(person)}
-                className="flex-1 text-left min-h-11 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-mint rounded-md"
+                className="flex-1 text-left min-h-11 rounded-md"
                 aria-label={t('people.selectAria', { name: person.name })}
               >
                 <div className="font-medium text-text">{person.name}</div>
@@ -106,7 +106,7 @@ export function PeopleList({ people, onAdd, onRemove, onSelect }: Props) {
               <button
                 onClick={() => onRemove(person.id)}
                 aria-label={t('people.removeButton')}
-                className="flex-shrink-0 inline-flex items-center justify-center min-h-11 min-w-11 rounded-lg hover:bg-danger/10 text-danger-ink transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger-ink"
+                className="flex-shrink-0 inline-flex items-center justify-center min-h-11 min-w-11 rounded-lg hover:bg-danger/10 text-danger-ink transition-colors"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -136,7 +136,7 @@ export function PeopleList({ people, onAdd, onRemove, onSelect }: Props) {
                   addError === 'name'
                     ? 'border-danger bg-danger/5'
                     : 'border-hairline bg-surface-muted hover:border-hairline-strong focus:border-accent-mint'
-                } focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-mint`}
+                }`}
               />
               {addError === 'name' && (
                 <p className="text-xs text-danger-ink">{t('input.errorInvalidDate')}</p>
@@ -158,7 +158,7 @@ export function PeopleList({ people, onAdd, onRemove, onSelect }: Props) {
                   addError === 'birthdate'
                     ? 'border-danger bg-danger/5'
                     : 'border-hairline bg-surface-muted hover:border-hairline-strong focus:border-accent-mint'
-                } focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-mint`}
+                }`}
               />
               {addError === 'birthdate' && (
                 <p className="text-xs text-danger-ink">{t('input.errorInvalidDate')}</p>

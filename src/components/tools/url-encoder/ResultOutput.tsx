@@ -76,7 +76,7 @@ export function ResultOutput({ result, error, onCopy, isLoading }: Props) {
             disabled={isLoading}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all ${
               copyState === 'success'
-                ? 'bg-success text-white'
+                ? 'bg-success text-on-success'
                 : 'bg-brand text-on-brand hover:bg-brand-strong'
             } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             aria-label={t('output.copyButton')}
