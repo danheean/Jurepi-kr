@@ -52,13 +52,6 @@ export function BirthdateInput({
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      // Allow the calculation to happen via onChange
-      e.preventDefault();
-    }
-  };
-
   return (
     <div className="space-y-6">
       {/* Birthdate Input */}
@@ -71,12 +64,11 @@ export function BirthdateInput({
             type="date"
             value={value || ''}
             onChange={handleBirthdateChange}
-            onKeyDown={handleKeyDown}
             placeholder={t('input.birthdatePlaceholder')}
-            className={`w-full px-4 py-2.5 rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-offset-0 ${
+            className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${
               error
-                ? 'border-danger/30 bg-danger/5 text-text focus:ring-danger/50'
-                : 'border-hairline bg-surface text-text focus:ring-accent-mint/50 focus:border-accent-mint'
+                ? 'border-danger/30 bg-danger/5 text-text'
+                : 'border-hairline bg-surface text-text focus:border-accent-mint'
             }`}
             aria-label={t('input.birthdateLegend')}
             aria-describedby={error ? 'birthdate-error' : 'birthdate-help'}
@@ -102,7 +94,7 @@ export function BirthdateInput({
       <div className="space-y-3">
         <button
           onClick={() => onUseAsOfChange(!useAsOf)}
-          className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border font-medium text-sm transition-colors ${
+          className={`inline-flex items-center gap-2 min-h-11 px-3 py-2 rounded-lg border font-medium text-sm transition-colors ${
             useAsOf
               ? 'bg-accent-mint/10 border-accent-mint/30 text-accent-mint-ink'
               : 'bg-surface-muted border-hairline text-text hover:border-text-secondary'
@@ -121,7 +113,7 @@ export function BirthdateInput({
 
         {/* As-of Date Input (shown when toggle is on) */}
         {useAsOf && (
-          <div className="space-y-1 pl-4 border-l-2 border-accent-mint/30">
+          <div className="space-y-1 pl-4 border-l border-hairline">
             <label htmlFor="as-of-date" className="font-semibold text-text text-sm">
               {t('input.asOfDate')}
             </label>
@@ -131,7 +123,7 @@ export function BirthdateInput({
               value={asOfDate}
               onChange={handleAsOfDateChange}
               placeholder={t('input.asOfPlaceholder')}
-              className="w-full px-4 py-2.5 rounded-lg border border-hairline bg-surface text-text transition-colors focus:outline-none focus:ring-2 focus:ring-accent-mint/50 focus:border-accent-mint"
+              className="w-full px-4 py-2.5 rounded-lg border border-hairline bg-surface text-text transition-colors focus:border-accent-mint"
               aria-label={t('input.asOfDate')}
               aria-describedby="as-of-help"
             />

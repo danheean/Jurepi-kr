@@ -86,12 +86,11 @@ export function AgeCalculator() {
               {/* Copy button */}
               <button
                 onClick={handleCopy}
-                disabled={!birthdate}
-                className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium text-sm transition-all ${
+                className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium text-sm transition-colors ${
                   copyState === 'success'
-                    ? 'bg-success text-white'
+                    ? 'bg-success text-on-success'
                     : 'bg-brand text-on-brand hover:bg-brand-strong'
-                } ${!birthdate ? 'opacity-50 cursor-not-allowed' : ''}`}
+                }`}
                 aria-label={t('actions.copy')}
               >
                 <Copy className="w-4 h-4" strokeWidth={1.75} />

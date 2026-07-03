@@ -41,7 +41,7 @@ export function RecentLookups({ recents, onSelectRecent, onClear }: Props) {
         <h3 className="text-sm font-semibold text-text">{t('recents.heading')}</h3>
         <button
           onClick={onClear}
-          className="text-xs text-text-secondary hover:text-text transition-colors underline"
+          className="-mr-2 px-2 py-1 text-xs text-text-secondary hover:text-text transition-colors underline"
         >
           {t('recents.clear')}
         </button>
@@ -54,7 +54,7 @@ export function RecentLookups({ recents, onSelectRecent, onClear }: Props) {
             key={dateKey}
             onClick={() => onSelectRecent(dateKey)}
             aria-label={t('recents.ariaReuse', { datekey: formatDate(dateKey) })}
-            className="px-3 py-2 rounded-full bg-surface-muted border border-hairline text-sm text-text transition-all min-h-11 min-w-max hover:bg-accent-mint hover:text-white hover:border-accent-mint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-mint"
+            className="px-3 py-2 rounded-full bg-surface-muted border border-hairline text-sm text-text transition-colors min-h-11 min-w-max hover:bg-accent-mint-soft hover:text-accent-mint-ink hover:border-accent-mint"
           >
             {formatDate(dateKey)}
           </button>

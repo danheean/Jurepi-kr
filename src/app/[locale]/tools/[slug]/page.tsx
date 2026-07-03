@@ -22,6 +22,10 @@ import { LunarConverterIntro } from '@/components/tools/lunar-converter/LunarCon
 import { LunarConverterHowTo } from '@/components/tools/lunar-converter/LunarConverterHowTo';
 import { LunarConverterFaq } from '@/components/tools/lunar-converter/LunarConverterFaq';
 import { LunarConverterStructuredData } from '@/components/tools/lunar-converter/LunarConverterStructuredData';
+import { QRCodeIntro } from '@/components/tools/qr-code/QRCodeIntro';
+import { QRCodeHowTo } from '@/components/tools/qr-code/QRCodeHowTo';
+import { QRCodeFaq } from '@/components/tools/qr-code/QRCodeFaq';
+import { QRCodeStructuredData } from '@/components/tools/qr-code/QRCodeStructuredData';
 
 const LadderGame = dynamic(() =>
   import('@/components/tools/ladder/LadderGame').then((m) => ({
@@ -77,6 +81,12 @@ const LunarConverter = dynamic(() =>
   }))
 );
 
+const QRCodeGenerator = dynamic(() =>
+  import('@/components/tools/qr-code/QRCodeGenerator').then((m) => ({
+    default: m.QRCodeGenerator,
+  }))
+);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
@@ -114,6 +124,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'lunar-converter') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'qr-code') {
     title = t('meta.title');
     description = t('meta.description');
   } else {
@@ -220,6 +233,18 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
         <LunarConverter locale={locale} />
         <LunarConverterHowTo />
         <LunarConverterFaq />
+      </>
+    );
+  }
+
+  if (slug === 'qr-code') {
+    return (
+      <>
+        <QRCodeStructuredData />
+        <QRCodeIntro />
+        <QRCodeGenerator locale={locale} />
+        <QRCodeHowTo />
+        <QRCodeFaq />
       </>
     );
   }

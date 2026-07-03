@@ -113,6 +113,21 @@ export const tools: ToolMeta[] = [
     order: 4,
     keywords: ['음력','양력','음력변환','양력변환','음력달력','간지','갑자','띠','윤달','설날','생일 음력','음양력변환','달력','korean lunar','lunar calendar','solar calendar','lunar converter','sexagenary','zodiac','leap month','korean calendar','date conversion','gapja','干支'],
   },
+  {
+    id: 'qr-code',
+    slug: 'qr-code',
+    category: 'converter',
+    icon: 'QrCode',
+    accent: 'sky',
+    status: 'live',
+    isNew: true,
+    order: 21,
+    keywords: [
+      'QR', 'QR코드', 'QR코드생성', '큐알코드', 'QR generator', 'QR code',
+      'Wi-Fi', 'vCard', 'URL', '이메일', '문자', 'email', 'SMS',
+      '변환', 'converter', 'scan', '스캔'
+    ],
+  },
 ];
 
 /** Get all live tools for static generation */

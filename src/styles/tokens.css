@@ -60,6 +60,7 @@
      fill (white text = 6.47:1). */
   --danger-ink: #b91c1c; /* 6.47:1 on white */
   --warning-ink: #b45309; /* 5.02:1 on white */
+  --on-success: #06371a; /* dark green text on --success fill — 5.85:1 (white on --success = 2.29:1, fails AA) */
 
   /* Focus */
   --focus-ring: #9a6400; /* = --brand-ink, visible on white (5:1 non-text) */
