@@ -3,6 +3,7 @@ import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { tools } from '@/tools/registry';
 import { Hero } from '@/components/home/Hero';
 import { ToolExplorer } from '@/components/home/ToolExplorer';
+import { ShareButtons } from '@/components/share';
 import { toSearchableTools } from '@/lib/searchable-tools';
 import { buildPageMetadata } from '@/lib/seo';
 
@@ -35,6 +36,10 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <Hero />
+      {/* SNS share — same affordance as tool pages, for sharing the hub itself */}
+      <div className="mx-auto max-w-container px-6 md:px-8 lg:px-12 -mt-6 mb-2 flex justify-end">
+        <ShareButtons />
+      </div>
       <ToolExplorer initialTools={searchableTools} />
     </>
   );
