@@ -4,7 +4,6 @@ import { useLocale } from 'next-intl';
 import type { MergedRanking } from '@/lib/rankings/schema';
 import {
   softwareApplicationJsonLd,
-  faqPageJsonLd,
   itemListJsonLd,
   absoluteToolUrl,
 } from '@/lib/seo';
@@ -26,17 +25,7 @@ export function RankingsStructuredData({ catalog }: RankingsStructuredDataProps)
     url: absoluteToolUrl(locale, 'rankings'),
   });
 
-  // FAQPage LD+JSON
-  const faqJsonLd = faqPageJsonLd([
-    {
-      q: locale === 'ko'
-        ? '순위는 실시간으로 업데이트되나요?'
-        : 'Are rankings updated in real-time?',
-      a: locale === 'ko'
-        ? '아니요, 각 순위는 정기적으로 검토되어 업데이트됩니다.'
-        : 'No, rankings are reviewed and updated periodically.',
-    },
-  ]);
+  // FAQPage JSON-LD is emitted by RankingsFaq (single owner across all tools).
 
   // ItemList LD+JSON for each ranking
   const itemListJsonLds = catalog.map((ranking) => {
@@ -58,11 +47,6 @@ export function RankingsStructuredData({ catalog }: RankingsStructuredDataProps)
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd) }}
-        suppressHydrationWarning
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         suppressHydrationWarning
       />
       {itemListJsonLds.map((jsonLd, idx) => (

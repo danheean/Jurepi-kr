@@ -1,21 +1,28 @@
 import { useTranslations } from 'next-intl';
+import { faqPageJsonLd } from '@/lib/seo';
 
 /**
- * SSR-safe FAQ section (visible prose). Questions/answers land in the static
- * prerendered HTML (crawlable by search + AI answer engines). The FAQPage
- * JSON-LD is emitted once by QRCodeStructuredData (single owner) to avoid
- * duplicate structured data.
+ * SSR-safe FAQ section (visible prose) + FAQPage JSON-LD. Questions/answers and
+ * the structured data all land in the static prerendered HTML (crawlable by
+ * search + AI answer engines). The Faq component is the single owner of FAQPage
+ * JSON-LD across all tools; SoftwareApplication JSON-LD is added separately by
+ * QRCodeStructuredData.
  */
 export function QRCodeFaq() {
   const t = useTranslations('tools.qr-code');
 
   const faqItems = (t.raw('faq.items') || []) as Array<{ q: string; a: string }>;
+  const faqSchema = faqPageJsonLd(faqItems);
 
   return (
     <section
       aria-labelledby="qr-code-faq-heading"
       className="space-y-6 mt-12 mb-8 border-t border-hairline pt-8"
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <h2
         id="qr-code-faq-heading"
         className="font-display text-3xl font-bold text-text"
