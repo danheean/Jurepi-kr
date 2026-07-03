@@ -35,7 +35,7 @@ export function PlaceCard({
       onClick={onSelect}
       className={`cursor-pointer rounded-lg border bg-surface p-4 transition-all ${
         isSelected
-          ? 'border-rose ring-2 ring-rose'
+          ? 'border-accent-rose ring-2 ring-accent-rose'
           : 'border-hairline hover:-translate-y-0.5 hover:shadow-card'
       }`}
       role="button"
@@ -52,7 +52,7 @@ export function PlaceCard({
             aria-pressed={isFavorited}
           >
             <Star
-              className={`h-5 w-5 ${isFavorited ? 'fill-rose text-rose' : 'text-text-secondary'}`}
+              className={`h-5 w-5 ${isFavorited ? 'fill-accent-rose text-accent-rose' : 'text-text-secondary'}`}
             />
           </button>
         </div>

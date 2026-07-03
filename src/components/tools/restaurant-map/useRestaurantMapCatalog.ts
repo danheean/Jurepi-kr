@@ -29,6 +29,7 @@ export interface UseRestaurantMapCatalogReturn {
   selectedPlaceId: string | null;
   selectedPlace: Place | null;
   query: string;
+  queryDraft: string;
   setQuery: (q: string) => void;
   resultCount: number;
   activeRegion: string;
@@ -149,7 +150,7 @@ export function useRestaurantMapCatalog(
   const locale = useLocale() as 'ko' | 'en';
   const initialCatalogState = initialState(catalog);
   const [state, dispatch] = useReducer(reducer, initialCatalogState);
-  const debounceRef = useRef<NodeJS.Timeout>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -288,6 +289,7 @@ export function useRestaurantMapCatalog(
     selectedPlaceId: state.selectedPlaceId,
     selectedPlace,
     query: state.query,
+    queryDraft: state.queryDraft,
     setQuery: handleSetQuery,
     resultCount: filteredPlaces.length,
     activeRegion: state.activeRegion,

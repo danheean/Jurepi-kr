@@ -1,72 +1,90 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import type { MergedPlaceList } from '@/lib/restaurant-map/schema';
+import restaurantMapData from './data/restaurant-map.generated.json';
 import { useRestaurantMapCatalog } from './useRestaurantMapCatalog';
 import { RegionTabs } from './RegionTabs';
 import { CategoryFilter } from './CategoryFilter';
 import { PlaceSearch } from './PlaceSearch';
 import { PlaceList } from './PlaceList';
+import { PlaceDetailCard } from './PlaceDetailCard';
+import { MapContainer } from './MapContainer';
+import { GeolocationButton } from './GeolocationButton';
 import { RestaurantMapIntro } from './RestaurantMapIntro';
 import { RestaurantMapHowTo } from './RestaurantMapHowTo';
 import { RestaurantMapFaq } from './RestaurantMapFaq';
+import { RestaurantMapStructuredData } from './RestaurantMapStructuredData';
+
+// Static catalog import: code-split within this dynamically-imported component
+// (route wraps RestaurantMap in next/dynamic), so this JSON never enters the
+// global i18n/shell bundle.
+const DEFAULT_CATALOG = restaurantMapData as MergedPlaceList[];
 
 export interface RestaurantMapProps {
-  catalog: MergedPlaceList[];
+  catalog?: MergedPlaceList[];
 }
 
-export function RestaurantMap({ catalog }: RestaurantMapProps) {
-  const locale = useLocale();
-  const t = useTranslations('tools.restaurant-map');
-  const [mapSDKReady, setMapSDKReady] = useState(false);
+export function RestaurantMap({ catalog = DEFAULT_CATALOG }: RestaurantMapProps) {
+  const locale = useLocale() as 'ko' | 'en';
   const hook = useRestaurantMapCatalog(catalog);
-
-  useEffect(() => {
-    // Map SDK is loaded asynchronously; for now, mark as ready for list-only fallback
-    setMapSDKReady(true);
-  }, []);
-
-  if (!hook.mounted) {
-    return null;
-  }
+  const allPlaces = catalog.flatMap((list) => list[locale].places);
 
   return (
     <div className="w-full">
-      {/* SEO sections: rendered outside mounted gate for AI crawlers */}
+      {/* SEO sections: SSR'd unconditionally so AI crawlers see them even before hydration/mount */}
       <RestaurantMapIntro />
       <RestaurantMapHowTo />
       <RestaurantMapFaq />
+      <RestaurantMapStructuredData places={allPlaces} />
 
-      {/* Interactive SPA content */}
-      <main className="space-y-6 px-4 py-8">
-        <PlaceSearch query={hook.query} onQueryChange={hook.setQuery} resultCount={hook.resultCount} />
+      {/* Interactive SPA content: gated on mount only (localStorage/geolocation dependent) */}
+      {hook.mounted && (
+        <main className="space-y-6 px-4 py-8">
+          <div className="flex flex-col gap-4 md:flex-row md:items-start">
+            <PlaceSearch query={hook.queryDraft} onQueryChange={hook.setQuery} resultCount={hook.resultCount} />
+            <GeolocationButton requestGeolocation={hook.requestGeolocation} />
+          </div>
 
-        <div className="space-y-4">
-          <RegionTabs
-            activeRegion={hook.activeRegion}
-            onRegionChange={hook.setActiveRegion}
-            hasFavorites={hook.favorites.length > 0}
-            hasRecents={hook.recents.length > 0}
-          />
+          <div className="space-y-4">
+            <RegionTabs
+              activeRegion={hook.activeRegion}
+              onRegionChange={hook.setActiveRegion}
+              hasFavorites={hook.favorites.length > 0}
+              hasRecents={hook.recents.length > 0}
+            />
 
-          <CategoryFilter
-            activeCategory={hook.activeCategory}
-            onCategoryChange={hook.setActiveCategory}
-          />
-        </div>
+            <CategoryFilter
+              activeCategory={hook.activeCategory}
+              onCategoryChange={hook.setActiveCategory}
+            />
+          </div>
 
-        <PlaceList
-          places={hook.filteredPlaces}
-          selectedPlaceId={hook.selectedPlaceId}
-          favorites={hook.favorites}
-          onSelect={hook.select}
-          onToggleFavorite={hook.toggleFavoriteFn}
-          userGeo={hook.userGeo}
-          onRequestGeolocation={hook.requestGeolocation}
-          onClearGeolocation={hook.clearGeolocation}
-        />
-      </main>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <MapContainer
+              places={hook.filteredPlaces}
+              selectedPlaceId={hook.selectedPlaceId ?? undefined}
+              userGeo={hook.userGeo}
+              onMarkerClick={hook.select}
+            />
+
+            <PlaceList
+              places={hook.filteredPlaces}
+              selectedPlaceId={hook.selectedPlaceId}
+              favorites={hook.favorites}
+              onSelect={hook.select}
+              onToggleFavorite={hook.toggleFavoriteFn}
+              userGeo={hook.userGeo}
+              onRequestGeolocation={hook.requestGeolocation}
+              onClearGeolocation={hook.clearGeolocation}
+            />
+          </div>
+
+          {hook.selectedPlace && (
+            <PlaceDetailCard place={hook.selectedPlace} onClose={() => hook.select(null)} />
+          )}
+        </main>
+      )}
     </div>
   );
 }

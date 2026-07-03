@@ -128,6 +128,17 @@ export const tools: ToolMeta[] = [
       '변환', 'converter', 'scan', '스캔'
     ],
   },
+  {
+    id: 'restaurant-map',
+    slug: 'restaurant-map',
+    category: 'fun',
+    icon: 'MapPin',
+    accent: 'rose',
+    status: 'coming_soon',
+    isNew: true,
+    order: 22,
+    keywords: ['맛집', '맛집리스트', '맛집지도', '카페', '라면', '족발', '참치', '음식', '추천', '지도', 'restaurant', 'map', 'food', 'cafe', 'ramen', 'tuna', 'local favorite', 'curator', 'dining', 'lunch', 'dinner'],
+  },
 ];
 
 /** Get all live tools for static generation */

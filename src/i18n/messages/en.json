@@ -1403,6 +1403,117 @@
           }
         ]
       }
+    },
+    "restaurant-map": {
+      "title": "Restaurant List",
+      "description": "Discover local favorites by region, cuisine, and category",
+      "meta": {
+        "title": "Restaurant List — Find Local Favorites on the Map",
+        "description": "Discover restaurants and cafes across South Korea on an interactive map."
+      },
+      "regions": {
+        "all": "All",
+        "seoul": "Seoul",
+        "busan": "Busan",
+        "daegu": "Daegu",
+        "daejeon": "Daejeon",
+        "gwangju": "Gwangju",
+        "ulsan": "Ulsan",
+        "gyeonggi": "Gyeonggi",
+        "gangwon": "Gangwon",
+        "chungbuk": "North Chungcheong",
+        "chungnam": "South Chungcheong",
+        "jeonbuk": "North Jeolla",
+        "jeonnam": "South Jeolla",
+        "gyeongbuk": "North Gyeongsang",
+        "gyeongnam": "South Gyeongsang",
+        "jeju": "Jeju",
+        "nationwide": "Nationwide",
+        "favorites": "Favorites",
+        "recent": "Recently Viewed"
+      },
+      "categories": {
+        "all": "All Categories",
+        "cafe": "Café",
+        "korean": "Korean",
+        "japanese": "Japanese",
+        "chinese": "Chinese",
+        "brunch": "Brunch",
+        "bar": "Bar",
+        "dessert": "Dessert",
+        "other": "Other"
+      },
+      "search": {
+        "label": "Search",
+        "placeholder": "Search by restaurant, café, or region…",
+        "resultCount": "{count} result{count, plural, one {} other {s}}"
+      },
+      "buttons": {
+        "myLocation": "My Location",
+        "clearSearch": "Clear"
+      },
+      "geolocation": {
+        "granted": "Location access granted",
+        "denied": "Location access denied",
+        "error": "Unable to get location",
+        "loading": "Getting location…"
+      },
+      "personalNote": {
+        "label": "Personal Take"
+      },
+      "sourceNote": {
+        "label": "Source"
+      },
+      "asOfDate": {
+        "label": "As of"
+      },
+      "distance": {
+        "unit": "km",
+        "away": "{distance}km away"
+      },
+      "empty": {
+        "noResults": "No restaurants found for '{query}'.",
+        "noFavorites": "Tap the star to save your favorites.",
+        "noRecents": "No recently viewed restaurants."
+      },
+      "mapToggle": {
+        "mapView": "Map",
+        "listView": "List"
+      },
+      "mapFailover": {
+        "message": "Unable to load map. Check the restaurant list below."
+      },
+      "intro": {
+        "eyebrow": "RESTAURANT TOOL",
+        "lead": "Discover local restaurants and cafes across Seoul, Busan, and beyond on an interactive map."
+      },
+      "howTo": {
+        "title": "How to Use Restaurant List",
+        "step1": "Select a region or category…",
+        "step2": "Filter further by cuisine type…",
+        "step3": "Enable My Location to…",
+        "step4": "Tap the star to…"
+      },
+      "faq": {
+        "items": [
+          {
+            "q": "How are restaurants added to the list?",
+            "a": "Only restaurants personally visited and curated by our team are added to the list."
+          },
+          {
+            "q": "Is my location information saved?",
+            "a": "Your location is stored only on your device and is never sent to our servers."
+          },
+          {
+            "q": "Where are my favorites saved?",
+            "a": "Favorites are saved in your browser's local storage."
+          }
+        ],
+        "heading": "Frequently Asked Questions"
+      },
+      "placeDetail": {
+        "openInMaps": "Open in Maps"
+      }
     }
   },
   "about": {
