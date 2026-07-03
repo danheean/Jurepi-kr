@@ -4,7 +4,6 @@ import { useLocale } from 'next-intl';
 import type { MergedTopic } from '@/lib/bookmarks/schema';
 import {
   softwareApplicationJsonLd,
-  faqPageJsonLd,
   itemListJsonLd,
   absoluteToolUrl,
 } from '@/lib/seo';
@@ -26,17 +25,7 @@ export function BookmarksStructuredData({ catalog }: BookmarksStructuredDataProp
     url: absoluteToolUrl(locale, 'bookmarks'),
   });
 
-  // FAQPage LD+JSON
-  const faqJsonLd = faqPageJsonLd([
-    {
-      q: locale === 'ko'
-        ? '즐겨찾기 주제를 추가할 수 있나요?'
-        : 'Can I add bookmark topics?',
-      a: locale === 'ko'
-        ? '아니요. 주제는 에디터가 직접 작성하고 관리합니다.'
-        : 'No. Topics are authored and managed by our editors.',
-    },
-  ]);
+  // FAQPage JSON-LD is emitted by BookmarksFaq (single owner across all tools).
 
   // ItemList LD+JSON for each topic (topics as items, links as sub-items)
   const itemListJsonLds = catalog.map((topic) => {
@@ -60,11 +49,6 @@ export function BookmarksStructuredData({ catalog }: BookmarksStructuredDataProp
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd) }}
-        suppressHydrationWarning
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         suppressHydrationWarning
       />
       {itemListJsonLds.map((jsonLd, idx) => (

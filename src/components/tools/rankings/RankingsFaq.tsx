@@ -1,11 +1,17 @@
 import { useTranslations } from 'next-intl';
+import { faqPageJsonLd } from '@/lib/seo';
 
 export function RankingsFaq() {
   const t = useTranslations('tools.rankings.faq');
   const items = t.raw('items') as Array<{ q: string; a: string }>;
+  const faqSchema = faqPageJsonLd(items);
 
   return (
     <section className="space-y-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <h2 className="text-2xl font-bold text-text">{t('heading')}</h2>
 
       <div className="space-y-4">

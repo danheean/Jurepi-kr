@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 const PALETTE_COLORS = [
@@ -32,7 +31,6 @@ export function ColorPickers({
   isContrastAcceptable = true,
 }: Props) {
   const t = useTranslations('tools.qr-code');
-  const [activeTarget, setActiveTarget] = useState<'fg' | 'bg' | null>(null);
 
   const getContrastStatus = (value: number) => {
     if (value >= 50) return 'good';
@@ -83,8 +81,9 @@ export function ColorPickers({
 
       {/* FG color */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-text">{t('colors.fgLabel')}</label>
+        <label htmlFor="qr-fg-color" className="text-sm font-medium text-text">{t('colors.fgLabel')}</label>
         <input
+          id="qr-fg-color"
           type="text"
           value={fgColor}
           onChange={(e) => {
@@ -95,17 +94,17 @@ export function ColorPickers({
             }
           }}
           placeholder="#2a2411"
-          className="w-full px-3 py-2 border border-hairline rounded-md bg-surface font-mono text-sm focus:outline-none focus:ring-2 focus:ring-focus-ring"
+          className="w-full px-3 py-3 border border-hairline rounded-md bg-surface font-mono text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
         />
         <div className="flex flex-wrap gap-2">
           {PALETTE_COLORS.map(({ name, hex }) => (
             <button
               key={`fg-${name}`}
               onClick={() => onFgChange(hex)}
-              className="w-8 h-8 rounded border-2 border-hairline hover:border-brand transition-colors"
+              className="w-11 h-11 rounded-lg border-2 border-hairline hover:border-brand focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:outline-none transition-colors"
               style={{ backgroundColor: hex }}
-              title={name}
-              aria-label={`Foreground ${name}`}
+              title={t(`colors.names.${name}`)}
+              aria-label={t('colors.applyFg', { color: t(`colors.names.${name}`) })}
             />
           ))}
         </div>
@@ -113,8 +112,9 @@ export function ColorPickers({
 
       {/* BG color */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-text">{t('colors.bgLabel')}</label>
+        <label htmlFor="qr-bg-color" className="text-sm font-medium text-text">{t('colors.bgLabel')}</label>
         <input
+          id="qr-bg-color"
           type="text"
           value={bgColor}
           onChange={(e) => {
@@ -125,17 +125,17 @@ export function ColorPickers({
             }
           }}
           placeholder="#ffffff"
-          className="w-full px-3 py-2 border border-hairline rounded-md bg-surface font-mono text-sm focus:outline-none focus:ring-2 focus:ring-focus-ring"
+          className="w-full px-3 py-3 border border-hairline rounded-md bg-surface font-mono text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
         />
         <div className="flex flex-wrap gap-2">
           {PALETTE_COLORS.map(({ name, hex }) => (
             <button
               key={`bg-${name}`}
               onClick={() => onBgChange(hex)}
-              className="w-8 h-8 rounded border-2 border-hairline hover:border-brand transition-colors"
+              className="w-11 h-11 rounded-lg border-2 border-hairline hover:border-brand focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:outline-none transition-colors"
               style={{ backgroundColor: hex }}
-              title={name}
-              aria-label={`Background ${name}`}
+              title={t(`colors.names.${name}`)}
+              aria-label={t('colors.applyBg', { color: t(`colors.names.${name}`) })}
             />
           ))}
         </div>

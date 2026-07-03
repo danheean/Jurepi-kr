@@ -1,11 +1,12 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { softwareApplicationJsonLd, faqPageJsonLd, absoluteToolUrl } from '@/lib/seo';
+import { softwareApplicationJsonLd, absoluteToolUrl } from '@/lib/seo';
 
 /**
  * QR Code Generator structured data (JSON-LD) component.
- * Injects SoftwareApplication and FAQPage JSON-LD for search engines and AI crawlers.
+ * Injects SoftwareApplication JSON-LD for search engines and AI crawlers.
+ * FAQPage JSON-LD is emitted by QRCodeFaq (single owner, matches every other tool).
  * Rendered at the route level (not wrapped in mounted gate) for full discoverability.
  */
 export function QRCodeStructuredData() {
@@ -22,19 +23,11 @@ export function QRCodeStructuredData() {
     url: toolUrl,
   });
 
-  // Extract FAQ items from i18n using t.raw to preserve object structure
-  const faqItems = t.raw('faq.items') as Array<{ q: string; a: string }>;
-  const faqPage = faqPageJsonLd(faqItems);
-
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApp) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPage) }}
       />
     </>
   );

@@ -19,7 +19,7 @@ The Lunar–Solar Calendar Converter bridges two calendars in daily use across K
 
 The tool is split into two input sections: one for the solar date (year/month/day dropdowns), and one for the lunar date (with leap-month toggle). Toggle between them by selecting a date; the conversion updates instantly. A "Today" button shows both systems' current date. Recent conversions (last 10, keyed by serialized date) live in localStorage for quick re-access. Sexagenary and zodiac are displayed as inline labels (e.g., "2024 — 甲辰년(용띠)").
 
-CRITICAL: The conversion data is **finite and explicitly bounded** — KASI (Korea Astronomy and Space Science Institute) data covers **1391 CE to 2050 CE only**. Any date outside this range triggers a friendly error ("지원하지 않는 년도입니다: 3000년" / "Year not supported: 3000 CE"). The table is baked into the bundle at build time; the tool queries it in microseconds and never calls a network API.
+CRITICAL: The conversion data is **finite and explicitly bounded**. The underlying KASI (Korea Astronomy and Space Science Institute) engine data reaches back to 1391 CE, but the tool **intentionally restricts user-selectable input to 1901–2050 CE** for usability (a ~150-item year dropdown instead of ~660; pre-1900 dates are a rare need). Any input year outside 1901–2050 triggers a friendly error ("지원하지 않는 연도입니다 (1901–2050)." / "Unsupported year (1901–2050 only)."). Note: a solar-January input maps to the *previous* lunar year, so a solar-1901 conversion can legitimately produce a lunar-1900 result (the recents store validates the solar date against 1901–2050 and only format-checks the derived lunar date). Data is bundled at build time; the tool queries it in microseconds and never calls a network API.
 
 CRITICAL (client-only, SSG): 100% client-side. No backend, no database, no network calls except for static bundle assets. The only first-party persistence is `localStorage` (recent conversions), and nothing is sent upstream.
 
@@ -38,7 +38,7 @@ CRITICAL (i18n locale binding): Do NOT pass i18n translation keys to Intl APIs. 
     - Two-way conversion: solar (Gregorian) ↔ lunar (Korean KASI lunisolar).
     - Input UI: year/month/day dropdowns for both calendar systems, leap-month toggle for lunar, "Today" button.
     - Rich metadata: sexagenary cycle (간지 name + hanja glyph), zodiac animal (띠 name + emoji), leap-month indicator (윤달).
-    - Conversion range: 1391 CE – 2050 CE (KASI official tables). Out-of-range friendly error with clear message.
+    - Input range: 1901 CE – 2050 CE (KASI engine data reaches 1391; input capped at 1901 for usability). Out-of-range friendly error with clear message.
     - Recent conversions: localStorage (last 10), keyed by a canonical date serialization (YYYY-MM-DD format). Prune unknown/malformed entries on load.
     - Copy-to-clipboard: lunar date string, solar date string, both together.
     - "Today" current-date display in both calendars (via JavaScript local time, no network call).
@@ -106,7 +106,7 @@ src/
   <lunar_table_record note="build-time artifact per KASI">
     - solarYear, solarMonth, solarDay: solar (Gregorian) date as anchor.
     - lunarYear, lunarMonth, isLeapMonth, lunarDay: corresponding lunar date.
-    - INVARIANT: every solar date 1391–2050 maps to exactly one lunar date; leap months are flagged.
+    - INVARIANT: every solar input date 1901–2050 maps to exactly one lunar date; leap months are flagged.
   </lunar_table_record>
   <conversion_result note="runtime computed result">
     - inputDate: { calendar: 'solar' | 'lunar'; year, month, day, isLeapMonth? }
@@ -122,7 +122,7 @@ src/
     INVARIANT: read is zod-parsed; fail → start fresh. Dates outside current table bounds are pruned on load.
   </recents_store>
   <constants>
-    - TABLE_YEAR_MIN = 1391, TABLE_YEAR_MAX = 2050
+    - TABLE_YEAR_MIN = 1901, TABLE_YEAR_MAX = 2050
     - RECENTS_MAX = 10
     - SEXAGENARY_CYCLE = 60
     - ZODIAC_ANIMALS = 12 (rat–pig)
@@ -166,14 +166,14 @@ src/
 
   <solar_input>
     - Three aligned dropdowns (연 / 월 / 일 or Year / Month / Day).
-    - Year 1391–2050 (KASI bounds). Month 1–12. Day 1–31 (validated per month).
+    - Year 1901–2050 (input range; KASI engine data reaches 1391). Month 1–12. Day 1–31 (validated per month).
     - Labels & ARIA: "solar year", "solar month", "solar day"; aria-label per control.
     - On change → call conversion; display result.
   </solar_input>
 
   <lunar_input>
     - Three dropdowns (연 / 월 / 일 or Year / Month / Day) + toggle "윤달" / "Leap month".
-    - Year 1391–2050. Month 1–12. Day 1–29/30 (varies per year+month KASI table).
+    - Year 1901–2050. Month 1–12. Day 1–29/30 (varies per year+month KASI table).
     - Leap toggle is a checkbox-style button (aria-pressed); affects month label dynamically.
     - On change → conversion; validate day range against selected year+month±leap.
   </lunar_input>
@@ -214,7 +214,7 @@ src/
   <conversion_logic>
     - solarToLunar(year, month, day): lookup solar date in table → return lunar equiv + compute sexagenary/zodiac.
     - lunarToSolar(year, month, day, isLeapMonth): lookup lunar date in table → return solar equiv + compute sexagenary/zodiac.
-    - validateRange(year): if year < 1391 or year > 2050, return error message.
+    - validateRange(year): if year < 1901 or year > 2050, return error message.
     - validateLunarMonth(year, month): true if month exists in that lunar year; false if leap month not present.
   </conversion_logic>
   <sexagenary_zodiac>
@@ -235,7 +235,7 @@ src/
 
 <error_handling>
   <out_of_range>
-    - Year < 1391 or > 2050 → toast "지원하지 않는 년도입니다 (1391–2050)." / "Year not supported (1391–2050)."
+    - Year < 1901 or > 2050 → toast "지원하지 않는 연도입니다 (1901–2050)." / "Unsupported year (1901–2050 only)."
   </out_of_range>
   <invalid_lunar_month>
     - Leap month selected but does not exist in chosen year → toast "선택한 연도에 윤달이 없습니다." / "No leap month in selected year."
@@ -277,7 +277,7 @@ src/
 </aesthetic_guidelines>
 
 <security_considerations>
-  <input>Dropdown selections are bounded (year 1391–2050, month 1–12); user cannot input arbitrary strings. All user input is validated server-side during build (KASI table validation) and client-side (range checks). No user-generated content is rendered via dangerouslySetInnerHTML.</input>
+  <input>Dropdown selections are bounded (year 1901–2050, month 1–12); user cannot input arbitrary strings. All user input is validated server-side during build (KASI table validation) and client-side (range checks). No user-generated content is rendered via dangerouslySetInnerHTML.</input>
   <clipboard>User-initiated copy only (lunar/solar date strings); never read clipboard; user-gesture handler only.</clipboard>
   <privacy>Recents localStorage-only, never sent. No analytics event includes dates. Conversion is deterministic, no randomness.</privacy>
   <data_integrity>Table is build-time static asset (no remote fetch); unit tests validate derivation, completeness, range so no malformed entry ships.</data_integrity>
@@ -331,7 +331,7 @@ src/
 </final_integration_test>
 
 <success_criteria>
-  <functionality>Two-way conversion solar ↔ lunar (1391–2050 range); sexagenary + zodiac display; leap-month handling; Today button; recent history (localStorage, max 10); copy to clipboard; friendly out-of-range errors.</functionality>
+  <functionality>Two-way conversion solar ↔ lunar (1901–2050 input range); sexagenary + zodiac display; leap-month handling; Today button; recent history (localStorage, max 10); copy to clipboard; friendly out-of-range errors.</functionality>
   <user_experience>Conversion instant on input change; ≥44px tap targets; keyboard operable; visible focus; SPA — no reload on input change. Mobile <768px single-column, no horizontal overflow.</user_experience>
   <technical_quality>lib/lunar-converter/* pure ≥ 80% unit coverage (conversion, sexagenary, zodiac, schema); table validation tests (bounds, gaps, leap consistency); TS 0 errors; <800 lines per file; locale from useLocale() (never i18n key to Intl).</technical_quality>
   <visual_design>DESIGN.md compliant; grape accent for identity + brand honey-gold CTAs; warm, friendly calendar tool (not clinical); readable sexagenary glyph + zodiac emoji.</visual_design>
