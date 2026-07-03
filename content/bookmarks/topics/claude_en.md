@@ -1,0 +1,58 @@
+---
+title: "Claude"
+slug: "claude"
+description: "Anthropic's AI assistant Claude — service and API console (keys, usage), official learning resources, and famous engineering posts."
+sections:
+  - heading: "Service & Console"
+    links:
+      - label: "Claude App"
+        url: "https://claude.ai/"
+        description: "Claude chat on web and mobile"
+      - label: "Claude Developer Platform (former Console)"
+        url: "https://platform.claude.com/"
+        description: "API dashboard and workbench"
+      - label: "API Keys"
+        url: "https://platform.claude.com/settings/keys"
+        description: "Create and manage API keys (sign-in required)"
+      - label: "Usage & Cost"
+        url: "https://platform.claude.com/settings/usage"
+        description: "API usage and credits (sign-in required)"
+      - label: "System Status"
+        url: "https://status.claude.com/"
+        description: "Incident and maintenance status page"
+  - heading: "Learning & Docs"
+    links:
+      - label: "Claude Official Docs"
+        url: "https://platform.claude.com/docs/"
+        description: "API, models, and prompting guides"
+      - label: "Claude Code Docs"
+        url: "https://code.claude.com/docs"
+        description: "Official docs for the terminal AI coding agent"
+      - label: "Anthropic Academy"
+        url: "https://www.anthropic.com/learn"
+        description: "Official free learning courses"
+      - label: "anthropics/courses (GitHub)"
+        url: "https://github.com/anthropics/courses"
+        description: "Official course notebooks repository"
+  - heading: "Famous Posts"
+    links:
+      - label: "Building Effective Agents"
+        url: "https://www.anthropic.com/engineering/building-effective-agents"
+        description: "The go-to reference on agent design patterns"
+      - label: "Multi-Agent Research System"
+        url: "https://www.anthropic.com/engineering/multi-agent-research-system"
+        description: "How Claude's research feature was built with multiple agents"
+      - label: "Introducing the Model Context Protocol"
+        url: "https://www.anthropic.com/news/model-context-protocol"
+        description: "The announcement that launched the MCP standard"
+      - label: "Golden Gate Claude"
+        url: "https://www.anthropic.com/news/golden-gate-claude"
+        description: "The legendary interpretability demo"
+      - label: "Project Vend"
+        url: "https://www.anthropic.com/research/project-vend-1"
+        description: "Claude running a small vending business"
+---
+
+# Claude
+
+Curated links for Anthropic's Claude — service and console, official learning resources, and famous engineering posts.

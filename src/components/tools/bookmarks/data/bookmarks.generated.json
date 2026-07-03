@@ -131,6 +131,217 @@
     }
   },
   {
+    "slug": "claude",
+    "ko": {
+      "title": "클로드 (Claude)",
+      "description": "Anthropic의 AI 어시스턴트 클로드. 서비스·API 콘솔(키 발급·사용량), 공식 교육 자료, 화제가 된 엔지니어링 글을 모았습니다.",
+      "sections": [
+        {
+          "heading": "서비스·콘솔",
+          "links": [
+            {
+              "label": "Claude 앱",
+              "url": "https://claude.ai/",
+              "description": "웹·모바일에서 쓰는 클로드 챗",
+              "image": "https://claude.ai/images/claude_ogimage.png"
+            },
+            {
+              "label": "Claude 개발자 플랫폼 (구 콘솔)",
+              "url": "https://platform.claude.com/",
+              "description": "API 대시보드·워크벤치",
+              "image": "https://platform.claude.com/images/og-claude-platform.png"
+            },
+            {
+              "label": "API 키 발급",
+              "url": "https://platform.claude.com/settings/keys",
+              "description": "API 키 생성·관리 (로그인 필요)",
+              "image": "https://platform.claude.com/images/og-claude-platform.png"
+            },
+            {
+              "label": "사용량·비용 확인",
+              "url": "https://platform.claude.com/settings/usage",
+              "description": "API 사용량·크레딧 조회 (로그인 필요)",
+              "image": "https://platform.claude.com/images/og-claude-platform.png"
+            },
+            {
+              "label": "시스템 상태",
+              "url": "https://status.claude.com/",
+              "description": "장애·점검 상태 페이지"
+            }
+          ]
+        },
+        {
+          "heading": "교육·문서",
+          "links": [
+            {
+              "label": "Claude 공식 문서",
+              "url": "https://platform.claude.com/docs/",
+              "description": "API·모델·프롬프트 가이드",
+              "image": "https://platform.claude.com/docs/images/og-claude-platform-docs.png"
+            },
+            {
+              "label": "Claude Code 문서",
+              "url": "https://code.claude.com/docs",
+              "description": "터미널 AI 코딩 에이전트 공식 문서",
+              "image": "https://claude-code.mintlify.app/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DGetting%2Bstarted%26appearance%3Dsystem%26title%3DOverview%26description%3DClaude%2BCode%2Bis%2Ban%2Bagentic%2Bcoding%2Btool%2Bthat%2Breads%2Byour%2Bcodebase%252C%2Bedits%2Bfiles%252C%2Bruns%2Bcommands%252C%2Band%2Bintegrates%2Bwith%2Byour%2Bdevelopment%2Btools.%2BAvailable%2Bin%2Byour%2Btermin%26logoLight%3Dhttps%253A%252F%252Fmintcdn.com%252Fclaude-code%252Fc5r9_6tjPMzFdDDT%252Flogo%252Flight.svg%253Ffit%253Dmax%2526auto%253Dformat%2526n%253Dc5r9_6tjPMzFdDDT%2526q%253D85%2526s%253D78fd01ff4f4340295a4f66e2ea54903c%26logoDark%3Dhttps%253A%252F%252Fmintcdn.com%252Fclaude-code%252Fc5r9_6tjPMzFdDDT%252Flogo%252Fdark.svg%253Ffit%253Dmax%2526auto%253Dformat%2526n%253Dc5r9_6tjPMzFdDDT%2526q%253D85%2526s%253D1298a0c3b3a1da603b190d0de0e31712%26primaryColor%3D%25230E0E0E%26lightColor%3D%2523D4A27F%26darkColor%3D%25230E0E0E%26backgroundLight%3D%2523FDFDF7%26backgroundDark%3D%252309090B&w=1200&q=100"
+            },
+            {
+              "label": "Anthropic Academy",
+              "url": "https://www.anthropic.com/learn",
+              "description": "공식 무료 학습 코스 모음",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/c4bd33e7c8e809a2f9a9a5896ee13961e2a738ec-2400x1260.png"
+            },
+            {
+              "label": "anthropics/courses (GitHub)",
+              "url": "https://github.com/anthropics/courses",
+              "description": "공식 강의 노트북 저장소",
+              "image": "https://opengraph.githubassets.com/2d75e6af8e73b8b18582a99146f82053ae7bd57342e8767dcdbc035483ee344f/anthropics/courses"
+            }
+          ]
+        },
+        {
+          "heading": "화제가 된 글",
+          "links": [
+            {
+              "label": "Building Effective Agents",
+              "url": "https://www.anthropic.com/engineering/building-effective-agents",
+              "description": "에이전트 설계 패턴의 교과서가 된 글",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/76b5733c669f0dfb9c7aa7fc512a495867cf12e6-2400x1260.png"
+            },
+            {
+              "label": "멀티 에이전트 리서치 시스템",
+              "url": "https://www.anthropic.com/engineering/multi-agent-research-system",
+              "description": "Claude 리서치 기능의 멀티 에이전트 설계기",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/5cf046fff69b847bfa78c12723dd466b285c0218-2400x1260.png"
+            },
+            {
+              "label": "Model Context Protocol 발표",
+              "url": "https://www.anthropic.com/news/model-context-protocol",
+              "description": "MCP 표준을 연 공개 발표문",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/1aef864f9b246c740fe3cef6e1068f2220995d5e-2400x1260.png"
+            },
+            {
+              "label": "골든게이트 클로드",
+              "url": "https://www.anthropic.com/news/golden-gate-claude",
+              "description": "해석가능성 연구가 낳은 전설의 금문교 클로드",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/9a1138d1b0a06a866223c329e6df8cfd6ae502c4-2400x1260.jpg"
+            },
+            {
+              "label": "Project Vend",
+              "url": "https://www.anthropic.com/research/project-vend-1",
+              "description": "클로드가 자판기 가게를 운영한 실험기",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/f500f4f87cffe316978b281cc3566b66741863d3-2400x1260.png"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Claude",
+      "description": "Anthropic's AI assistant Claude — service and API console (keys, usage), official learning resources, and famous engineering posts.",
+      "sections": [
+        {
+          "heading": "Service & Console",
+          "links": [
+            {
+              "label": "Claude App",
+              "url": "https://claude.ai/",
+              "description": "Claude chat on web and mobile",
+              "image": "https://claude.ai/images/claude_ogimage.png"
+            },
+            {
+              "label": "Claude Developer Platform (former Console)",
+              "url": "https://platform.claude.com/",
+              "description": "API dashboard and workbench",
+              "image": "https://platform.claude.com/images/og-claude-platform.png"
+            },
+            {
+              "label": "API Keys",
+              "url": "https://platform.claude.com/settings/keys",
+              "description": "Create and manage API keys (sign-in required)",
+              "image": "https://platform.claude.com/images/og-claude-platform.png"
+            },
+            {
+              "label": "Usage & Cost",
+              "url": "https://platform.claude.com/settings/usage",
+              "description": "API usage and credits (sign-in required)",
+              "image": "https://platform.claude.com/images/og-claude-platform.png"
+            },
+            {
+              "label": "System Status",
+              "url": "https://status.claude.com/",
+              "description": "Incident and maintenance status page"
+            }
+          ]
+        },
+        {
+          "heading": "Learning & Docs",
+          "links": [
+            {
+              "label": "Claude Official Docs",
+              "url": "https://platform.claude.com/docs/",
+              "description": "API, models, and prompting guides",
+              "image": "https://platform.claude.com/docs/images/og-claude-platform-docs.png"
+            },
+            {
+              "label": "Claude Code Docs",
+              "url": "https://code.claude.com/docs",
+              "description": "Official docs for the terminal AI coding agent",
+              "image": "https://claude-code.mintlify.app/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DGetting%2Bstarted%26appearance%3Dsystem%26title%3DOverview%26description%3DClaude%2BCode%2Bis%2Ban%2Bagentic%2Bcoding%2Btool%2Bthat%2Breads%2Byour%2Bcodebase%252C%2Bedits%2Bfiles%252C%2Bruns%2Bcommands%252C%2Band%2Bintegrates%2Bwith%2Byour%2Bdevelopment%2Btools.%2BAvailable%2Bin%2Byour%2Btermin%26logoLight%3Dhttps%253A%252F%252Fmintcdn.com%252Fclaude-code%252Fc5r9_6tjPMzFdDDT%252Flogo%252Flight.svg%253Ffit%253Dmax%2526auto%253Dformat%2526n%253Dc5r9_6tjPMzFdDDT%2526q%253D85%2526s%253D78fd01ff4f4340295a4f66e2ea54903c%26logoDark%3Dhttps%253A%252F%252Fmintcdn.com%252Fclaude-code%252Fc5r9_6tjPMzFdDDT%252Flogo%252Fdark.svg%253Ffit%253Dmax%2526auto%253Dformat%2526n%253Dc5r9_6tjPMzFdDDT%2526q%253D85%2526s%253D1298a0c3b3a1da603b190d0de0e31712%26primaryColor%3D%25230E0E0E%26lightColor%3D%2523D4A27F%26darkColor%3D%25230E0E0E%26backgroundLight%3D%2523FDFDF7%26backgroundDark%3D%252309090B&w=1200&q=100"
+            },
+            {
+              "label": "Anthropic Academy",
+              "url": "https://www.anthropic.com/learn",
+              "description": "Official free learning courses",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/c4bd33e7c8e809a2f9a9a5896ee13961e2a738ec-2400x1260.png"
+            },
+            {
+              "label": "anthropics/courses (GitHub)",
+              "url": "https://github.com/anthropics/courses",
+              "description": "Official course notebooks repository",
+              "image": "https://opengraph.githubassets.com/2d75e6af8e73b8b18582a99146f82053ae7bd57342e8767dcdbc035483ee344f/anthropics/courses"
+            }
+          ]
+        },
+        {
+          "heading": "Famous Posts",
+          "links": [
+            {
+              "label": "Building Effective Agents",
+              "url": "https://www.anthropic.com/engineering/building-effective-agents",
+              "description": "The go-to reference on agent design patterns",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/76b5733c669f0dfb9c7aa7fc512a495867cf12e6-2400x1260.png"
+            },
+            {
+              "label": "Multi-Agent Research System",
+              "url": "https://www.anthropic.com/engineering/multi-agent-research-system",
+              "description": "How Claude's research feature was built with multiple agents",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/5cf046fff69b847bfa78c12723dd466b285c0218-2400x1260.png"
+            },
+            {
+              "label": "Introducing the Model Context Protocol",
+              "url": "https://www.anthropic.com/news/model-context-protocol",
+              "description": "The announcement that launched the MCP standard",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/1aef864f9b246c740fe3cef6e1068f2220995d5e-2400x1260.png"
+            },
+            {
+              "label": "Golden Gate Claude",
+              "url": "https://www.anthropic.com/news/golden-gate-claude",
+              "description": "The legendary interpretability demo",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/9a1138d1b0a06a866223c329e6df8cfd6ae502c4-2400x1260.jpg"
+            },
+            {
+              "label": "Project Vend",
+              "url": "https://www.anthropic.com/research/project-vend-1",
+              "description": "Claude running a small vending business",
+              "image": "https://cdn.sanity.io/images/4zrzovbb/website/f500f4f87cffe316978b281cc3566b66741863d3-2400x1260.png"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
     "slug": "context-engineering",
     "ko": {
       "title": "컨텍스트 엔지니어링",
