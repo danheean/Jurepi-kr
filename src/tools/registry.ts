@@ -128,6 +128,17 @@ export const tools: ToolMeta[] = [
       '변환', 'converter', 'scan', '스캔'
     ],
   },
+  {
+    id: 'transparent-background',
+    slug: 'transparent-background',
+    category: 'converter',
+    icon: 'Zap',
+    accent: 'sky',
+    status: 'live',
+    isNew: true,
+    order: 22,
+    keywords: ['배경제거', '투명', '배경투명', '로컬', 'remove background', 'transparent', 'single-color', 'local', 'privacy'],
+  },
 ];
 
 /** Get all live tools for static generation */

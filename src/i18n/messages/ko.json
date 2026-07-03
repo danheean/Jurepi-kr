@@ -1263,6 +1263,120 @@
         "ariaLabel": "생성된 QR 코드 미리보기"
       }
     },
+    "transparent-background": {
+      "title": "배경 투명 만들기",
+      "description": "단색 배경을 로컬에서 제거합니다. 이미지는 업로드되지 않습니다.",
+      "lead": "배경 투명 만들기",
+      "meta": {
+        "title": "배경 투명 만들기 · Jurepi",
+        "description": "제품 사진, 로고, 스캔본의 단색 배경을 로컬에서 빠르게 제거하세요. 100% 프라이빗, 이미지 업로드 없음."
+      },
+      "intro": {
+        "eyebrow": "변환 도구",
+        "title": "배경 투명 만들기",
+        "lead": "단색 배경 제거 · 로컬 처리 · 이미지 업로드 안됨"
+      },
+      "upload": {
+        "label": "이미지 업로드",
+        "text": "클릭해서 업로드하거나 드래그하세요",
+        "formats": "PNG, JPEG, WebP",
+        "fileName": "파일명",
+        "fileSize": "파일 크기",
+        "dragActive": "파일을 여기에 놓으세요"
+      },
+      "colorPicker": {
+        "label": "배경색",
+        "autoDetect": "자동 감지",
+        "eyedropper": "색 가져오기",
+        "hexInput": "색 코드 (#RRGGBB)",
+        "currentColor": "선택된 색",
+        "eyedropperMode": "색 가져오기 모드 활성화",
+        "hexPlaceholder": "#ffffff"
+      },
+      "controls": {
+        "toleranceLabel": "유사도",
+        "toleranceHelp": "얼마나 유사한 색을 제거할지 (0=정확한 색 only, 100=매우 유사한 색)",
+        "toleranceValue": "유사도: {value}%",
+        "featherLabel": "페더링",
+        "featherHelp": "가장자리 부드러움 (0=딱딱함, 20=부드러움)",
+        "featherValue": "페더링: {value}px",
+        "modeLabel": "제거 모드",
+        "modeFloodFill": "연결영역만",
+        "modeFloodFillHelp": "배경과 연결된 영역만 제거 (객체 내부의 같은 색은 보존)",
+        "modeGlobal": "전체",
+        "modeGlobalHelp": "배경색과 일치하는 모든 픽셀 제거",
+        "clearAll": "다시 시작"
+      },
+      "preview": {
+        "label": "미리보기",
+        "detecting": "배경색을 감지하는 중…",
+        "empty": "이미지를 업로드해서 미리보기를 보세요",
+        "dimensions": "원본: {width}×{height} → PNG로 내보내기",
+        "downscaled": "이미지가 크므로 최장 변이 4096px로 축소되었습니다"
+      },
+      "export": {
+        "download": "PNG 다운로드",
+        "copy": "클립보드에 복사",
+        "downloadDisabled": "이미지를 업로드하고 설정한 후 다운로드할 수 있습니다",
+        "downloadSuccess": "다운로드되었습니다!",
+        "copySuccess": "클립보드에 복사되었습니다!",
+        "downloadFail": "다운로드 실패. 다시 시도해주세요",
+        "fileName": "transparent-{timestamp}.png"
+      },
+      "errors": {
+        "unsupportedFormat": "PNG, JPEG, WebP 형식만 지원합니다",
+        "cornerDetectFail": "배경색 감지 실패. 흰색으로 설정했습니다",
+        "processingTimeout": "처리 시간 초과. 더 작은 이미지를 시도해주세요",
+        "fileTooBig": "파일이 너무 큽니다",
+        "invalidImage": "유효한 이미지 파일이 아닙니다",
+        "processingFailed": "처리에 실패했습니다. 다시 시도해주세요"
+      },
+      "howTo": {
+        "title": "사용 방법",
+        "s1": "이미지 업로드",
+        "s1Body": "PNG, JPEG, WebP 형식의 단색 배경 이미지를 업로드하세요.",
+        "s2": "배경색 선택",
+        "s2Body": "자동 감지 버튼을 누르거나, 색 가져오기로 직접 선택하세요.",
+        "s3": "유사도 조정",
+        "s3Body": "슬라이더로 제거할 색의 범위를 조정합니다. 낮을수록 정확함, 높을수록 관대함.",
+        "s4": "페더링 선택",
+        "s4Body": "가장자리 부드러움을 0–20px로 설정합니다. 값이 크면 anti-alias 효과.",
+        "s5": "모드 선택",
+        "s5Body": "연결영역만 제거하거나, 전체 배경색 제거를 선택합니다.",
+        "s6": "다운로드",
+        "s6Body": "투명 PNG로 다운로드하거나 클립보드에 복사하세요.",
+        "whenToUse": "단색 배경 제거에 최적: 제품샷, 로고, 스캔본, 스크린샷. 복잡한 사진, 인물 누끼는 AI 도구를 추천합니다."
+      },
+      "faq": {
+        "title": "자주 묻는 질문",
+        "items": [
+          {
+            "q": "이미지가 업로드되나요?",
+            "a": "아니오. 모든 처리는 브라우저에서 로컬로 이루어집니다. 이미지는 업로드되지 않습니다."
+          },
+          {
+            "q": "투명 PNG 크기는 어느 정도인가요?",
+            "a": "원본 크기에 따라 다릅니다. 다운스케일된 이미지(4096px 이상)의 경우 훨씬 작아집니다."
+          },
+          {
+            "q": "연결영역 vs 전체 모드의 차이는?",
+            "a": "연결영역: 배경과 닿은 같은색만 제거 (객체 내부의 같은색은 보존). 전체: 배경색과 일치하는 모든 픽셀 제거."
+          },
+          {
+            "q": "페더링이란?",
+            "a": "가장자리를 부드럽게 하는 효과입니다. 값이 크면 anti-alias로 인해 경계가 자연스러워집니다."
+          },
+          {
+            "q": "이미 투명한 이미지는?",
+            "a": "기존 투명도는 보존됩니다. 새 제거 효과와 곱해집니다."
+          },
+          {
+            "q": "최대 이미지 크기는?",
+            "a": "제한 없음. 4096px를 초과하면 자동으로 축소되어 처리 속도를 높입니다."
+          }
+        ]
+      }
+    },
     "speed-quiz": {
       "title": "스피드퀴즈 제시어",
       "description": "동물·음식·올림픽 등 카테고리별 제시어를 큰 화면에 하나씩 공개하고 타이머로 맞추는 파티·교실용 스피드퀴즈 게임.",

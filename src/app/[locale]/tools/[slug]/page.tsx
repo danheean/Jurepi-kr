@@ -27,6 +27,10 @@ import { QRCodeIntro } from '@/components/tools/qr-code/QRCodeIntro';
 import { QRCodeHowTo } from '@/components/tools/qr-code/QRCodeHowTo';
 import { QRCodeFaq } from '@/components/tools/qr-code/QRCodeFaq';
 import { QRCodeStructuredData } from '@/components/tools/qr-code/QRCodeStructuredData';
+import { TransparentBgIntro } from '@/components/tools/transparent-background/TransparentBgIntro';
+import { TransparentBgHowTo } from '@/components/tools/transparent-background/TransparentBgHowTo';
+import { TransparentBgFaq } from '@/components/tools/transparent-background/TransparentBgFaq';
+import { TransparentBgStructuredData } from '@/components/tools/transparent-background/TransparentBgStructuredData';
 
 const LadderGame = dynamic(() =>
   import('@/components/tools/ladder/LadderGame').then((m) => ({
@@ -88,6 +92,12 @@ const QRCodeGenerator = dynamic(() =>
   }))
 );
 
+const TransparentBackgroundMaker = dynamic(() =>
+  import('@/components/tools/transparent-background/TransparentBackgroundMaker').then((m) => ({
+    default: m.TransparentBackgroundMaker,
+  }))
+);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
@@ -128,6 +138,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'qr-code') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'transparent-background') {
     title = t('meta.title');
     description = t('meta.description');
   } else {
@@ -246,6 +259,18 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
         <QRCodeGenerator locale={locale} />
         <QRCodeHowTo />
         <QRCodeFaq />
+      </>
+    );
+  }
+
+  if (slug === 'transparent-background') {
+    return (
+      <>
+        <TransparentBgStructuredData />
+        <TransparentBgIntro />
+        <TransparentBackgroundMaker />
+        <TransparentBgHowTo />
+        <TransparentBgFaq />
       </>
     );
   }
