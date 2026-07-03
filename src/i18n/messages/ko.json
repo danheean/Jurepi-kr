@@ -793,6 +793,12 @@
             "a": "현재는 편집자가 엄선한 순위만 제공하고 있습니다. 새 순위 제안은 문의 페이지를 통해 받고 있습니다."
           }
         ]
+      },
+      "spoke": {
+        "metaTitleSuffix": "— 전체 순위표 | Jurepi",
+        "breadcrumbHome": "홈",
+        "backToHub": "← 전체 순위 보기",
+        "asOfPrefix": "기준일"
       }
     },
     "age-calculator": {

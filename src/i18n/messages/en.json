@@ -793,6 +793,12 @@
             "a": "We currently feature editor-curated rankings. You can submit new ranking suggestions via the Contact page."
           }
         ]
+      },
+      "spoke": {
+        "metaTitleSuffix": "— full ranking | Jurepi",
+        "breadcrumbHome": "Home",
+        "backToHub": "← Browse all rankings",
+        "asOfPrefix": "as of"
       }
     },
     "age-calculator": {

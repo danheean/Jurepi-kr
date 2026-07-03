@@ -4,6 +4,7 @@ import { getLiveTools } from '@/tools/registry';
 import { absoluteEntityUrl } from '@/lib/seo';
 import { byId } from '@/lib/new-word/catalog';
 import termsData from '@/components/tools/new-word/data/terms.generated.json';
+import rankingsData from '@/components/tools/rankings/data/rankings.generated.json';
 
 // Required for output: 'export' — emit a static sitemap at build time.
 export const dynamic = 'force-static';
@@ -66,6 +67,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
   catalog.forEach((term) => {
     locales.forEach((locale) => {
       const url = absoluteEntityUrl(locale, 'new-word', term.slug);
+      entries.push({
+        url,
+        lastModified: new Date(),
+        priority: 0.7,
+        changeFrequency: 'monthly',
+      } as any);
+    });
+  });
+
+  // Add rankings spoke pages (2 rankings × 2 locales = 4 entries)
+  const rankingsCatalog = rankingsData as any[];
+  rankingsCatalog.forEach((ranking) => {
+    locales.forEach((locale) => {
+      const url = absoluteEntityUrl(locale, 'rankings', ranking.slug);
       entries.push({
         url,
         lastModified: new Date(),
