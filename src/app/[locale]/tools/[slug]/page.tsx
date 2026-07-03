@@ -27,6 +27,10 @@ import { QRCodeIntro } from '@/components/tools/qr-code/QRCodeIntro';
 import { QRCodeHowTo } from '@/components/tools/qr-code/QRCodeHowTo';
 import { QRCodeFaq } from '@/components/tools/qr-code/QRCodeFaq';
 import { QRCodeStructuredData } from '@/components/tools/qr-code/QRCodeStructuredData';
+import { DevPeopleIntro } from '@/components/tools/dev-people/DevPeopleIntro';
+import { DevPeopleHowTo } from '@/components/tools/dev-people/DevPeopleHowTo';
+import { DevPeopleFaq } from '@/components/tools/dev-people/DevPeopleFaq';
+import { DevPeopleStructuredData } from '@/components/tools/dev-people/DevPeopleStructuredData';
 import { TransparentBgIntro } from '@/components/tools/transparent-background/TransparentBgIntro';
 import { TransparentBgHowTo } from '@/components/tools/transparent-background/TransparentBgHowTo';
 import { TransparentBgFaq } from '@/components/tools/transparent-background/TransparentBgFaq';
@@ -92,6 +96,12 @@ const QRCodeGenerator = dynamic(() =>
   }))
 );
 
+const DevPeople = dynamic(() =>
+  import('@/components/tools/dev-people/DevPeople').then((m) => ({
+    default: m.DevPeople,
+  }))
+);
+
 const TransparentBackgroundMaker = dynamic(() =>
   import('@/components/tools/transparent-background/TransparentBackgroundMaker').then((m) => ({
     default: m.TransparentBackgroundMaker,
@@ -138,6 +148,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'qr-code') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'dev-people') {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'transparent-background') {
@@ -259,6 +272,18 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
         <QRCodeGenerator locale={locale} />
         <QRCodeHowTo />
         <QRCodeFaq />
+      </>
+    );
+  }
+
+  if (slug === 'dev-people') {
+    return (
+      <>
+        <DevPeopleStructuredData />
+        <DevPeopleIntro />
+        <DevPeople />
+        <DevPeopleHowTo />
+        <DevPeopleFaq />
       </>
     );
   }
