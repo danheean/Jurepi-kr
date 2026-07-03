@@ -157,6 +157,17 @@ export const tools: ToolMeta[] = [
       'Java','Python','JavaScript','C','Linux','Git','AI','Deep Learning','Clean Code','Architecture','TDD'
     ],
   },
+  {
+    id: 'restaurant-map',
+    slug: 'restaurant-map',
+    category: 'fun',
+    icon: 'MapPin',
+    accent: 'rose',
+    status: 'live',
+    isNew: true,
+    order: 24,
+    keywords: ['맛집', '맛집리스트', '맛집지도', '카페', '라면', '족발', '참치', '음식', '추천', '지도', 'restaurant', 'map', 'food', 'cafe', 'ramen', 'tuna', 'local favorite', 'curator', 'dining', 'lunch', 'dinner'],
+  },
 ];
 
 /** Get all live tools for static generation */

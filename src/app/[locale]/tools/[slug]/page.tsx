@@ -108,6 +108,12 @@ const TransparentBackgroundMaker = dynamic(() =>
   }))
 );
 
+const RestaurantMap = dynamic(() =>
+  import('@/components/tools/restaurant-map/RestaurantMap').then((m) => ({
+    default: m.RestaurantMap,
+  }))
+);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
@@ -154,6 +160,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'transparent-background') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'restaurant-map') {
     title = t('meta.title');
     description = t('meta.description');
   } else {
@@ -298,6 +307,10 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
         <TransparentBgFaq />
       </>
     );
+  }
+
+  if (slug === 'restaurant-map') {
+    return <RestaurantMap />;
   }
 
   notFound();
