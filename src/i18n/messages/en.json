@@ -891,7 +891,9 @@
           "birthdateLabel": "Birthdate",
           "birthdatePlaceholder": "YYYY-MM-DD",
           "save": "Save",
-          "cancel": "Cancel"
+          "cancel": "Cancel",
+          "errorName": "Please enter a name",
+          "errorBirthdate": "Please enter the birthdate as YYYY-MM-DD"
         },
         "removeButton": "Remove",
         "selectAria": "Calculate with {name}'s birthdate",

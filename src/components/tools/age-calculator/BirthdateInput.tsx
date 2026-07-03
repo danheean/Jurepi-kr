@@ -52,13 +52,6 @@ export function BirthdateInput({
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      // Allow the calculation to happen via onChange
-      e.preventDefault();
-    }
-  };
-
   return (
     <div className="space-y-6">
       {/* Birthdate Input */}
@@ -71,7 +64,6 @@ export function BirthdateInput({
             type="date"
             value={value || ''}
             onChange={handleBirthdateChange}
-            onKeyDown={handleKeyDown}
             placeholder={t('input.birthdatePlaceholder')}
             className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${
               error

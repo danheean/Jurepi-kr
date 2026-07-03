@@ -891,7 +891,9 @@
           "birthdateLabel": "생년월일",
           "birthdatePlaceholder": "YYYY-MM-DD",
           "save": "저장",
-          "cancel": "취소"
+          "cancel": "취소",
+          "errorName": "이름을 입력해주세요",
+          "errorBirthdate": "생년월일을 YYYY-MM-DD 형식으로 입력해주세요"
         },
         "removeButton": "제거",
         "selectAria": "{name}의 생년월일로 계산",
