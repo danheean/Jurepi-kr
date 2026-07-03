@@ -1,0 +1,58 @@
+---
+title: "클로드 (Claude)"
+slug: "claude"
+description: "Anthropic의 AI 어시스턴트 클로드. 서비스·API 콘솔(키 발급·사용량), 공식 교육 자료, 화제가 된 엔지니어링 글을 모았습니다."
+sections:
+  - heading: "서비스·콘솔"
+    links:
+      - label: "Claude 앱"
+        url: "https://claude.ai/"
+        description: "웹·모바일에서 쓰는 클로드 챗"
+      - label: "Claude 개발자 플랫폼 (구 콘솔)"
+        url: "https://platform.claude.com/"
+        description: "API 대시보드·워크벤치"
+      - label: "API 키 발급"
+        url: "https://platform.claude.com/settings/keys"
+        description: "API 키 생성·관리 (로그인 필요)"
+      - label: "사용량·비용 확인"
+        url: "https://platform.claude.com/settings/usage"
+        description: "API 사용량·크레딧 조회 (로그인 필요)"
+      - label: "시스템 상태"
+        url: "https://status.claude.com/"
+        description: "장애·점검 상태 페이지"
+  - heading: "교육·문서"
+    links:
+      - label: "Claude 공식 문서"
+        url: "https://platform.claude.com/docs/"
+        description: "API·모델·프롬프트 가이드"
+      - label: "Claude Code 문서"
+        url: "https://code.claude.com/docs"
+        description: "터미널 AI 코딩 에이전트 공식 문서"
+      - label: "Anthropic Academy"
+        url: "https://www.anthropic.com/learn"
+        description: "공식 무료 학습 코스 모음"
+      - label: "anthropics/courses (GitHub)"
+        url: "https://github.com/anthropics/courses"
+        description: "공식 강의 노트북 저장소"
+  - heading: "화제가 된 글"
+    links:
+      - label: "Building Effective Agents"
+        url: "https://www.anthropic.com/engineering/building-effective-agents"
+        description: "에이전트 설계 패턴의 교과서가 된 글"
+      - label: "멀티 에이전트 리서치 시스템"
+        url: "https://www.anthropic.com/engineering/multi-agent-research-system"
+        description: "Claude 리서치 기능의 멀티 에이전트 설계기"
+      - label: "Model Context Protocol 발표"
+        url: "https://www.anthropic.com/news/model-context-protocol"
+        description: "MCP 표준을 연 공개 발표문"
+      - label: "골든게이트 클로드"
+        url: "https://www.anthropic.com/news/golden-gate-claude"
+        description: "해석가능성 연구가 낳은 전설의 금문교 클로드"
+      - label: "Project Vend"
+        url: "https://www.anthropic.com/research/project-vend-1"
+        description: "클로드가 자판기 가게를 운영한 실험기"
+---
+
+# 클로드 (Claude)
+
+Anthropic 클로드의 서비스·콘솔, 공식 교육 자료, 화제가 된 엔지니어링 글 큐레이션입니다.
