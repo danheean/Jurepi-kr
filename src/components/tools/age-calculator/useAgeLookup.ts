@@ -31,6 +31,10 @@ export interface UseAgeLookupActions {
 
 export type UseAgeLookupReturn = UseAgeLookupState & UseAgeLookupActions;
 
+/** Delay before a settled birthdate is written to recents (avoids recording
+ *  intermediate year/month/day dropdown states). */
+const RECENTS_DEBOUNCE_MS = 600;
+
 /**
  * useAgeLookup: Main state management hook for age calculator.
  * - On mount: load people + recents from localStorage
@@ -150,9 +154,8 @@ export function useAgeLookup(): UseAgeLookupReturn {
       const result = calculateAge(birthDate, asOf);
       setAge(result);
       setError(null);
-
-      // Push to recents (only on valid calculation)
-      setRecents((prev) => pushRecent(prev, dateKey, 10));
+      // Recents are recorded by a debounced effect (below), not here — so that
+      // stepping year→month→day in the dropdowns doesn't record intermediate dates.
     },
     [asOfDate, useAsOf]
   );
@@ -252,6 +255,21 @@ export function useAgeLookup(): UseAgeLookupReturn {
   const clearError = useCallback(() => {
     setError(null);
   }, []);
+
+  // Record the settled birthdate into recents, debounced. Because the year /
+  // month / day dropdowns emit a new valid DateKey on every field change,
+  // recording immediately would save intermediate dates (e.g. 2000-12-01 while
+  // moving from 2000-03-15 to 1990-12-01). The debounce keeps only the date the
+  // user lands on. Invalid / future / too-old dates are never recorded.
+  useEffect(() => {
+    if (!birthdate) return;
+    const parsed = parseBirthdateInput({ birthdate });
+    if (!parsed) return;
+    const timer = setTimeout(() => {
+      setRecents((prev) => pushRecent(prev, birthdate, 10));
+    }, RECENTS_DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [birthdate]);
 
   // Persist recents to localStorage whenever they change
   useEffect(() => {

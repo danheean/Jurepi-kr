@@ -4,9 +4,7 @@ import { BirthdateInput } from './BirthdateInput';
 import { NextIntlClientProvider } from 'next-intl';
 import messages from '@/i18n/messages/ko.json';
 
-const allMessages = {
-  ...messages,
-};
+const allMessages = { ...messages };
 
 function renderWithI18n(component: React.ReactElement) {
   return customRender(
@@ -16,211 +14,91 @@ function renderWithI18n(component: React.ReactElement) {
   );
 }
 
+function makeProps(overrides: Partial<React.ComponentProps<typeof BirthdateInput>> = {}) {
+  return {
+    value: null,
+    asOfDate: '',
+    useAsOf: false,
+    error: null,
+    onChange: vi.fn(),
+    onAsOfDateChange: vi.fn(),
+    onUseAsOfChange: vi.fn(),
+    onClearError: vi.fn(),
+    ...overrides,
+  } as React.ComponentProps<typeof BirthdateInput>;
+}
+
 describe('BirthdateInput', () => {
-  const mockOnChange = vi.fn();
-  const mockOnAsOfDateChange = vi.fn();
-  const mockOnUseAsOfChange = vi.fn();
-  const mockOnClearError = vi.fn();
+  it('renders year / month / day dropdowns under the 생년월일 legend', () => {
+    const props = makeProps();
+    const { container } = renderWithI18n(<BirthdateInput {...props} />);
 
-  it('renders birthdate input field', () => {
-    renderWithI18n(
-      <BirthdateInput
-        value={null}
-        asOfDate=""
-        useAsOf={false}
-        error={null}
-        onChange={mockOnChange}
-        onAsOfDateChange={mockOnAsOfDateChange}
-        onUseAsOfChange={mockOnUseAsOfChange}
-        onClearError={mockOnClearError}
-      />
-    );
-
-    expect(screen.getByLabelText('생년월일')).toBeInTheDocument();
+    expect(screen.getByText('생년월일')).toBeInTheDocument();
+    expect(container.querySelector('#birthdate-year')).toBeInTheDocument();
+    expect(container.querySelector('#birthdate-month')).toBeInTheDocument();
+    expect(container.querySelector('#birthdate-day')).toBeInTheDocument();
   });
 
-  it('calls onChange when birthdate input changes', () => {
-    renderWithI18n(
-      <BirthdateInput
-        value={null}
-        asOfDate=""
-        useAsOf={false}
-        error={null}
-        onChange={mockOnChange}
-        onAsOfDateChange={mockOnAsOfDateChange}
-        onUseAsOfChange={mockOnUseAsOfChange}
-        onClearError={mockOnClearError}
-      />
-    );
+  it('emits a full DateKey once all three parts are chosen', () => {
+    const props = makeProps({ value: '2000-03-01' });
+    const { container } = renderWithI18n(<BirthdateInput {...props} />);
 
-    const input = screen.getByLabelText('생년월일') as HTMLInputElement;
-    fireEvent.change(input, { target: { value: '2000-03-15' } });
+    fireEvent.change(container.querySelector('#birthdate-day')!, { target: { value: '15' } });
 
-    expect(mockOnChange).toHaveBeenCalledWith('2000-03-15');
+    expect(props.onChange).toHaveBeenCalledWith('2000-03-15');
   });
 
-  it('displays error message', () => {
-    renderWithI18n(
-      <BirthdateInput
-        value="2025-01-01"
-        asOfDate=""
-        useAsOf={false}
-        error="future"
-        onChange={mockOnChange}
-        onAsOfDateChange={mockOnAsOfDateChange}
-        onUseAsOfChange={mockOnUseAsOfChange}
-        onClearError={mockOnClearError}
-      />
-    );
+  it('emits null while the date is still incomplete', () => {
+    const props = makeProps();
+    const { container } = renderWithI18n(<BirthdateInput {...props} />);
 
+    fireEvent.change(container.querySelector('#birthdate-year')!, { target: { value: '1990' } });
+
+    expect(props.onChange).toHaveBeenCalledWith(null);
+  });
+
+  it('clears the error when the birthdate changes', () => {
+    const props = makeProps({ value: '2000-03-01', error: 'future' });
+    const { container } = renderWithI18n(<BirthdateInput {...props} />);
+
+    fireEvent.change(container.querySelector('#birthdate-day')!, { target: { value: '15' } });
+
+    expect(props.onClearError).toHaveBeenCalled();
+  });
+
+  it('displays the future-date error', () => {
+    renderWithI18n(<BirthdateInput {...makeProps({ value: '2100-01-01', error: 'future' })} />);
     expect(screen.getByText('미래 날짜는 입력할 수 없습니다')).toBeInTheDocument();
   });
 
-  it('displays help text when no error', () => {
-    renderWithI18n(
-      <BirthdateInput
-        value={null}
-        asOfDate=""
-        useAsOf={false}
-        error={null}
-        onChange={mockOnChange}
-        onAsOfDateChange={mockOnAsOfDateChange}
-        onUseAsOfChange={mockOnUseAsOfChange}
-        onClearError={mockOnClearError}
-      />
-    );
-
-    expect(screen.getByText('예: 2000-03-15')).toBeInTheDocument();
-  });
-
-  it('toggles as-of date section', () => {
-    const { rerender } = renderWithI18n(
-      <BirthdateInput
-        value={null}
-        asOfDate=""
-        useAsOf={false}
-        error={null}
-        onChange={mockOnChange}
-        onAsOfDateChange={mockOnAsOfDateChange}
-        onUseAsOfChange={mockOnUseAsOfChange}
-        onClearError={mockOnClearError}
-      />
-    );
-
-    const toggleButton = screen.getByLabelText('기준일 설정');
-    fireEvent.click(toggleButton);
-
-    expect(mockOnUseAsOfChange).toHaveBeenCalledWith(true);
-
-    rerender(
-      <NextIntlClientProvider locale="ko" messages={allMessages as any}>
-        <BirthdateInput
-          value={null}
-          asOfDate="2025-01-01"
-          useAsOf={true}
-          error={null}
-          onChange={mockOnChange}
-          onAsOfDateChange={mockOnAsOfDateChange}
-          onUseAsOfChange={mockOnUseAsOfChange}
-          onClearError={mockOnClearError}
-        />
-      </NextIntlClientProvider>
-    );
-
-    expect(screen.getByLabelText('기준일')).toBeInTheDocument();
-  });
-
-  it('calls onAsOfDateChange when as-of date input changes', () => {
-    renderWithI18n(
-      <BirthdateInput
-        value={null}
-        asOfDate="2025-01-01"
-        useAsOf={true}
-        error={null}
-        onChange={mockOnChange}
-        onAsOfDateChange={mockOnAsOfDateChange}
-        onUseAsOfChange={mockOnUseAsOfChange}
-        onClearError={mockOnClearError}
-      />
-    );
-
-    const asOfInput = screen.getByLabelText('기준일');
-    fireEvent.change(asOfInput, { target: { value: '2025-12-31' } });
-
-    expect(mockOnAsOfDateChange).toHaveBeenCalledWith('2025-12-31');
-  });
-
-  it('clears error when input changes', () => {
-    renderWithI18n(
-      <BirthdateInput
-        value="2025-01-01"
-        asOfDate=""
-        useAsOf={false}
-        error="future"
-        onChange={mockOnChange}
-        onAsOfDateChange={mockOnAsOfDateChange}
-        onUseAsOfChange={mockOnUseAsOfChange}
-        onClearError={mockOnClearError}
-      />
-    );
-
-    const input = screen.getByLabelText('생년월일');
-    fireEvent.change(input, { target: { value: '2000-03-15' } });
-
-    expect(mockOnClearError).toHaveBeenCalled();
-  });
-
-  it('calls onChange(null) when input is cleared', () => {
-    renderWithI18n(
-      <BirthdateInput
-        value="2000-03-15"
-        asOfDate=""
-        useAsOf={false}
-        error={null}
-        onChange={mockOnChange}
-        onAsOfDateChange={mockOnAsOfDateChange}
-        onUseAsOfChange={mockOnUseAsOfChange}
-        onClearError={mockOnClearError}
-      />
-    );
-
-    const input = screen.getByLabelText('생년월일');
-    fireEvent.change(input, { target: { value: '' } });
-
-    expect(mockOnChange).toHaveBeenCalledWith(null);
-  });
-
-  it('displays "too-old" error message', () => {
-    renderWithI18n(
-      <BirthdateInput
-        value="1800-01-01"
-        asOfDate=""
-        useAsOf={false}
-        error="too-old"
-        onChange={mockOnChange}
-        onAsOfDateChange={mockOnAsOfDateChange}
-        onUseAsOfChange={mockOnUseAsOfChange}
-        onClearError={mockOnClearError}
-      />
-    );
-
+  it('displays the too-old error', () => {
+    renderWithI18n(<BirthdateInput {...makeProps({ value: '1800-01-01', error: 'too-old' })} />);
     expect(screen.getByText('150년 이상 전 날짜는 입력할 수 없습니다')).toBeInTheDocument();
   });
 
-  it('displays "invalid" error message', () => {
-    renderWithI18n(
-      <BirthdateInput
-        value="2000-13-01"
-        asOfDate=""
-        useAsOf={false}
-        error="invalid"
-        onChange={mockOnChange}
-        onAsOfDateChange={mockOnAsOfDateChange}
-        onUseAsOfChange={mockOnUseAsOfChange}
-        onClearError={mockOnClearError}
-      />
+  it('toggles the as-of section and shows its dropdowns', () => {
+    const props = makeProps();
+    const { rerender, container } = renderWithI18n(<BirthdateInput {...props} />);
+
+    fireEvent.click(screen.getByLabelText('기준일 설정'));
+    expect(props.onUseAsOfChange).toHaveBeenCalledWith(true);
+
+    rerender(
+      <NextIntlClientProvider locale="ko" messages={allMessages as any}>
+        <BirthdateInput {...makeProps({ asOfDate: '2025-01-01', useAsOf: true })} />
+      </NextIntlClientProvider>
     );
 
-    expect(screen.getByText('유효한 날짜를 입력해주세요 (YYYY-MM-DD)')).toBeInTheDocument();
+    expect(container.querySelector('#as-of-year')).toBeInTheDocument();
+    expect(container.querySelector('#as-of-day')).toBeInTheDocument();
+  });
+
+  it('calls onAsOfDateChange when an as-of dropdown changes', () => {
+    const props = makeProps({ asOfDate: '2025-01-01', useAsOf: true });
+    const { container } = renderWithI18n(<BirthdateInput {...props} />);
+
+    fireEvent.change(container.querySelector('#as-of-day')!, { target: { value: '31' } });
+
+    expect(props.onAsOfDateChange).toHaveBeenCalledWith('2025-01-31');
   });
 });

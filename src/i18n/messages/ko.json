@@ -820,16 +820,19 @@
       },
       "input": {
         "birthdateLegend": "생년월일",
-        "birthdatePlaceholder": "YYYY-MM-DD",
-        "birthdateHelp": "예: 2000-03-15",
         "asOfToggle": "기준일",
         "asOfLabel": "기준일 설정",
         "asOfDate": "기준일",
-        "asOfPlaceholder": "YYYY-MM-DD",
         "asOfHelp": "기본값: 오늘 (로컬 시간)",
         "errorInvalidDate": "유효한 날짜를 입력해주세요 (YYYY-MM-DD)",
         "errorFutureDate": "미래 날짜는 입력할 수 없습니다",
-        "errorTooOld": "150년 이상 전 날짜는 입력할 수 없습니다"
+        "errorTooOld": "150년 이상 전 날짜는 입력할 수 없습니다",
+        "selectYear": "연도",
+        "selectMonth": "월",
+        "selectDay": "일",
+        "unitYear": "년",
+        "unitMonth": "월",
+        "unitDay": "일"
       },
       "ageSummary": {
         "title": "나이",
@@ -952,6 +955,10 @@
             "a": "이 도구는 음력을 기반으로 한 전통적 계산법을 사용합니다. 전통 한국 문화에서 일반적으로 사용하는 띠 계산법을 따르고 있습니다. (정교한 음력 계산은 향후 업데이트 예정)"
           }
         ]
+      },
+      "emptyState": {
+        "title": "생년월일을 선택해 주세요",
+        "body": "위에서 연도·월·일을 고르면 나이를 바로 계산해드려요."
       }
     },
     "qr-code": {

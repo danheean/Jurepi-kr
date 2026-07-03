@@ -820,16 +820,19 @@
       },
       "input": {
         "birthdateLegend": "Birthdate",
-        "birthdatePlaceholder": "YYYY-MM-DD",
-        "birthdateHelp": "Example: 2000-03-15",
         "asOfToggle": "Reference date",
         "asOfLabel": "Set reference date",
         "asOfDate": "Reference date",
-        "asOfPlaceholder": "YYYY-MM-DD",
         "asOfHelp": "Default: today (local time)",
         "errorInvalidDate": "Please enter a valid date (YYYY-MM-DD)",
         "errorFutureDate": "Cannot calculate age for future dates",
-        "errorTooOld": "Cannot calculate age for dates older than 150 years"
+        "errorTooOld": "Cannot calculate age for dates older than 150 years",
+        "selectYear": "Year",
+        "selectMonth": "Month",
+        "selectDay": "Day",
+        "unitYear": "",
+        "unitMonth": "",
+        "unitDay": ""
       },
       "ageSummary": {
         "title": "Age",
@@ -952,6 +955,10 @@
             "a": "This tool uses traditional lunar-based calculation methods. The zodiac and star sign follow the conventions commonly used in Korean culture. (More precise lunar calendar calculations may be added in future updates)"
           }
         ]
+      },
+      "emptyState": {
+        "title": "Select a birthdate",
+        "body": "Pick the year, month, and day above to see the age instantly."
       }
     },
     "qr-code": {

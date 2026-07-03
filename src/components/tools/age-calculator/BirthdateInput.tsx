@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import type { DateKey } from '@/lib/age-calculator/date';
+import { DateSelect } from './DateSelect';
 
 interface Props {
   value: string | null;
@@ -32,62 +33,37 @@ export function BirthdateInput({
 }: Props) {
   const t = useTranslations('tools.age-calculator');
 
-  const handleBirthdateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-    if (!input) {
-      onChange(null);
-    } else {
-      onChange(input as DateKey);
-    }
-    // Clear error on new input
+  const handleBirthdateChange = (dateKey: DateKey | null) => {
+    onChange(dateKey);
     if (error) {
       onClearError();
     }
   };
 
-  const handleAsOfDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-    if (input) {
-      onAsOfDateChange(input as DateKey);
-    }
-  };
-
   return (
     <div className="space-y-6">
-      {/* Birthdate Input */}
+      {/* Birthdate — year / month / day dropdowns (elderly-friendly) */}
       <fieldset className="space-y-2">
         <legend className="font-semibold text-text text-sm">
           {t('input.birthdateLegend')}
         </legend>
-        <div className="space-y-1">
-          <input
-            type="date"
-            value={value || ''}
-            onChange={handleBirthdateChange}
-            placeholder={t('input.birthdatePlaceholder')}
-            className={`w-full px-4 py-2.5 rounded-lg border transition-colors ${
-              error
-                ? 'border-danger/30 bg-danger/5 text-text'
-                : 'border-hairline bg-surface text-text focus:border-accent-mint'
-            }`}
-            aria-label={t('input.birthdateLegend')}
-            aria-describedby={error ? 'birthdate-error' : 'birthdate-help'}
-          />
-          {error ? (
-            <div
-              id="birthdate-error"
-              className="text-danger-ink text-sm"
-              role="alert"
-              aria-live="polite"
-            >
-              {t(ERROR_MESSAGE_KEY[error] || 'input.errorInvalidDate')}
-            </div>
-          ) : (
-            <p id="birthdate-help" className="text-text-secondary text-xs">
-              {t('input.birthdateHelp')}
-            </p>
-          )}
-        </div>
+        <DateSelect
+          value={value}
+          onChange={handleBirthdateChange}
+          idPrefix="birthdate"
+          ariaLabel={t('input.birthdateLegend')}
+          invalid={!!error}
+        />
+        {error && (
+          <div
+            id="birthdate-error"
+            className="text-danger-ink text-sm"
+            role="alert"
+            aria-live="polite"
+          >
+            {t(ERROR_MESSAGE_KEY[error] || 'input.errorInvalidDate')}
+          </div>
+        )}
       </fieldset>
 
       {/* As-of Date Toggle */}
@@ -111,31 +87,24 @@ export function BirthdateInput({
           <span>{t('input.asOfToggle')}</span>
         </button>
 
-        {/* As-of Date Input (shown when toggle is on) */}
+        {/* As-of Date (shown when toggle is on) — same dropdowns for consistency */}
         {useAsOf && (
           <div className="space-y-1 pl-4 border-l border-hairline">
-            <label htmlFor="as-of-date" className="font-semibold text-text text-sm">
+            <span className="block font-semibold text-text text-sm">
               {t('input.asOfDate')}
-            </label>
-            <input
-              id="as-of-date"
-              type="date"
+            </span>
+            <DateSelect
               value={asOfDate}
-              onChange={handleAsOfDateChange}
-              placeholder={t('input.asOfPlaceholder')}
-              className="w-full px-4 py-2.5 rounded-lg border border-hairline bg-surface text-text transition-colors focus:border-accent-mint"
-              aria-label={t('input.asOfDate')}
-              aria-describedby="as-of-help"
+              onChange={(dateKey) => {
+                if (dateKey) onAsOfDateChange(dateKey);
+              }}
+              idPrefix="as-of"
+              ariaLabel={t('input.asOfDate')}
             />
-            <p id="as-of-help" className="text-text-secondary text-xs">
-              {t('input.asOfHelp')}
-            </p>
+            <p className="text-text-secondary text-xs">{t('input.asOfHelp')}</p>
           </div>
         )}
       </div>
-
-      {/* Enter Key Hint */}
-      <p className="text-xs text-text-secondary">{t('actions.enter')}</p>
     </div>
   );
 }
