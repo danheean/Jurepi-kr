@@ -1,7 +1,9 @@
 import type { RecentEntry, RecentsStore } from './schema';
 import { parseRecentsStore } from './schema';
 
-const TABLE_YEAR_MIN = 1391;
+// User-selectable (solar/lunar input) year range. Matches the dropdowns and
+// conversion validation.
+const TABLE_YEAR_MIN = 1901;
 const TABLE_YEAR_MAX = 2050;
 
 /**
@@ -28,17 +30,24 @@ function parseDate(dateStr: string): { year: number; month: number; day: number 
 }
 
 /**
- * Check if a date string is within the valid lunar converter range [1391, 2050].
- * Also validates month (1-12) and day (1-31).
+ * Validate a date string's format and month/day ranges (YYYY-MM-DD, 1-12, 1-31).
  */
-function isDateInRange(dateStr: string): boolean {
+function isDateWellFormed(dateStr: string): boolean {
   const parsed = parseDate(dateStr);
   if (!parsed) return false;
-
-  // Validate month and day ranges
   if (parsed.month < 1 || parsed.month > 12) return false;
   if (parsed.day < 1 || parsed.day > 31) return false;
+  return true;
+}
 
+/**
+ * Check if a SOLAR date string is well-formed AND within the selectable input
+ * range [1901, 2050]. The solar date is the canonical key of a recent entry, so
+ * out-of-range solar dates (e.g. left over from an older, wider range) are pruned.
+ */
+function isSolarDateInRange(dateStr: string): boolean {
+  const parsed = parseDate(dateStr);
+  if (!parsed || !isDateWellFormed(dateStr)) return false;
   return parsed.year >= TABLE_YEAR_MIN && parsed.year <= TABLE_YEAR_MAX;
 }
 
@@ -69,7 +78,9 @@ export function pushRecent(
  * Returns a new array with only valid entries.
  * Validates:
  * - Date format (YYYY-MM-DD)
- * - Date range (1391–2050)
+ * - Solar date within the selectable range (1901–2050); the lunar date is a
+ *   derived display value that may fall one year below (solar January maps to
+ *   the previous lunar year), so only its format is validated.
  * - Timestamp is a positive number
  */
 export function pruneUnknown(entries: unknown[]): RecentEntry[] {
@@ -94,8 +105,9 @@ export function pruneUnknown(entries: unknown[]): RecentEntry[] {
       return false;
     }
 
-    // Validate range
-    if (!isDateInRange(e.solarDate) || !isDateInRange(e.lunarDate)) {
+    // Validate range: solar date within the selectable range, lunar date
+    // format-only (it may be one year below the solar year at the boundary).
+    if (!isSolarDateInRange(e.solarDate) || !isDateWellFormed(e.lunarDate)) {
       return false;
     }
 

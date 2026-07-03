@@ -21,7 +21,7 @@ export function SolarInput({ year, month, day, onChange }: SolarInputProps) {
 
   const years = useMemo(() => {
     const arr = [];
-    for (let y = 1391; y <= 2050; y++) {
+    for (let y = 1901; y <= 2050; y++) {
       arr.push(y);
     }
     return arr;

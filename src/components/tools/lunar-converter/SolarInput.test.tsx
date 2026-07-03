@@ -28,15 +28,15 @@ describe('SolarInput', () => {
     expect(screen.getByLabelText('일')).toBeInTheDocument();
   });
 
-  it('displays correct year range (1391-2050)', () => {
+  it('displays correct year range (1901-2050)', () => {
     renderWithI18n(
       <SolarInput year={0} month={0} day={0} onChange={mockOnChange} />
     );
 
     const yearSelect = screen.getByLabelText('연도') as HTMLSelectElement;
     const options = yearSelect.querySelectorAll('option');
-    // +1 for the placeholder "선택" option
-    expect(options).toHaveLength(2050 - 1391 + 2);
+    // +1 for the placeholder option
+    expect(options).toHaveLength(2050 - 1901 + 2);
   });
 
   it('calls onChange when year is selected', async () => {

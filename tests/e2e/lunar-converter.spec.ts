@@ -344,7 +344,7 @@ test.describe('Lunar Converter - E2E Integration', () => {
 
   /**
    * Test: Out-of-range year validation
-   * Input: year < 1391 or > 2050 should error (if UI allows selecting)
+   * Input: year < 1901 or > 2050 should error (if UI allows selecting)
    */
   test('Out-of-range validation: year boundaries', async ({ page }) => {
     await page.goto('/ko/tools/lunar-converter');
@@ -355,21 +355,27 @@ test.describe('Lunar Converter - E2E Integration', () => {
     const solarMonthSelect = page.locator('#solar-month');
     const solarDaySelect = page.locator('#solar-day');
 
-    // Verify dropdowns have year bounds (1391-2050)
+    // Verify dropdowns have year bounds (1901-2050)
     const yearOptions = solarYearSelect.locator('option');
     const yearCount = await yearOptions.count();
-    // Should have options for 1391 to 2050 (plus blank option)
-    expect(yearCount).toBeGreaterThan(600); // (2050-1391+1) options + 1 blank = 661
+    // Should have options for 1901 to 2050 (plus blank option) = 150 + 1 = 151
+    expect(yearCount).toBe(2050 - 1901 + 2);
 
-    // Attempt to select min year (1391) and a date
-    await solarYearSelect.selectOption('1391');
+    // Select the min year (1901). Solar 1901-01-01 maps to lunar 1900 — the tool
+    // must show the valid result, NOT self-overwrite it with an out_of_range error
+    // (regression: mirroring lunar 1900 back into the inputs used to re-trigger
+    // lunarToSolar(1900) → out_of_range).
+    await solarYearSelect.selectOption('1901');
     await solarMonthSelect.selectOption('1');
     await solarDaySelect.selectOption('1');
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(400);
 
-    // Verify conversion works without error
-    const mainText = await page.locator('main').textContent();
-    expect(mainText).toBeTruthy();
+    const main = page.locator('main');
+    // No error alert must be showing.
+    await expect(main.getByRole('alert')).toHaveCount(0);
+    // The valid lunar result (1900) and its sexagenary (경자년) must be visible.
+    await expect(main.getByText('1900년 11월 11일')).toBeVisible();
+    await expect(main.getByText('경자년')).toBeVisible();
 
     // Attempt to select max year (2050)
     await solarYearSelect.selectOption('2050');

@@ -240,13 +240,13 @@ describe('conversion', () => {
   });
 
   describe('boundary testing', () => {
-    it('accepts min boundary year 1391', async () => {
+    it('accepts min boundary year 1901', async () => {
       const engine = createMockEngine({
         setSolarDate: () => true,
-        lunar: { year: 1390, month: 11, day: 18, intercalation: false },
+        lunar: { year: 1900, month: 11, day: 11, intercalation: false },
       });
 
-      const result = await solarToLunar(1391, 1, 1, engine);
+      const result = await solarToLunar(1901, 1, 1, engine);
       expect(result).not.toEqual({ error: 'out_of_range' });
     });
 
@@ -260,9 +260,9 @@ describe('conversion', () => {
       expect(result).not.toEqual({ error: 'out_of_range' });
     });
 
-    it('rejects year below min (1390)', async () => {
+    it('rejects year below min (1900)', async () => {
       const engine = createMockEngine({});
-      const result = await solarToLunar(1390, 1, 1, engine);
+      const result = await solarToLunar(1900, 1, 1, engine);
       expect(result).toEqual({ error: 'out_of_range' });
     });
 
@@ -302,17 +302,17 @@ describe('conversion', () => {
       expect(converted.zodiac.emoji).toBe('🐰');
     });
 
-    it('1391 input converts to lunar 1390, sexagenary 경오 (Metal Horse)', async () => {
+    it('1901 input converts to lunar 1900, sexagenary 경자 (Metal Rat)', async () => {
       const engine = createMockEngine({
         setSolarDate: () => true,
-        lunar: { year: 1390, month: 11, day: 18, intercalation: false },
+        lunar: { year: 1900, month: 11, day: 11, intercalation: false },
       });
 
-      const result = await solarToLunar(1391, 1, 1, engine);
+      const result = await solarToLunar(1901, 1, 1, engine);
       const converted = result as any;
-      expect(converted.sexagenary.hanja).toBe('庚午');
-      expect(converted.sexagenary.english).toBe('Metal Horse');
-      expect(converted.zodiac.key).toBe('horse');
+      expect(converted.sexagenary.hanja).toBe('庚子');
+      expect(converted.sexagenary.english).toBe('Metal Rat');
+      expect(converted.zodiac.key).toBe('rat');
     });
 
     it('2050 conversion has sexagenary 경오 (Metal Horse)', async () => {

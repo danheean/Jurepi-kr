@@ -211,6 +211,21 @@ describe('recents', () => {
       const entries = loadRecents(null);
       expect(entries).toEqual([]);
     });
+
+    it('keeps a boundary entry whose lunar date is one year below the input min (solar 1901 → lunar 1900)', () => {
+      const store = {
+        version: 1,
+        entries: [
+          // Solar January of 1901 maps to lunar 1900; the lunar year (1900) is
+          // below the selectable min (1901) but is a legitimate derived result.
+          { solarDate: '1901-01-01', lunarDate: '1900-11-11', ts: 1000 },
+        ],
+      };
+      const entries = loadRecents(store);
+
+      expect(entries).toHaveLength(1);
+      expect(entries[0].lunarDate).toBe('1900-11-11');
+    });
   });
 
   describe('serializeRecents', () => {

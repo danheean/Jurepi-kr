@@ -91,6 +91,34 @@ describe('useConverter', () => {
     }
   });
 
+  it('boundary solar 1901-01-01 keeps the valid result (lunar 1900) and does NOT self-overwrite with out_of_range', async () => {
+    // Regression: solar Jan 1901 maps to lunar 1900. Mirroring that lunar value
+    // into the inputs must NOT re-trigger lunarToSolar(1900) (which would error),
+    // so the displayed result must stay the valid conversion, not out_of_range.
+    const { result } = renderHook(() => useConverter());
+
+    await waitFor(() => {
+      expect(result.current.isMounted).toBe(true);
+    });
+
+    act(() => {
+      result.current.setSolar(1901, 1, 1);
+    });
+
+    await waitFor(() => {
+      expect(result.current.result).not.toBeNull();
+    });
+
+    // Give any (buggy) follow-up conversion a chance to run and overwrite.
+    await new Promise((r) => setTimeout(r, 50));
+
+    expect(result.current.result).toHaveProperty('solarDate');
+    expect(result.current.result).not.toHaveProperty('error');
+    if (result.current.result && !('error' in result.current.result)) {
+      expect(result.current.result.lunarDate.year).toBe(1900);
+    }
+  });
+
   it('sets lunar date and triggers conversion', async () => {
     const { result } = renderHook(() => useConverter());
 

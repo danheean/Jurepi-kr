@@ -14,7 +14,12 @@ export interface LunarEngine {
   getKoreanGapja(): { year: string; month: string; day: string; intercalation: string };
 }
 
-const TABLE_YEAR_MIN = 1391;
+// Supported INPUT year range. The KASI engine's data reaches back to 1391, but
+// the tool intentionally restricts user-selectable years to 1901–2050 for
+// usability (a 150-item dropdown instead of 660); pre-1900 dates are a rare
+// need. Note: a solar January input maps to the *previous* lunar year, so a
+// solar-1901 conversion can legitimately produce a lunar-1900 result.
+const TABLE_YEAR_MIN = 1901;
 const TABLE_YEAR_MAX = 2050;
 
 /**
@@ -56,7 +61,7 @@ async function loadEngine(): Promise<LunarEngine> {
 /**
  * Convert a Gregorian (solar) date to a Korean lunar date.
  * Returns the conversion result with sexagenary and zodiac computed from the lunar year.
- * Returns an error if the year is out of range [1391, 2050] or the date is invalid.
+ * Returns an error if the year is out of range [1901, 2050] or the date is invalid.
  *
  * @param year Gregorian year
  * @param month Gregorian month (1-12)
@@ -71,7 +76,7 @@ export async function solarToLunar(
 ): Promise<ConversionResult | ConversionError> {
   const eng = engine || (await loadEngine());
 
-  // Range validation: SPEC requires 1391–2050
+  // Range validation: Input range 1901–2050
   if (year < TABLE_YEAR_MIN || year > TABLE_YEAR_MAX) {
     return { error: 'out_of_range' };
   }
@@ -132,7 +137,7 @@ export async function lunarToSolar(
 ): Promise<ConversionResult | ConversionError> {
   const eng = engine || (await loadEngine());
 
-  // Range validation: SPEC requires 1391–2050
+  // Range validation: Input range 1901–2050
   if (year < TABLE_YEAR_MIN || year > TABLE_YEAR_MAX) {
     return { error: 'out_of_range' };
   }

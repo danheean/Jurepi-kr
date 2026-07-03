@@ -46,7 +46,7 @@ describe('LunarConverterFaq', () => {
     const { getByText } = customRender(<LunarConverterFaq />);
 
     expect(getByText(/음력은 순수 태음력이라/)).toBeInTheDocument();
-    expect(getByText(/1391년부터 2050년까지/)).toBeInTheDocument();
+    expect(getByText(/1901년부터 2050년까지/)).toBeInTheDocument();
   });
 
   it('injects FAQPage JSON-LD script', () => {

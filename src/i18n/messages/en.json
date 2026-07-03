@@ -959,7 +959,7 @@
       "description": "Convert dates between lunar and solar calendars, and discover the sexagenary cycle and zodiac animal for any year.",
       "meta": {
         "title": "Lunar-Solar Calendar Converter - Sexagenary & Zodiac Finder",
-        "description": "Easily convert between Gregorian (solar) and Korean lunar calendar dates. See the sexagenary (간지) and zodiac animal (십간십이지) for any year from 1391 to 2050. Find traditional festival dates like Lunar New Year and Chuseok."
+        "description": "Easily convert between Gregorian (solar) and Korean lunar calendar dates. See the sexagenary (간지) and zodiac animal (십간십이지) for any year from 1901 to 2050. Find traditional festival dates like Lunar New Year and Chuseok."
       },
       "intro": {
         "eyebrow": "Conversion Tool",
@@ -1013,7 +1013,7 @@
         "clear": "Clear All"
       },
       "errors": {
-        "out_of_range": "Unsupported year (1391–2050 only).",
+        "out_of_range": "Unsupported year (1901–2050 only).",
         "no_leap_month": "This year has no leap month.",
         "invalid_date": "Invalid date."
       },
@@ -1040,7 +1040,7 @@
           },
           {
             "q": "What is the date range for this tool?",
-            "a": "This converter supports dates from 1391 to 2050. Dates outside this range cannot be calculated."
+            "a": "This converter supports dates from 1901 to 2050. Dates outside this range cannot be calculated."
           },
           {
             "q": "Is the sexagenary calculation accurate?",

@@ -36,6 +36,12 @@ export interface ConverterState {
 export type ConverterAction =
   | { type: 'SET_SOLAR'; year: number; month: number; day: number }
   | { type: 'SET_LUNAR'; year: number; month: number; day: number; isLeap: boolean }
+  // SYNC_* mirror the opposite calendar's fields from a conversion result WITHOUT
+  // changing lastEditedCalendar — otherwise the mirrored value would re-trigger the
+  // other direction's conversion (e.g. solar 1901-01-01 → lunar 1900, then a stray
+  // lunarToSolar(1900) → out_of_range error that overwrites the valid result).
+  | { type: 'SYNC_SOLAR'; year: number; month: number; day: number }
+  | { type: 'SYNC_LUNAR'; year: number; month: number; day: number; isLeap: boolean }
   | { type: 'SET_RESULT'; result: ConversionResult | ConversionError }
   | { type: 'SET_RECENTS'; recents: RecentEntry[] }
   | { type: 'SET_COPY_KEY'; key: ConverterState['copyKey'] }
@@ -75,6 +81,23 @@ function converterReducer(state: ConverterState, action: ConverterAction): Conve
         lunarDay: action.day,
         lunarIsLeap: action.isLeap,
         lastEditedCalendar: 'lunar',
+      };
+    case 'SYNC_SOLAR':
+      // Mirror solar fields for display only; do NOT flip lastEditedCalendar.
+      return {
+        ...state,
+        solarYear: action.year,
+        solarMonth: action.month,
+        solarDay: action.day,
+      };
+    case 'SYNC_LUNAR':
+      // Mirror lunar fields for display only; do NOT flip lastEditedCalendar.
+      return {
+        ...state,
+        lunarYear: action.year,
+        lunarMonth: action.month,
+        lunarDay: action.day,
+        lunarIsLeap: action.isLeap,
       };
     case 'SET_RESULT':
       return { ...state, result: action.result };
@@ -124,7 +147,7 @@ export function useConverter() {
           state.lunarIsLeap !== result.lunarDate.isLeap
         ) {
           dispatch({
-            type: 'SET_LUNAR',
+            type: 'SYNC_LUNAR',
             year: result.lunarDate.year,
             month: result.lunarDate.month,
             day: result.lunarDate.day,
@@ -171,7 +194,7 @@ export function useConverter() {
           state.solarDay !== result.solarDate.day
         ) {
           dispatch({
-            type: 'SET_SOLAR',
+            type: 'SYNC_SOLAR',
             year: result.solarDate.year,
             month: result.solarDate.month,
             day: result.solarDate.day,
