@@ -5,6 +5,8 @@ import { MergedTerm } from '@/lib/new-word/schema';
 import { toneEmoji } from '@/lib/new-word/tone';
 import { Markdown } from '@/components/markdown';
 import { RelatedChips } from './RelatedChips';
+import { ShareButtons } from '@/components/share/ShareButtons';
+import { absoluteEntityUrl } from '@/lib/seo';
 
 interface TermDetailProps {
   term: MergedTerm | null;
@@ -153,6 +155,14 @@ export function TermDetail({
               {lang === 'ko' ? t('langToggle.ko') : lang === 'en' ? t('langToggle.en') : t('langToggle.both')}
             </button>
           ))}
+        </div>
+
+        {/* Share buttons — entity-specific URL + term name as title */}
+        <div className="flex justify-end mt-3">
+          <ShareButtons
+            url={absoluteEntityUrl(currentLocale, 'new-word', term.slug)}
+            title={term[currentLocale].term}
+          />
         </div>
       </div>
 

@@ -297,6 +297,128 @@ describe('ShareButtons', () => {
 });
 
 /**
+ * Tests with optional url/title props (entity spoke sharing)
+ */
+describe('ShareButtons — optional url/title props', () => {
+  it('copies provided url to clipboard when url prop is set', async () => {
+    if (!navigator.clipboard) {
+      Object.defineProperty(navigator, 'clipboard', {
+        value: {
+          writeText: vi.fn().mockResolvedValue(undefined),
+        },
+        configurable: true,
+      });
+    }
+
+    const writeTextSpy = vi
+      .spyOn(navigator.clipboard, 'writeText')
+      .mockResolvedValue(undefined);
+
+    const testUrl = 'https://example.com/tools/new-word/god-saeng';
+    render(<ShareButtons url={testUrl} />);
+
+    const copyBtn = screen.getByTestId('share-button-copy');
+    copyBtn.click();
+
+    await waitFor(() => {
+      expect(writeTextSpy).toHaveBeenCalledWith(testUrl);
+    });
+  });
+
+  it('copies window.location.href when url prop is not set (regression)', async () => {
+    if (!navigator.clipboard) {
+      Object.defineProperty(navigator, 'clipboard', {
+        value: {
+          writeText: vi.fn().mockResolvedValue(undefined),
+        },
+        configurable: true,
+      });
+    }
+
+    const writeTextSpy = vi
+      .spyOn(navigator.clipboard, 'writeText')
+      .mockResolvedValue(undefined);
+
+    Object.defineProperty(window, 'location', {
+      value: { href: 'https://example.com/default-page' },
+      writable: true,
+    });
+
+    render(<ShareButtons />);
+
+    const copyBtn = screen.getByTestId('share-button-copy');
+    copyBtn.click();
+
+    await waitFor(() => {
+      expect(writeTextSpy).toHaveBeenCalledWith('https://example.com/default-page');
+    });
+  });
+
+  it('calls navigator.share with provided url and title when both props are set', async () => {
+    const shareSpy = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'share', {
+      value: shareSpy,
+      configurable: true,
+    });
+
+    const testUrl = 'https://example.com/tools/new-word/god-saeng';
+    const testTitle = 'God Life - New Word Glossary';
+    render(<ShareButtons url={testUrl} title={testTitle} />);
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('share-button-native')
+      ).toBeInTheDocument();
+    });
+
+    const nativeBtn = screen.getByTestId('share-button-native');
+    nativeBtn.click();
+
+    await waitFor(() => {
+      expect(shareSpy).toHaveBeenCalledWith({
+        title: testTitle,
+        url: testUrl,
+      });
+    });
+  });
+
+  it('calls navigator.share with window defaults when props not set (regression)', async () => {
+    const shareSpy = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'share', {
+      value: shareSpy,
+      configurable: true,
+    });
+
+    Object.defineProperty(window, 'location', {
+      value: { href: 'https://example.com/default' },
+      writable: true,
+    });
+    Object.defineProperty(document, 'title', {
+      value: 'Default Page',
+      configurable: true,
+    });
+
+    render(<ShareButtons />);
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('share-button-native')
+      ).toBeInTheDocument();
+    });
+
+    const nativeBtn = screen.getByTestId('share-button-native');
+    nativeBtn.click();
+
+    await waitFor(() => {
+      expect(shareSpy).toHaveBeenCalledWith({
+        title: 'Default Page',
+        url: 'https://example.com/default',
+      });
+    });
+  });
+});
+
+/**
  * Tests with real i18n catalogs (EN + KO) to catch key drift
  */
 describe('ShareButtons — i18n catalog integrity', () => {

@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import { X } from 'lucide-react';
 import type { MergedTopic } from '@/lib/bookmarks/schema';
 import { TopicSections } from './TopicSections';
+import { ShareButtons } from '@/components/share/ShareButtons';
+import { absoluteEntityUrl } from '@/lib/seo';
 
 interface TopicDetailProps {
   topic: MergedTopic;
@@ -44,6 +46,14 @@ export function TopicDetail({ topic, onClose, locale }: TopicDetailProps) {
         >
           <X className="w-5 h-5 text-text-secondary" />
         </button>
+      </div>
+
+      {/* Share buttons — entity-specific URL + title */}
+      <div className="flex justify-end">
+        <ShareButtons
+          url={absoluteEntityUrl(locale, 'bookmarks', topic.slug)}
+          title={localeData.title}
+        />
       </div>
 
       {/* Sections */}

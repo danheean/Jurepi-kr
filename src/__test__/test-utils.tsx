@@ -53,6 +53,20 @@ const defaultMessages = {
     popular: 'Popular',
     comingSoon: 'Coming soon',
   },
+  share: {
+    heading: 'Share',
+    targets: {
+      naver: 'Share on Naver (Blog·Cafe)',
+      x: 'Share on X (Twitter)',
+      facebook: 'Share on Facebook',
+      threads: 'Share on Threads',
+      telegram: 'Share on Telegram',
+      whatsapp: 'Share on WhatsApp',
+    },
+    copyLink: 'Copy link',
+    copied: 'Link copied!',
+    native: 'Share via another app (Instagram, KakaoTalk, …)',
+  },
   emptyState: {
     heading: 'No results found',
     body: 'Try a different search or category.',
@@ -69,6 +83,18 @@ const defaultMessages = {
         externalLink: 'External link',
         openInNewTab: 'Open in new tab',
         playVideo: 'Play video',
+      },
+      detail: {
+        close: 'Close',
+      },
+    },
+    rankings: {
+      detail: {
+        selectHint: 'Select a ranking to view',
+        closeAria: 'Close detail',
+      },
+      fields: {
+        tech: 'Technology',
       },
     },
     ladder: {

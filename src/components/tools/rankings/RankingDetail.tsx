@@ -3,6 +3,8 @@ import { X } from 'lucide-react';
 import type { MergedRanking } from '@/lib/rankings/schema';
 import { ProvenanceBanner } from './ProvenanceBanner';
 import { RankingTable } from './RankingTable';
+import { ShareButtons } from '@/components/share/ShareButtons';
+import { absoluteEntityUrl } from '@/lib/seo';
 
 interface RankingDetailProps {
   ranking: MergedRanking | null;
@@ -43,6 +45,14 @@ export function RankingDetail({ ranking, onClose }: RankingDetailProps) {
         >
           <X className="w-5 h-5 text-text-secondary" />
         </button>
+      </div>
+
+      {/* Share buttons — entity-specific URL + title */}
+      <div className="flex justify-end">
+        <ShareButtons
+          url={absoluteEntityUrl(locale, 'rankings', ranking.slug)}
+          title={localeData.title}
+        />
       </div>
 
       {/* Provenance banner — CRITICAL trust surface */}

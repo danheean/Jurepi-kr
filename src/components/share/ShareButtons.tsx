@@ -25,14 +25,19 @@ const ICON_MAP = {
 interface ShareButtonsProps {
   /** Optional CSS class. */
   className?: string;
+  /** Optional URL to share (defaults to window.location.href if not provided). */
+  url?: string;
+  /** Optional title to share (defaults to document.title if not provided). */
+  title?: string;
 }
 
 /**
  * ShareButtons — horizontal row of SNS share buttons + copy link + native share.
  * Renders at SSR time. The native-share button is mounted-gated (mobile-only).
- * All buttons resolve url/title at click time from the current page.
+ * Buttons share the `url`/`title` props when given (e.g. an entity spoke URL from
+ * a hub detail panel); otherwise they resolve both at click time from the current page.
  */
-export function ShareButtons({ className = '' }: ShareButtonsProps): React.ReactNode {
+export function ShareButtons({ className = '', url, title }: ShareButtonsProps): React.ReactNode {
   const t = useTranslations('share');
   const [mounted, setMounted] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -48,9 +53,9 @@ export function ShareButtons({ className = '' }: ShareButtonsProps): React.React
 
   const handleShareClick = (id: string) => {
     try {
-      const url = window.location.href;
-      const title = document.title;
-      const shareUrl = buildShareUrl(id as any, { url, title });
+      const resolvedUrl = url ?? window.location.href;
+      const resolvedTitle = title ?? document.title;
+      const shareUrl = buildShareUrl(id as any, { url: resolvedUrl, title: resolvedTitle });
       window.open(shareUrl, '_blank', 'noopener,noreferrer,width=600,height=640');
     } catch (error) {
       console.error('Share failed:', error);
@@ -59,8 +64,8 @@ export function ShareButtons({ className = '' }: ShareButtonsProps): React.React
 
   const handleCopyLink = async () => {
     try {
-      const url = window.location.href;
-      await navigator.clipboard.writeText(url);
+      const resolvedUrl = url ?? window.location.href;
+      await navigator.clipboard.writeText(resolvedUrl);
       setCopiedId('copy');
       setTimeout(() => setCopiedId(null), 1500);
     } catch (error) {
@@ -72,9 +77,11 @@ export function ShareButtons({ className = '' }: ShareButtonsProps): React.React
   const handleNativeShare = async () => {
     try {
       if (navigator.share) {
+        const resolvedUrl = url ?? window.location.href;
+        const resolvedTitle = title ?? document.title;
         await navigator.share({
-          title: document.title,
-          url: window.location.href,
+          title: resolvedTitle,
+          url: resolvedUrl,
         });
       }
     } catch (error) {

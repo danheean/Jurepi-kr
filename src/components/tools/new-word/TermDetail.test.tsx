@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, userEvent } from '@/__test__/test-utils';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, userEvent, waitFor } from '@/__test__/test-utils';
 import { TermDetail } from './TermDetail';
 import type { MergedTerm } from '@/lib/new-word/schema';
 
@@ -493,5 +493,76 @@ describe('TermDetail', () => {
     await new Promise((resolve) => setTimeout(resolve, 50));
 
     expect(setDisplayLang).toHaveBeenCalledWith('ko');
+  });
+});
+
+describe('TermDetail — share button integration', () => {
+  beforeEach(() => {
+    if (!navigator.clipboard) {
+      Object.defineProperty(navigator, 'clipboard', {
+        value: { writeText: vi.fn().mockResolvedValue(undefined) },
+        configurable: true,
+      });
+    }
+  });
+
+  const shareTerm: MergedTerm = {
+    slug: 'god-saeng',
+    topic: 'mz',
+    tags: ['lifestyle'],
+    related: [],
+    ko: {
+      term: '갓생',
+      definition: '제대로 된 삶, 멋진 인생',
+      examples: ['그는 정말 갓생을 산다.'],
+      body: '',
+    },
+    en: {
+      term: 'God Saeng',
+      definition: 'A proper, exemplary life; living your best life',
+      examples: ['She is living her best god saeng.'],
+      body: '',
+    },
+  };
+
+  const renderShare = (term: MergedTerm | null, currentLocale: 'ko' | 'en') =>
+    render(
+      <TermDetail
+        term={term}
+        displayLang={currentLocale}
+        setDisplayLang={vi.fn()}
+        onClose={vi.fn()}
+        onSelect={vi.fn()}
+        onCopy={vi.fn()}
+        catalog={term ? [term] : []}
+        currentLocale={currentLocale}
+      />
+    );
+
+  it.each(['ko', 'en'] as const)(
+    'renders share row and copies the spoke absolute URL, not the hub URL (%s)',
+    async (locale) => {
+      const writeTextSpy = vi
+        .spyOn(navigator.clipboard, 'writeText')
+        .mockResolvedValue(undefined);
+
+      renderShare(shareTerm, locale);
+
+      const copyBtn = screen.getByTestId('share-button-copy');
+      expect(copyBtn).toBeInTheDocument();
+      copyBtn.click();
+
+      await waitFor(() => {
+        expect(writeTextSpy).toHaveBeenCalledWith(
+          `https://jurepi.kr/${locale}/tools/new-word/${shareTerm.slug}`
+        );
+      });
+      writeTextSpy.mockRestore();
+    }
+  );
+
+  it('does not render share buttons when term is null', () => {
+    renderShare(null, 'ko');
+    expect(screen.queryByTestId('share-button-copy')).not.toBeInTheDocument();
   });
 });
