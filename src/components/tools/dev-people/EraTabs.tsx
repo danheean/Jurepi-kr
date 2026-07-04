@@ -26,7 +26,8 @@ export function EraTabs({ selectedEra, onSelectEra }: EraTabsProps) {
 
   return (
     <div
-      role="tablist"
+      role="group"
+      aria-label={t('tabs.eraFilterLabel')}
       className="flex flex-wrap gap-2 overflow-x-auto pb-2"
       data-testid="era-tabs"
     >
@@ -35,11 +36,11 @@ export function EraTabs({ selectedEra, onSelectEra }: EraTabsProps) {
         return (
           <button
             key={String(tab.id)}
-            role="tab"
-            aria-selected={isActive}
+            type="button"
+            aria-pressed={isActive}
             onClick={() => onSelectEra(tab.id as Era | undefined)}
             className={`
-              whitespace-nowrap px-3.5 py-2 rounded-full text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2
+              whitespace-nowrap px-3.5 py-2 rounded-full text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2
               ${
                 isActive
                   ? 'bg-brand text-on-brand'

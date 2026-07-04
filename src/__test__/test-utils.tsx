@@ -248,7 +248,7 @@ const defaultMessages = {
         unfavorited: 'Removed from favorites',
       },
       empty: {
-        noResults: "No terms match '{query}'.",
+        noResults: "No terms match “{query}”.",
         favorites: 'Star terms to save them to your favorites.',
         recent: 'Your recently viewed terms will appear here.',
       },

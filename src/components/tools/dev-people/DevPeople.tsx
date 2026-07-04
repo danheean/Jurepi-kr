@@ -50,8 +50,6 @@ export function DevPeople() {
           <TagTabs
             selectedTag={r.selectedTag}
             onSelectTag={r.setTag}
-            favCount={r.favorites.length}
-            recentCount={r.recents.length}
           />
           <EraTabs
             selectedEra={r.selectedEra}

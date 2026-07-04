@@ -9,44 +9,41 @@ import messagesEn from '@/i18n/messages/en.json';
 
 function renderKo(
   selectedTag: Tag | undefined = undefined,
-  onSelectTag = vi.fn(),
-  favCount = 0,
-  recentCount = 0
+  onSelectTag = vi.fn()
 ) {
   return render(
     <NextIntlClientProvider locale="ko" messages={messagesKo as never}>
-      <TagTabs selectedTag={selectedTag} onSelectTag={onSelectTag} favCount={favCount} recentCount={recentCount} />
+      <TagTabs selectedTag={selectedTag} onSelectTag={onSelectTag} />
     </NextIntlClientProvider>
   );
 }
 
 function renderEn(
   selectedTag: Tag | undefined = undefined,
-  onSelectTag = vi.fn(),
-  favCount = 0,
-  recentCount = 0
+  onSelectTag = vi.fn()
 ) {
   return render(
     <NextIntlClientProvider locale="en" messages={messagesEn as never}>
-      <TagTabs selectedTag={selectedTag} onSelectTag={onSelectTag} favCount={favCount} recentCount={recentCount} />
+      <TagTabs selectedTag={selectedTag} onSelectTag={onSelectTag} />
     </NextIntlClientProvider>
   );
 }
 
 describe('TagTabs', () => {
-  it('renders as a tablist', () => {
+  it('renders as a labelled filter group (not a fake tablist)', () => {
     renderKo();
 
-    const tablist = screen.getByTestId('tag-tabs');
-    expect(tablist).toHaveAttribute('role', 'tablist');
+    const group = screen.getByTestId('tag-tabs');
+    expect(group).toHaveAttribute('role', 'group');
+    expect(group).toHaveAttribute('aria-label', '인물 필터');
   });
 
-  it('renders "All" tab with undefined id', () => {
+  it('renders "All" toggle with undefined id', () => {
     renderKo();
 
     const allTab = screen.getByTestId('tag-tab-undefined');
     expect(allTab).toBeInTheDocument();
-    expect(allTab).toHaveAttribute('role', 'tab');
+    expect(allTab).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('renders tag tabs with i18n labels', () => {
@@ -57,18 +54,18 @@ describe('TagTabs', () => {
     expect(screen.getByTestId('tag-tab-python')).toBeInTheDocument();
   });
 
-  it('sets aria-selected=true for active tab', () => {
+  it('sets aria-pressed=true for active toggle', () => {
     renderKo('ai');
 
     const aiTab = screen.getByTestId('tag-tab-ai');
-    expect(aiTab).toHaveAttribute('aria-selected', 'true');
+    expect(aiTab).toHaveAttribute('aria-pressed', 'true');
   });
 
-  it('sets aria-selected=false for inactive tabs', () => {
+  it('sets aria-pressed=false for inactive toggles', () => {
     renderKo('ai');
 
     const pythonTab = screen.getByTestId('tag-tab-python');
-    expect(pythonTab).toHaveAttribute('aria-selected', 'false');
+    expect(pythonTab).toHaveAttribute('aria-pressed', 'false');
   });
 
   it('calls onSelectTag when tab is clicked', async () => {
@@ -107,21 +104,6 @@ describe('TagTabs', () => {
 
     const pythonTab = screen.getByTestId('tag-tab-python');
     expect(pythonTab).toHaveClass('bg-surface-muted', 'text-text-secondary');
-  });
-
-  it('shows favorites tab only when favCount > 0', () => {
-    renderKo(undefined, vi.fn(), 0);
-    expect(screen.queryByText(/Favorites/i)).not.toBeInTheDocument();
-
-    // Re-render with favCount > 0
-    const { rerender } = render(
-      <NextIntlClientProvider locale="ko" messages={messagesKo as never}>
-        <TagTabs selectedTag={undefined} onSelectTag={vi.fn()} favCount={1} recentCount={0} />
-      </NextIntlClientProvider>
-    );
-
-    // Favorites placeholder is null, so it shouldn't be rendered at all
-    // but the count param is acknowledged
   });
 
   it('has data-testid on each tab button', () => {

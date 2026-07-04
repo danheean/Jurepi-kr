@@ -76,18 +76,15 @@ export function PersonCard({
 
         {/* Tags and era badges */}
         <div className="flex flex-wrap gap-1.5 mb-3">
-          {person.tags.map((tag) => {
-            const tagLabel = t(`tags.${tag}`, { defaultValue: tag });
-            return (
-              <span
-                key={tag}
-                className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-accent-sky-soft text-accent-sky-ink"
-                data-testid={`person-tag-${tag}`}
-              >
-                {typeof tagLabel === 'string' ? tagLabel : tag}
-              </span>
-            );
-          })}
+          {person.tags.map((tag) => (
+            <span
+              key={tag}
+              className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-accent-sky-soft text-accent-sky-ink"
+              data-testid={`person-tag-${tag}`}
+            >
+              {t(`tags.${tag}`)}
+            </span>
+          ))}
           <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-surface-muted text-text-secondary">
             {t(`eras.${person.era}`)}
           </span>
@@ -128,8 +125,9 @@ export function PersonCard({
         aria-pressed={isFavorited}
         aria-label={t('card.toggleFavorite')}
         className="
-          absolute top-4 right-4 text-text-secondary hover:text-accent-sky-ink transition-colors
-          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-sky-ink rounded
+          absolute top-1 right-1 flex h-11 w-11 items-center justify-center rounded-full
+          text-text-secondary hover:text-accent-sky-ink transition-colors
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent-sky-ink
         "
         data-testid={`person-star-${person.slug}`}
       >

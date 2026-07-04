@@ -133,6 +133,28 @@ describe('useDevPeopleCatalog', () => {
     expect(stored.favorites).toContain('test-person-1');
   });
 
+  it('still persists a favorite when a search query is typed within the debounce window', async () => {
+    // Regression: persist and query-commit must use separate timers. A shared
+    // timer ref let the query effect cancel the pending favorite save, so the
+    // favorite was silently lost from localStorage while the user was typing.
+    const { result } = renderHook(() => useDevPeopleCatalog(mockCatalog));
+
+    await act(async () => {
+      result.current.toggleFavorite('test-person-1');
+    });
+
+    // Type immediately — under the old shared ref this cancelled the 300ms save.
+    await act(async () => {
+      result.current.setQuery('test');
+    });
+
+    // Wait past both the query (120ms) and persist (300ms) debounces.
+    await new Promise((resolve) => setTimeout(resolve, 400));
+
+    const stored = JSON.parse(localStorage.getItem('jurepi-dev-people') || '{}');
+    expect(stored.favorites).toContain('test-person-1');
+  });
+
   it('prunes unknown slugs on load', async () => {
     // Set localStorage with an unknown slug
     const store = {

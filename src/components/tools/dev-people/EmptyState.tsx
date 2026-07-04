@@ -7,6 +7,7 @@ interface EmptyStateProps {
 
 export function EmptyState({ query, onClearQuery }: EmptyStateProps) {
   const t = useTranslations('tools.dev-people.empty');
+  const tSearch = useTranslations('tools.dev-people.search');
 
   if (query) {
     return (
@@ -17,9 +18,9 @@ export function EmptyState({ query, onClearQuery }: EmptyStateProps) {
         <button
           type="button"
           onClick={onClearQuery}
-          className="px-4 py-2 rounded-lg bg-brand text-on-brand font-medium hover:bg-brand-strong transition-colors focus:outline-none focus:ring-2 focus:ring-focus-ring"
+          className="px-4 py-2 rounded-lg bg-brand text-on-brand font-medium hover:bg-brand-strong transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
         >
-          Clear search
+          {tSearch('clear')}
         </button>
       </div>
     );
