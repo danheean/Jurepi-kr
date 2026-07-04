@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import type { Place } from '@/lib/restaurant-map/schema';
 import { PlaceCard } from './PlaceCard';
-import { PlaceListEmpty } from './PlaceListEmpty';
+import { PlaceListEmpty, type PlaceListEmptyVariant } from './PlaceListEmpty';
 
 export interface PlaceListProps {
   places: Place[];
@@ -11,8 +11,8 @@ export interface PlaceListProps {
   onSelect: (placeId: string | null) => void;
   onToggleFavorite: (placeId: string) => void;
   userGeo?: { lat: number; lng: number } | null;
-  onRequestGeolocation: () => Promise<void>;
-  onClearGeolocation: () => void;
+  emptyVariant: PlaceListEmptyVariant;
+  onResetFilters: () => void;
 }
 
 export function PlaceList({
@@ -22,8 +22,8 @@ export function PlaceList({
   onSelect,
   onToggleFavorite,
   userGeo,
-  onRequestGeolocation,
-  onClearGeolocation,
+  emptyVariant,
+  onResetFilters,
 }: PlaceListProps) {
   const t = useTranslations('tools.restaurant-map');
   const containerRef = useRef<HTMLDivElement>(null);
@@ -97,13 +97,7 @@ export function PlaceList({
   );
 
   if (places.length === 0) {
-    return (
-      <PlaceListEmpty
-        onRequestGeolocation={onRequestGeolocation}
-        onClearGeolocation={onClearGeolocation}
-        hasUserGeo={!!userGeo}
-      />
-    );
+    return <PlaceListEmpty variant={emptyVariant} onResetFilters={onResetFilters} />;
   }
 
   return (

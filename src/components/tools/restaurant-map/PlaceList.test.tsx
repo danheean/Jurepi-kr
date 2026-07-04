@@ -37,8 +37,7 @@ describe('PlaceList', () => {
   it('renders all place cards with names', () => {
     const onSelect = vi.fn();
     const onToggleFavorite = vi.fn();
-    const onRequestGeolocation = vi.fn();
-    const onClearGeolocation = vi.fn();
+    const onResetFilters = vi.fn();
 
     renderWithIntl(
       <PlaceList
@@ -47,8 +46,8 @@ describe('PlaceList', () => {
         favorites={[]}
         onSelect={onSelect}
         onToggleFavorite={onToggleFavorite}
-        onRequestGeolocation={onRequestGeolocation}
-        onClearGeolocation={onClearGeolocation}
+        emptyVariant="noMatches"
+        onResetFilters={onResetFilters}
       />
     );
 
@@ -59,8 +58,7 @@ describe('PlaceList', () => {
   it('renders empty state when places array is empty', () => {
     const onSelect = vi.fn();
     const onToggleFavorite = vi.fn();
-    const onRequestGeolocation = vi.fn();
-    const onClearGeolocation = vi.fn();
+    const onResetFilters = vi.fn();
     const { container } = renderWithIntl(
       <PlaceList
         places={[]}
@@ -68,8 +66,8 @@ describe('PlaceList', () => {
         favorites={[]}
         onSelect={onSelect}
         onToggleFavorite={onToggleFavorite}
-        onRequestGeolocation={onRequestGeolocation}
-        onClearGeolocation={onClearGeolocation}
+        emptyVariant="noMatches"
+        onResetFilters={onResetFilters}
       />
     );
 
@@ -82,8 +80,7 @@ describe('PlaceList', () => {
   it('calls onSelect when a card is clicked', async () => {
     const onSelect = vi.fn();
     const onToggleFavorite = vi.fn();
-    const onRequestGeolocation = vi.fn();
-    const onClearGeolocation = vi.fn();
+    const onResetFilters = vi.fn();
     const user = userEvent.setup();
 
     renderWithIntl(
@@ -93,8 +90,8 @@ describe('PlaceList', () => {
         favorites={[]}
         onSelect={onSelect}
         onToggleFavorite={onToggleFavorite}
-        onRequestGeolocation={onRequestGeolocation}
-        onClearGeolocation={onClearGeolocation}
+        emptyVariant="noMatches"
+        onResetFilters={onResetFilters}
       />
     );
 
@@ -107,8 +104,7 @@ describe('PlaceList', () => {
   it('applies selected styling to selected place', () => {
     const onSelect = vi.fn();
     const onToggleFavorite = vi.fn();
-    const onRequestGeolocation = vi.fn();
-    const onClearGeolocation = vi.fn();
+    const onResetFilters = vi.fn();
     const { container } = renderWithIntl(
       <PlaceList
         places={testPlaces}
@@ -116,8 +112,8 @@ describe('PlaceList', () => {
         favorites={[]}
         onSelect={onSelect}
         onToggleFavorite={onToggleFavorite}
-        onRequestGeolocation={onRequestGeolocation}
-        onClearGeolocation={onClearGeolocation}
+        emptyVariant="noMatches"
+        onResetFilters={onResetFilters}
       />
     );
 
@@ -129,8 +125,7 @@ describe('PlaceList', () => {
   it('has semantic region role for accessibility', () => {
     const onSelect = vi.fn();
     const onToggleFavorite = vi.fn();
-    const onRequestGeolocation = vi.fn();
-    const onClearGeolocation = vi.fn();
+    const onResetFilters = vi.fn();
     const { container } = renderWithIntl(
       <PlaceList
         places={testPlaces}
@@ -138,8 +133,8 @@ describe('PlaceList', () => {
         favorites={[]}
         onSelect={onSelect}
         onToggleFavorite={onToggleFavorite}
-        onRequestGeolocation={onRequestGeolocation}
-        onClearGeolocation={onClearGeolocation}
+        emptyVariant="noMatches"
+        onResetFilters={onResetFilters}
       />
     );
 
@@ -151,8 +146,7 @@ describe('PlaceList', () => {
   it('uses roving tabindex for keyboard navigation', () => {
     const onSelect = vi.fn();
     const onToggleFavorite = vi.fn();
-    const onRequestGeolocation = vi.fn();
-    const onClearGeolocation = vi.fn();
+    const onResetFilters = vi.fn();
     const { container } = renderWithIntl(
       <PlaceList
         places={testPlaces}
@@ -160,8 +154,8 @@ describe('PlaceList', () => {
         favorites={[]}
         onSelect={onSelect}
         onToggleFavorite={onToggleFavorite}
-        onRequestGeolocation={onRequestGeolocation}
-        onClearGeolocation={onClearGeolocation}
+        emptyVariant="noMatches"
+        onResetFilters={onResetFilters}
       />
     );
 
@@ -175,8 +169,7 @@ describe('PlaceList', () => {
   it('passes favorite status to cards', () => {
     const onSelect = vi.fn();
     const onToggleFavorite = vi.fn();
-    const onRequestGeolocation = vi.fn();
-    const onClearGeolocation = vi.fn();
+    const onResetFilters = vi.fn();
     const { container } = renderWithIntl(
       <PlaceList
         places={testPlaces}
@@ -184,8 +177,8 @@ describe('PlaceList', () => {
         favorites={['test-list-1#0']}
         onSelect={onSelect}
         onToggleFavorite={onToggleFavorite}
-        onRequestGeolocation={onRequestGeolocation}
-        onClearGeolocation={onClearGeolocation}
+        emptyVariant="noMatches"
+        onResetFilters={onResetFilters}
       />
     );
 
@@ -197,8 +190,7 @@ describe('PlaceList', () => {
   it('calls onToggleFavorite with place id when favorite button is clicked', async () => {
     const onSelect = vi.fn();
     const onToggleFavorite = vi.fn();
-    const onRequestGeolocation = vi.fn();
-    const onClearGeolocation = vi.fn();
+    const onResetFilters = vi.fn();
     const user = userEvent.setup();
 
     const { container } = renderWithIntl(
@@ -208,8 +200,8 @@ describe('PlaceList', () => {
         favorites={[]}
         onSelect={onSelect}
         onToggleFavorite={onToggleFavorite}
-        onRequestGeolocation={onRequestGeolocation}
-        onClearGeolocation={onClearGeolocation}
+        emptyVariant="noMatches"
+        onResetFilters={onResetFilters}
       />
     );
 

@@ -29,6 +29,20 @@ export function RestaurantMap({ catalog = DEFAULT_CATALOG }: RestaurantMapProps)
   const locale = useLocale() as 'ko' | 'en';
   const hook = useRestaurantMapCatalog(catalog);
   const allPlaces = catalog.flatMap((list) => list[locale].places);
+  const availableCategories = [...new Set(allPlaces.map((place) => place.category))];
+
+  const emptyVariant =
+    hook.activeRegion === 'favorites'
+      ? ('noFavorites' as const)
+      : hook.activeRegion === 'recent'
+        ? ('noRecents' as const)
+        : ('noMatches' as const);
+
+  const resetFilters = () => {
+    hook.setActiveRegion('all');
+    hook.setActiveCategory('all');
+    hook.setQuery('');
+  };
 
   return (
     <div className="w-full">
@@ -58,6 +72,7 @@ export function RestaurantMap({ catalog = DEFAULT_CATALOG }: RestaurantMapProps)
             <CategoryFilter
               activeCategory={hook.activeCategory}
               onCategoryChange={hook.setActiveCategory}
+              availableCategories={availableCategories}
             />
           </div>
 
@@ -76,8 +91,8 @@ export function RestaurantMap({ catalog = DEFAULT_CATALOG }: RestaurantMapProps)
               onSelect={hook.select}
               onToggleFavorite={hook.toggleFavoriteFn}
               userGeo={hook.userGeo}
-              onRequestGeolocation={hook.requestGeolocation}
-              onClearGeolocation={hook.clearGeolocation}
+              emptyVariant={emptyVariant}
+              onResetFilters={resetFilters}
             />
           </div>
 

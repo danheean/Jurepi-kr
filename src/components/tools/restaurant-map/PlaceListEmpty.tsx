@@ -1,45 +1,51 @@
 import { useTranslations } from 'next-intl';
-import { MapPin } from 'lucide-react';
+import { Star, Clock } from 'lucide-react';
+
+/**
+ * Context-aware empty state for the place list.
+ * - noMatches: active filters/search matched nothing → offer a filter reset
+ * - noFavorites: favorites tab with nothing starred yet
+ * - noRecents: recents tab with no viewing history yet
+ */
+export type PlaceListEmptyVariant = 'noMatches' | 'noFavorites' | 'noRecents';
 
 export interface PlaceListEmptyProps {
-  onRequestGeolocation: () => Promise<void>;
-  onClearGeolocation: () => void;
-  hasUserGeo: boolean;
+  variant: PlaceListEmptyVariant;
+  onResetFilters: () => void;
 }
 
-export function PlaceListEmpty({
-  onRequestGeolocation,
-  onClearGeolocation,
-  hasUserGeo,
-}: PlaceListEmptyProps) {
+export function PlaceListEmpty({ variant, onResetFilters }: PlaceListEmptyProps) {
   const t = useTranslations('tools.restaurant-map');
 
-  if (hasUserGeo) {
+  if (variant === 'noFavorites') {
     return (
       <div className="flex min-h-64 flex-col items-center justify-center gap-4 rounded-lg bg-surface-muted p-6 text-center">
-        <div className="text-5xl">🔍</div>
-        <h3 className="text-lg font-semibold text-text">{t('empty.noResults')}</h3>
-        <button
-          onClick={onClearGeolocation}
-          className="rounded-lg bg-brand px-4 py-2 text-on-brand transition-colors hover:bg-brand-strong"
-        >
-          {t('buttons.clearSearch')}
-        </button>
+        <Star className="h-12 w-12 text-text-secondary opacity-50" aria-hidden />
+        <h3 className="text-lg font-semibold text-text">{t('empty.noFavorites')}</h3>
+      </div>
+    );
+  }
+
+  if (variant === 'noRecents') {
+    return (
+      <div className="flex min-h-64 flex-col items-center justify-center gap-4 rounded-lg bg-surface-muted p-6 text-center">
+        <Clock className="h-12 w-12 text-text-secondary opacity-50" aria-hidden />
+        <h3 className="text-lg font-semibold text-text">{t('empty.noRecents')}</h3>
       </div>
     );
   }
 
   return (
     <div className="flex min-h-64 flex-col items-center justify-center gap-4 rounded-lg bg-surface-muted p-6 text-center">
-      <MapPin className="h-12 w-12 text-text-secondary opacity-50" />
-      <h3 className="text-lg font-semibold text-text">{t('empty.noFavorites')}</h3>
-      <p className="text-sm text-text-secondary">{t('buttons.myLocation')}</p>
+      <div className="text-5xl" aria-hidden>
+        🔍
+      </div>
+      <h3 className="text-lg font-semibold text-text">{t('empty.noMatches')}</h3>
       <button
-        onClick={onRequestGeolocation}
-        className="flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-on-brand transition-colors hover:bg-brand-strong"
+        onClick={onResetFilters}
+        className="rounded-lg bg-brand px-4 py-2 text-on-brand transition-colors hover:bg-brand-strong"
       >
-        <MapPin className="h-4 w-4" />
-        {t('buttons.myLocation')}
+        {t('buttons.resetFilters')}
       </button>
     </div>
   );

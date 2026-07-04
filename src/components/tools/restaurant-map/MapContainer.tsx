@@ -175,7 +175,7 @@ export function MapContainer({
           map: mapInstanceRef.current,
           title: place.name,
           icon: {
-            content: `<div style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background-color: var(--accent); border-radius: 50%; color: white; font-weight: bold; font-size: 12px;">📍</div>`,
+            content: `<div style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background-color: var(--accent-rose); border-radius: 50%; color: white; font-weight: bold; font-size: 12px;">📍</div>`,
             anchor: new naver.Point(12, 12),
           },
         });
@@ -197,7 +197,7 @@ export function MapContainer({
         });
       } else if (marker) {
         marker.setIcon({
-          content: `<div style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background-color: var(--accent); border-radius: 50%; color: white; font-weight: bold; font-size: 12px;">📍</div>`,
+          content: `<div style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background-color: var(--accent-rose); border-radius: 50%; color: white; font-weight: bold; font-size: 12px;">📍</div>`,
           anchor: new naver.Point(12, 12),
         });
       }
@@ -228,7 +228,7 @@ export function MapContainer({
     const content = `
       <div style="padding: 8px; font-size: 13px; max-width: 250px;">
         <div style="font-weight: 600; margin-bottom: 4px;">${place.name}</div>
-        <div style="color: var(--text-secondary); font-size: 12px; margin-bottom: 6px;">${place.category}</div>
+        <div style="color: var(--text-secondary); font-size: 12px; margin-bottom: 6px;">${t(`categories.${place.category}`)}</div>
         <div style="color: var(--text-secondary); font-size: 11px; margin-bottom: 6px;">${place.address}</div>
         ${
           place.link

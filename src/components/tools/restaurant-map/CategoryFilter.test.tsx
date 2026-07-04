@@ -177,4 +177,24 @@ describe('CategoryFilter', () => {
       expect(btn).toHaveClass('font-medium');
     });
   });
+
+  it('renders only categories present in the catalog when availableCategories is given', () => {
+    // Regression: hardcoded full list exposed dead filters (e.g. '기타' with
+    // zero places) whose empty result screen read as an error.
+    const onCategoryChange = vi.fn();
+    renderWithIntl(
+      <CategoryFilter
+        activeCategory="all"
+        onCategoryChange={onCategoryChange}
+        availableCategories={['cafe', 'korean']}
+      />,
+      { locale: 'ko' }
+    );
+
+    expect(screen.getByRole('button', { name: '전체 카테고리' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '카페' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '한식' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '기타' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '일식' })).not.toBeInTheDocument();
+  });
 });

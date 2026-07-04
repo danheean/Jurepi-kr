@@ -123,6 +123,54 @@ test.describe('Restaurant Map - E2E', () => {
     expect(errors).toEqual([]);
   });
 
+  test('every rendered category filter yields at least one place (no dead filters)', async ({
+    page,
+  }) => {
+    // Regression: a hardcoded category list rendered '기타' with zero matching
+    // places — clicking it showed a misleading empty state that read as an error.
+    const errors = collectPageErrors(page);
+
+    await page.goto('/ko/tools/restaurant-map');
+    await expect(page.getByRole('searchbox')).toBeVisible({ timeout: 10_000 });
+
+    const main = page.locator('main');
+    // Category pills live in the row right below the region tablist
+    const categoryRow = main.locator('[role="tablist"] + div');
+    const labels = await categoryRow.locator('button').allTextContents();
+    expect(labels.length).toBeGreaterThan(1);
+
+    for (const label of labels) {
+      await categoryRow.getByRole('button', { name: label, exact: true }).click();
+      await expect(
+        main.locator('#place-list [role="button"]').first(),
+        `category "${label}" must match at least one place`
+      ).toBeVisible();
+    }
+
+    expect(errors).toEqual([]);
+  });
+
+  test('no-result search shows reset CTA and reset restores the list', async ({
+    page,
+  }) => {
+    const errors = collectPageErrors(page);
+
+    await page.goto('/ko/tools/restaurant-map');
+    const search = page.getByRole('searchbox');
+    await expect(search).toBeVisible({ timeout: 10_000 });
+
+    await search.fill('존재하지않는맛집zzz');
+    const main = page.locator('main');
+    await expect(main.getByText('조건에 맞는 맛집이 없어요', { exact: false })).toBeVisible();
+    // The old favorites-onboarding message must not appear for filter no-results
+    await expect(main.getByText('별을 눌러 즐겨찾기를 저장하세요')).toHaveCount(0);
+
+    await main.getByRole('button', { name: '필터 초기화' }).click();
+    await expect(main.locator('#place-list [role="button"]').first()).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
   test('en locale renders localized content without ErrorBoundary', async ({
     page,
   }) => {

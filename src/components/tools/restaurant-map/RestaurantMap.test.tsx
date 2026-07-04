@@ -130,6 +130,19 @@ describe('RestaurantMap', () => {
     expect(tabNames).toContain('Busan');
   });
 
+  it('renders only category filters that exist in the catalog (no dead 기타 filter)', () => {
+    // Test catalog has cafe + korean only — buttons for absent categories
+    // (일식/기타 …) must not render, so users can never reach a guaranteed-empty
+    // filter that looks like an error.
+    const catalog = createTestCatalog();
+    renderWithIntl(<RestaurantMap catalog={catalog} />, { locale: 'ko' });
+
+    expect(screen.getByRole('button', { name: '카페' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '한식' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '기타' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '일식' })).not.toBeInTheDocument();
+  });
+
   it('renders place list region with semantic role', () => {
     const catalog = createTestCatalog();
     const { container } = renderWithIntl(<RestaurantMap catalog={catalog} />);

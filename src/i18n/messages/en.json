@@ -1676,7 +1676,8 @@
       },
       "buttons": {
         "myLocation": "My Location",
-        "clearSearch": "Clear"
+        "clearSearch": "Clear",
+        "resetFilters": "Reset filters"
       },
       "geolocation": {
         "granted": "Location access granted",
@@ -1700,7 +1701,8 @@
       "empty": {
         "noResults": "No restaurants found for '{query}'.",
         "noFavorites": "Tap the star to save your favorites.",
-        "noRecents": "No recently viewed restaurants."
+        "noRecents": "No recently viewed places yet. Open a place card and it will show up here.",
+        "noMatches": "No places match your filters. Try clearing the search or filters."
       },
       "mapToggle": {
         "mapView": "Map",
