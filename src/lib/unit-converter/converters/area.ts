@@ -11,6 +11,8 @@ export const UNITS = {
   square_foot: 0.092903,
   square_yard: 0.836127,
   square_mile: 2.58999e6,
+  // 평 (Korean pyeong): a square of side 6 ja (1 ja = 10/33 m) → (20/11)² = 400/121 m².
+  pyeong: 400 / 121,
 } as const;
 
 export function convert(value: number, fromUnit: string, toUnit: string): number {

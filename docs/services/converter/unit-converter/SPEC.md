@@ -34,7 +34,7 @@ CRITICAL (live conversion, SPA): Per the platform rule, every Jurepi tool is a S
 
 <scope_boundaries>
   <in_scope>
-    - Eight unit categories: length (mm, cm, m, km, in, ft, yd, mi), mass/weight (mg, g, kg, oz, lb), temperature (°C, °F, K), area (mm², cm², m², km², in², ft², yd², mi²), volume (mL, L, in³, ft³, gal), speed (m/s, km/h, mi/h, knot), digital storage (B, KB, MB, GB, TB), time (ms, s, min, h, day).
+    - Eight unit categories: length (mm, cm, m, km, in, ft, yd, mi), mass/weight (mg, g, kg, oz, lb), temperature (°C, °F, K), area (mm², cm², m², km², in², ft², yd², mi², 평/pyeong — Korea-only), volume (mL, L, in³, ft³, gal), speed (m/s, km/h, mi/h, knot), digital storage (B, KB, MB, GB, TB), time (ms, s, min, h, day).
     - Live conversion as you type (debounced 50ms); keystroke input validates as a number (or empty).
     - Category selector (8 tabs or pills); selecting a category resets from/to unit to canonical pair but preserves value history.
     - From-unit + To-unit pickers (dropdown or combobox; default canonical pair per category, e.g., m/km for length, °C/°F for temperature).
@@ -398,7 +398,7 @@ src/
     - Length: m (1), mm (0.001), cm (0.01), km (1000), in (0.0254), ft (0.3048), yd (0.9144), mi (1609.34)
     - Mass: kg (1), g (0.001), mg (1e-6), oz (0.0283495), lb (0.453592)
     - Temperature: °C (base), °F (T_F = T_C × 9/5 + 32), K (T_K = T_C + 273.15)
-    - Area: m² (1), mm² (1e-6), cm² (0.0001), km² (1e6), in² (0.00064516), ft² (0.092903), yd² (0.836127), mi² (2.58999e6)
+    - Area: m² (1), mm² (1e-6), cm² (0.0001), km² (1e6), in² (0.00064516), ft² (0.092903), yd² (0.836127), mi² (2.58999e6), 평/pyeong (400/121 ≈ 3.305785 — Korea-only; canonical pair m²↔평)
     - Volume: L (0.001 m³), mL (1e-6 m³), in³ (1.63871e-5 m³), ft³ (0.0283168 m³), gal (0.00378541 m³)
     - Speed: m/s (1), km/h (1/3.6), mi/h (0.44704), knot (0.51444)
     - Digital storage: B (1), KB (1000), MB (1e6), GB (1e9), TB (1e12), KiB (1024), MiB (1048576), GiB (1073741824), TiB (1099511627776)

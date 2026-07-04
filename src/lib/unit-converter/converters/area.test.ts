@@ -37,4 +37,28 @@ describe('area converter', () => {
   it('validateUnit returns false for invalid units', () => {
     expect(validateUnit('hectare')).toBe(false);
   });
+
+  // 평 (Korean pyeong): 1평 = 400/121 ㎡ ≈ 3.305785 ㎡
+  it('converts 1 pyeong to ~3.305785 m²', () => {
+    expect(convert(1, 'pyeong', 'square_meter')).toBeCloseTo(3.305785, 6);
+  });
+
+  it('converts 1 m² to ~0.3025 pyeong', () => {
+    expect(convert(1, 'square_meter', 'pyeong')).toBeCloseTo(0.3025, 4);
+  });
+
+  it('converts 34 pyeong (a common apartment size) to ~112.4 m²', () => {
+    expect(convert(34, 'pyeong', 'square_meter')).toBeCloseTo(112.397, 3);
+  });
+
+  it('round-trip: m² → 평 → m² = original', () => {
+    const original = 84;
+    const py = convert(original, 'square_meter', 'pyeong');
+    const back = convert(py, 'pyeong', 'square_meter');
+    expect(Math.abs(original - back)).toBeLessThan(1e-10);
+  });
+
+  it('validateUnit returns true for pyeong', () => {
+    expect(validateUnit('pyeong')).toBe(true);
+  });
 });

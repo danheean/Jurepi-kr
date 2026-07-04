@@ -58,8 +58,10 @@ export const CATEGORIES: Category[] = [
       { id: 'square_foot', symbol: 'ft²', category: 'area', factor: 0.092903 },
       { id: 'square_yard', symbol: 'yd²', category: 'area', factor: 0.836127 },
       { id: 'square_mile', symbol: 'mi²', category: 'area', factor: 2.58999e6 },
+      // 평 (Korean pyeong): 1평 = 400/121 ㎡ ≈ 3.3058㎡ — common for real estate in Korea.
+      { id: 'pyeong', symbol: '평', category: 'area', factor: 400 / 121 },
     ],
-    canonicalPair: { from: 'square_meter', to: 'square_foot' },
+    canonicalPair: { from: 'square_meter', to: 'pyeong' },
   },
   {
     id: 'volume',
