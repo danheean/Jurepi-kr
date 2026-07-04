@@ -89,10 +89,10 @@ export function MapContainer({
       const bounds = map.getBounds();
       if (bounds) {
         setBounds({
-          n: bounds.maxLat(),
-          s: bounds.minLat(),
-          e: bounds.maxLng(),
-          w: bounds.minLng(),
+          n: bounds.north(),
+          s: bounds.south(),
+          e: bounds.east(),
+          w: bounds.west(),
         });
       }
     };
@@ -133,14 +133,11 @@ export function MapContainer({
         position: new naver.LatLng(userGeo.lat, userGeo.lng),
         map: mapInstanceRef.current,
         title: 'Your Location',
-        icon: new naver.PointingIcon(
-          {
-            content: [
-              `<div style="width: 16px; height: 16px; border-radius: 50%; background-color: var(--brand); border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.3);"></div>`,
-            ],
-            anchor: new naver.Point(8, 8),
-          }
-        ),
+        // NAVER Maps marker icons are HtmlIcon object literals, not constructors
+        icon: {
+          content: `<div style="width: 16px; height: 16px; border-radius: 50%; background-color: var(--brand); border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.3);"></div>`,
+          anchor: new naver.Point(8, 8),
+        },
       });
     }
   }, [userGeo, mapSDKReady, t]);
@@ -177,14 +174,10 @@ export function MapContainer({
           position: new naver.LatLng(place.lat, place.lng),
           map: mapInstanceRef.current,
           title: place.name,
-          icon: new naver.PointingIcon(
-            {
-              content: [
-                `<div style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background-color: var(--accent); border-radius: 50%; color: white; font-weight: bold; font-size: 12px;">📍</div>`,
-              ],
-              anchor: new naver.Point(12, 12),
-            }
-          ),
+          icon: {
+            content: `<div style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background-color: var(--accent); border-radius: 50%; color: white; font-weight: bold; font-size: 12px;">📍</div>`,
+            anchor: new naver.Point(12, 12),
+          },
         });
 
         marker.addListener('click', () => {
@@ -198,27 +191,15 @@ export function MapContainer({
       if (!place.id) continue;
       const marker = markersRef.current.get(place.id);
       if (marker && place.id === selectedPlaceId) {
-        marker.setIcon(
-          new naver.PointingIcon(
-            {
-              content: [
-                `<div style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: var(--brand); border-radius: 50%; color: white; font-weight: bold; font-size: 14px; box-shadow: 0 0 8px rgba(0,0,0,0.3);">📍</div>`,
-              ],
-              anchor: new naver.Point(16, 16),
-            }
-          )
-        );
+        marker.setIcon({
+          content: `<div style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: var(--brand); border-radius: 50%; color: white; font-weight: bold; font-size: 14px; box-shadow: 0 0 8px rgba(0,0,0,0.3);">📍</div>`,
+          anchor: new naver.Point(16, 16),
+        });
       } else if (marker) {
-        marker.setIcon(
-          new naver.PointingIcon(
-            {
-              content: [
-                `<div style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background-color: var(--accent); border-radius: 50%; color: white; font-weight: bold; font-size: 12px;">📍</div>`,
-              ],
-              anchor: new naver.Point(12, 12),
-            }
-          )
-        );
+        marker.setIcon({
+          content: `<div style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background-color: var(--accent); border-radius: 50%; color: white; font-weight: bold; font-size: 12px;">📍</div>`,
+          anchor: new naver.Point(12, 12),
+        });
       }
     }
   }, [places, selectedPlaceId, mapSDKReady]);

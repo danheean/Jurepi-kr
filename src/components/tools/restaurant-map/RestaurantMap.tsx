@@ -52,6 +52,7 @@ export function RestaurantMap({ catalog = DEFAULT_CATALOG }: RestaurantMapProps)
               onRegionChange={hook.setActiveRegion}
               hasFavorites={hook.favorites.length > 0}
               hasRecents={hook.recents.length > 0}
+              catalog={catalog}
             />
 
             <CategoryFilter

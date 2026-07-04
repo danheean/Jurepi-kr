@@ -4,15 +4,21 @@ import { MapContainer } from './MapContainer';
 import { renderWithIntl } from './test-utils';
 import type { Place } from '@/lib/restaurant-map/schema';
 
-// Mock naver.maps API
+// Mock naver.maps API — mirrors the REAL SDK surface (verified against the live
+// SDK: LatLngBounds exposes north()/south()/east()/west(); PointingIcon is an
+// enum for polylines, NOT a marker-icon constructor; marker icons are plain
+// { content, anchor } HtmlIcon literals). Do NOT add invented methods here:
+// a mock that encodes a fictional API keeps unit tests green while production crashes.
 const createMockNaverMaps = () => ({
   Map: vi.fn(function (this: any, el: HTMLElement, options: any) {
     this.getZoom = vi.fn(() => 11);
     this.getBounds = vi.fn(() => ({
-      maxLat: vi.fn(() => 40),
-      minLat: vi.fn(() => 35),
-      maxLng: vi.fn(() => 130),
-      minLng: vi.fn(() => 125),
+      north: vi.fn(() => 40),
+      south: vi.fn(() => 35),
+      east: vi.fn(() => 130),
+      west: vi.fn(() => 125),
+      getNE: vi.fn(),
+      getSW: vi.fn(),
     }));
     this.panTo = vi.fn();
     this.addListener = vi.fn();
@@ -30,10 +36,9 @@ const createMockNaverMaps = () => ({
     this.setIcon = vi.fn();
     this.addListener = vi.fn();
   }),
-  PointingIcon: vi.fn(function (this: any, options: any) {
-    this.content = options.content;
-    this.anchor = options.anchor;
-  }),
+  // Real SDK value: an enum object (polyline arrow shapes). Kept as a plain
+  // object so any `new naver.PointingIcon(...)` regression throws in tests.
+  PointingIcon: { OPEN_ARROW: 1, BLOCK_ARROW: 2, CIRCLE: 3, DIAMOND: 4 },
   InfoWindow: vi.fn(function (this: any, options: any) {
     this.setContent = vi.fn();
     this.open = vi.fn();
@@ -313,6 +318,46 @@ describe('MapContainer', () => {
       const MarkerConstructor = (window as any).naver.maps.Marker;
       // Should not create any place markers
       expect(MarkerConstructor.mock.calls.length).toBe(0);
+    });
+  });
+
+  it('reads viewport via LatLngBounds north/south/east/west (real SDK API)', async () => {
+    // Regression: production crashed with "e.maxLat is not a function" because
+    // the component (and this mock) used invented bounds methods.
+    const onMarkerClick = vi.fn();
+    renderWithIntl(
+      <MapContainer places={testPlaces} onMarkerClick={onMarkerClick} />
+    );
+
+    await waitFor(() => {
+      const MapConstructor = (window as any).naver.maps.Map;
+      const mapInstance = MapConstructor.mock.results[0]?.value;
+      expect(mapInstance).toBeDefined();
+      expect(mapInstance.getBounds).toHaveBeenCalled();
+      const bounds = mapInstance.getBounds.mock.results[0].value;
+      expect(bounds.north).toHaveBeenCalled();
+      expect(bounds.south).toHaveBeenCalled();
+      expect(bounds.east).toHaveBeenCalled();
+      expect(bounds.west).toHaveBeenCalled();
+    });
+  });
+
+  it('passes marker icons as HtmlIcon object literals with string content', async () => {
+    // Regression: `new naver.PointingIcon({...})` is not a constructor in the
+    // real SDK — icons must be plain { content, anchor } literals.
+    const onMarkerClick = vi.fn();
+    renderWithIntl(
+      <MapContainer places={testPlaces} onMarkerClick={onMarkerClick} />
+    );
+
+    await waitFor(() => {
+      const MarkerConstructor = (window as any).naver.maps.Marker;
+      expect(MarkerConstructor.mock.calls.length).toBeGreaterThanOrEqual(2);
+      for (const [options] of MarkerConstructor.mock.calls) {
+        expect(typeof options.icon).toBe('object');
+        expect(typeof options.icon.content).toBe('string');
+        expect(options.icon.anchor).toBeDefined();
+      }
     });
   });
 

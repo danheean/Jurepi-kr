@@ -258,6 +258,91 @@
     }
   },
   {
+    "slug": "suyu-sundae-gukbap",
+    "region": "seoul",
+    "city": "강북구",
+    "asOfDate": "2026-07-04",
+    "sourceUrl": "https://blog.naver.com/dhan0213",
+    "ko": {
+      "title": "수유동 순대국밥",
+      "sourceNote": "직접 다녀온 곳 위주, 2026년 상반기 기준",
+      "places": [
+        {
+          "name": "수유 시장 순대국",
+          "lat": 37.6387,
+          "lng": 127.0253,
+          "category": "korean",
+          "address": "서울 강북구 도봉로 앞 수유재래시장 내",
+          "description": "수유재래시장 안 노포. 진한 사골 육수에 직접 만든 찹쌀순대를 아낌없이 넣어준다.",
+          "personalNote": "시장 국밥은 역시 양으로 승부하네요. 새우젓 간이 기본기라 첫 술은 간 없이 드셔보세요.",
+          "priceRange": "₩9,000–12,000",
+          "id": "suyu-sundae-gukbap#0"
+        },
+        {
+          "name": "강북 할머니 순대국밥",
+          "lat": 37.6402,
+          "lng": 127.0247,
+          "category": "korean",
+          "address": "서울 강북구 삼양로 수유역 인근",
+          "description": "24시간 운영하는 동네 사랑방. 머릿고기와 내장 비율을 취향대로 고를 수 있다.",
+          "personalNote": "해장으로 새벽에 가면 택시 기사님들 사이에 앉게 됩니다. 그게 맛집의 증거죠.",
+          "priceRange": "₩10,000–13,000",
+          "id": "suyu-sundae-gukbap#1"
+        },
+        {
+          "name": "수유동 뽀얀집",
+          "lat": 37.6371,
+          "lng": 127.0265,
+          "category": "korean",
+          "address": "서울 강북구 노해로 수유동",
+          "description": "잡내 없는 뽀얀 국물이 시그니처. 들깨가루와 다대기를 따로 내준다.",
+          "personalNote": "순대국 특유의 냄새 때문에 못 먹던 친구도 여기선 한 그릇 뚝딱했어요. 입문용 강추.",
+          "priceRange": "₩9,500–12,500",
+          "id": "suyu-sundae-gukbap#2"
+        }
+      ]
+    },
+    "en": {
+      "title": "Suyu-dong Sundae Gukbap (Blood Sausage Soup)",
+      "sourceNote": "First-hand visits only, as of H1 2026",
+      "places": [
+        {
+          "name": "Suyu Market Sundae-guk",
+          "lat": 37.6387,
+          "lng": 127.0253,
+          "category": "korean",
+          "address": "Inside Suyu Traditional Market, Dobong-ro, Gangbuk-gu, Seoul",
+          "description": "Old-school spot inside Suyu Market — rich bone broth loaded with house-made sticky-rice sundae.",
+          "personalNote": "Market gukbap wins on portions. The salted-shrimp seasoning is the backbone — try the first spoonful unseasoned.",
+          "priceRange": "₩9,000–12,000",
+          "id": "suyu-sundae-gukbap#0"
+        },
+        {
+          "name": "Gangbuk Grandma's Sundae Gukbap",
+          "lat": 37.6402,
+          "lng": 127.0247,
+          "category": "korean",
+          "address": "Near Suyu Station, Samyang-ro, Gangbuk-gu, Seoul",
+          "description": "A 24-hour neighborhood institution. Pick your own ratio of head meat to offal.",
+          "personalNote": "Go at dawn for hangover soup and you'll be seated among taxi drivers — that's the proof it's good.",
+          "priceRange": "₩10,000–13,000",
+          "id": "suyu-sundae-gukbap#1"
+        },
+        {
+          "name": "Suyu-dong Milky Broth House",
+          "lat": 37.6371,
+          "lng": 127.0265,
+          "category": "korean",
+          "address": "Nohae-ro, Suyu-dong, Gangbuk-gu, Seoul",
+          "description": "Signature milky broth with zero gaminess. Perilla-seed powder and spicy paste served on the side.",
+          "personalNote": "A friend who couldn't handle the usual sundae-guk smell finished a whole bowl here. Best entry point.",
+          "priceRange": "₩9,500–12,500",
+          "id": "suyu-sundae-gukbap#2"
+        }
+      ]
+    }
+  },
+  {
     "slug": "busan-ramen",
     "region": "busan",
     "city": "중구·동구",

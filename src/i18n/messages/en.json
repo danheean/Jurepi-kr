@@ -1489,10 +1489,10 @@
       },
       "howTo": {
         "title": "How to Use Restaurant List",
-        "step1": "Select a region or category…",
-        "step2": "Filter further by cuisine type…",
-        "step3": "Enable My Location to…",
-        "step4": "Tap the star to…"
+        "step1": "Pick a region tab (Seoul, Busan, Nationwide) or a category to narrow the map and card list.",
+        "step2": "Type a restaurant name, dish, or neighborhood in the search box to filter further alongside categories.",
+        "step3": "Enable My Location to see your position on the map and sort nearby places by distance.",
+        "step4": "Tap the star on a card to save it to Favorites and revisit it from the Favorites tab."
       },
       "faq": {
         "items": [

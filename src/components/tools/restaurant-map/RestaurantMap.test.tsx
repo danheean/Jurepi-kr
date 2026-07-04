@@ -112,6 +112,24 @@ describe('RestaurantMap', () => {
     expect(screen.getByText('RESTAURANT TOOL')).toBeInTheDocument();
   });
 
+  it('derives region tabs from the catalog (busan tab appears when a busan list exists)', () => {
+    // Regression: RestaurantMap did not pass `catalog` to RegionTabs, so tabs
+    // fell back to a hardcoded all/seoul/nationwide set and the busan tab
+    // silently disappeared even though busan places were rendered.
+    const seoulList = createTestCatalog()[0];
+    const busanList: MergedPlaceList = {
+      ...seoulList,
+      slug: 'test-busan',
+      region: 'busan',
+      ko: { ...seoulList.ko, title: '부산 리스트' },
+      en: { ...seoulList.en, title: 'Busan list' },
+    };
+    renderWithIntl(<RestaurantMap catalog={[seoulList, busanList]} />);
+
+    const tabNames = screen.getAllByRole('tab').map((el) => el.textContent);
+    expect(tabNames).toContain('Busan');
+  });
+
   it('renders place list region with semantic role', () => {
     const catalog = createTestCatalog();
     const { container } = renderWithIntl(<RestaurantMap catalog={catalog} />);
