@@ -1757,7 +1757,8 @@
         "heading": "Frequently Asked Questions"
       },
       "placeDetail": {
-        "openInMaps": "Open in Maps"
+        "openInMaps": "Open in Maps",
+        "selectHint": "Select a place from the map markers or the list to see its details here."
       }
     }
   },

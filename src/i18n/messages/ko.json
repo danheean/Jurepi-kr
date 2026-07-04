@@ -1757,7 +1757,8 @@
         "heading": "자주 묻는 질문"
       },
       "placeDetail": {
-        "openInMaps": "지도에서 보기"
+        "openInMaps": "지도에서 보기",
+        "selectHint": "지도의 마커나 목록에서 장소를 선택하면 여기에 정보가 표시됩니다."
       }
     }
   },
