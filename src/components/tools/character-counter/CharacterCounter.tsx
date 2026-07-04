@@ -7,6 +7,7 @@ import { CounterMetrics } from './CounterMetrics';
 import { LimitIndicator } from './LimitIndicator';
 import { CopyButton } from './CopyButton';
 import { ClearButton } from './ClearButton';
+import { CounterSkeleton } from './CounterSkeleton';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 /**
@@ -27,7 +28,7 @@ export function CharacterCounter() {
   }, []);
 
   if (!mounted || isLoading) {
-    return null;
+    return <CounterSkeleton />;
   }
 
   const hintText = t('hint', {
