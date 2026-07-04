@@ -5,7 +5,7 @@ export function DevPeopleIntro() {
 
   return (
     <section className="space-y-4 text-center md:text-left">
-      <p className="text-sm font-bold uppercase tracking-wider text-text-secondary">
+      <p className="text-xs font-bold uppercase tracking-wider text-accent-sky-ink">
         {t('eyebrow')}
       </p>
       <h1 className="text-4xl font-bold text-text leading-tight">{t('title')}</h1>

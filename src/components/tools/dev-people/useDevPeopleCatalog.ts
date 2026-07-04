@@ -119,7 +119,9 @@ function reducer(state: State, action: Action): State {
 
 export function useDevPeopleCatalog(catalog: MergedPerson[]): UseDevPeopleCatalogReturn {
   const [state, dispatch] = useReducer(reducer, { catalog }, (init) => initialState(init.catalog));
-  const debounceTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  // Separate timers: a shared ref would let persist and query-commit cancel each other.
+  const persistTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const queryTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Mount: read localStorage, parse, prune unknown slugs
   useEffect(() => {
@@ -153,8 +155,8 @@ export function useDevPeopleCatalog(catalog: MergedPerson[]): UseDevPeopleCatalo
   useEffect(() => {
     if (!state.mounted) return;
 
-    clearTimeout(debounceTimer.current);
-    debounceTimer.current = setTimeout(() => {
+    clearTimeout(persistTimer.current);
+    persistTimer.current = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state.store));
       } catch {
@@ -162,17 +164,17 @@ export function useDevPeopleCatalog(catalog: MergedPerson[]): UseDevPeopleCatalo
       }
     }, 300);
 
-    return () => clearTimeout(debounceTimer.current);
+    return () => clearTimeout(persistTimer.current);
   }, [state.store, state.mounted]);
 
   // Query debounce: commit queryDraft after SEARCH_DEBOUNCE
   useEffect(() => {
-    clearTimeout(debounceTimer.current);
-    debounceTimer.current = setTimeout(() => {
+    clearTimeout(queryTimer.current);
+    queryTimer.current = setTimeout(() => {
       dispatch({ type: 'COMMIT_QUERY', payload: state.queryDraft });
     }, SEARCH_DEBOUNCE);
 
-    return () => clearTimeout(debounceTimer.current);
+    return () => clearTimeout(queryTimer.current);
   }, [state.queryDraft]);
 
   // Compute filtered list based on query, tag, era, and active tab

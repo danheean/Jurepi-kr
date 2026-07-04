@@ -24,19 +24,20 @@ function renderEn(selectedEra: Era | undefined = undefined, onSelectEra = vi.fn(
 }
 
 describe('EraTabs', () => {
-  it('renders as a tablist', () => {
+  it('renders as a labelled filter group (not a fake tablist)', () => {
     renderKo();
 
-    const tablist = screen.getByTestId('era-tabs');
-    expect(tablist).toHaveAttribute('role', 'tablist');
+    const group = screen.getByTestId('era-tabs');
+    expect(group).toHaveAttribute('role', 'group');
+    expect(group).toHaveAttribute('aria-label', '시기 필터');
   });
 
-  it('renders "All" tab with undefined id', () => {
+  it('renders "All" toggle with undefined id', () => {
     renderKo();
 
     const allTab = screen.getByTestId('era-tab-undefined');
     expect(allTab).toBeInTheDocument();
-    expect(allTab).toHaveAttribute('role', 'tab');
+    expect(allTab).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('renders era tabs with i18n labels (1940–1960, 1960–1980, etc.)', () => {
@@ -49,18 +50,18 @@ describe('EraTabs', () => {
     expect(screen.getByTestId('era-tab-2000-present')).toBeInTheDocument();
   });
 
-  it('sets aria-selected=true for active era tab', () => {
+  it('sets aria-pressed=true for active era toggle', () => {
     renderKo('1980-2000');
 
     const eraTab = screen.getByTestId('era-tab-1980-2000');
-    expect(eraTab).toHaveAttribute('aria-selected', 'true');
+    expect(eraTab).toHaveAttribute('aria-pressed', 'true');
   });
 
-  it('sets aria-selected=false for inactive era tabs', () => {
+  it('sets aria-pressed=false for inactive era toggles', () => {
     renderKo('1980-2000');
 
     const otherTab = screen.getByTestId('era-tab-1960-1980');
-    expect(otherTab).toHaveAttribute('aria-selected', 'false');
+    expect(otherTab).toHaveAttribute('aria-pressed', 'false');
   });
 
   it('calls onSelectEra when era tab is clicked', async () => {
@@ -128,10 +129,10 @@ describe('EraTabs', () => {
     expect(eraTab).toHaveFocus();
   });
 
-  it('renders all 5 era tabs (All + 4 eras)', () => {
+  it('renders all 5 era toggles (All + 4 eras)', () => {
     renderKo();
 
-    const tabs = screen.getAllByRole('tab');
+    const tabs = screen.getAllByRole('button');
     expect(tabs).toHaveLength(5);
   });
 });

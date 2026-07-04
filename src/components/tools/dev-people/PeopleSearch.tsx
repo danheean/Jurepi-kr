@@ -43,8 +43,8 @@ export function PeopleSearch({ query, setQuery, resultCount }: PeopleSearchProps
           <button
             type="button"
             onClick={() => setQuery('')}
-            aria-label="Clear search"
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text transition-colors"
+            aria-label={t('clear')}
+            className="absolute right-0.5 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full text-text-secondary hover:text-text transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
             data-testid="people-search-clear"
           >
             <X className="w-5 h-5" />

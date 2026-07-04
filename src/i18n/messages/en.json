@@ -448,7 +448,7 @@
         "unfavorited": "Removed from favorites"
       },
       "empty": {
-        "noResults": "No terms match '{query}'.",
+        "noResults": "No terms match “{query}”.",
         "favorites": "Star terms to save them to your favorites.",
         "recent": "Your recently viewed terms will appear here."
       },
@@ -560,7 +560,7 @@
         "malformedDetails": "Check for incomplete hex sequences (e.g., %6 without a second hex digit).",
         "charsetMismatch": "These bytes are invalid for the selected charset.",
         "charsetMismatchDetails": "The URL may actually use a different encoding.",
-        "unencodableChar": "Character '{char}' cannot be represented in {charset}.",
+        "unencodableChar": "Character “{char}” cannot be represented in {charset}.",
         "unencodableCharDetails": "Switch to UTF-8 or remove this character.",
         "tableLoadFailed": "Couldn't load the EUC-KR encoder. Check your connection and try again.",
         "inputTooLong": "Input is too long (max 10,000 characters).",
@@ -651,7 +651,7 @@
         "clearAria": "Clear search"
       },
       "empty": {
-        "noResults": "No topics match '{query}'",
+        "noResults": "No topics match “{query}”",
         "favorites": "Star topics to save them to favorites",
         "noFavorites": "Star topics to save them to favorites",
         "recent": "No topics viewed yet",
@@ -752,7 +752,7 @@
       "list": {
         "itemCount": "{count} items",
         "toggleFavorite": "Toggle favorite",
-        "emptyState": "No rankings match '{query}'",
+        "emptyState": "No rankings match “{query}”",
         "emptyFavorites": "Save rankings with the star button",
         "noResults": "No rankings found",
         "clearSearch": "Clear search"
@@ -1279,6 +1279,7 @@
       "upload": {
         "label": "Upload Image",
         "text": "Click to upload or drag and drop",
+        "button": "Choose file",
         "formats": "PNG, JPEG, WebP",
         "fileName": "File name",
         "fileSize": "File size",
@@ -1291,6 +1292,8 @@
         "hexInput": "Color Code (#RRGGBB)",
         "currentColor": "Selected Color",
         "eyedropperMode": "Eyedropper mode active",
+        "eyedropperActive": "Tap or click the image to pick a color",
+        "eyedropperCancel": "Cancel",
         "hexPlaceholder": "#ffffff"
       },
       "controls": {
@@ -1312,7 +1315,8 @@
         "detecting": "Detecting background color…",
         "empty": "Upload an image to see the preview",
         "dimensions": "Original: {width}×{height} → Export as transparent PNG",
-        "downscaled": "Image scaled down to 4096px longest edge for performance"
+        "downscaled": "Image scaled down to 4096px longest edge for performance",
+        "resultAlt": "Preview of the result image with the background removed"
       },
       "export": {
         "download": "Download PNG",
@@ -1321,6 +1325,7 @@
         "downloadSuccess": "Downloaded!",
         "copySuccess": "Copied to clipboard!",
         "downloadFail": "Download failed. Please try again",
+        "copyFail": "Copy failed. Your browser may not support copying images to the clipboard",
         "fileName": "transparent-{timestamp}.png"
       },
       "errors": {
@@ -1411,7 +1416,7 @@
       "search": {
         "placeholder": "Search by category or game name…",
         "clear": "Clear search",
-        "noResults": "No games matching '{query}'"
+        "noResults": "No games matching “{query}”"
       },
       "deck": {
         "wordCount": "{count} words",
@@ -1542,10 +1547,12 @@
         "label": "Search by name, tags, or era…",
         "placeholder": "Search by name, tags, or era…",
         "aria": "Search people",
+        "clear": "Clear search",
         "resultCount": "{count} people"
       },
       "tabs": {
         "filterLabel": "Filter people",
+        "eraFilterLabel": "Filter by era",
         "all": "All",
         "favorites": "Favorites",
         "recent": "Recently viewed"
@@ -1580,7 +1587,7 @@
         "2000-present": "2000–Present"
       },
       "empty": {
-        "noResults": "No people found matching '{query}'",
+        "noResults": "No people found matching “{query}”",
         "noFavorites": "Click the star button to save your favorite people",
         "noRecent": "Recently viewed people will appear here"
       },
@@ -1709,7 +1716,7 @@
         "away": "{distance}km away"
       },
       "empty": {
-        "noResults": "No restaurants found for '{query}'.",
+        "noResults": "No matching restaurants found.",
         "noFavorites": "Tap the star to save your favorites.",
         "noRecents": "No recently viewed places yet. Open a place card and it will show up here.",
         "noMatches": "No places match your filters. Try clearing the search or filters."
@@ -1867,6 +1874,10 @@
       {
         "title": "Governing law and disputes",
         "body": "These terms are governed by and construed in accordance with the laws of the Republic of Korea, without regard to conflict of law principles. Any legal action or proceeding shall be subject to the exclusive jurisdiction of the courts located in South Korea."
+      },
+      {
+        "title": "AI development and open source",
+        "body": "Jurepi's tools and content were built directly with the help of AI, and everything here is fully open. If anything feels inconvenient or potentially problematic while you use it, please reach out at the contact below—we will review it, fix it, and get back to you."
       },
       {
         "title": "Contact",
