@@ -36,6 +36,8 @@ export interface UseRestaurantMapCatalogReturn {
   setActiveRegion: (region: string) => void;
   activeCategory: string;
   setActiveCategory: (category: string) => void;
+  activeCurator: string;
+  setActiveCurator: (curator: string) => void;
   favorites: string[];
   recents: string[];
   toggleFavoriteFn: (placeId: string) => void;
@@ -54,6 +56,7 @@ interface State {
   queryDraft: string;
   activeRegion: string;
   activeCategory: string;
+  activeCurator: string;
   mounted: boolean;
   userGeo: { lat: number; lng: number } | null;
 }
@@ -66,6 +69,7 @@ type Action =
   | { type: 'SELECT'; payload: string | null }
   | { type: 'SET_REGION'; payload: string }
   | { type: 'SET_CATEGORY'; payload: string }
+  | { type: 'SET_CURATOR'; payload: string }
   | { type: 'TOGGLE_FAVORITE'; payload: string }
   | { type: 'SET_GEOLOCATION'; payload: { lat: number; lng: number } }
   | { type: 'CLEAR_GEOLOCATION' }
@@ -85,6 +89,7 @@ function initialState(catalog: MergedPlaceList[] = []): State {
     queryDraft: '',
     activeRegion: 'all',
     activeCategory: 'all',
+    activeCurator: 'all',
     mounted: false,
     userGeo: null,
   };
@@ -111,6 +116,8 @@ function reducer(state: State, action: Action): State {
       return { ...state, activeRegion: action.payload };
     case 'SET_CATEGORY':
       return { ...state, activeCategory: action.payload };
+    case 'SET_CURATOR':
+      return { ...state, activeCurator: action.payload };
     case 'TOGGLE_FAVORITE':
       return {
         ...state,
@@ -198,7 +205,7 @@ export function useRestaurantMapCatalog(
     return () => clearTimeout(debounceRef.current);
   }, [state.queryDraft, state.mounted]);
 
-  // Derived: filtered places (region + category + search)
+  // Derived: filtered places (region + curator + category + search)
   const filteredPlaces = useMemo(() => {
     let places: Place[] = [];
 
@@ -220,6 +227,11 @@ export function useRestaurantMapCatalog(
       places = regionLists.flatMap((list) => list[locale].places);
     }
 
+    // Apply curator filter
+    if (state.activeCurator !== 'all') {
+      places = places.filter((p) => p.curator === state.activeCurator);
+    }
+
     // Apply category filter
     if (state.activeCategory !== 'all') {
       places = places.filter((p) => p.category === state.activeCategory);
@@ -229,7 +241,7 @@ export function useRestaurantMapCatalog(
     places = filterPlaces(places, state.query, locale);
 
     return places;
-  }, [state.catalog, state.activeRegion, state.activeCategory, state.query, locale, state.store]);
+  }, [state.catalog, state.activeRegion, state.activeCurator, state.activeCategory, state.query, locale, state.store]);
 
   const selectedPlace = useMemo(() => {
     if (!state.selectedPlaceId) return null;
@@ -246,6 +258,10 @@ export function useRestaurantMapCatalog(
 
   const handleSetActiveCategory = useCallback((category: string) => {
     dispatch({ type: 'SET_CATEGORY', payload: category });
+  }, []);
+
+  const handleSetActiveCurator = useCallback((curator: string) => {
+    dispatch({ type: 'SET_CURATOR', payload: curator });
   }, []);
 
   const handleToggleFavorite = useCallback((placeId: string) => {
@@ -296,6 +312,8 @@ export function useRestaurantMapCatalog(
     setActiveRegion: handleSetActiveRegion,
     activeCategory: state.activeCategory,
     setActiveCategory: handleSetActiveCategory,
+    activeCurator: state.activeCurator,
+    setActiveCurator: handleSetActiveCurator,
     favorites: state.store.favorites,
     recents: state.store.recents,
     toggleFavoriteFn: handleToggleFavorite,

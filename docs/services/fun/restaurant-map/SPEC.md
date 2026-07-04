@@ -101,24 +101,31 @@ scripts/
 └── generate-restaurant-map.mjs          # Build time: scan content/restaurant-map/* → parse → validate → emit restaurant-map.generated.json. Wired to prebuild/predev.
 content/restaurant-map/                   # Human-authored content (repository)
 ├── _TEMPLATE.md  _TEMPLATE_en.md         # Templates (excluded by generator)
-├── README.md                             # Authoring guide (region list, place format, coordinate ranges)
+├── README.md                             # Authoring guide (region list, place format, coordinate ranges, curator field)
 └── place-lists/*.md  *_en.md             # Place list pairs
+public/images/restaurant-map/curators/    # Curator avatar images (256×256 PNG)
+├── nuclear.png
+├── dragon.png
+└── honey.png
 src/
 ├── lib/restaurant-map/                   # Pure domain layer — no React/Next, fully unit-tested
-│   ├── schema.ts                         # zod: PlaceFileFront(ko/en), Place, MergedPlaceList, StoreSchema + STORE_VERSION
-│   ├── merge.ts                          # mergePair(koFront, enFront): apply canonical rule → MergedPlaceList; validatePair
+│   ├── schema.ts                         # zod: PlaceFileFront(ko/en), Place, MergedPlaceList, StoreSchema + STORE_VERSION + CURATOR_ENUM
+│   ├── curators.ts                       # Static CURATORS config + avatarSrc(id) helper
+│   ├── merge.ts                          # mergePair(koFront, enFront): apply canonical rule → MergedPlaceList; denormalize curator to places; validatePair
 │   ├── slug.ts                           # slugify(title), resolveSlug(front, filename)
-│   ├── catalog.ts                        # Typed access: allPlaceLists, byId, byPlaceId (favorites/recents/map-selection), byRegion, byCategory, regions(), categories(); geo bounds validation
+│   ├── catalog.ts                        # Typed access: allPlaceLists, byId, byPlaceId (favorites/recents/map-selection), byRegion, byCategory, curators(), regions(), categories(); geo bounds validation
 │   ├── search.ts                         # filterPlaces(places, query, locale): name+category+region+city, both locales; normalize
 │   ├── geo.ts                            # haversineDistance(lat1, lng1, lat2, lng2): km; isValidCoord(lat, lng): bounds check
 │   └── favorites.ts                      # Immutable ops: toggleFavorite, pushRecent(max), pruneUnknown(ids, catalog)
 ├── components/tools/restaurant-map/
-│   ├── RestaurantMap.tsx                 # Orchestrator (Client Component) — region/category/query/selectedId state + useRestaurantMapCatalog() owner + map SDK loader
-│   ├── useRestaurantMapCatalog.ts        # Hook: dynamic catalog import + localStorage favorites/recents + derived filter/select + geolocation state
+│   ├── RestaurantMap.tsx                 # Orchestrator (Client Component) — curator/region/category/query/selectedId state + useRestaurantMapCatalog() owner + map SDK loader
+│   ├── useRestaurantMapCatalog.ts        # Hook: dynamic catalog import + localStorage favorites/recents + derived filter/select (curator, region, category, search) + geolocation state
+│   ├── CuratorLegend.tsx                 # Identity strip: 3 curator avatars + names (clickable to filter)
+│   ├── CuratorFilter.tsx                 # Topmost filter pill row: All Curators / Nuclear / Dragon / Honey (with avatars)
 │   ├── MapContainer.tsx                  # NAVER Maps JS API wrapper; renders markers, clusters, info window; syncs with list selection
 │   ├── MapMarker.tsx                     # Single marker render; click → callback to select place (handled by parent)
 │   ├── PlaceList.tsx                     # Responsive card list; roving tabindex keyboard nav; synced with map selection
-│   ├── PlaceCard.tsx                     # One-place card: name, category badge, region, distance (if geo enabled), short desc, star favorite, optional link
+│   ├── PlaceCard.tsx                     # One-place card: name, category badge, curator avatar, region, distance (if geo enabled), short desc, personalNote quote, star favorite, optional link
 │   ├── RegionTabs.tsx                    # All / 서울 / 부산 / ... / (Favorites) / (Recent) pills
 │   ├── CategoryFilter.tsx                # Optional secondary filter: (All categories) / 카페 / 한식 / 일식 / 브런치 / ...
 │   ├── PlaceSearch.tsx                   # Search input ("/" focus, clear, result count, aria)
@@ -130,7 +137,7 @@ src/
 │   ├── MapFailover.tsx                   # Shown if SDK fails to load: message + list-only UI
 │   └── data/
 │       └── restaurant-map.generated.json  # Generated artifact — [MergedPlaceList...]
-└── i18n/messages/{ko,en}.json            # tools.restaurant-map.* UI chrome (tabs, search, map/list toggle, "내 위치", distance unit [km], how-to, FAQ, category labels [카페/한식/...])
+└── i18n/messages/{ko,en}.json            # tools.restaurant-map.* UI chrome (tabs, search, map/list toggle, "내 위치", distance unit [km], curator labels, how-to, FAQ, category labels [카페/한식/...])
 </file_structure>
 
 <content_authoring_template note="concrete shape of content/restaurant-map/*.md pairs — this IS the _TEMPLATE.md/_TEMPLATE_en.md content, inlined here so agents and human authors don't have to guess the schema">
@@ -138,6 +145,7 @@ src/
 ```markdown
 ---
 title: "서울지역 족발"
+curator: honey
 region: seoul
 city: "여러 구"
 asOfDate: "2026-07-04"
@@ -170,7 +178,7 @@ places:
     personalNote: "맵찔이는 순한맛부터 시작하세요. 저는 매운맛 먹고 후회했어요."
 ```
   </ko_example>
-  <en_example filename="content/restaurant-map/seoul-jokbal_en.md" note="places[] MAY differ from the KO file (different names/descriptions per market); region/asOfDate/sourceUrl are inherited from KO if omitted">
+  <en_example filename="content/restaurant-map/seoul-jokbal_en.md" note="places[] MAY differ from the KO file (different names/descriptions per market); region/asOfDate/curator/sourceUrl are inherited from KO if omitted">
 ```markdown
 ---
 title: "Seoul Pork Hock (Jokbal) Spots"
@@ -227,6 +235,7 @@ places:
 ```
   </nationwide_example>
   <authoring_notes>
+    - `curator` is REQUIRED on the KO file (enum: nuclear, dragon, honey) — the generator fails the build if absent or not one of the three values. EN file omits `curator` (inherits from KO). This field identifies the curator responsible for the entire list; at merge time, it is denormalized onto every place in the list, enabling curator-based filtering.
     - `personalNote` is REQUIRED per place — the generator fails the build if any place is missing it or it's empty. This is the field the platform SPEC calls "개인적인 견해" (Personal Take): a short, first-person, opinionated line distinct from the factual `description`.
     - `region: nationwide` is only for lists whose places genuinely span multiple regions. A single-region food theme (e.g., "서울지역 족발") still uses that region (`seoul`), not `nationwide`.
     - `_TEMPLATE.md` / `_TEMPLATE_en.md` in `content/restaurant-map/` are these same examples with placeholder values and inline comments, kept in sync with this section.
@@ -247,12 +256,14 @@ places:
     - imageUrl?: string (optional, external or local asset path, explicit dimensions required)
     - imageWidth?: number (px, required if imageUrl set)
     - imageHeight?: number (px, required if imageUrl set)
+    - curator: string — **derived at merge time, NOT authored in markdown**: inherited from list's `curator` field (nuclear/dragon/honey). Identifies the curator responsible for this place. Used for curator filtering and display (avatar + name on card and detail panel).
     - id: string — **derived at merge time, NOT authored in markdown**: `${listSlug}#${index}` (index = position in the `places[]` array, 0-based, stable across rebuilds as long as authors don't reorder places). This is the favorites/recents/map-marker/selection identity (see `<merged_place_list>`, `<restaurant_map_store>`).
     INVARIANT: name/lat/lng/category/address/description/personalNote non-empty, coordinate bounds valid, ≥3 places per list. zod parse failure → collect as error (build failure candidate).
   </place>
   <place_list_file_front note="individual markdown file frontmatter (parse unit)">
     - title: string (required, non-empty) — list title (that locale, e.g., "성수동 감성 카페" or "Seongsu-dong Aesthetic Cafés")
     - slug?: string — ASCII stable identifier (Korean file canonical; absent = derive from filename)
+    - curator: enum (nuclear, dragon, honey) (required, KO canonical) — curator id. List-level identity; at merge time, denormalized onto every place in this list. KO file is canonical; EN inherits if absent.
     - region: enum (서울/Seoul, 부산/Busan, 대구/Daegu, 대전/Daejeon, 광주/Gwangju, 울산/Ulsan, 경기/Gyeonggi, 강원/Gangwon, 충북/Chungbuk, 충남/Chungnam, 전북/Jeonbuk, 전남/Jeonnam, 경북/Gyeongbuk, 경남/Gyeongnam, 제주/Jeju, 전국/Nationwide) — geographic scope (Korean file canonical; EN inherits if absent). `전국`/`nationwide` is for food-name theme lists whose places span multiple regions (e.g., "전국 참치 맛집"); region-scoped food themes (e.g., "서울지역 족발") use the specific region instead.
     - city?: string (optional, more granular: e.g., "강남구" under 서울) — city/district within region
     - asOfDate: string ISO date (required) — publication date "2025-01", "2025-01-15", etc.
@@ -260,18 +271,23 @@ places:
     - sourceUrl?: string (optional, valid http(s) URL) — clickable source link (canonical from KO; rel=noopener target=_blank), rendered in UI.
     - places: array (required, ≥3)
       - [Detailed place schema as above]
-    INVARIANT: title/region/asOfDate/sourceNote/places non-empty, places ≥3, all coords valid, category known. zod parse failure → collect as error (build failure candidate).
+    INVARIANT: title/region/curator/asOfDate/sourceNote/places non-empty, places ≥3, all coords valid, category known, curator in enum. zod parse failure → collect as error (build failure candidate).
   </place_list_file_front>
   <merged_place_list note="ko+en merge result; catalog record; restaurant-map.generated.json item">
     - slug: string — unique identifier for the THEMED LIST (unique per region; used for routing/sitemap-style grouping, NOT the favorites/recents/selection identity — see place.id below)
+    - curator: enum (nuclear, dragon, honey) — curator id, derived from KO file's curator field, denormalized into every place in this list
     - region: enum — Korean file canonical
     - city?: string — optional city/district
     - asOfDate: string ISO
     - sourceUrl?: string — optional clickable source link (canonical; rel=noopener).
-    - ko: { title, sourceNote, places: [{ id, name, lat, lng, category, address, description, personalNote, link?, priceRange?, imageUrl?, imageWidth?, imageHeight? }, ...] }
-    - en: { title, sourceNote, places: [...] } — title/sourceNote/places are PER-LOCALE; EN inherits KO sourceNote if omitted. places may differ (e.g., different restaurant names or descriptions per market), but ko.places[i] and en.places[i] at the same index represent the SAME real-world place (same id `${slug}#${i}`, same lat/lng expected) — this is what makes cross-locale favorites/recents/map-selection consistent when switching locale.
-    INVARIANT — PAIR/FIELDS/UNIQUENESS: every record has both ko+en; each has title + ≥3 valid places; slug unique within region; ko/en places arrays same length (index-aligned); lat/lng bounds valid. Violation → generator build failure.
+    - ko: { title, sourceNote, places: [{ id, curator, name, lat, lng, category, address, description, personalNote, link?, priceRange?, imageUrl?, imageWidth?, imageHeight? }, ...] }
+    - en: { title, sourceNote, places: [...] } — title/sourceNote/places are PER-LOCALE; EN inherits KO sourceNote if omitted. places may differ (e.g., different restaurant names or descriptions per market), but ko.places[i] and en.places[i] at the same index represent the SAME real-world place (same id `${slug}#${i}`, same lat/lng expected, same curator) — this is what makes cross-locale favorites/recents/map-selection consistent when switching locale.
+    INVARIANT — PAIR/FIELDS/UNIQUENESS: every record has both ko+en; each has title + ≥3 valid places; slug unique within region; ko/en places arrays same length (index-aligned); lat/lng bounds valid; curator in enum; curator denormalized to all places. Violation → generator build failure.
   </merged_place_list>
+  <curator note="curator of a list; list-level identity, denormalized to each place">
+    - id: enum (nuclear, dragon, honey). Display order: per CURATOR_ORDER. Label: tools.restaurant-map.curators.<id> (e.g., nuclear → "갈곶동 핵주먹" / "Nuclear"). Avatar image: `public/images/restaurant-map/curators/<id>.png` (256×256 PNG).
+    - Denormalization: at merge time, the list's curator field is copied onto every place in that list (place.curator = listFront.curator), enabling curator filtering without list-level query.
+  </curator>
   <region note="geographic grouping; localized label from i18n">
     - id: enum (seoul, busan, daegu, daejeon, gwangju, ulsan, gyeonggi, gangwon, chungbuk, chungnam, jeonbuk, jeonnam, gyeongbuk, gyeongnam, jeju, nationwide). Display order: per REGION_ORDER (nationwide sorts last among real regions, before virtual tabs). Label: tools.restaurant-map.regions.<id> (nationwide → "전국" / "Nationwide").
     - Virtual tabs (not real regions): "all" (every place), "favorites" (pinned), "recent" (MRU).
@@ -289,7 +305,7 @@ places:
     INVARIANT: read is zod-parsed; fail → start fresh (no throw). Unknown place ids (list slug no longer in catalog, or index out of range for that list) pruned on load via `pruneUnknown(ids, catalog)`.
   </restaurant_map_store>
   <constants>
-    - RECENTS_MAX = 20; SEARCH_DEBOUNCE = 120ms; REGION_ORDER = ['all', 'seoul', 'busan', 'daegu', 'daejeon', 'gwangju', 'ulsan', 'gyeonggi', 'gangwon', 'chungbuk', 'chungnam', 'jeonbuk', 'jeonnam', 'gyeongbuk', 'gyeongnam', 'jeju', 'nationwide', 'favorites', 'recent']; CATEGORY_ORDER = ['all', 'cafe', 'korean', 'japanese', 'chinese', 'brunch', 'bar', 'dessert', 'other']; MAP_CENTER_DEFAULT = { lat: 37.5665, lng: 126.9780 } (Seoul); PLACE_ICON_SIZE = 24px; CLUSTER_RADIUS = 80px.
+    - RECENTS_MAX = 20; SEARCH_DEBOUNCE = 120ms; CURATOR_ORDER = ['all', 'nuclear', 'dragon', 'honey']; REGION_ORDER = ['all', 'seoul', 'busan', 'daegu', 'daejeon', 'gwangju', 'ulsan', 'gyeonggi', 'gangwon', 'chungbuk', 'chungnam', 'jeonbuk', 'jeonnam', 'gyeongbuk', 'gyeongnam', 'jeju', 'nationwide', 'favorites', 'recent']; CATEGORY_ORDER = ['all', 'cafe', 'korean', 'japanese', 'chinese', 'brunch', 'bar', 'dessert', 'other']; MAP_CENTER_DEFAULT = { lat: 37.5665, lng: 126.9780 } (Seoul); PLACE_ICON_SIZE = 24px; CLUSTER_RADIUS = 80px.
   </constants>
 </core_data_entities>
 
@@ -301,8 +317,9 @@ places:
 </route_definitions>
 
 <component_hierarchy>
-  <restaurant_map>                  <!-- "use client"; owns region + category + query + selectedId + mapSDKReady state + useRestaurantMapCatalog() + geolocation state owner -->
+  <restaurant_map>                  <!-- "use client"; owns curator + region + category + query + selectedId + mapSDKReady state + useRestaurantMapCatalog() + geolocation state owner -->
     <restaurant_map_intro />        <!-- H1 + lead (server-render where possible) -->
+    <curator_legend />              <!-- Identity strip: 3 curator avatars + names (clickable to filter) -->
     <restaurant_map_layout>         <!-- Desktop: full-width map above or beside responsive list; Mobile: stacked or toggled -->
       <map_column>
         <map_container />           <!-- NAVER Maps JS API wrapper; renders markers + clusters + info window; synced with list selection -->
@@ -311,11 +328,12 @@ places:
       </map_column>
       <list_column>
         <place_search />            <!-- "/" focus, clear, result count -->
+        <curator_filter />          <!-- Topmost filter row: All Curators / Nuclear / Dragon / Honey (with avatars) -->
         <region_tabs />             <!-- All / 서울 / 부산 / ... / Favorites / Recent -->
         <category_filter />         <!-- Optional secondary filter (All categories / 카페 / 한식 / ...) -->
         <geolocation_button />      <!-- "내 위치" button; on grant show distance per card; on deny show notice -->
         <place_list>                <!-- Roving tabindex cards -->
-          <place_card />            <!-- × N: click = select + pan map; star = favorite -->
+          <place_card />            <!-- × N: click = select + pan map; star = favorite; shows curator avatar -->
           <empty_state />           <!-- No results / empty favorites -->
         </place_list>
       </list_column>
@@ -323,7 +341,7 @@ places:
     <restaurant_map_how_to />       <!-- SEO long-form -->
     <restaurant_map_faq />          <!-- FAQPage + Restaurant schema.org JSON-LD + ItemList JSON-LD -->
   </restaurant_map>
-  <note>SPA within tool: region/search/select = local state switch, NOT route navigation. Map and list are always in sync; bidirectional: click marker ↔ click card. On mobile, map and list may be toggled (tabs) but both are available. Desktop shows both full-width or side-by-side.</note>
+  <note>SPA within tool: curator/region/search/select = local state switch, NOT route navigation. Map and list are always in sync; bidirectional: click marker ↔ click card. Curator filter is topmost, applied before region/category. On mobile, map and list may be toggled (tabs) but both are available. Desktop shows both full-width or side-by-side.</note>
 </component_hierarchy>
 
 <pages_and_interfaces>
@@ -332,6 +350,22 @@ places:
     - H1: "맛집 리스트" / "Restaurant List" — Gmarket Sans clamp(28px,5vw,40px)/700, var(--text).
     - Lead: 1–2 sentences, body-lg: "서울·부산·지역별 맛집과 카페를 지도에서 발견하세요." / English equivalent.
   </restaurant_map_intro>
+
+  <curator_legend>
+    - Identity strip: 3 curator avatars in a row, each with a small circular image (h-10 w-10 rounded-full) + curator display name below.
+    - Names from i18n: tools.restaurant-map.curators.{nuclear,dragon,honey}.
+    - Avatars: public/images/restaurant-map/curators/{nuclear,dragon,honey}.png.
+    - Interactivity: each curator is clickable to filter the list to that curator's places (optional; minimum is static display).
+    - Placement: below intro, above curator filter row.
+  </curator_legend>
+
+  <curator_filter>
+    - Horizontal pill row (topmost filter, above region tabs). Order: "All Curators" → nuclear / dragon / honey.
+    - Each pill = small circular avatar (h-5 w-5 rounded-full) + "All Curators" / curator name (no avatar).
+    - Active = brand honey-gold fill / on-brand text; inactive = surface-muted / text-secondary.
+    - role="tablist" (or similar filter group); click to select curator, filters all places to that curator's list(s).
+    - availableCurators derived from catalog (dead filter removal).
+  </curator_filter>
 
   <map_container>
     - NAVER Maps JS API wrapper: lazy-load script on mount; on ready, instantiate map, render markers (lucide MapPin or custom icon, size 24px), add cluster (if >N markers, cluster them). On marker click, trigger place selection (highlight card, scroll into view, open info window on marker).
@@ -370,7 +404,7 @@ places:
 
   <place_list>
     - Responsive grid: 1-column <768px; can show multiple columns on wider screens. Full container width.
-    - Each card: name (headline 16–18px var(--text)/700), category badge (colored pill per category), region name, distance (if geo enabled, right side), short description (12–14px var(--text-secondary), ≤50 chars truncated), `personalNote` quote line ("개인적인 견해" / "Personal Take" label + italic text, quote-mark icon, ≤1 line truncated on card), star (favorite toggle), optional external link icon.
+    - Each card: small circular curator avatar (h-6 w-6 rounded-full) + curator name OR label in top-left corner, name (headline 16–18px var(--text)/700), category badge (colored pill per category), region name, distance (if geo enabled, right side), short description (12–14px var(--text-secondary), ≤50 chars truncated), `personalNote` quote line ("개인적인 견해" / "Personal Take" label + italic text, quote-mark icon, ≤1 line truncated on card, positioned near curator avatar), star (favorite toggle), optional external link icon.
     - Card: var(--surface) + 1px var(--hairline), radius var(--radius-lg), padding 12px, shadow --shadow-card.
     - States: hover translateY(-2px) + --shadow-card-hover; focus 2px var(--focus-ring); selected 2px var(--accent-color) ring [accent color TBD, likely coral or rose].
     - Roving tabindex; ArrowUp/Down move; Enter/Space open detail or select on map; "f" toggle favorite.
@@ -379,7 +413,8 @@ places:
 
   <place_detail_card>
     - Shown when a place is selected (either via map marker click or list card click). Full card or drawer on mobile, inline panel on desktop.
-    - Content: name (large), category + region badge, address (with copy button), description, **`personalNote` callout** ("개인적인 견해" / "Personal Take" — quote-block styling: left accent bar or quote icon, italic text, visually separated from `description` so it reads as the curator's voice, not fact), optional image (lazy, explicit dims), optional price range, optional external link ("View on Google Maps", rel=noopener target=_blank, opens new tab).
+    - Header: medium circular curator avatar (h-8 w-8 rounded-full) + curator name next to the place name (large), showing "by {curator name}" in a secondary color.
+    - Content: category + region badge, address (with copy button), description, **`personalNote` callout** ("개인적인 견해" / "Personal Take" — quote-block styling: left accent bar or quote icon, italic text, visually separated from `description` so it reads as the curator's voice, not fact), optional image (lazy, explicit dims), optional price range, optional external link ("View on Google Maps", rel=noopener target=_blank, opens new tab).
     - Deselect affordance: X button (mobile) or click outside; Esc also closes.
     - Surface: var(--surface), radius var(--radius-xxl), padding 16px, 1px var(--hairline), shadow --shadow-card.
   </place_detail_card>
@@ -396,19 +431,19 @@ places:
 <core_functionality>
   <generation note="build time, scripts/generate-restaurant-map.mjs">
     - Scan content/restaurant-map/, exclude `_` prefix. Group by base filename into ko/en pairs.
-    - gray-matter parse each file → zod PlaceListFileFront validate (including geospatial bounds).
-    - mergePair: apply canonical rule (ko region/asOfDate/sourceUrl canonical + en inherit if absent; sourceNote/title/places PER-LOCALE). resolveSlug.
-    - Validate (fail → process.exit(1) with file/field/reason): pair integrity, locale required fields, slug uniqueness per region, place count ≥3, coordinate bounds valid, category enum, address non-empty, personalNote non-empty.
-    - Sort (region order → asOfDate desc → title locale order), emit restaurant-map.generated.json. Deterministic.
+    - gray-matter parse each file → zod PlaceListFileFront validate (including geospatial bounds, curator enum).
+    - mergePair: apply canonical rule (ko region/curator/asOfDate/sourceUrl canonical + en inherit if absent; sourceNote/title/places PER-LOCALE). Denormalize curator onto every place in the merged list. resolveSlug.
+    - Validate (fail → process.exit(1) with file/field/reason): pair integrity, locale required fields, slug uniqueness per region, place count ≥3, coordinate bounds valid, category enum, address non-empty, personalNote non-empty, curator in enum.
+    - Sort (curator order → region order → asOfDate desc → title locale order), emit restaurant-map.generated.json. Deterministic.
     - package.json wire: "predev": "node scripts/generate-restaurant-map.mjs", "prebuild": "node scripts/generate-restaurant-map.mjs".
   </generation>
   <catalog_access note="runtime pure layer">
-    - allPlaceLists(): MergedPlaceList[] (generation order). byId(slug): MergedPlaceList | null (list lookup), byPlaceId(placeId, locale): Place | null (parses `${listSlug}#${index}`, resolves through byId + index — used by favorites/recents/map-selection). byRegion(region). regions(): live region ids in catalog. categories(): live category ids from all places.
-    - Tests assert catalog uniqueness, region validity, locale completeness, coordinate bounds, byPlaceId round-trips for every place in every seed list (both locales).
+    - allPlaceLists(): MergedPlaceList[] (generation order). byId(slug): MergedPlaceList | null (list lookup), byPlaceId(placeId, locale): Place | null (parses `${listSlug}#${index}`, resolves through byId + index — used by favorites/recents/map-selection). byRegion(region). curators(): live curator ids in catalog. regions(): live region ids in catalog. categories(): live category ids from all places.
+    - Tests assert catalog uniqueness, region validity, curator validity, locale completeness, coordinate bounds, curator denormalization (every place has curator matching its list's curator), byPlaceId round-trips for every place in every seed list (both locales).
   </catalog_access>
   <search>
     - filterPlaces(places, query, locale): blank query → as-is. Else normalize (trim, NFC, lowercase, strip diacritics). Match if ANY of: ko.title, en.title, ko.region, en.region, ko.places[].name, en.places[].name, ko.places[].category, en.places[].category. Stable order.
-    - Compose with region + category tabs: list = filterPlaces(active-region + active-category subset, query). Favorites/Recent tabs filter their own subsets.
+    - Compose with curator + region + category tabs: list = filterPlaces(active-curator subset ∩ active-region subset ∩ active-category subset, query). Curator filter applied first (topmost). Favorites/Recent tabs filter their own subsets.
   </search>
   <maps_sdk_loader>
     - On component mount (useEffect), check if the NAVER Maps SDK is already loaded in window (global `naver.maps`). If not and NEXT_PUBLIC_NAVER_MAP_CLIENT_ID exists, dynamically inject `<script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=...">`. On load, set mapSDKReady=true in state. On error or missing client ID, set mapSDKReady=false + show MapFailover (list-only mode).
@@ -436,7 +471,7 @@ places:
     - Change: debounced JSON.stringify → setItem; catch quota/security → keep in-memory.
     - Expose: filtered list, selectedId + select(id), toggleFavorite, favorites, recents, lastRegion, userGeo, copy(text).
   </persistence_adapter>
-  <i18n>All UI chrome from tools.restaurant-map.* (ko/en): tabs, region/category labels, search, toasts, empty states, how-to, FAQ, distance unit [km]. Place title/description/address come from markdown (restaurant-map.generated.json), NOT i18n messages.</i18n>
+  <i18n>All UI chrome from tools.restaurant-map.* (ko/en): tabs, curator/region/category labels, search, toasts, empty states, how-to, FAQ, distance unit [km]. Place title/description/address come from markdown (restaurant-map.generated.json), NOT i18n messages. Curator i18n keys: curators.all, curators.nuclear, curators.dragon, curators.honey + curatorLabel (filter aria-label).</i18n>
 </core_functionality>
 
 <error_handling>
@@ -624,22 +659,25 @@ places:
     4. Map-list sync: bidirectional (marker click ↔ card click, both update both surfaces).
   </critical_paths>
   <recommended_implementation_order>
-    1. lib/restaurant-map/{schema,slug,merge,search,geo,favorites}.ts Vitest (RED→GREEN).
-    2. scripts/generate-restaurant-map.mjs + content/restaurant-map/{_TEMPLATE,_TEMPLATE_en,README} + seed (seongsu-cafes, busan-ramen, seoul-brunch, etc., 2–3 lists, 5+ places each). Validation tests (pair-missing, <3-places, invalid-coords, dupe-slug → fail). predev/prebuild wire.
-    3. tools.restaurant-map.* messages (ko/en): region labels, category labels, tabs, search, toasts, empty states, how-to, FAQ, distance unit [km].
-    4. useRestaurantMapCatalog hook (dynamic import + localStorage + in-memory fallback + geolocation state).
-    5. MapContainer (NAVER Maps SDK loader + marker render + info window) + MapMarker component.
-    6. PlaceSearch + RegionTabs + CategoryFilter + GeolocationButton + PlaceList/PlaceCard (roving tabindex, states) + empty states.
-    7. Map-list sync logic: click marker → select card; click card → pan map (component state coordination).
-    8. Keyboard shortcuts, motion-reduce, a11y (axe, aria-live).
-    9. RestaurantMapIntro/HowTo/Faq + SoftwareApplication + FAQPage + Restaurant schema.org + ItemList JSON-LD via platform lib/seo.ts.
-    10. Registry status→coming_soon (or live if approved); slug→component + generateMetadata branches; E2E 1–7; visual regression 320/768/1024 both themes. Mobile MapToggle (tabs) if needed.
+    1. lib/restaurant-map/{schema,slug,merge,search,geo,favorites,curators}.ts Vitest (RED→GREEN). Add curator enum to schema, curator denormalization to merge.
+    2. scripts/generate-restaurant-map.mjs + content/restaurant-map/{_TEMPLATE,_TEMPLATE_en,README} + seed (all 5 lists with curator: honey). Validation tests (pair-missing, <3-places, invalid-coords, dupe-slug, missing curator → fail). predev/prebuild wire.
+    3. public/images/restaurant-map/curators/{nuclear,dragon,honey}.png (256×256, sips scaled).
+    4. tools.restaurant-map.* messages (ko/en): curator labels, region labels, category labels, tabs, search, toasts, empty states, how-to, FAQ, distance unit [km].
+    5. useRestaurantMapCatalog hook (dynamic import + localStorage + in-memory fallback + geolocation state + curator filter state).
+    6. CuratorLegend + CuratorFilter components (identity strip + topmost filter row).
+    7. MapContainer (NAVER Maps SDK loader + marker render + info window) + MapMarker component.
+    8. PlaceSearch + CuratorFilter + RegionTabs + CategoryFilter + GeolocationButton + PlaceList/PlaceCard (with curator avatar, roving tabindex, states) + empty states.
+    9. Map-list sync logic: click marker → select card; click card → pan map (component state coordination). Curator filter integrated.
+    10. Keyboard shortcuts, motion-reduce, a11y (axe, aria-live).
+    11. RestaurantMapIntro/HowTo/Faq + SoftwareApplication + FAQPage + Restaurant schema.org + ItemList JSON-LD via platform lib/seo.ts.
+    12. Registry status→coming_soon (or live if approved); slug→component + generateMetadata branches; E2E 1–7 + curator filtering; visual regression 320/768/1024 both themes. Mobile MapToggle (tabs) if needed.
   </recommended_implementation_order>
-  <seed_place_lists note="initial content — author fine-tunes but start with these; covers both theme shapes (place-based + food-name-based) per the theming CRITICAL note in <overview>">
-    - seongsu-cafes (성수동 감성 카페, region=seoul, place-based theme, 6+ places, 37.5350/127.0118 center)
-    - seoul-jokbal (서울지역 족발, region=seoul, food-name theme scoped to one region, 4+ places) — see `<content_authoring_template>` for the full worked example
-    - busan-ramen (부산 로컬 라면, region=busan, food-name theme, 5+ places, 35.0973/129.0331 center)
-    - national-tuna (전국 참치 맛집, region=nationwide, food-name theme spanning cities, 4+ places, mixing Seoul/Busan coordinates)
+  <seed_place_lists note="initial content — author fine-tunes but start with these; covers both theme shapes (place-based + food-name-based) per the theming CRITICAL note in <overview>. All temporarily assigned curator: honey.">
+    - seongsu-cafes (성수동 감성 카페, curator=honey, region=seoul, place-based theme, 6+ places, 37.5350/127.0118 center)
+    - seoul-jokbal (서울지역 족발, curator=honey, region=seoul, food-name theme scoped to one region, 4+ places) — see `<content_authoring_template>` for the full worked example
+    - busan-ramen (부산 로컬 라면, curator=honey, region=busan, food-name theme, 5+ places, 35.0973/129.0331 center)
+    - national-tuna (전국 참치 맛집, curator=honey, region=nationwide, food-name theme spanning cities, 4+ places, mixing Seoul/Busan coordinates)
+    - suyu-sundae-gukbap (수유동 순대국밥, curator=honey, region=seoul, place-based theme, 3+ places)
     - Every place in every seed list includes a non-empty `personalNote`.
   </seed_place_lists>
   <generator_sketch>

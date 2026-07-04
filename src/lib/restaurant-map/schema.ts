@@ -32,6 +32,12 @@ export const CATEGORY_ENUM = [
   'other',
 ] as const;
 
+// Curators (list-level identity). Each themed list is authored by exactly one
+// curator; the generator denormalizes the list's curator onto every place.
+export const CURATOR_ENUM = ['nuclear', 'dragon', 'honey'] as const;
+
+export type CuratorId = (typeof CURATOR_ENUM)[number];
+
 // Validate coordinates within Korea bounds [33–39 lat, 124–132 lng]
 const isValidKoreaCoord = (lat: number, lng: number) => {
   return lat >= 33 && lat <= 39 && lng >= 124 && lng <= 132;
@@ -61,6 +67,8 @@ export const PlaceSchema = z.object({
   imageHeight: z.number().positive().optional(),
   // id is derived at merge time, not authored
   id: z.string().optional(),
+  // curator is denormalized from the list at merge time, not authored per-place
+  curator: z.enum(CURATOR_ENUM).optional(),
 });
 
 export type Place = z.infer<typeof PlaceSchema>;
@@ -69,6 +77,8 @@ export const PlaceFileFrontSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   slug: z.string().optional(),
   region: z.enum(REGION_ENUM),
+  // curator: list-level identity, required, KO canonical (EN inherits)
+  curator: z.enum(CURATOR_ENUM),
   city: z.string().optional(),
   asOfDate: z.string().regex(/^\d{4}-\d{2}(-\d{2})?$/, 'Invalid ISO date format'),
   sourceNote: z.string().min(1, 'sourceNote is required').max(200),
@@ -82,21 +92,28 @@ export type PlaceFileFront = z.infer<typeof PlaceFileFrontSchema>;
 export const PlaceListFileFrontSchema = PlaceFileFrontSchema;
 export type PlaceListFileFront = PlaceFileFront;
 
+// Merged places carry a derived id; curator is denormalized from the list at
+// merge time (already optional on PlaceSchema — the merge step always sets it).
+const MergedPlaceSchema = PlaceSchema.extend({
+  id: z.string(),
+});
+
 export const MergedPlaceListSchema = z.object({
   slug: z.string(),
   region: z.enum(REGION_ENUM),
+  curator: z.enum(CURATOR_ENUM),
   city: z.string().optional(),
   asOfDate: z.string(),
   sourceUrl: z.string().url().optional(),
   ko: z.object({
     title: z.string(),
     sourceNote: z.string(),
-    places: z.array(PlaceSchema.extend({ id: z.string() })),
+    places: z.array(MergedPlaceSchema),
   }),
   en: z.object({
     title: z.string(),
     sourceNote: z.string(),
-    places: z.array(PlaceSchema.extend({ id: z.string() })),
+    places: z.array(MergedPlaceSchema),
   }),
 });
 

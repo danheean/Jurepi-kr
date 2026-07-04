@@ -171,6 +171,42 @@ test.describe('Restaurant Map - E2E', () => {
     expect(errors).toEqual([]);
   });
 
+  test('curator legend, curator filter, and card avatars render (ko)', async ({
+    page,
+  }) => {
+    const errors = collectPageErrors(page);
+
+    await page.goto('/ko/tools/restaurant-map');
+    const main = page.locator('main');
+    await expect(page.getByRole('searchbox')).toBeVisible({ timeout: 10_000 });
+
+    // Identity strip shows all three curators' avatars (SSR + hydrated)
+    await expect(main.locator('img[src*="curators/nuclear.png"]').first()).toBeVisible();
+    await expect(main.locator('img[src*="curators/dragon.png"]').first()).toBeVisible();
+    await expect(main.locator('img[src*="curators/honey.png"]').first()).toBeVisible();
+
+    // Curator filter renders the live curator (honey) as a pill button, and
+    // hides curators with no places (dead-filter avoidance) — nuclear/dragon
+    // appear in the legend text but NOT as filter buttons. Scope to the filter
+    // group so place-card avatars (alt = curator name) don't match.
+    const curatorFilter = page.locator('[aria-label="큐레이터로 필터"]');
+    await expect(curatorFilter.getByRole('button', { name: '복현동 꿀주먹' })).toBeVisible();
+    await expect(curatorFilter.getByRole('button', { name: '갈곶동 핵주먹' })).toHaveCount(0);
+    await expect(curatorFilter.getByRole('button', { name: '철산동 용주먹' })).toHaveCount(0);
+
+    // Clicking the live curator keeps the (all-honey) places visible
+    await curatorFilter.getByRole('button', { name: '복현동 꿀주먹' }).click();
+    const firstCard = main.locator('#place-list [role="button"]').first();
+    await expect(firstCard).toBeVisible();
+    // Cards carry the curator avatar next to the personal-take quote
+    await expect(
+      main.locator('#place-list img[src*="curators/honey.png"]').first()
+    ).toBeVisible();
+
+    await expect(page.getByText('문제가 발생했어요')).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+
   test('en locale renders localized content without ErrorBoundary', async ({
     page,
   }) => {

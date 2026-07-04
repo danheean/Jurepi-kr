@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PlaceDetailCard } from './PlaceDetailCard';
@@ -15,6 +15,7 @@ const testPlace: Place = {
   description: 'Best korean restaurant in town',
   personalNote: 'The staff is incredibly friendly',
   priceRange: '$$',
+  curator: 'honey',
 };
 
 describe('PlaceDetailCard', () => {
@@ -283,5 +284,21 @@ describe('PlaceDetailCard', () => {
       await user.click(overlay);
       expect(onClose).toHaveBeenCalledOnce();
     }
+  });
+
+  it('renders curator avatar and name near personal note', () => {
+    const onClose = vi.fn();
+    renderWithIntl(
+      <PlaceDetailCard place={testPlace} onClose={onClose} />,
+      { locale: 'ko' }
+    );
+
+    const curatorImg = screen.getByAltText('');
+    expect(curatorImg).toBeInTheDocument();
+    expect(curatorImg).toHaveAttribute('width', '32');
+    expect(curatorImg).toHaveAttribute('height', '32');
+
+    const curatorName = screen.getByText(/복현동 꿀주먹/);
+    expect(curatorName).toBeInTheDocument();
   });
 });

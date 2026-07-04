@@ -7,6 +7,7 @@ const createTestCatalog = (): MergedPlaceList[] => [
   {
     slug: 'test-list-1',
     region: 'seoul',
+    curator: 'honey',
     city: 'Seoul',
     asOfDate: '2024-01-01',
     sourceUrl: 'https://example.com',

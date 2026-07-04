@@ -1,14 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { RestaurantMap } from './RestaurantMap';
 import { renderWithIntl } from './test-utils';
-import type { MergedPlaceList } from '@/lib/restaurant-map/schema';
+import type { MergedPlaceList, CuratorId } from '@/lib/restaurant-map/schema';
 
 // Minimal test catalog
 const createTestCatalog = (): MergedPlaceList[] => [
   {
     slug: 'test-list-1',
     region: 'seoul',
+    curator: 'honey',
     city: 'Seoul',
     asOfDate: '2024-01-01',
     sourceUrl: 'https://example.com',
@@ -150,5 +152,55 @@ describe('RestaurantMap', () => {
     // Place list should have proper semantic markup
     const placeList = container.querySelector('#place-list');
     expect(placeList).toHaveAttribute('role', 'region');
+  });
+
+  it('narrows the place list to the selected curator', async () => {
+    // Behavioral lock for the hook curator filter: places carry a denormalized
+    // curator; clicking a curator pill must remove the other curators' places.
+    const base = createTestCatalog()[0];
+    const withCurator = (
+      curator: CuratorId,
+      slug: string,
+      label: string
+    ): MergedPlaceList => ({
+      ...base,
+      slug,
+      curator,
+      ko: {
+        ...base.ko,
+        title: label,
+        places: base.ko.places.map((p, i) => ({
+          ...p,
+          id: `${slug}#${i}`,
+          curator,
+          name: `${label}${i}`,
+        })),
+      },
+      en: {
+        ...base.en,
+        title: label,
+        places: base.en.places.map((p, i) => ({
+          ...p,
+          id: `${slug}#${i}`,
+          curator,
+          name: `${label}${i}`,
+        })),
+      },
+    });
+    const honeyList = withCurator('honey', 'honey-list', 'HoneyPlace');
+    const nuclearList = withCurator('nuclear', 'nuclear-list', 'NuclearPlace');
+    const user = userEvent.setup();
+    renderWithIntl(<RestaurantMap catalog={[honeyList, nuclearList]} />);
+
+    // Both curators' places visible under the default "all" filter
+    expect(screen.getAllByText(/HoneyPlace/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/NuclearPlace/).length).toBeGreaterThan(0);
+
+    // Click the Nuclear curator pill (curator filter is the topmost filter).
+    // Exact name so place-card buttons ("NuclearPlace0") don't match.
+    await user.click(screen.getByRole('button', { name: 'Nuclear' }));
+
+    expect(screen.queryByText(/HoneyPlace/)).not.toBeInTheDocument();
+    expect(screen.getAllByText(/NuclearPlace/).length).toBeGreaterThan(0);
   });
 });

@@ -8,6 +8,12 @@ title: "성수동 감성 카페"
 # Required: region enum
 region: seoul
 
+# Required: curator — who authored this list. One of: nuclear (갈곶동 핵주먹),
+# dragon (철산동 용주먹), honey (복현동 꿀주먹). KO canonical; the _en.md file
+# omits it and inherits. The generator FAILS the build if missing or not one of
+# the three. The curator is denormalized onto every place in the built catalog.
+curator: honey
+
 # Optional: city/district within region (e.g. "성동구")
 city: "성동구"
 

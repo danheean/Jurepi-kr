@@ -1,6 +1,7 @@
 ---
 title: "전국 참치 맛집"
 region: nationwide
+curator: honey
 asOfDate: "2026-07-04"
 sourceNote: "지역 상관없이 참치 하나로 뽑은 리스트"
 sourceUrl: "https://blog.naver.com/tuna-hunter"

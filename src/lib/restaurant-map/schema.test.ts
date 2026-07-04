@@ -8,6 +8,7 @@ import {
   STORE_VERSION,
   REGION_ENUM,
   CATEGORY_ENUM,
+  CURATOR_ENUM,
 } from './schema';
 
 describe('schema', () => {
@@ -105,6 +106,7 @@ describe('schema', () => {
       const front = {
         title: 'Seongsu Cafes',
         region: 'seoul',
+        curator: 'honey',
         asOfDate: '2026-07-04',
         sourceNote: 'Personal visits',
         places: [
@@ -147,6 +149,7 @@ describe('schema', () => {
       const front = {
         title: 'National Tuna Spots',
         region: 'nationwide',
+        curator: 'honey',
         asOfDate: '2026-07-04',
         sourceNote: 'Tuna across Korea',
         places: [
@@ -187,6 +190,7 @@ describe('schema', () => {
       const front = {
         title: 'Few Cafes',
         region: 'seoul',
+        curator: 'honey',
         asOfDate: '2026-07-04',
         sourceNote: 'Personal visits',
         places: [
@@ -217,6 +221,7 @@ describe('schema', () => {
       const front = {
         title: 'Cafes',
         region: 'seoul',
+        curator: 'honey',
         asOfDate: '2026-07-04',
         // sourceNote missing
         places: [
@@ -250,6 +255,44 @@ describe('schema', () => {
         ],
       };
       expect(() => PlaceListFileFrontSchema.parse(front)).toThrow();
+    });
+
+    it('rejects missing curator', () => {
+      const front = {
+        title: 'No Curator',
+        region: 'seoul',
+        // curator missing
+        asOfDate: '2026-07-04',
+        sourceNote: 'Personal visits',
+        places: [
+          { name: 'A', lat: 37.5, lng: 127.0, category: 'cafe', address: 'x', description: 'd', personalNote: 'n' },
+          { name: 'B', lat: 37.6, lng: 127.1, category: 'cafe', address: 'x', description: 'd', personalNote: 'n' },
+          { name: 'C', lat: 37.7, lng: 127.2, category: 'cafe', address: 'x', description: 'd', personalNote: 'n' },
+        ],
+      };
+      expect(() => PlaceListFileFrontSchema.parse(front)).toThrow();
+    });
+
+    it('rejects unknown curator value', () => {
+      const front = {
+        title: 'Bad Curator',
+        region: 'seoul',
+        curator: 'stranger',
+        asOfDate: '2026-07-04',
+        sourceNote: 'Personal visits',
+        places: [
+          { name: 'A', lat: 37.5, lng: 127.0, category: 'cafe', address: 'x', description: 'd', personalNote: 'n' },
+          { name: 'B', lat: 37.6, lng: 127.1, category: 'cafe', address: 'x', description: 'd', personalNote: 'n' },
+          { name: 'C', lat: 37.7, lng: 127.2, category: 'cafe', address: 'x', description: 'd', personalNote: 'n' },
+        ],
+      };
+      expect(() => PlaceListFileFrontSchema.parse(front)).toThrow();
+    });
+  });
+
+  describe('CURATOR_ENUM', () => {
+    it('is exactly the three curators', () => {
+      expect(CURATOR_ENUM).toEqual(['nuclear', 'dragon', 'honey']);
     });
   });
 

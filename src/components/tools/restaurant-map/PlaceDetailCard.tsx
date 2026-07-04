@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { X, Copy, ExternalLink } from 'lucide-react';
+import { avatarSrc } from '@/lib/restaurant-map/curators';
 import type { Place } from '@/lib/restaurant-map/schema';
 
 /**
@@ -94,9 +95,28 @@ export function PlaceDetailCard({ place, onClose }: PlaceDetailCardProps) {
 
         {/* Personal Note Callout (curator's voice) */}
         <div className="border-l-4 border-brand pl-4 py-3 bg-brand/5 rounded-r">
-          <h3 className="text-xs font-semibold text-brand uppercase tracking-wide mb-1">
-            {t('personalNote.label')}
-          </h3>
+          <div className="flex items-center gap-2 mb-1">
+            {place.curator && (
+              <img
+                src={avatarSrc(place.curator)}
+                alt=""
+                className="h-8 w-8 rounded-full object-cover"
+                width={32}
+                height={32}
+                loading="lazy"
+              />
+            )}
+            <div className="flex flex-col">
+              <h3 className="text-xs font-semibold text-brand uppercase tracking-wide">
+                {t('personalNote.label')}
+              </h3>
+              {place.curator && (
+                <span className="text-xs text-text-secondary">
+                  {t(`curators.${place.curator}`)}
+                </span>
+              )}
+            </div>
+          </div>
           <p className="text-sm text-text italic">{place.personalNote}</p>
         </div>
 

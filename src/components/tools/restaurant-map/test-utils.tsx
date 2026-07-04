@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 import koMessages from '@/i18n/messages/ko.json';
 import enMessages from '@/i18n/messages/en.json';
@@ -42,3 +43,4 @@ export function renderWithIntl(ui: ReactNode, { locale = 'en', ...options }: Cus
 }
 
 export * from '@testing-library/react';
+export { userEvent };

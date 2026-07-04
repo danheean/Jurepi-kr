@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { Star, ExternalLink, Quote } from 'lucide-react';
 import { haversineDistance } from '@/lib/restaurant-map/geo';
+import { avatarSrc } from '@/lib/restaurant-map/curators';
 import type { Place } from '@/lib/restaurant-map/schema';
 
 export interface PlaceCardProps {
@@ -75,6 +76,16 @@ export function PlaceCard({
 
         {/* Personal note quote */}
         <div className="flex gap-2 rounded-lg bg-surface-muted p-3">
+          {place.curator && (
+            <img
+              src={avatarSrc(place.curator)}
+              alt={t(`curators.${place.curator}`)}
+              className="h-6 w-6 shrink-0 rounded-full object-cover"
+              width={24}
+              height={24}
+              loading="lazy"
+            />
+          )}
           <Quote className="h-4 w-4 shrink-0 text-text-secondary opacity-50" />
           <div className="text-sm italic text-text-secondary line-clamp-2">
             {place.personalNote}

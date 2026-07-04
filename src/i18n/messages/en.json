@@ -1669,6 +1669,16 @@
         "dessert": "Dessert",
         "other": "Other"
       },
+      "curators": {
+        "all": "All Curators",
+        "nuclear": "Nuclear",
+        "dragon": "Dragon",
+        "honey": "Honey"
+      },
+      "curatorLabel": "Filter by curator",
+      "curatorLegend": {
+        "title": "The curators behind these lists"
+      },
       "search": {
         "label": "Search",
         "placeholder": "Search by restaurant, café, or region…",

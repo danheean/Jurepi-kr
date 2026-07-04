@@ -1,6 +1,7 @@
 ---
 title: "수유동 순대국밥"
 region: seoul
+curator: honey
 city: "강북구"
 asOfDate: "2026-07-04"
 sourceNote: "직접 다녀온 곳 위주, 2026년 상반기 기준"

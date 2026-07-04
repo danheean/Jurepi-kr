@@ -7,6 +7,7 @@ describe('favorites', () => {
     {
       slug: 'list-1',
       region: 'seoul',
+      curator: 'honey',
       asOfDate: '2026-07-04',
       ko: {
         title: 'List 1',

@@ -1669,6 +1669,16 @@
         "dessert": "디저트",
         "other": "기타"
       },
+      "curators": {
+        "all": "전체",
+        "nuclear": "갈곶동 핵주먹",
+        "dragon": "철산동 용주먹",
+        "honey": "복현동 꿀주먹"
+      },
+      "curatorLabel": "큐레이터로 필터",
+      "curatorLegend": {
+        "title": "이 맛집 리스트를 만든 사람들"
+      },
       "search": {
         "label": "검색",
         "placeholder": "맛집·카페·지역으로 검색…",

@@ -2,10 +2,13 @@
 
 import { useLocale } from 'next-intl';
 import type { MergedPlaceList } from '@/lib/restaurant-map/schema';
+import { curators as getCurators } from '@/lib/restaurant-map/catalog';
 import restaurantMapData from './data/restaurant-map.generated.json';
 import { useRestaurantMapCatalog } from './useRestaurantMapCatalog';
 import { RegionTabs } from './RegionTabs';
 import { CategoryFilter } from './CategoryFilter';
+import { CuratorFilter } from './CuratorFilter';
+import { CuratorLegend } from './CuratorLegend';
 import { PlaceSearch } from './PlaceSearch';
 import { PlaceList } from './PlaceList';
 import { PlaceDetailCard } from './PlaceDetailCard';
@@ -40,6 +43,7 @@ export function RestaurantMap({ catalog = DEFAULT_CATALOG }: RestaurantMapProps)
 
   const resetFilters = () => {
     hook.setActiveRegion('all');
+    hook.setActiveCurator('all');
     hook.setActiveCategory('all');
     hook.setQuery('');
   };
@@ -52,6 +56,11 @@ export function RestaurantMap({ catalog = DEFAULT_CATALOG }: RestaurantMapProps)
       <RestaurantMapFaq />
       <RestaurantMapStructuredData places={allPlaces} />
 
+      {/* Curator legend (non-interactive identity strip) */}
+      <div className="px-4 py-8 border-b border-hairline">
+        <CuratorLegend />
+      </div>
+
       {/* Interactive SPA content: gated on mount only (localStorage/geolocation dependent) */}
       {hook.mounted && (
         <main className="space-y-6 px-4 py-8">
@@ -61,6 +70,12 @@ export function RestaurantMap({ catalog = DEFAULT_CATALOG }: RestaurantMapProps)
           </div>
 
           <div className="space-y-4">
+            <CuratorFilter
+              activeCurator={hook.activeCurator}
+              onCuratorChange={hook.setActiveCurator}
+              availableCurators={getCurators(catalog)}
+            />
+
             <RegionTabs
               activeRegion={hook.activeRegion}
               onRegionChange={hook.setActiveRegion}

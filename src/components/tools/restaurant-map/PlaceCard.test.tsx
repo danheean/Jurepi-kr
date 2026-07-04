@@ -14,6 +14,7 @@ const testPlace: Place = {
   address: 'Gangnam, Seoul',
   description: 'Best cafe',
   personalNote: 'Great vibe',
+  curator: 'honey',
 };
 
 describe('PlaceCard', () => {
@@ -239,5 +240,26 @@ describe('PlaceCard', () => {
 
     const article = container.querySelector('[data-testid="place-card-test-list-1#0"]');
     expect(article).toBeInTheDocument();
+  });
+
+  it('renders curator avatar when curator is present', () => {
+    const onSelect = vi.fn();
+    const onToggleFavorite = vi.fn();
+    renderWithIntl(
+      <PlaceCard
+        place={testPlace}
+        isSelected={false}
+        isFavorited={false}
+        onSelect={onSelect}
+        onToggleFavorite={onToggleFavorite}
+      />,
+      { locale: 'ko' }
+    );
+
+    const curatorImg = screen.getByAltText(/복현동 꿀주먹/);
+    expect(curatorImg).toBeInTheDocument();
+    expect(curatorImg).toHaveAttribute('width', '24');
+    expect(curatorImg).toHaveAttribute('height', '24');
+    expect(curatorImg).toHaveAttribute('loading', 'lazy');
   });
 });

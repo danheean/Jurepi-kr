@@ -50,6 +50,7 @@ description: >-
 ```yaml
 # content/restaurant-map/<slug>.md (KO, canonical)
 title: "…"                # 한글 제목
+curator: honey             # 필수 — nuclear / dragon / honey 중 선택. EN 파일은 생략(KO 상속)
 region: seoul              # 또는 nationwide 등 — canonical
 city: "…"                  # 선택
 asOfDate: "2026-07-04"     # 오늘 날짜
@@ -69,6 +70,7 @@ places:
 # content/restaurant-map/<slug>_en.md (EN — places may differ in wording from KO, same real-world places, same order/count)
 title: "…"                 # 영문 제목
 sourceNote: "…"            # 영문 출처(생략 시 KO 상속 — 되도록 명시)
+# curator: 생략 (KO에서 상속)
 places:
   - name: "…"              # 영문 상호명(또는 로마자 표기)
     lat: 37.5               # KO와 같은 좌표(같은 장소)
@@ -80,7 +82,7 @@ places:
     link: "https://…"
 ```
 - **KO/EN `places` 배열은 개수·순서가 같아야 한다**(인덱스가 같은 실존 장소를 가리킨다 — `place.id`가 `${slug}#${index}`로 파생되는 전제).
-- `region`/`asOfDate`/`sourceUrl`은 KO canonical(EN 파일엔 안 써도 됨, 다르면 안 됨).
+- `curator`/`region`/`asOfDate`/`sourceUrl`은 KO canonical(EN 파일엔 안 써도 됨, 다르면 안 됨). `curator`는 **필수**이며 nuclear/dragon/honey 중 하나여야 한다.
 
 ## 4. 생성 + 확인
 
