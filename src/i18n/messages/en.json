@@ -1263,6 +1263,120 @@
         "ariaLabel": "Generated QR code preview"
       }
     },
+    "transparent-background": {
+      "title": "Transparent Background Maker",
+      "description": "Remove solid-color backgrounds locally. No upload.",
+      "lead": "Make backgrounds transparent",
+      "meta": {
+        "title": "Transparent Background Maker · Jurepi",
+        "description": "Instantly remove solid backgrounds from product photos, logos, and scans. 100% private, no upload required."
+      },
+      "intro": {
+        "eyebrow": "Converter Tool",
+        "title": "Transparent Background Maker",
+        "lead": "Remove solid backgrounds · Local processing · Your image stays on your device"
+      },
+      "upload": {
+        "label": "Upload Image",
+        "text": "Click to upload or drag and drop",
+        "formats": "PNG, JPEG, WebP",
+        "fileName": "File name",
+        "fileSize": "File size",
+        "dragActive": "Drop the file here"
+      },
+      "colorPicker": {
+        "label": "Background Color",
+        "autoDetect": "Auto-Detect",
+        "eyedropper": "Pick Color",
+        "hexInput": "Color Code (#RRGGBB)",
+        "currentColor": "Selected Color",
+        "eyedropperMode": "Eyedropper mode active",
+        "hexPlaceholder": "#ffffff"
+      },
+      "controls": {
+        "toleranceLabel": "Tolerance",
+        "toleranceHelp": "How similar colors to remove (0=exact color only, 100=very similar colors)",
+        "toleranceValue": "Tolerance: {value}%",
+        "featherLabel": "Feather",
+        "featherHelp": "Edge smoothness (0=sharp, 20=soft)",
+        "featherValue": "Feather: {value}px",
+        "modeLabel": "Removal Mode",
+        "modeFloodFill": "Connected Areas Only",
+        "modeFloodFillHelp": "Remove only areas connected to the background (preserves matching colors inside objects)",
+        "modeGlobal": "All Matching",
+        "modeGlobalHelp": "Remove all pixels matching the background color",
+        "clearAll": "Start Over"
+      },
+      "preview": {
+        "label": "Preview",
+        "detecting": "Detecting background color…",
+        "empty": "Upload an image to see the preview",
+        "dimensions": "Original: {width}×{height} → Export as transparent PNG",
+        "downscaled": "Image scaled down to 4096px longest edge for performance"
+      },
+      "export": {
+        "download": "Download PNG",
+        "copy": "Copy to Clipboard",
+        "downloadDisabled": "Upload and configure an image first",
+        "downloadSuccess": "Downloaded!",
+        "copySuccess": "Copied to clipboard!",
+        "downloadFail": "Download failed. Please try again",
+        "fileName": "transparent-{timestamp}.png"
+      },
+      "errors": {
+        "unsupportedFormat": "Only PNG, JPEG, and WebP are supported",
+        "cornerDetectFail": "Failed to detect background. Using white as default",
+        "processingTimeout": "Processing timeout. Try a smaller image",
+        "fileTooBig": "File is too large",
+        "invalidImage": "Invalid image file",
+        "processingFailed": "Processing failed. Please try again"
+      },
+      "howTo": {
+        "title": "How to Remove Backgrounds",
+        "s1": "Upload Image",
+        "s1Body": "Upload an image with a solid background in PNG, JPEG, or WebP format.",
+        "s2": "Select Background Color",
+        "s2Body": "Click Auto-Detect to sample from image corners, or use the color picker to manually select.",
+        "s3": "Adjust Tolerance",
+        "s3Body": "Move the slider to control how similar colors are removed. Lower = precise, Higher = forgiving.",
+        "s4": "Choose Feathering",
+        "s4Body": "Set edge smoothness from 0–20 pixels. Higher values create a softer anti-alias effect.",
+        "s5": "Pick Removal Mode",
+        "s5Body": "Choose between Flood-Fill (connected areas only) or All Matching (every matching pixel).",
+        "s6": "Download Result",
+        "s6Body": "Download as transparent PNG or copy directly to clipboard.",
+        "whenToUse": "Best for solid backgrounds: product photos, logos, scans, screenshots. For complex photos and person cutouts, AI tools are recommended."
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "Is my image uploaded?",
+            "a": "No. All processing happens locally in your browser. Your image is never uploaded anywhere."
+          },
+          {
+            "q": "How large is the output PNG?",
+            "a": "It depends on the original size. Downscaled images (over 4096px) will be significantly smaller."
+          },
+          {
+            "q": "What's the difference between Flood-Fill and All Matching modes?",
+            "a": "Flood-Fill: removes only colors connected to the background (preserves matching colors inside objects). All Matching: removes every pixel matching the background color."
+          },
+          {
+            "q": "What does Feather do?",
+            "a": "Feather smooths the edges. Higher values create a softer, anti-aliased transition between transparent and opaque areas."
+          },
+          {
+            "q": "What if my image already has transparency?",
+            "a": "Existing transparency is preserved. The new removal effect multiplies with it."
+          },
+          {
+            "q": "Is there a maximum image size?",
+            "a": "No limit. Images over 4096px are automatically scaled for performance. Quality is preserved for the scaled version."
+          }
+        ]
+      }
+    },
     "speed-quiz": {
       "title": "Speed Quiz Prompt Words",
       "description": "A party & classroom speed-quiz game: reveal category prompt words (animals, food, Olympics & more) one at a time on a big screen and race the timer to guess.",
@@ -1400,6 +1514,118 @@
           {
             "q": "Where is my data stored?",
             "a": "All game data stays in your browser's local storage—nothing is sent to any server. Game progress resets on page refresh, but your favorites and recent games are saved locally."
+          }
+        ]
+      }
+    },
+    "dev-people": {
+      "title": "Developer People Dictionary",
+      "description": "Explore stories of influential software engineers and computer scientists who shaped technology history. From programming language designers to open-source pioneers and architecture visionaries.",
+      "list": {
+        "regionHeading": "People list"
+      },
+      "toast": {
+        "favoriteAdded": "Added to favorites",
+        "favoriteRemoved": "Removed from favorites"
+      },
+      "faqTitle": "Frequently Asked Questions",
+      "meta": {
+        "title": "Developer People Dictionary · Great Figures Who Created Software",
+        "description": "Explore biographies and achievements of influential figures in software and computer science. From language designers to open-source pioneers, discover the stories behind technological revolution."
+      },
+      "intro": {
+        "eyebrow": "Developer Tools",
+        "title": "Developer People Dictionary",
+        "lead": "Meet the great figures who shaped software and computer science. From programming language designers to open-source pioneers."
+      },
+      "search": {
+        "label": "Search by name, tags, or era…",
+        "placeholder": "Search by name, tags, or era…",
+        "aria": "Search people",
+        "resultCount": "{count} people"
+      },
+      "tabs": {
+        "filterLabel": "Filter people",
+        "all": "All",
+        "favorites": "Favorites",
+        "recent": "Recently viewed"
+      },
+      "tags": {
+        "java": "Java",
+        "python": "Python",
+        "javascript": "JavaScript",
+        "c": "C",
+        "cpp": "C++",
+        "linux": "Linux",
+        "git": "Git",
+        "ai": "AI",
+        "deep-learning": "Deep Learning",
+        "clean-code": "Clean Code",
+        "architecture": "Architecture",
+        "tdd": "TDD",
+        "agile": "Agile",
+        "refactoring": "Refactoring",
+        "design-patterns": "Design Patterns",
+        "free-software": "Free Software",
+        "web": "Web",
+        "game": "Game Dev",
+        "education": "Education",
+        "youtube": "YouTube"
+      },
+      "eras": {
+        "all": "All eras",
+        "1940-1960": "1940–1960",
+        "1960-1980": "1960–1980",
+        "1980-2000": "1980–2000",
+        "2000-present": "2000–Present"
+      },
+      "empty": {
+        "noResults": "No people found matching '{query}'",
+        "noFavorites": "Click the star button to save your favorite people",
+        "noRecent": "Recently viewed people will appear here"
+      },
+      "card": {
+        "toggleFavorite": "Toggle favorite",
+        "ageDisplay": "Age {age}",
+        "ageAtDeath": "Lived to {age}"
+      },
+      "spoke": {
+        "breadcrumbHome": "Home",
+        "born": "b. {year}",
+        "about": "About",
+        "anecdotes": "Anecdotes",
+        "achievements": "Achievements",
+        "books": "Books",
+        "related": "Related figures",
+        "links": "Links",
+        "disclaimer": "This information has been compiled by editors and may be inaccurate. Please verify key facts with the original sources linked below."
+      },
+      "howTo": {
+        "heading": "Who Shaped the History of Software?",
+        "whatIsTitle": "What is Developer People Dictionary?",
+        "whatIsBody": "Developer People Dictionary is a curated library of biographies and achievements of key figures who shaped software and computer science. From programming language designers and open-source pioneers to architecture visionaries and AI revolutionaries—explore the stories that contextualize technological progress. Discover 13 carefully selected figures and their lasting contributions to computing.",
+        "howToTitle": "How to use",
+        "howToBody": "Search for people by name, tag (Java, Python, AI, etc.), or era. Click on any person card to explore their detailed profile, including biography, major achievements, publications, and related links. Save your frequently referenced figures to Favorites using the star button for quick access.",
+        "featuresTitle": "Key features",
+        "featuresBody": "13 influential figures · Filter by tags (programming languages, domains, eras) · Real-time search · Save to favorites · Auto-tracked recent views · Detailed biographies and achievements · Related people recommendations"
+      },
+      "faq": {
+        "items": [
+          {
+            "question": "What is Developer People Dictionary?",
+            "answer": "A curated library of biographies of key figures who shaped software and computer science. Explore stories of programming language designers, open-source pioneers, and architecture visionaries to understand the context of technological development."
+          },
+          {
+            "question": "Who is included?",
+            "answer": "13 influential developers including Geoffrey Hinton (father of deep learning), Robert C. Martin (Clean Code author), Erich Gamma (Design Patterns), Richard Stallman (GNU founder), James Gosling (Java creator), Brendan Eich (JavaScript creator), and Linus Torvalds (Linux creator)."
+          },
+          {
+            "question": "Where does the information come from?",
+            "answer": "All content is compiled from reliable public sources including Wikipedia, official biographies, academic papers, and news articles. Each person's profile includes direct links to original sources so you can verify and explore further."
+          },
+          {
+            "question": "Can I suggest new people to add?",
+            "answer": "Yes! We welcome your feedback and suggestions. Visit our Contact page to suggest new figures you'd like to see in the dictionary."
           }
         ]
       }

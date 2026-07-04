@@ -3,6 +3,29 @@ import '@testing-library/jest-dom';
 import { expect, afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
+// Polyfill ImageData for jsdom (needed for canvas/image processing tests)
+if (typeof global.ImageData === 'undefined') {
+  // @ts-ignore - polyfill for jsdom
+  global.ImageData = class ImageData {
+    data: Uint8ClampedArray;
+    width: number;
+    height: number;
+    colorSpace = 'srgb';
+
+    constructor(data: Uint8ClampedArray | number, width: number, height?: number) {
+      if (typeof data === 'number') {
+        this.width = width;
+        this.height = height || width;
+        this.data = new Uint8ClampedArray(this.width * this.height * 4);
+      } else {
+        this.data = data;
+        this.width = width;
+        this.height = height || (data.length / (width * 4));
+      }
+    }
+  };
+}
+
 afterEach(() => {
   cleanup();
 });
