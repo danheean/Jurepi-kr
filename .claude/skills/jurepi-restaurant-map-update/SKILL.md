@@ -30,6 +30,7 @@ description: >-
 ```yaml
 title: "…"              # 필수, 로케일별(KO 파일=한글, EN 파일=영문)
 slug: "<kebab-case>"    # KO canonical. 없으면 파일명에서 파생
+curator: honey           # 필수(KO만), enum: nuclear/dragon/honey. EN 생략(KO 상속)
 region: seoul            # KO canonical. enum: seoul/busan/daegu/.../jeju/nationwide. EN 생략(KO 상속)
 city: "…"                # 선택, 더 세분화된 위치(예: "강남구")
 asOfDate: "2026-07-04"   # KO canonical, ISO 날짜
@@ -51,7 +52,7 @@ places:                   # 필수, ≥3개
 **꼭 기억할 규칙 (생성기 불변식):**
 - **쌍 필수**: KO(`<slug>.md`)와 EN(`<slug>_en.md`) 둘 다 있어야 한다. 하나만 있으면 orphan → 빌드 실패.
 - **ko/en `places` 배열은 길이가 같아야 한다**(인덱스 정렬 — 같은 인덱스가 같은 실존 장소를 나타냄, `place.id` 파생의 전제).
-- 생성기는 다음 위반 시 **빌드를 실패**(exit 1)시킨다: 쌍 누락, places <3, 좌표 범위 초과, category enum 밖, personalNote 빈 값, slug 중복(region 내), 필수 필드 누락. 실패 메시지의 파일·필드·사유를 그대로 고친다.
+- 생성기는 다음 위반 시 **빌드를 실패**(exit 1)시킨다: 쌍 누락, places <3, 좌표 범위 초과, category enum 밖, personalNote 빈 값, curator 누락/enum 밖, slug 중복(region 내), 필수 필드 누락. 실패 메시지의 파일·필드·사유를 그대로 고친다.
 
 ## 워크플로우
 

@@ -6,6 +6,7 @@ describe('merge', () => {
   const createMockFront = (overrides: Partial<PlaceListFileFront> = {}): PlaceListFileFront => ({
     title: 'Test List',
     region: 'seoul',
+    curator: 'honey',
     asOfDate: '2026-07-04',
     sourceNote: 'Personal visits',
     places: [
@@ -79,6 +80,25 @@ describe('merge', () => {
       expect(merged.en.places[0].id).toBe('seoul-cafes#0');
     });
 
+    it('sets list-level curator from ko (canonical)', () => {
+      const ko = createMockFront({ curator: 'nuclear' });
+      const en = createMockFront({ curator: 'dragon' }); // en ignored for curator
+
+      const merged = mergePair(ko, en, 'test', 'test.md');
+
+      expect(merged.curator).toBe('nuclear');
+    });
+
+    it('denormalizes the list curator onto every place (ko + en)', () => {
+      const ko = createMockFront({ curator: 'dragon' });
+      const en = createMockFront({ curator: 'dragon' });
+
+      const merged = mergePair(ko, en, 'test', 'test.md');
+
+      expect(merged.ko.places.every((p) => p.curator === 'dragon')).toBe(true);
+      expect(merged.en.places.every((p) => p.curator === 'dragon')).toBe(true);
+    });
+
     it('en sourceNote inherits from ko if absent', () => {
       const ko = createMockFront({
         sourceNote: 'Shared source note',
@@ -141,6 +161,15 @@ describe('merge', () => {
       const errors = validatePair(ko, en, 'test.md');
       expect(errors.length).toBeGreaterThan(0);
       expect(errors.some((e) => e.includes('region'))).toBe(true);
+    });
+
+    it('collects error if ko missing curator', () => {
+      const ko = createMockFront({ curator: undefined });
+      const en = createMockFront();
+
+      const errors = validatePair(ko, en, 'test.md');
+      expect(errors.length).toBeGreaterThan(0);
+      expect(errors.some((e) => e.includes('curator'))).toBe(true);
     });
 
     it('collects error if place missing personalNote', () => {

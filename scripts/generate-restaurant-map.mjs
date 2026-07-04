@@ -43,6 +43,8 @@ const CATEGORY_ENUM = [
   'other',
 ];
 
+const CURATOR_ENUM = ['nuclear', 'dragon', 'honey'];
+
 const PlaceSchema = z.object({
   name: z.string().min(1, 'Place name is required'),
   lat: z.number().refine((lat) => lat >= 33 && lat <= 39, {
@@ -66,12 +68,14 @@ const PlaceSchema = z.object({
   imageWidth: z.number().positive().optional(),
   imageHeight: z.number().positive().optional(),
   id: z.string().optional(),
+  curator: z.enum(CURATOR_ENUM).optional(),
 });
 
 const PlaceListFileFrontSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   slug: z.string().optional(),
   region: z.enum(REGION_ENUM),
+  curator: z.enum(CURATOR_ENUM),
   city: z.string().optional(),
   asOfDate: z.string().regex(/^\d{4}-\d{2}(-\d{2})?$/, 'Invalid ISO date format'),
   sourceNote: z.string().min(1, 'sourceNote is required').max(200),
@@ -84,6 +88,7 @@ const PlaceListFileEnFrontSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   slug: z.string().optional(),
   region: z.enum(REGION_ENUM).optional(), // Can inherit from KO
+  curator: z.enum(CURATOR_ENUM).optional(), // Can inherit from KO
   city: z.string().optional(),
   asOfDate: z.string().regex(/^\d{4}-\d{2}(-\d{2})?$/, 'Invalid ISO date format').optional(), // Can inherit from KO
   sourceNote: z.string().min(1, 'sourceNote is required').max(200),
@@ -94,6 +99,7 @@ const PlaceListFileEnFrontSchema = z.object({
 const MergedPlaceListSchema = z.object({
   slug: z.string(),
   region: z.enum(REGION_ENUM),
+  curator: z.enum(CURATOR_ENUM),
   city: z.string().optional(),
   asOfDate: z.string(),
   sourceUrl: z.string().url().optional(),
@@ -142,6 +148,7 @@ function resolveSlug(front, filename) {
 function mergePair(koFront, enFront, koFilename = 'unknown.md') {
   const slug = resolveSlug(koFront, koFilename);
   const region = koFront.region; // KO canonical
+  const curator = koFront.curator; // KO canonical
   const city = koFront.city; // KO canonical
   const asOfDate = koFront.asOfDate; // KO canonical
   const sourceUrl = koFront.sourceUrl; // KO canonical
@@ -149,16 +156,18 @@ function mergePair(koFront, enFront, koFilename = 'unknown.md') {
   // EN sourceNote can differ or inherit from KO
   const enSourceNote = enFront.sourceNote ?? koFront.sourceNote;
 
-  // Merge places: add id to each place as "${slug}#${index}"
+  // Merge places: add id + denormalized curator to each place
   const mergePlaces = (places) =>
     places.map((place, index) => ({
       ...place,
       id: `${slug}#${index}`,
+      curator,
     }));
 
   return {
     slug,
     region,
+    curator,
     city,
     asOfDate,
     sourceUrl,
@@ -203,12 +212,20 @@ function validatePair(koFilename, koFront, enFront) {
   const ko = koResult.data;
   let en = enResult.data;
 
-  // Apply canonical rules: EN inherits region/asOfDate/sourceUrl/city from KO if not specified
+  // Apply canonical rules: EN inherits region/curator/asOfDate/sourceUrl/city from KO if not specified
   if (!en.region) {
     en.region = ko.region;
   } else if (en.region !== ko.region) {
     errors.push(
       `${koFilename}: EN region must match KO if specified (KO="${ko.region}", EN="${en.region}")`
+    );
+  }
+
+  if (!en.curator) {
+    en.curator = ko.curator;
+  } else if (en.curator !== ko.curator) {
+    errors.push(
+      `${koFilename}: EN curator must match KO if specified (KO="${ko.curator}", EN="${en.curator}")`
     );
   }
 

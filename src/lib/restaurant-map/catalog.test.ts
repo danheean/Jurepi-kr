@@ -6,6 +6,7 @@ import {
   byRegion,
   regions,
   categories,
+  curators,
 } from './catalog';
 import type { MergedPlaceList } from './schema';
 
@@ -13,6 +14,7 @@ describe('catalog', () => {
   const createMockList = (overrides: Partial<MergedPlaceList> = {}): MergedPlaceList => ({
     slug: 'test-list',
     region: 'seoul',
+    curator: 'honey',
     asOfDate: '2026-07-04',
     ko: {
       title: 'Test List KO',
@@ -213,6 +215,25 @@ describe('catalog', () => {
       expect(result).toContain('korean');
       expect(result).toContain('japanese');
       expect(result.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('curators', () => {
+    it('returns unique curators present in the catalog', () => {
+      const catalog = [
+        createMockList({ slug: 'a', curator: 'honey' }),
+        createMockList({ slug: 'b', curator: 'nuclear' }),
+        createMockList({ slug: 'c', curator: 'honey' }),
+      ];
+      const result = curators(catalog);
+      expect(result).toContain('honey');
+      expect(result).toContain('nuclear');
+      expect(result).not.toContain('dragon');
+      expect(result).toHaveLength(2);
+    });
+
+    it('returns empty array for empty catalog', () => {
+      expect(curators([])).toEqual([]);
     });
   });
 

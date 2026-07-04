@@ -1,6 +1,7 @@
 ---
 title: "성수동 감성 카페"
 region: seoul
+curator: honey
 city: "성동구"
 asOfDate: "2026-07-04"
 sourceNote: "직접 다녀온 곳 위주, 2026년 상반기 기준"

@@ -1,6 +1,7 @@
 ---
 title: "부산 로컬 라면 맛집"
 region: busan
+curator: honey
 city: "중구·동구"
 asOfDate: "2026-07-04"
 sourceNote: "부산 거주 3년 차, 매주 다니는 국수 집 리스트"

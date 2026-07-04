@@ -123,6 +123,37 @@ test.describe('Restaurant Map - E2E', () => {
     expect(errors).toEqual([]);
   });
 
+  test('detail shows below the map with an always-present maps link; no on-map popup; SEO at bottom', async ({
+    page,
+  }) => {
+    const errors = collectPageErrors(page);
+
+    await page.goto('/ko/tools/restaurant-map');
+    const main = page.locator('main');
+    await expect(page.getByRole('searchbox')).toBeVisible({ timeout: 10_000 });
+
+    // Before selection: a hint sits under the map
+    await expect(main.getByText('장소를 선택하면', { exact: false })).toBeVisible();
+
+    // Select a place → detail renders with an always-present, resolvable maps link
+    await main.locator('#place-list [role="button"]').first().click();
+    const openInMaps = main.getByRole('link', { name: '지도에서 보기' });
+    await expect(openInMaps).toBeVisible();
+    await expect(openInMaps).toHaveAttribute('href', /^https?:\/\//);
+
+    // The old on-map info popup ("Open in Maps →") is gone (it covered the map)
+    await expect(page.getByText('Open in Maps →')).toHaveCount(0);
+
+    // SEO long-form (HowTo/FAQ) moved to the bottom — assert it renders below the list
+    const faqHeading = page.getByRole('heading', { name: '자주 묻는 질문' });
+    await expect(faqHeading).toBeVisible();
+    const listBox = await main.locator('#place-list').boundingBox();
+    const faqBox = await faqHeading.boundingBox();
+    expect(faqBox!.y).toBeGreaterThan(listBox!.y);
+
+    expect(errors).toEqual([]);
+  });
+
   test('every rendered category filter yields at least one place (no dead filters)', async ({
     page,
   }) => {
@@ -168,6 +199,42 @@ test.describe('Restaurant Map - E2E', () => {
     await main.getByRole('button', { name: '필터 초기화' }).click();
     await expect(main.locator('#place-list [role="button"]').first()).toBeVisible();
 
+    expect(errors).toEqual([]);
+  });
+
+  test('curator legend, curator filter, and card avatars render (ko)', async ({
+    page,
+  }) => {
+    const errors = collectPageErrors(page);
+
+    await page.goto('/ko/tools/restaurant-map');
+    const main = page.locator('main');
+    await expect(page.getByRole('searchbox')).toBeVisible({ timeout: 10_000 });
+
+    // Identity strip shows all three curators' avatars (SSR + hydrated)
+    await expect(main.locator('img[src*="curators/nuclear.png"]').first()).toBeVisible();
+    await expect(main.locator('img[src*="curators/dragon.png"]').first()).toBeVisible();
+    await expect(main.locator('img[src*="curators/honey.png"]').first()).toBeVisible();
+
+    // Curator filter renders the live curator (honey) as a pill button, and
+    // hides curators with no places (dead-filter avoidance) — nuclear/dragon
+    // appear in the legend text but NOT as filter buttons. Scope to the filter
+    // group so place-card avatars (alt = curator name) don't match.
+    const curatorFilter = page.locator('[aria-label="큐레이터로 필터"]');
+    await expect(curatorFilter.getByRole('button', { name: '복현동 꿀주먹' })).toBeVisible();
+    await expect(curatorFilter.getByRole('button', { name: '갈곶동 핵주먹' })).toHaveCount(0);
+    await expect(curatorFilter.getByRole('button', { name: '철산동 용주먹' })).toHaveCount(0);
+
+    // Clicking the live curator keeps the (all-honey) places visible
+    await curatorFilter.getByRole('button', { name: '복현동 꿀주먹' }).click();
+    const firstCard = main.locator('#place-list [role="button"]').first();
+    await expect(firstCard).toBeVisible();
+    // Cards carry the curator avatar next to the personal-take quote
+    await expect(
+      main.locator('#place-list img[src*="curators/honey.png"]').first()
+    ).toBeVisible();
+
+    await expect(page.getByText('문제가 발생했어요')).toHaveCount(0);
     expect(errors).toEqual([]);
   });
 

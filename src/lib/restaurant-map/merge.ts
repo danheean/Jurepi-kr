@@ -12,21 +12,24 @@ export function mergePair(
     throw new Error(`Merge validation failed:\n${errors.join('\n')}`);
   }
 
-  // Apply canonical rule: KO is canonical for region, asOfDate, sourceUrl
+  // Apply canonical rule: KO is canonical for region, curator, asOfDate, sourceUrl
   const region = koFront.region;
+  const curator = koFront.curator;
   const asOfDate = koFront.asOfDate;
   const sourceUrl = koFront.sourceUrl;
   const city = koFront.city || enFront.city;
 
-  // Add place id to each place: ${listSlug}#${index}
+  // Add place id + denormalized curator to each place: ${listSlug}#${index}
   const koPlaces = koFront.places!.map((place, index) => ({
     ...place,
     id: `${slug}#${index}`,
+    curator,
   }));
 
   const enPlaces = enFront.places!.map((place, index) => ({
     ...place,
     id: `${slug}#${index}`,
+    curator,
   }));
 
   // EN sourceNote inherits from KO if absent
@@ -35,6 +38,7 @@ export function mergePair(
   return {
     slug,
     region,
+    curator,
     city,
     asOfDate,
     sourceUrl,
@@ -65,6 +69,14 @@ export function validatePair(
 
   if (!koFront.region) {
     errors.push(`${filename} (KO): region is required`);
+  }
+
+  if (!koFront.curator) {
+    errors.push(`${filename} (KO): curator is required`);
+  } else if (!['nuclear', 'dragon', 'honey'].includes(koFront.curator)) {
+    errors.push(
+      `${filename} (KO): curator "${koFront.curator}" must be one of nuclear, dragon, honey`
+    );
   }
 
   if (!koFront.asOfDate) {

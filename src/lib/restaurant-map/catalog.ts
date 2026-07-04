@@ -77,3 +77,12 @@ export function categories(catalog: MergedPlaceList[]): string[] {
   });
   return Array.from(seen);
 }
+
+/**
+ * Extract unique curators present in the catalog (avoids rendering dead filters)
+ */
+export function curators(catalog: MergedPlaceList[]): string[] {
+  const seen = new Set<string>();
+  catalog.forEach((list) => seen.add(list.curator));
+  return Array.from(seen);
+}

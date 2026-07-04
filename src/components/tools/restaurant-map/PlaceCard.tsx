@@ -1,6 +1,8 @@
 import { useTranslations } from 'next-intl';
 import { Star, ExternalLink, Quote } from 'lucide-react';
 import { haversineDistance } from '@/lib/restaurant-map/geo';
+import { avatarSrc } from '@/lib/restaurant-map/curators';
+import { placeMapUrl } from '@/lib/restaurant-map/maps-link';
 import type { Place } from '@/lib/restaurant-map/schema';
 
 export interface PlaceCardProps {
@@ -44,7 +46,7 @@ export function PlaceCard({
       <div className="space-y-2">
         {/* Header: name + favorite star */}
         <div className="flex items-start justify-between gap-2">
-          <h3 className="flex-1 text-base font-semibold text-text">{place.name}</h3>
+          <h3 className="flex-1 truncate text-base font-semibold text-text">{place.name}</h3>
           <button
             onClick={onToggleFavorite}
             className="shrink-0 rounded p-1 hover:bg-surface-muted"
@@ -71,10 +73,20 @@ export function PlaceCard({
         </div>
 
         {/* Description */}
-        <p className="text-sm text-text-secondary line-clamp-2">{place.description}</p>
+        <p className="text-sm text-text-secondary line-clamp-1">{place.description}</p>
 
         {/* Personal note quote */}
         <div className="flex gap-2 rounded-lg bg-surface-muted p-3">
+          {place.curator && (
+            <img
+              src={avatarSrc(place.curator)}
+              alt={t(`curators.${place.curator}`)}
+              className="h-6 w-6 shrink-0 rounded-full object-cover"
+              width={24}
+              height={24}
+              loading="lazy"
+            />
+          )}
           <Quote className="h-4 w-4 shrink-0 text-text-secondary opacity-50" />
           <div className="text-sm italic text-text-secondary line-clamp-2">
             {place.personalNote}
@@ -86,18 +98,16 @@ export function PlaceCard({
           <address className="flex-1 text-xs text-text-muted not-italic line-clamp-1">
             {place.address}
           </address>
-          {place.link && (
-            <a
-              href={place.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="shrink-0 rounded p-1 text-text-secondary hover:bg-surface-muted hover:text-text"
-              aria-label="Open in external map"
-            >
-              <ExternalLink className="h-4 w-4" />
-            </a>
-          )}
+          <a
+            href={placeMapUrl(place)}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="shrink-0 rounded p-1 text-text-secondary hover:bg-surface-muted hover:text-text"
+            aria-label="Open in external map"
+          >
+            <ExternalLink className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </article>
