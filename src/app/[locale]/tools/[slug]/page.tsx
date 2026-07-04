@@ -43,6 +43,10 @@ import { CounterIntro } from '@/components/tools/character-counter/CounterIntro'
 import { CounterHowTo } from '@/components/tools/character-counter/CounterHowTo';
 import { CounterFaq } from '@/components/tools/character-counter/CounterFaq';
 import { CounterStructuredData } from '@/components/tools/character-counter/CounterStructuredData';
+import { Base64EncoderIntro } from '@/components/tools/base64-encoder/Base64EncoderIntro';
+import { Base64EncoderHowTo } from '@/components/tools/base64-encoder/Base64EncoderHowTo';
+import { Base64EncoderFaq } from '@/components/tools/base64-encoder/Base64EncoderFaq';
+import { Base64EncoderStructuredData } from '@/components/tools/base64-encoder/Base64EncoderStructuredData';
 
 const LadderGame = dynamic(() =>
   import('@/components/tools/ladder/LadderGame').then((m) => ({
@@ -134,6 +138,12 @@ const CharacterCounter = dynamic(() =>
   }))
 );
 
+const Base64Encoder = dynamic(() =>
+  import('@/components/tools/base64-encoder/Base64Encoder').then((m) => ({
+    default: m.Base64Encoder,
+  }))
+);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
@@ -189,6 +199,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'roulette') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'base64-encoder') {
     title = t('meta.title');
     description = t('meta.description');
   } else {
@@ -361,6 +374,21 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
 
   if (slug === 'restaurant-map') {
     return <RestaurantMap />;
+  }
+
+  if (slug === 'base64-encoder') {
+    return (
+      <>
+        <Base64EncoderStructuredData />
+        <Base64EncoderIntro />
+        <Suspense fallback={<div className="text-text-secondary">Loading...</div>}>
+          <Base64Encoder locale={locale} />
+        </Suspense>
+        <Base64EncoderHowTo />
+        <Base64EncoderFaq />
+        <ShareButtons />
+      </>
+    );
   }
 
   notFound();

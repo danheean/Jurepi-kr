@@ -194,6 +194,17 @@ export const tools: ToolMeta[] = [
       'twitter limit', 'meta description', 'readability', 'reading time'
     ],
   },
+  {
+    id: 'base64-encoder',
+    slug: 'base64-encoder',
+    category: 'dev',
+    icon: 'Binary',
+    accent: 'coral',
+    status: 'live',
+    isNew: true,
+    order: 27,
+    keywords: ['base64', '인코딩', '디코딩', 'encode', 'decode', '변환', 'encoding', '파일', '텍스트', 'UTF-8', 'base64 converter', 'encoder', 'decoder'],
+  },
 ];
 
 /** Get all live tools for static generation */
