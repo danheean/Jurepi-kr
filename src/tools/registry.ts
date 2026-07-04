@@ -168,6 +168,17 @@ export const tools: ToolMeta[] = [
     order: 24,
     keywords: ['맛집', '맛집리스트', '맛집지도', '카페', '라면', '족발', '참치', '음식', '추천', '지도', 'restaurant', 'map', 'food', 'cafe', 'ramen', 'tuna', 'local favorite', 'curator', 'dining', 'lunch', 'dinner'],
   },
+  {
+    id: 'my-ip',
+    slug: 'my-ip',
+    category: 'dev',
+    icon: 'Globe',
+    accent: 'rose',
+    status: 'live',
+    isNew: true,
+    order: 25,
+    keywords: ['아이피','IP','공개IP','public IP','IPv4','IPv6','나의IP','내IP','IP찾기','IP주소','네트워크','network address','isp','my ip address','what is my ip'],
+  },
 ];
 
 /** Get all live tools for static generation */

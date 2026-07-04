@@ -35,6 +35,10 @@ import { TransparentBgIntro } from '@/components/tools/transparent-background/Tr
 import { TransparentBgHowTo } from '@/components/tools/transparent-background/TransparentBgHowTo';
 import { TransparentBgFaq } from '@/components/tools/transparent-background/TransparentBgFaq';
 import { TransparentBgStructuredData } from '@/components/tools/transparent-background/TransparentBgStructuredData';
+import { MyIpIntro } from '@/components/tools/my-ip/MyIpIntro';
+import { MyIpHowTo } from '@/components/tools/my-ip/MyIpHowTo';
+import { MyIpFaq } from '@/components/tools/my-ip/MyIpFaq';
+import { MyIpStructuredData } from '@/components/tools/my-ip/MyIpStructuredData';
 
 const LadderGame = dynamic(() =>
   import('@/components/tools/ladder/LadderGame').then((m) => ({
@@ -114,6 +118,12 @@ const RestaurantMap = dynamic(() =>
   }))
 );
 
+const MyIp = dynamic(() =>
+  import('@/components/tools/my-ip/MyIp').then((m) => ({
+    default: m.MyIp,
+  }))
+);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
@@ -163,6 +173,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'restaurant-map') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'my-ip') {
     title = t('meta.title');
     description = t('meta.description');
   } else {
@@ -311,6 +324,18 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
 
   if (slug === 'restaurant-map') {
     return <RestaurantMap />;
+  }
+
+  if (slug === 'my-ip') {
+    return (
+      <>
+        <MyIpStructuredData />
+        <MyIpIntro />
+        <MyIp />
+        <MyIpHowTo />
+        <MyIpFaq />
+      </>
+    );
   }
 
   notFound();
