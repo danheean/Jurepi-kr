@@ -47,6 +47,10 @@ import { Base64EncoderIntro } from '@/components/tools/base64-encoder/Base64Enco
 import { Base64EncoderHowTo } from '@/components/tools/base64-encoder/Base64EncoderHowTo';
 import { Base64EncoderFaq } from '@/components/tools/base64-encoder/Base64EncoderFaq';
 import { Base64EncoderStructuredData } from '@/components/tools/base64-encoder/Base64EncoderStructuredData';
+import { UnitConverterIntro } from '@/components/tools/unit-converter/UnitConverterIntro';
+import { UnitConverterHowTo } from '@/components/tools/unit-converter/UnitConverterHowTo';
+import { UnitConverterFaq } from '@/components/tools/unit-converter/UnitConverterFaq';
+import { UnitConverterStructuredData } from '@/components/tools/unit-converter/UnitConverterStructuredData';
 
 const LadderGame = dynamic(() =>
   import('@/components/tools/ladder/LadderGame').then((m) => ({
@@ -144,6 +148,12 @@ const Base64Encoder = dynamic(() =>
   }))
 );
 
+const UnitConverter = dynamic(() =>
+  import('@/components/tools/unit-converter/UnitConverter').then((m) => ({
+    default: m.UnitConverter,
+  }))
+);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
@@ -202,6 +212,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'base64-encoder') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'unit-converter') {
     title = t('meta.title');
     description = t('meta.description');
   } else {
@@ -387,6 +400,20 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
         <Base64EncoderHowTo />
         <Base64EncoderFaq />
         <ShareButtons />
+      </>
+    );
+  }
+
+  if (slug === 'unit-converter') {
+    return (
+      <>
+        <UnitConverterStructuredData />
+        <UnitConverterIntro />
+        <Suspense fallback={<div className="text-text-secondary">Loading...</div>}>
+          <UnitConverter locale={locale} />
+        </Suspense>
+        <UnitConverterHowTo />
+        <UnitConverterFaq />
       </>
     );
   }

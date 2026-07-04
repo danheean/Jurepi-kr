@@ -2053,6 +2053,90 @@
           }
         ]
       }
+    },
+    "unit-converter": {
+      "title": "Unit Converter",
+      "description": "Convert everyday measurements instantly",
+      "meta": {
+        "title": "Unit Converter",
+        "description": "Convert everyday measurements instantly"
+      },
+      "eyebrow": "CONVERTER TOOL",
+      "lead": "Convert lengths, weights, temperatures, times, and more in real time.",
+      "categories": {
+        "length": "Length",
+        "mass": "Weight",
+        "temperature": "Temperature",
+        "area": "Area",
+        "volume": "Volume",
+        "speed": "Speed",
+        "digital_storage": "Digital Storage",
+        "time": "Time"
+      },
+      "conversionInput": {
+        "label": "Value",
+        "placeholder": "Enter value"
+      },
+      "fromUnit": {
+        "label": "From unit"
+      },
+      "toUnit": {
+        "label": "To unit"
+      },
+      "buttons": {
+        "swap": "Swap units",
+        "clear": "Clear history"
+      },
+      "precision": {
+        "label": "Decimal places",
+        "caption": "{count} places"
+      },
+      "recents": {
+        "heading": "Recent Conversions",
+        "empty": "No conversions yet",
+        "justNow": "Just now",
+        "minutesAgo": "{count}m ago",
+        "hoursAgo": "{count}h ago",
+        "daysAgo": "{count}d ago"
+      },
+      "table": {
+        "heading": "Conversion Table",
+        "empty": "No units in this category"
+      },
+      "errors": {
+        "invalidNumber": "Please enter a number",
+        "negativeNonTemp": "Negative values only allowed for temperature",
+        "outOfRange": "Number out of range"
+      },
+      "intro": {
+        "copy": "Everyday conversions, instant results"
+      },
+      "howTo": {
+        "title": "How do unit conversions work?",
+        "items": [
+          "Unit conversion expresses the same physical quantity in a different unit. This tool covers eight everyday categories: length, weight, temperature, area, volume, speed, digital storage, and time.",
+          "Length is based on the meter (m) and weight on the kilogram (kg); every other unit is derived by ratio. For example, 1 km equals 1,000 m and one inch is about 0.0254 m.",
+          "Temperature is the only category that uses an affine transform instead of a simple ratio — for example °F = °C × 9/5 + 32 and K = °C + 273.15 — which keeps round-trip conversions exact.",
+          "How to use it: pick a category from the tabs, type a value, and choose the from and to units — the result updates live. Adjust the decimal precision with the slider, and your recent conversions are saved automatically."
+        ]
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "How is temperature converted?",
+            "a": "Temperature uses affine transformation. Example: °C = (°F - 32) × 5/9"
+          },
+          {
+            "q": "Are the conversion factors accurate?",
+            "a": "All factors follow international SI standards"
+          },
+          {
+            "q": "Can I convert negative values?",
+            "a": "Most units don't support negative values. However, temperature conversions can handle negative values."
+          }
+        ]
+      }
     }
   },
   "about": {

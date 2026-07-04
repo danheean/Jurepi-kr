@@ -205,6 +205,17 @@ export const tools: ToolMeta[] = [
     order: 27,
     keywords: ['base64', '인코딩', '디코딩', 'encode', 'decode', '변환', 'encoding', '파일', '텍스트', 'UTF-8', 'base64 converter', 'encoder', 'decoder'],
   },
+  {
+    id: 'unit-converter',
+    slug: 'unit-converter',
+    category: 'converter',
+    icon: 'Ruler',
+    accent: 'sky',
+    status: 'live',
+    isNew: true,
+    order: 28,
+    keywords: ['단위변환', '길이', '무게', '온도', '시간', '변환', 'unit', 'conversion', 'length', 'weight', 'temperature', 'time', 'meter', 'kilogram', 'celsius', 'converter'],
+  },
 ];
 
 /** Get all live tools for static generation */

@@ -630,6 +630,57 @@ const defaultMessages = {
         ],
       },
     },
+    'unit-converter': {
+      title: 'Unit Converter',
+      description: 'Convert everyday measurements instantly',
+      eyebrow: 'CONVERTER TOOL',
+      lead: 'Convert lengths, weights, temperatures, times, and more in real time.',
+      categories: {
+        length: 'Length',
+        mass: 'Weight',
+        temperature: 'Temperature',
+        area: 'Area',
+        volume: 'Volume',
+        speed: 'Speed',
+        digital_storage: 'Digital Storage',
+        time: 'Time',
+      },
+      conversionInput: {
+        label: 'Value',
+        placeholder: 'Enter value',
+      },
+      fromUnit: {
+        label: 'From unit',
+      },
+      toUnit: {
+        label: 'To unit',
+      },
+      buttons: {
+        swap: 'Swap units',
+        clear: 'Clear history',
+      },
+      precision: {
+        label: 'Decimal places',
+        caption: '{count} places',
+      },
+      recents: {
+        heading: 'Recent Conversions',
+        empty: 'No conversions yet',
+        justNow: 'Just now',
+        minutesAgo: '{count}m ago',
+        hoursAgo: '{count}h ago',
+        daysAgo: '{count}d ago',
+      },
+      table: {
+        heading: 'Conversion Table',
+        empty: 'No units in this category',
+      },
+      errors: {
+        invalidNumber: 'Please enter a number',
+        negativeNonTemp: 'Negative values only allowed for temperature',
+        outOfRange: 'Number out of range',
+      },
+    },
   },
 };
 
