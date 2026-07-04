@@ -177,8 +177,14 @@ docs/                    # SPEC · DESIGN 시스템 (요구사항 단일 소스)
 앨런 튜링을 인물 사전에 추가해줘
 ```
 
-📖 **[개발 인물 사전 도구 문서 → `docs/services/dev/dev-people/README.md`](docs/services/dev/dev-people/README.md)**
-— 콘텐츠 파이프라인 구조, 스킬 사용 예시, 수동 작성 가이드, 콘텐츠 원칙(사실검증·사진 라이선스).
+## 📚 도구별 문서
+
+각 도구의 요구사항·아키텍처·콘텐츠 저작 방법은 `docs/services/<category>/<tool>/README.md`에 있습니다.
+
+| 도구 | 문서 |
+|------|------|
+| 개발 인물 사전 (Developer People Dictionary) | [`docs/services/dev/dev-people/README.md`](docs/services/dev/dev-people/README.md) — 스킬 사용 예시·콘텐츠 파이프라인·작성 가이드 |
+| 맛집 리스트 (Restaurant List) | [`docs/services/fun/restaurant-map/README.md`](docs/services/fun/restaurant-map/README.md) |
 
 ## 🤖 개발 하네스
 
