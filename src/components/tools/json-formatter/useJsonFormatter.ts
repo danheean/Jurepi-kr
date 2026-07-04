@@ -95,17 +95,22 @@ export function useJsonFormatter(): [
     }
 
     debounceTimerRef.current = setTimeout(() => {
+      // Empty input is the idle state, not invalid JSON — no error, no output
+      if (!state.input.trim()) {
+        setState((prev) => ({
+          ...prev,
+          parseResult: { success: false },
+          stats: null,
+        }));
+        return;
+      }
+
       const options: FormatOptions = {
         indent: state.indent,
         sortKeys: state.sortKeys,
       };
 
-      let result = formatJson(state.input, options);
-
-      // If format succeeded and sortKeys is true, ensure keys are sorted in output
-      if (result.success && state.sortKeys && state.input.trim()) {
-        result = formatJson(state.input, options);
-      }
+      const result = formatJson(state.input, options);
 
       let stats: JsonStats | null = null;
       if (result.success && result.json !== undefined) {
