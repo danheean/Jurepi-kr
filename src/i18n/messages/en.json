@@ -1853,10 +1853,22 @@
       "howTo": {
         "title": "How to Use",
         "steps": [
-          { "step": 1, "text": "Paste or type text into the input field." },
-          { "step": 2, "text": "All metrics update in real-time as you type." },
-          { "step": 3, "text": "Optionally select a character limit (Twitter, Meta, custom)." },
-          { "step": 4, "text": "Copy the text or metrics for use elsewhere." }
+          {
+            "step": 1,
+            "text": "Paste or type text into the input field."
+          },
+          {
+            "step": 2,
+            "text": "All metrics update in real-time as you type."
+          },
+          {
+            "step": 3,
+            "text": "Optionally select a character limit (Twitter, Meta, custom)."
+          },
+          {
+            "step": 4,
+            "text": "Copy the text or metrics for use elsewhere."
+          }
         ]
       }
     },
@@ -2134,6 +2146,196 @@
           {
             "q": "Can I convert negative values?",
             "a": "Most units don't support negative values. However, temperature conversions can handle negative values."
+          }
+        ]
+      }
+    },
+    "my-ip": {
+      "title": "My IP Address",
+      "description": "Find your public IP address (IPv4 and IPv6) instantly.",
+      "meta": {
+        "title": "My IP Address — Find Your Public IP",
+        "description": "Instantly check your public IP address. Supports IPv4 and IPv6."
+      },
+      "eyebrow": "DEVELOPER TOOL",
+      "lead": "Find your public IP address at a glance. See your IPv4, IPv6, and ISP information.",
+      "display": {
+        "ipv4Label": "IPv4",
+        "ipv6Label": "IPv6",
+        "copy": "Copy",
+        "copied": "Copied!",
+        "copyAria": "Copy IP address",
+        "refresh": "Refresh",
+        "provider": "From {provider}",
+        "approximateNote": "Approximate location ({provider})",
+        "ispLabel": "ISP",
+        "cityLabel": "City"
+      },
+      "loader": {
+        "fetching": "Fetching your IP…"
+      },
+      "errors": {
+        "ALL_PROVIDERS_FAILED": "IP service temporarily unavailable. Please try again in a moment.",
+        "BLOCKED_BY_AD_BLOCKER": "IP service blocked by your ad blocker. Please disable it for this site and try again.",
+        "NETWORK_ERROR": "Check your internet connection.",
+        "TIMEOUT": "Request timed out. Please try again.",
+        "RATE_LIMITED": "Service limit reached. Please try again later.",
+        "retry": "Try Again"
+      },
+      "offline": {
+        "notice": "You are offline. Will automatically retry when back online."
+      },
+      "privacy": {
+        "disclosure": "Your IP is fetched from {provider}. {provider} can see your IP address. Jurepi does not store or log it."
+      },
+      "howTo": {
+        "title": "How to use My IP Address",
+        "whatIsIp": {
+          "title": "What is an IP address?",
+          "body": "An IP (Internet Protocol) address is a unique number that identifies your device on the internet. Like a home address, it ensures data reaches the correct destination online."
+        },
+        "ipv4VsIpv6": {
+          "title": "What's the difference between IPv4 and IPv6?",
+          "body": "IPv4 is the older version supporting about 4.3 billion addresses, while IPv6 is the newer version supporting vastly more addresses. Most of the internet currently uses IPv4, but is gradually transitioning to IPv6."
+        },
+        "publicVsPrivate": {
+          "title": "What's the difference between public and private IP?",
+          "body": "A public IP is an address identifiable across the entire internet—this is what this tool displays. A private IP is an address used only within a local network like your home or office."
+        },
+        "dynamicVsStatic": {
+          "title": "What's the difference between dynamic and static IP?",
+          "body": "A dynamic IP changes each time you connect to the internet, while a static IP always remains the same. Most home internet connections use dynamic IPs."
+        }
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "items": [
+          {
+            "q": "Is my IP address stored?",
+            "a": "No. Jurepi does not store or log your IP address. It is fetched temporarily and then discarded."
+          },
+          {
+            "q": "Which service provides the IP lookup?",
+            "a": "Jurepi uses two reliable IP lookup services: api.ipify.org and ipwho.is. If one fails, the tool automatically switches to the other."
+          },
+          {
+            "q": "Why is my IPv6 address not displayed?",
+            "a": "Your network environment may not support IPv6. This is normal, and IPv6 adoption is ongoing globally."
+          },
+          {
+            "q": "What if my location is inaccurate?",
+            "a": "The displayed location is an IP-based approximation. It may differ from GPS-based location and is provided by {provider}."
+          },
+          {
+            "q": "Is this tool safe?",
+            "a": "Yes. All lookups happen in your browser only, and your IP is never sent to Jurepi servers. Since IP lookups are public data, there's no security risk."
+          }
+        ]
+      }
+    },
+    "json-formatter": {
+      "title": "JSON Formatter & Validator",
+      "description": "Format, validate, and analyze JSON with ease",
+      "meta": {
+        "title": "JSON Formatter & Validator — Jurepi",
+        "description": "Prettify minified JSON, validate syntax, and find errors with precise line and column numbers."
+      },
+      "urlLoader": {
+        "label": "Load from URL",
+        "placeholder": "https://api.example.com/data.json",
+        "loadButton": "Load",
+        "loading": "Loading…",
+        "errors": {
+          "invalid_url": "Please enter a valid http(s) URL",
+          "cors_or_network": "The server does not allow cross-origin access (CORS) or there is a network error. Please download the file and paste it instead.",
+          "http_error": "Server returned status {status}",
+          "too_large": "File is too large to process (max 10MB)",
+          "empty_body": "Response body is empty"
+        }
+      },
+      "input": {
+        "placeholder": "Paste JSON here…",
+        "label": "JSON Input"
+      },
+      "options": {
+        "indent": "Indentation",
+        "spaces2": "2 spaces",
+        "spaces4": "4 spaces",
+        "tab": "Tab",
+        "sortKeys": "Sort keys",
+        "statusValid": "Valid",
+        "statusInvalid": "Error"
+      },
+      "output": {
+        "label": "Output",
+        "formatTab": "Formatted",
+        "treeTab": "Tree",
+        "copy": "Copy",
+        "copySuccess": "Copied!",
+        "download": "Download",
+        "downloadFilename": "data.json"
+      },
+      "actions": {
+        "format": "Format",
+        "minify": "Minify",
+        "clear": "Clear"
+      },
+      "errors": {
+        "title": "Error",
+        "line": "Line",
+        "column": "Column",
+        "parseError": "Line {line}, column {column}: Unexpected token ''{token}''"
+      },
+      "stats": {
+        "size": "Size",
+        "elements": "Elements",
+        "depth": "Depth",
+        "display": "{size} · {elements} items · depth {depth}"
+      },
+      "shortcuts": {
+        "format": "Ctrl+Enter",
+        "minify": "Ctrl+Shift+M",
+        "copy": "Ctrl+C"
+      },
+      "intro": {
+        "eyebrow": "Developer Tool",
+        "title": "JSON Formatter & Validator",
+        "lead": "Quickly format, validate, and analyze JSON. Get precise error locations for invalid JSON."
+      },
+      "howTo": {
+        "title": "How to Use",
+        "items": [
+          {
+            "title": "Step 1: Paste",
+            "description": "Paste JSON into the input area."
+          },
+          {
+            "title": "Step 2: Configure",
+            "description": "Choose indentation style and whether to sort keys."
+          },
+          {
+            "title": "Step 3: Download",
+            "description": "Copy the formatted JSON or download it as a file."
+          }
+        ]
+      },
+      "faq": {
+        "items": [
+          {
+            "q": "What is JSON?",
+            "a": "JSON (JavaScript Object Notation) is a text format for structured data. It's widely used in web APIs and configuration files."
+          },
+          {
+            "q": "Why format JSON?",
+            "a": "Formatted JSON is easier to read, debug, and compare in version control."
+          },
+          {
+            "q": "Is my data private?",
+            "a": "Yes, all processing happens in your browser. Your JSON never leaves your device."
+          },
+          {
+            "q": "Can I load from a URL?",
+            "a": "Yes, paste the URL of a public JSON API or .json file. The server must allow CORS."
           }
         ]
       }
