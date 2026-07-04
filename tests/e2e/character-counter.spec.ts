@@ -152,18 +152,19 @@ test.describe('Character Counter - E2E Integration', () => {
     await customButton.click();
     await page.waitForTimeout(200);
 
-    // Custom input should appear
-    const customInput = page.locator('input[placeholder*="e.g., 500"]').first();
+    // Custom input should appear (number input — locale-stable selector)
+    const customInput = page.locator('input[type="number"]').first();
     await expect(customInput).toBeVisible({ timeout: 3000 });
 
     // Type 400 in custom input
     await customInput.fill('400');
     await page.waitForTimeout(200);
 
-    // Verify progress bar updates (300 / 400 = 75% → green)
-    statusText = await page.locator('[role="progressbar"]').first().getAttribute('aria-label', { timeout: 3000 });
-    expect(statusText).toContain('300');
-    expect(statusText).toContain('400');
+    // Verify progress bar updates (300 / 400 = 75% → green). The count lives in
+    // aria-valuenow/aria-valuemax; aria-label is a static localized name.
+    const progressbar = page.locator('[role="progressbar"]').first();
+    expect(await progressbar.getAttribute('aria-valuenow')).toBe('300');
+    expect(await progressbar.getAttribute('aria-valuemax')).toBe('400');
 
     await assertNoErrors(page, 'Scenario 3');
   });
@@ -201,8 +202,9 @@ test.describe('Character Counter - E2E Integration', () => {
     // This proves that the Twitter limit (280) was persisted and restored
     await expect(page.locator('[role="progressbar"]')).toBeVisible({ timeout: 3000 });
 
-    // Test copy text button
-    const copyTextButton = page.locator('button').filter({ hasText: /텍스트 복사|Copy text/ }).first();
+    // Test copy text button. Use the accessible name (aria-label, stable) so the
+    // locator still resolves after the visible label swaps to "복사됨!" on success.
+    const copyTextButton = page.getByRole('button', { name: /텍스트 복사|Copy text/ });
     await expect(copyTextButton).toBeVisible({ timeout: 3000 });
 
     // Grant clipboard permissions
@@ -210,6 +212,10 @@ test.describe('Character Counter - E2E Integration', () => {
 
     // Click copy text
     await copyTextButton.click();
+
+    // Success feedback: label swaps to "복사됨!" / "Copied!" (auto-waits within the ~1.6s window)
+    await expect(copyTextButton).toContainText(/복사됨|Copied/, { timeout: 2000 });
+
     await page.waitForTimeout(200);
 
     // Verify clipboard content (simplified check via Clipboard API)

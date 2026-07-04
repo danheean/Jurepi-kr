@@ -49,7 +49,7 @@ export function LimitIndicator({
       ? 'bg-danger'
       : status === 'near'
         ? 'bg-warning'
-        : 'bg-accent-mint';
+        : 'bg-accent-mint-ink';
 
   const textColorClass =
     status === 'over'
@@ -77,7 +77,7 @@ export function LimitIndicator({
   return (
     <div className="space-y-4">
       {/* Label */}
-      <div className="text-xs uppercase tracking-wider font-semibold text-text-secondary">
+      <div className="text-xs tracking-wide font-semibold text-text-secondary">
         {t('limit.label')}
       </div>
 
@@ -85,7 +85,7 @@ export function LimitIndicator({
       <div className="flex flex-wrap gap-2">
         <button
           onClick={() => handlePresetClick('twitter')}
-          className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors ${
             limit?.id === 'twitter'
               ? 'bg-brand text-on-brand'
               : 'bg-surface-muted text-text hover:bg-surface-sunken'
@@ -97,7 +97,7 @@ export function LimitIndicator({
 
         <button
           onClick={() => handlePresetClick('meta_description')}
-          className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors ${
             limit?.id === 'meta_description'
               ? 'bg-brand text-on-brand'
               : 'bg-surface-muted text-text hover:bg-surface-sunken'
@@ -109,7 +109,7 @@ export function LimitIndicator({
 
         <button
           onClick={handleCustomClick}
-          className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors ${
             limit?.id === 'custom'
               ? 'bg-brand text-on-brand'
               : 'bg-surface-muted text-text hover:bg-surface-sunken'
@@ -121,7 +121,7 @@ export function LimitIndicator({
 
         <button
           onClick={() => handlePresetClick('none')}
-          className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors ${
             limit?.id === 'none'
               ? 'bg-brand text-on-brand'
               : 'bg-surface-muted text-text hover:bg-surface-sunken'
@@ -138,8 +138,8 @@ export function LimitIndicator({
           type="number"
           value={customInput}
           onChange={handleCustomInputChange}
-          placeholder="e.g., 500"
-          className="w-full px-3 py-2 rounded-lg border border-hairline bg-surface text-text placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
+          placeholder={t('limit.customInput.placeholder')}
+          className="w-full px-3 py-2 min-h-11 rounded-lg border border-hairline bg-surface text-text placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
           aria-label={t('limit.customInput.ariaLabel')}
         />
       )}
@@ -149,13 +149,13 @@ export function LimitIndicator({
         <div className="space-y-2">
           <div className="h-2 bg-surface-muted rounded-full overflow-hidden">
             <div
-              className={`h-full ${barColorClass} transition-all duration-200`}
+              className={`h-full ${barColorClass} transition-[width] duration-200`}
               style={{ width: `${progressFill}%` }}
               role="progressbar"
               aria-valuenow={currentCount}
               aria-valuemin={0}
               aria-valuemax={limit.limit}
-              aria-label={`Character count: ${statusText}`}
+              aria-label={t('limit.progress.ariaLabel')}
             />
           </div>
           <div className={`text-sm font-medium ${textColorClass}`} aria-live="polite">

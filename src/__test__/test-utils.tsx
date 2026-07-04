@@ -515,8 +515,10 @@ const defaultMessages = {
         },
         customInput: {
           ariaLabel: 'Custom character limit input',
+          placeholder: 'e.g., 500',
         },
         progress: {
+          ariaLabel: 'Character count progress',
           status: {
             under: '{current} / {limit} (OK)',
             near: '{current} / {limit} (80%)',

@@ -80,7 +80,7 @@ export function CounterMetrics({ metrics }: CounterMetricsProps) {
             key={metric.key}
             className={metric.isPrimary ? 'col-span-2' : ''}
           >
-            <div className="text-xs text-text-secondary uppercase tracking-wider mb-1">
+            <div className="text-xs text-text-secondary tracking-wide mb-1">
               {metric.label}
             </div>
             <div className={metric.isPrimary ? 'text-4xl font-bold text-text' : 'text-lg font-semibold text-text'}>

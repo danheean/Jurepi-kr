@@ -1803,9 +1803,11 @@
           "none": "제한 없음"
         },
         "customInput": {
-          "ariaLabel": "사용자 정의 글자 제한 입력"
+          "ariaLabel": "사용자 정의 글자 제한 입력",
+          "placeholder": "예: 500"
         },
         "progress": {
+          "ariaLabel": "글자 수 진행률",
           "status": {
             "under": "{current} / {limit} (적정)",
             "near": "{current} / {limit} (80%)",
