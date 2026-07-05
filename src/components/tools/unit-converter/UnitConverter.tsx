@@ -67,12 +67,13 @@ export function UnitConverter({ locale }: Props) {
 
       {/* Conversion panel: input, unit pickers, swap, precision.
           role=tabpanel ties the active category tab to the controls it drives. */}
+      {/* role=tabpanel ties the active tab to its controls. No tabIndex: the
+          panel contains focusable children, so per the ARIA tabs pattern it must
+          NOT be a separate tab stop. */}
       <div
         id="uc-tabpanel"
         role="tabpanel"
         aria-labelledby={`uc-tab-${state.category}`}
-        tabIndex={0}
-        className="focus-visible:outline-none"
       >
         <ConversionPanel state={state} />
       </div>

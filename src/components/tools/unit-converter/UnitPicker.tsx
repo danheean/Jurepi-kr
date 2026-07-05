@@ -164,7 +164,7 @@ export function UnitPicker({ category, selectedId, onChange, id, ariaLabel }: Pr
             }}
             onKeyDown={handleKeyDown}
             placeholder={t('picker.search')}
-            className="px-3 py-2 border-b border-hairline text-sm focus-visible:outline-none"
+            className="px-3 py-2 border-b border-hairline text-sm bg-surface text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-focus-ring"
           />
 
           {/* Unit list */}
