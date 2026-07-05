@@ -70,6 +70,17 @@ export function ConversionPanel({ state }: Props) {
         </div>
       </div>
 
+      {/* Persistent live region: announces each conversion to screen readers
+          without stealing focus (WCAG 2.1 SC 4.1.3). Stays mounted so updates
+          are detected; the visible box below is conditional for layout. */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {state.toValue !== null
+          ? `${state.formattedToValue} ${
+              UNITS_BY_CATEGORY[state.category]?.[state.toUnit]?.symbol ?? state.toUnit
+            }`
+          : ''}
+      </div>
+
       {/* To value display */}
       {state.fromValue && (
         <div className="p-4 bg-surface-muted rounded-lg border border-hairline">

@@ -30,7 +30,7 @@ export function UnitConverter({ locale }: Props) {
     // Skeleton keeps the island's height stable (no CLS / blank flash) until the
     // localStorage-dependent interactive UI hydrates. Matches the panel layout.
     return (
-      <div className="space-y-8" aria-hidden="true">
+      <div className="space-y-8 animate-pulse" aria-hidden="true">
         <div className="flex gap-2 overflow-hidden">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="h-[44px] w-20 shrink-0 rounded-lg bg-surface-muted" />
