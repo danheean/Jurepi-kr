@@ -2288,6 +2288,105 @@
         ]
       }
     },
+    "knitting-gauge": {
+      "title": "Knitting Gauge Calculator",
+      "description": "Calculate cast-on stitches/rows from your gauge and rescale patterns",
+      "meta": {
+        "title": "Knitting Gauge Calculator",
+        "description": "Calculate cast-on stitches/rows from your gauge and rescale patterns"
+      },
+      "eyebrow": "Calculator Tool",
+      "lead": "Know your gauge (stitches and rows per 10cm)? Calculate cast-on stitches, rows, and rescale any pattern.",
+      "modes": {
+        "dimToCounts": "Dimensions → Stitches/Rows",
+        "countsToDim": "Stitches/Rows → Dimensions",
+        "patternRescale": "Pattern Rescale"
+      },
+      "fields": {
+        "stitches": "Stitches",
+        "rows": "Rows",
+        "swatchWidth": "Swatch Width",
+        "swatchHeight": "Swatch Height",
+        "needle": "Needle Size (optional)",
+        "yarn": "Yarn Weight (optional)",
+        "targetWidth": "Target Width",
+        "targetLength": "Target Length",
+        "width": "Width",
+        "length": "Length",
+        "stitchCount": "Stitch Count",
+        "rowCount": "Row Count",
+        "patternGauge": "Pattern Gauge",
+        "patternCount": "Pattern Count",
+        "yourGauge": "Your Gauge"
+      },
+      "units": {
+        "cm": "cm",
+        "inch": "inch",
+        "label": "Unit"
+      },
+      "results": {
+        "castOnStitches": "Cast-On Stitches",
+        "rows": "Rows",
+        "exact": "Exact",
+        "actual": "Actual Size",
+        "difference": "vs Target",
+        "rescaledCount": "Count for Your Gauge",
+        "ratio": "Ratio"
+      },
+      "actions": {
+        "copy": "Copy",
+        "copied": "Copied",
+        "save": "Save",
+        "apply": "Apply",
+        "delete": "Delete",
+        "clear": "Clear"
+      },
+      "projects": {
+        "title": "Saved Gauges",
+        "placeholder": "Enter gauge name",
+        "empty": "No saved gauges",
+        "max": "Up to 50 gauges"
+      },
+      "errors": {
+        "invalidInput": "Please enter positive numbers",
+        "swatchTooSmall": "Swatch size must be greater than 0",
+        "storage": "Storage error"
+      },
+      "howTo": {
+        "title": "What is Gauge",
+        "items": [
+          "Knitting gauge is the number of stitches and rows in a given measurement (usually 10cm or 4 inches) of knitted fabric.",
+          "Once you know your finished size, you can use your gauge to calculate the number of stitches and rows you need to cast on.",
+          "If you have a pattern written for a different gauge, you can rescale the stitch and row counts for your own gauge.",
+          "This calculator does all that automatically for you."
+        ]
+      },
+      "faq": {
+        "title": "FAQ",
+        "items": [
+          {
+            "q": "How do I measure my gauge?",
+            "a": "Knit a small sample (swatch) about 10cm × 10cm (or 4in × 4in) using your yarn and needles. Count the number of stitches and rows within that area."
+          },
+          {
+            "q": "Why is gauge important?",
+            "a": "A different gauge changes the finished size completely. The same stitch count with thinner yarn produces a smaller garment, while thicker yarn produces a larger one."
+          },
+          {
+            "q": "Can I mix cm and inches?",
+            "a": "Yes, this calculator automatically converts between units. Use the toggle button to switch between cm and inches."
+          },
+          {
+            "q": "When do my saved gauges disappear?",
+            "a": "Your gauges are stored in your browser. They'll be deleted if you clear your browser data or use private/incognito mode."
+          },
+          {
+            "q": "How do I rescale a pattern to my gauge?",
+            "a": "Select the 'Pattern Rescale' tab. Enter the pattern's gauge (as written in the pattern) and stitch count. The calculator will show you the stitch count needed for your gauge."
+          }
+        ]
+      }
+    },
     "json-formatter": {
       "title": "JSON Formatter & Validator",
       "description": "Format, validate, and analyze JSON with ease",

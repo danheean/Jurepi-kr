@@ -716,6 +716,99 @@ const defaultMessages = {
         ],
       },
     },
+    'knitting-gauge': {
+      title: 'Knitting Gauge Calculator',
+      description: 'Calculate cast-on stitches/rows from your gauge and rescale patterns',
+      modes: {
+        dimToCounts: 'Dimensions → Stitches/Rows',
+        countsToDim: 'Stitches/Rows → Dimensions',
+        patternRescale: 'Pattern Rescale',
+      },
+      fields: {
+        stitches: 'Stitches',
+        rows: 'Rows',
+        swatchWidth: 'Swatch Width',
+        swatchHeight: 'Swatch Height',
+        needle: 'Needle Size (optional)',
+        yarn: 'Yarn Weight (optional)',
+        targetWidth: 'Target Width',
+        targetLength: 'Target Length',
+        width: 'Width',
+        length: 'Length',
+        stitchCount: 'Stitch Count',
+        rowCount: 'Row Count',
+        patternGauge: 'Pattern Gauge',
+        patternCount: 'Pattern Count',
+        yourGauge: 'Your Gauge',
+      },
+      units: {
+        label: 'Unit',
+        cm: 'cm',
+        inch: 'inch',
+      },
+      results: {
+        castOnStitches: 'Cast-On Stitches',
+        rows: 'Rows',
+        exact: 'Exact',
+        actual: 'Actual Size',
+        difference: 'vs Target',
+        rescaledCount: 'Count for Your Gauge',
+        ratio: 'Ratio',
+      },
+      actions: {
+        copy: 'Copy',
+        copied: 'Copied',
+        save: 'Save',
+        apply: 'Apply',
+        delete: 'Delete',
+        clear: 'Clear',
+      },
+      projects: {
+        title: 'Saved Gauges',
+        placeholder: 'Enter gauge name',
+        empty: 'No saved gauges',
+        max: 'Up to 50 gauges',
+      },
+      errors: {
+        invalidInput: 'Please enter positive numbers',
+        swatchTooSmall: 'Swatch size must be greater than 0',
+        storage: 'Storage error',
+      },
+      howTo: {
+        title: 'What is Gauge',
+        items: [
+          'Knitting gauge shows how many stitches and rows fit within a standard length (usually 10cm).',
+          'Once you decide your target size, you can use the gauge to calculate how many stitches to cast on and rows to knit.',
+          'If you have a pattern written for a different gauge, you can rescale it to match your own gauge.',
+          'This calculator automates all these calculations for you.',
+        ],
+      },
+      faq: {
+        title: 'FAQ',
+        items: [
+          {
+            q: 'How do you measure gauge?',
+            a: 'Make a small swatch (about 10cm × 10cm or 4in × 4in) with your yarn and needles. Count how many stitches and rows fit inside.',
+          },
+          {
+            q: 'Why is gauge important?',
+            a: 'Different gauges produce different finished sizes. Same stitches with thin yarn makes a smaller piece; thick yarn makes a larger piece.',
+          },
+          {
+            q: 'Can I mix cm and inches?',
+            a: 'Yes, this calculator automatically converts. Use the unit toggle to switch between cm and inches.',
+          },
+          {
+            q: 'When do saved gauges disappear?',
+            a: 'Gauges are saved in your browser storage. They disappear if you clear your browser data or use private browsing mode.',
+          },
+          {
+            q: 'How do I rescale a pattern to my gauge?',
+            a: 'Select the "Pattern Rescale" tab. Enter the pattern gauge and stitch count from the pattern, and the calculator will show you what count you need for your gauge.',
+          },
+        ],
+      },
+    },
     'unit-converter': {
       title: 'Unit Converter',
       description: 'Convert everyday measurements instantly',
@@ -785,9 +878,9 @@ const defaultMessages = {
   },
 };
 
-function AllTheProviders({ children }: { children: ReactNode }) {
+export function AllTheProviders({ children, locale = 'en' }: { children: ReactNode; locale?: string }) {
   return (
-    <NextIntlClientProvider locale="en" messages={defaultMessages as any}>
+    <NextIntlClientProvider locale={locale} messages={defaultMessages as any}>
       {children}
     </NextIntlClientProvider>
   );
@@ -795,8 +888,14 @@ function AllTheProviders({ children }: { children: ReactNode }) {
 
 const customRender = (
   ui: ReactNode,
-  options?: Omit<RenderOptions, 'wrapper'>
-) => render(ui, { wrapper: AllTheProviders, ...options });
+  options?: Omit<RenderOptions, 'wrapper'> & { locale?: string }
+) => {
+  const { locale = 'en', ...renderOptions } = options || {} as any;
+  return render(ui, {
+    wrapper: ({ children }: { children: ReactNode }) => AllTheProviders({ children, locale }),
+    ...renderOptions,
+  } as any);
+};
 
 export * from '@testing-library/react';
 export { customRender as render, userEvent };

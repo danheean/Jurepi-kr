@@ -59,6 +59,10 @@ import { UnitConverterIntro } from '@/components/tools/unit-converter/UnitConver
 import { UnitConverterHowTo } from '@/components/tools/unit-converter/UnitConverterHowTo';
 import { UnitConverterFaq } from '@/components/tools/unit-converter/UnitConverterFaq';
 import { UnitConverterStructuredData } from '@/components/tools/unit-converter/UnitConverterStructuredData';
+import { KnittingGaugeIntro } from '@/components/tools/knitting-gauge/KnittingGaugeIntro';
+import { KnittingGaugeHowTo } from '@/components/tools/knitting-gauge/KnittingGaugeHowTo';
+import { KnittingGaugeFaq } from '@/components/tools/knitting-gauge/KnittingGaugeFaq';
+import { KnittingGaugeStructuredData } from '@/components/tools/knitting-gauge/KnittingGaugeStructuredData';
 
 const LadderGame = dynamic(() =>
   import('@/components/tools/ladder/LadderGame').then((m) => ({
@@ -174,6 +178,12 @@ const UnitConverter = dynamic(() =>
   }))
 );
 
+const KnittingGauge = dynamic(() =>
+  import('@/components/tools/knitting-gauge/KnittingGauge').then((m) => ({
+    default: m.KnittingGauge,
+  }))
+);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const tool = getToolBySlug(slug);
@@ -241,6 +251,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'json-formatter') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'knitting-gauge') {
     title = t('meta.title');
     description = t('meta.description');
   } else {
@@ -464,6 +477,20 @@ async function ToolContent({ slug, locale }: { slug: string; locale: string }) {
         <JsonFormatter />
         <JsonFormatterHowTo />
         <JsonFormatterFaq />
+      </>
+    );
+  }
+
+  if (slug === 'knitting-gauge') {
+    return (
+      <>
+        <KnittingGaugeStructuredData />
+        <KnittingGaugeIntro />
+        <Suspense fallback={<div className="text-text-secondary">Loading...</div>}>
+          <KnittingGauge />
+        </Suspense>
+        <KnittingGaugeHowTo />
+        <KnittingGaugeFaq />
       </>
     );
   }

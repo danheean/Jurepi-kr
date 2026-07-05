@@ -238,6 +238,22 @@ export const tools: ToolMeta[] = [
     order: 29,
     keywords: ['단위변환', '길이', '무게', '온도', '시간', '변환', 'unit', 'conversion', 'length', 'weight', 'temperature', 'time', 'meter', 'kilogram', 'celsius', 'converter'],
   },
+  {
+    id: 'knitting-gauge',
+    slug: 'knitting-gauge',
+    category: 'calculator',
+    icon: 'Ruler',
+    accent: 'sun',
+    status: 'live',
+    isNew: true,
+    order: 30,
+    keywords: [
+      '뜨개질', '게이지', '코수', '단수', '대바늘', '코바늘', '니트', '스웨치',
+      '패턴환산', '크로셰', '뜨개질계산', '코밀도', '단밀도',
+      'knitting', 'gauge', 'stitches', 'rows', 'swatch', 'cast on',
+      'crochet', 'pattern', 'rescale', 'finished size', 'yarn'
+    ],
+  },
 ];
 
 /** Get all live tools for static generation */
