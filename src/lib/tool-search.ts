@@ -11,6 +11,9 @@ export interface SearchableTool {
   accent: AccentColor;
   icon: string;
   status: 'live' | 'coming_soon';
+  /** Release date (ISO YYYY-MM-DD) */
+  addedAt: string;
+  /** Derived at build time from addedAt (see isNewTool) */
   isNew?: boolean;
   isPopular?: boolean;
   order: number;
@@ -114,4 +117,27 @@ export function deriveCategories(tools: SearchableTool[]): CategoryOption[] {
       labelKey: cat === 'all' ? 'categories.all' : `categories.${cat}`,
     })
   );
+}
+
+/** Days a tool counts as "new" after release (NEW badge window). */
+export const NEW_BADGE_WINDOW_DAYS = 7;
+
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Whether a tool released on `addedAt` is still "new" at `referenceDate`.
+ * Both dates are ISO `YYYY-MM-DD` strings (UTC midnight comparison — locale-independent).
+ * New = 0 ≤ age < windowDays. Missing/malformed/future dates → false (no badge, deterministic).
+ */
+export function isNewTool(
+  addedAt: string,
+  referenceDate: string | undefined,
+  windowDays: number = NEW_BADGE_WINDOW_DAYS
+): boolean {
+  if (!referenceDate || !ISO_DATE.test(addedAt) || !ISO_DATE.test(referenceDate)) {
+    return false;
+  }
+  const ageDays = (Date.parse(referenceDate) - Date.parse(addedAt)) / MS_PER_DAY;
+  return ageDays >= 0 && ageDays < windowDays;
 }

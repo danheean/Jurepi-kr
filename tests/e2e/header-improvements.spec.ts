@@ -86,7 +86,7 @@ test('category filter left-aligns with search and grid', async ({ page }) => {
 
   const searchInput = page.getByPlaceholder('도구 검색…').first();
   const firstPill = page.getByRole('button', { name: '전체' });
-  const firstCard = page.locator('a[href="/ko/tools/ladder"]').first();
+  const firstCard = page.locator('main a[href^="/ko/tools/"]').first();
 
   const sb = await searchInput.boundingBox();
   const pb = await firstPill.boundingBox();

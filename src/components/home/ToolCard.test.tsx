@@ -13,6 +13,7 @@ describe('ToolCard', () => {
     accent: 'coral',
     icon: 'ListTree',
     status: 'live',
+    addedAt: '2026-07-01',
     isNew: true,
     isPopular: true,
     order: 1,
@@ -28,6 +29,7 @@ describe('ToolCard', () => {
     accent: 'rose',
     icon: 'Dices',
     status: 'coming_soon',
+    addedAt: '2026-07-01',
     order: 2,
     keywords: ['picker'],
   };

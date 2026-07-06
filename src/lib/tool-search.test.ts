@@ -7,6 +7,7 @@ import {
   deriveCategories,
   CategoryOption,
   FilterOptions,
+  isNewTool,
 } from './tool-search';
 import type { ToolCategory, AccentColor } from '@/tools/types';
 
@@ -18,6 +19,7 @@ const createTool = (overrides?: Partial<SearchableTool>): SearchableTool => ({
   accent: 'coral' as AccentColor,
   icon: 'ListTree',
   status: 'live' as const,
+    addedAt: '2026-07-01',
   isNew: false,
   isPopular: false,
   order: 1,
@@ -211,9 +213,12 @@ describe('sortTools', () => {
 
   it('pushes coming_soon to end', () => {
     const tools = [
-      createTool({ id: '1', status: 'live' as const, order: 1 }),
-      createTool({ id: '2', status: 'coming_soon' as const, order: 0 }),
-      createTool({ id: '3', status: 'live' as const, order: 2 }),
+      createTool({ id: '1', status: 'live' as const,
+    addedAt: '2026-07-01', order: 1 }),
+      createTool({ id: '2', status: 'coming_soon' as const,
+    addedAt: '2026-07-01', order: 0 }),
+      createTool({ id: '3', status: 'live' as const,
+    addedAt: '2026-07-01', order: 2 }),
     ];
     const result = sortTools(tools);
     expect(result.map(t => t.id)).toEqual(['1', '3', '2']);
@@ -225,24 +230,28 @@ describe('sortTools', () => {
         id: '1',
         isPopular: false,
         status: 'coming_soon' as const,
+    addedAt: '2026-07-01',
         order: 1,
       }),
       createTool({
         id: '2',
         isPopular: true,
         status: 'live' as const,
+    addedAt: '2026-07-01',
         order: 5,
       }),
       createTool({
         id: '3',
         isPopular: false,
         status: 'live' as const,
+    addedAt: '2026-07-01',
         order: 2,
       }),
       createTool({
         id: '4',
         isPopular: false,
         status: 'live' as const,
+    addedAt: '2026-07-01',
         order: 1,
       }),
     ];
@@ -317,11 +326,13 @@ describe('deriveCategories', () => {
         id: '1',
         category: 'random' as ToolCategory,
         status: 'coming_soon' as const,
+    addedAt: '2026-07-01',
       }),
       createTool({
         id: '2',
         category: 'text' as ToolCategory,
         status: 'coming_soon' as const,
+    addedAt: '2026-07-01',
       }),
     ];
     const result = deriveCategories(tools);
@@ -348,5 +359,42 @@ describe('deriveCategories', () => {
     const result = deriveCategories(tools);
     const randomCount = result.filter(r => r.id === 'random').length;
     expect(randomCount).toBe(1);
+  });
+});
+
+describe('isNewTool', () => {
+  it('returns true when addedAt is the reference date (0 days old)', () => {
+    expect(isNewTool('2026-07-06', '2026-07-06')).toBe(true);
+  });
+
+  it('returns false when addedAt is exactly 7 days before reference (window exclusive)', () => {
+    expect(isNewTool('2026-06-29', '2026-07-06')).toBe(false);
+  });
+
+  it('returns true when addedAt is within the 7-day window', () => {
+    expect(isNewTool('2026-06-30', '2026-07-06')).toBe(true);
+    expect(isNewTool('2026-07-05', '2026-07-06')).toBe(true);
+  });
+
+  it('returns false when addedAt is older than the window', () => {
+    expect(isNewTool('2026-06-01', '2026-07-06')).toBe(false);
+  });
+
+  it('returns false for a future addedAt (data error guard)', () => {
+    expect(isNewTool('2026-07-10', '2026-07-06')).toBe(false);
+  });
+
+  it('returns false when referenceDate is missing (deterministic no-badge)', () => {
+    expect(isNewTool('2026-07-06', undefined)).toBe(false);
+  });
+
+  it('returns false for malformed dates', () => {
+    expect(isNewTool('not-a-date', '2026-07-06')).toBe(false);
+    expect(isNewTool('2026-07-06', 'not-a-date')).toBe(false);
+  });
+
+  it('respects a custom window', () => {
+    expect(isNewTool('2026-06-25', '2026-07-06', 14)).toBe(true);
+    expect(isNewTool('2026-06-20', '2026-07-06', 14)).toBe(false);
   });
 });

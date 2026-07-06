@@ -13,7 +13,7 @@ describe('toSearchableTools', () => {
       icon: 'ListTree',
       accent: 'coral',
       status: 'live',
-      isNew: true,
+      addedAt: '2026-07-01',
       isPopular: true,
       order: 1,
       keywords: ['사다리', 'ladder'],
@@ -25,6 +25,7 @@ describe('toSearchableTools', () => {
       icon: 'Dices',
       accent: 'rose',
       status: 'coming_soon',
+      addedAt: '2026-06-01',
       order: 2,
       keywords: ['추첨', 'picker'],
     },
@@ -49,7 +50,7 @@ describe('toSearchableTools', () => {
     expect(firstTool.icon).toBe('ListTree');
     expect(firstTool.accent).toBe('coral');
     expect(firstTool.status).toBe('live');
-    expect(firstTool.isNew).toBe(true);
+    expect(firstTool.addedAt).toBe('2026-07-01');
     expect(firstTool.isPopular).toBe(true);
     expect(firstTool.order).toBe(1);
     expect(firstTool.keywords).toEqual(['사다리', 'ladder']);
@@ -105,38 +106,25 @@ describe('toSearchableTools', () => {
     expect(Array.isArray(result)).toBe(true);
   });
 
-  it('should preserve optional fields like isNew and isPopular', () => {
-    const toolsWithOptionals: ToolMeta[] = [
-      {
-        id: 'test1',
-        slug: 'test1',
-        category: 'fun',
-        icon: 'Test',
-        accent: 'mint',
-        status: 'live',
-        order: 1,
-        keywords: [],
-        isNew: true,
-        isPopular: false,
-      },
-      {
-        id: 'test2',
-        slug: 'test2',
-        category: 'fun',
-        icon: 'Test',
-        accent: 'mint',
-        status: 'coming_soon',
-        order: 2,
-        keywords: [],
-        // isNew and isPopular omitted
-      },
-    ];
+  it('derives isNew from addedAt: within 7 days of referenceDate → true', () => {
+    const result = toSearchableTools(fixtureTools, fakeTranslator, '2026-07-06');
+    expect(result[0].isNew).toBe(true); // added 2026-07-01, 5 days old
+    expect(result[1].isNew).toBe(false); // added 2026-06-01, stale
+  });
 
-    const result = toSearchableTools(toolsWithOptionals, fakeTranslator);
+  it('derives isNew as false when referenceDate is missing (no badge)', () => {
+    const result = toSearchableTools(fixtureTools, fakeTranslator, undefined);
+    expect(result.every((tool) => tool.isNew === false)).toBe(true);
+  });
 
-    expect(result[0].isNew).toBe(true);
-    expect(result[0].isPopular).toBe(false);
-    expect(result[1].isNew).toBeUndefined();
+  it('derives isNew as false once the 7-day window has passed', () => {
+    const result = toSearchableTools(fixtureTools, fakeTranslator, '2026-07-08');
+    expect(result[0].isNew).toBe(false); // added 2026-07-01, exactly 7 days old
+  });
+
+  it('preserves isPopular passthrough', () => {
+    const result = toSearchableTools(fixtureTools, fakeTranslator, '2026-07-06');
+    expect(result[0].isPopular).toBe(true);
     expect(result[1].isPopular).toBeUndefined();
   });
 
@@ -175,6 +163,7 @@ describe('toSearchableTools', () => {
         icon: 'Live',
         accent: 'mint',
         status: 'live',
+        addedAt: '2026-07-01',
         order: 1,
         keywords: [],
       },
@@ -185,6 +174,7 @@ describe('toSearchableTools', () => {
         icon: 'Coming',
         accent: 'mint',
         status: 'coming_soon',
+        addedAt: '2026-07-01',
         order: 2,
         keywords: [],
       },

@@ -39,6 +39,7 @@ describe('Header', () => {
       accent: 'coral',
       icon: 'ListTree',
       status: 'live',
+    addedAt: '2026-07-01',
       order: 1,
       keywords: ['ladder'],
     },

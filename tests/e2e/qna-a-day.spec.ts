@@ -309,7 +309,7 @@ test.describe('Q&A a Day - E2E Integration', () => {
     await page.waitForTimeout(300);
 
     // Check category filters exist (looking for buttons with role="button" that contain category text)
-    const mindsetPill = page.locator('button:has-text("마음·기록")').first();
+    const mindsetPill = page.getByRole('button', { name: '기록', exact: true }).first();
     const mindsetExists = await mindsetPill.isVisible().catch(() => false);
     expect(mindsetExists).toBe(true);
 
