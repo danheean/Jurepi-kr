@@ -229,4 +229,20 @@ describe('SavedProjects', () => {
     expect(screen.getByText(/Saved Gauges/)).toBeInTheDocument()
     expect(screen.getByPlaceholderText(/Enter gauge name/)).toBeInTheDocument()
   })
+
+  it('name input has an accessible name (not placeholder-only)', () => {
+    render(
+      <SavedProjects
+        projects={[]}
+        onSave={vi.fn()}
+        onApply={vi.fn()}
+        onRemove={vi.fn()}
+      />,
+      { wrapper: AllTheProviders }
+    )
+
+    // getByLabelText proves the input is announced by screen readers;
+    // placeholder alone disappears while typing and is not a name.
+    expect(screen.getByLabelText(/Enter gauge name/)).toBeInTheDocument()
+  })
 })

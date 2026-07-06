@@ -136,7 +136,7 @@ export function PatternRescale({
               inputMode="decimal"
               value={patternStDraft}
               onChange={handlePatternStChange}
-              className="w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              className="min-h-[44px] w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
               placeholder="20"
             />
           </div>
@@ -154,7 +154,7 @@ export function PatternRescale({
               inputMode="decimal"
               value={patternRwDraft}
               onChange={handlePatternRwChange}
-              className="w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              className="min-h-[44px] w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
               placeholder="30"
             />
           </div>
@@ -172,7 +172,7 @@ export function PatternRescale({
               inputMode="decimal"
               value={patternSwDraft}
               onChange={handlePatternSwChange}
-              className="w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              className="min-h-[44px] w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
               placeholder="10"
             />
           </div>
@@ -190,7 +190,7 @@ export function PatternRescale({
               inputMode="decimal"
               value={patternShDraft}
               onChange={handlePatternShChange}
-              className="w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              className="min-h-[44px] w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
               placeholder="10"
             />
           </div>
@@ -211,7 +211,7 @@ export function PatternRescale({
           inputMode="decimal"
           value={patternCtDraft}
           onChange={handlePatternCtChange}
-          className="w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          className="min-h-[44px] w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           placeholder="100"
         />
       </div>

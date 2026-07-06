@@ -66,6 +66,15 @@ button:not(:disabled),
   cursor: pointer;
 }
 
+/* Tailwind v4 preflight paints ::placeholder as 50%-alpha currentColor, which
+   lands at ~3.1:1 on white — below WCAG AA (4.5:1). Route every placeholder
+   through the muted-text token (4.7:1 light, AA in dark) so inputs that don't
+   set placeholder:text-text-muted explicitly still meet contrast. */
+::placeholder {
+  color: var(--text-muted);
+  opacity: 1; /* Firefox applies its own placeholder opacity */
+}
+
 /* Focus visible ring */
 :focus-visible {
   outline: 2px solid var(--focus-ring);

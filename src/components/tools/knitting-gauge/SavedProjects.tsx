@@ -48,9 +48,10 @@ export function SavedProjects({
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
+          aria-label={t('tools.knitting-gauge.projects.placeholder')}
           placeholder={t('tools.knitting-gauge.projects.placeholder')}
           disabled={isFull}
-          className="flex-1 rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:bg-surface-muted disabled:text-text-muted"
+          className="min-h-[44px] flex-1 rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:bg-surface-muted disabled:text-text-muted"
         />
         <button
           onClick={handleSaveClick}

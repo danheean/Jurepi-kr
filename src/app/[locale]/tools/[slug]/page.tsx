@@ -509,7 +509,10 @@ export default async function ToolPage({ params }: Props) {
         {/* Breadcrumb + SNS share (share is part of the tool-page template:
             every current and future tool gets it automatically) */}
         <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
-          <a href={`/${locale}`} className="text-brand-ink hover:text-brand-ink-strong">
+          <a
+            href={`/${locale}`}
+            className="inline-flex min-h-[44px] items-center text-brand-ink hover:text-brand-ink-strong"
+          >
             ← {t('back')}
           </a>
           <ShareButtons />

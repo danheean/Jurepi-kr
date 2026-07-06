@@ -149,7 +149,7 @@ export function GaugeInput({
             inputMode="decimal"
             value={stitchesDraft}
             onChange={(e) => handleStitchesChange(e.target.value)}
-            className={`mt-1 w-full rounded-md border px-3 py-2 text-sm font-mono transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
+            className={`mt-1 min-h-[44px] w-full rounded-md border px-3 py-2 text-sm font-mono transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
               errors.stitches
                 ? 'border-danger bg-danger/5 text-text'
                 : 'border-hairline bg-surface text-text'
@@ -171,7 +171,7 @@ export function GaugeInput({
             inputMode="decimal"
             value={rowsDraft}
             onChange={(e) => handleRowsChange(e.target.value)}
-            className={`mt-1 w-full rounded-md border px-3 py-2 text-sm font-mono transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
+            className={`mt-1 min-h-[44px] w-full rounded-md border px-3 py-2 text-sm font-mono transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
               errors.rows
                 ? 'border-danger bg-danger/5 text-text'
                 : 'border-hairline bg-surface text-text'
@@ -196,7 +196,7 @@ export function GaugeInput({
             inputMode="decimal"
             value={swatchWDraft}
             onChange={(e) => handleSwatchWChange(e.target.value)}
-            className={`mt-1 w-full rounded-md border px-3 py-2 text-sm font-mono transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
+            className={`mt-1 min-h-[44px] w-full rounded-md border px-3 py-2 text-sm font-mono transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
               errors.swatchW
                 ? 'border-danger bg-danger/5 text-text'
                 : 'border-hairline bg-surface text-text'
@@ -218,7 +218,7 @@ export function GaugeInput({
             inputMode="decimal"
             value={swatchHDraft}
             onChange={(e) => handleSwatchHChange(e.target.value)}
-            className={`mt-1 w-full rounded-md border px-3 py-2 text-sm font-mono transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
+            className={`mt-1 min-h-[44px] w-full rounded-md border px-3 py-2 text-sm font-mono transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
               errors.swatchH
                 ? 'border-danger bg-danger/5 text-text'
                 : 'border-hairline bg-surface text-text'
@@ -275,7 +275,7 @@ export function GaugeInput({
           type="text"
           value={noteDraft}
           onChange={(e) => handleNoteChange(e.target.value)}
-          className="mt-1 w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          className="mt-1 min-h-[44px] w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           placeholder={t('tools.knitting-gauge.fields.needle')}
         />
       </div>

@@ -76,7 +76,7 @@ export function CountsToDim({
             inputMode="decimal"
             value={stitchDraft}
             onChange={handleStitchChange}
-            className="w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            className="min-h-[44px] w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
             placeholder="110"
           />
         </div>
@@ -94,7 +94,7 @@ export function CountsToDim({
             inputMode="decimal"
             value={rowDraft}
             onChange={handleRowChange}
-            className="w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            className="min-h-[44px] w-full rounded-md border border-hairline bg-surface px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
             placeholder="90"
           />
         </div>
