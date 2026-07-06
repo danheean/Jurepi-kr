@@ -12,6 +12,10 @@ import { test, expect, type Page } from '@playwright/test';
  * restricted key); the tool must then degrade to MapFailover — never to the
  * ErrorBoundary. Assertions therefore target the list/search/filter surface,
  * which must work regardless of map availability.
+ *
+ * Content: the live catalog is the single "서울 맛집" list (curator honey,
+ * region seoul) with three korean places — 대광어회집 / 제주은희네해장국 을지로4가점 /
+ * 성수족발. Specs assert against those places by name.
  */
 
 function collectPageErrors(page: Page): string[] {
@@ -49,29 +53,27 @@ test.describe('Restaurant Map - E2E', () => {
     expect(errors).toEqual([]);
   });
 
-  test('Suyu sundae-gukbap template places render and are searchable', async ({
-    page,
-  }) => {
+  test('catalog places render and are searchable', async ({ page }) => {
     const errors = collectPageErrors(page);
 
     await page.goto('/ko/tools/restaurant-map');
     const search = page.getByRole('searchbox');
     await expect(search).toBeVisible({ timeout: 10_000 });
 
-    // Template list places are in the default (all-regions) card list
+    // List places are in the default (all-regions) card list
     const main = page.locator('main');
-    await expect(main.getByText('수유 시장 순대국', { exact: false }).first()).toBeVisible();
+    await expect(main.getByText('대광어회집', { exact: false }).first()).toBeVisible();
 
-    // Search narrows to the Suyu places
-    await search.fill('수유');
-    await expect(main.getByText('수유동 뽀얀집', { exact: false }).first()).toBeVisible();
-    // A non-matching place from another list disappears
-    await expect(main.getByText('장충동 왕족발집', { exact: false })).toHaveCount(0);
+    // Search narrows to the matching place
+    await search.fill('대광어');
+    await expect(main.getByText('대광어회집', { exact: false }).first()).toBeVisible();
+    // Non-matching places from the same list disappear
+    await expect(main.getByText('성수족발', { exact: false })).toHaveCount(0);
 
     expect(errors).toEqual([]);
   });
 
-  test('region tabs derive from catalog and filter places (busan)', async ({
+  test('region tabs derive from catalog (seoul present, busan absent)', async ({
     page,
   }) => {
     const errors = collectPageErrors(page);
@@ -79,17 +81,16 @@ test.describe('Restaurant Map - E2E', () => {
     await page.goto('/ko/tools/restaurant-map');
     await expect(page.getByRole('searchbox')).toBeVisible({ timeout: 10_000 });
 
-    // Regression: busan tab vanished when RegionTabs fell back to a
-    // hardcoded region set (catalog prop not wired).
-    const busanTab = page.getByRole('tab', { name: '부산' });
-    await expect(busanTab).toBeVisible();
+    // Regression: region tabs must be catalog-derived, not a hardcoded region
+    // set. With only a seoul list, 서울 appears and 부산 does not.
+    const seoulTab = page.getByRole('tab', { name: '서울' });
+    await expect(seoulTab).toBeVisible();
+    await expect(page.getByRole('tab', { name: '부산' })).toHaveCount(0);
 
-    await busanTab.click();
+    await seoulTab.click();
     const main = page.locator('main');
-    await expect(busanTab).toHaveAttribute('aria-selected', 'true');
-    // Busan list places visible, Seoul places filtered out
-    await expect(main.getByText('부산', { exact: false }).first()).toBeVisible();
-    await expect(main.getByText('수유 시장 순대국', { exact: false })).toHaveCount(0);
+    await expect(seoulTab).toHaveAttribute('aria-selected', 'true');
+    await expect(main.getByText('대광어회집', { exact: false }).first()).toBeVisible();
 
     expect(errors).toEqual([]);
   });
@@ -101,29 +102,29 @@ test.describe('Restaurant Map - E2E', () => {
     const search = page.getByRole('searchbox');
     await expect(search).toBeVisible({ timeout: 10_000 });
 
-    await search.fill('수유 시장');
+    await search.fill('대광어');
     const card = page
       .locator('main [role="button"]')
-      .filter({ hasText: '수유 시장 순대국' })
+      .filter({ hasText: '대광어회집' })
       .first();
     await expect(card).toBeVisible();
     await card.click();
 
     // Detail card shows the place name as an h2 + close button
     await expect(
-      page.locator('main h2').filter({ hasText: '수유 시장 순대국' })
+      page.locator('main h2').filter({ hasText: '대광어회집' })
     ).toBeVisible();
     const closeBtn = page.getByRole('button', { name: 'Close' });
     await expect(closeBtn).toBeVisible();
     await closeBtn.click();
     await expect(
-      page.locator('main h2').filter({ hasText: '수유 시장 순대국' })
+      page.locator('main h2').filter({ hasText: '대광어회집' })
     ).toHaveCount(0);
 
     expect(errors).toEqual([]);
   });
 
-  test('detail shows below the map with an always-present maps link; no on-map popup; SEO at bottom', async ({
+  test('detail shows below the map with the curator-provided maps link; no on-map popup; SEO at bottom', async ({
     page,
   }) => {
     const errors = collectPageErrors(page);
@@ -135,11 +136,12 @@ test.describe('Restaurant Map - E2E', () => {
     // Before selection: a hint sits under the map
     await expect(main.getByText('장소를 선택하면', { exact: false })).toBeVisible();
 
-    // Select a place → detail renders with an always-present, resolvable maps link
+    // Select a place → detail renders with the authored NAVER link (not a
+    // name+address search fallback): every place carries a real naver.me link.
     await main.locator('#place-list [role="button"]').first().click();
     const openInMaps = main.getByRole('link', { name: '지도에서 보기' });
     await expect(openInMaps).toBeVisible();
-    await expect(openInMaps).toHaveAttribute('href', /^https?:\/\//);
+    await expect(openInMaps).toHaveAttribute('href', /naver\.me\//);
 
     // The old on-map info popup ("Open in Maps →") is gone (it covered the map)
     await expect(page.getByText('Open in Maps →')).toHaveCount(0);
@@ -247,9 +249,9 @@ test.describe('Restaurant Map - E2E', () => {
     const search = page.getByRole('searchbox');
     await expect(search).toBeVisible({ timeout: 10_000 });
 
-    await search.fill('Suyu');
+    await search.fill('Daegwangeo');
     await expect(
-      page.locator('main').getByText('Suyu Market Sundae-guk', { exact: false }).first()
+      page.locator('main').getByText('Daegwangeo Hoejip', { exact: false }).first()
     ).toBeVisible();
 
     await expect(page.getByText('문제가 발생했어요')).toHaveCount(0);
