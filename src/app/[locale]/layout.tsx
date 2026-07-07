@@ -9,7 +9,6 @@ import { ThemeBootstrap } from '@/components/providers/ThemeBootstrap';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import {
   GoogleTagManager,
   GoogleTagManagerNoscript,
@@ -50,7 +49,6 @@ export default async function LocaleLayout({ children, params }: Props) {
       </head>
       <body>
         <GoogleTagManagerNoscript />
-        <GoogleAnalytics />
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
             <Header tools={searchableTools} />
