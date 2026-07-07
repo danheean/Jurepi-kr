@@ -92,6 +92,16 @@ description: >-
 - **경계:** 출력 모드·CF 설정·`_headers`/`_redirects`/`wrangler.toml`/`.nvmrc`·배포 검증 = deploy-engineer. 앱 내부 라우팅/i18n/SEO 코드·`next.config` 빌드 설정 = platform-engineer. 헤더 단일 소스는 배포 시 `_headers`로 이동(양쪽 중복 금지).
 - 절차·매핑·트러블슈팅은 `cloudflare-pages-deploy` 스킬.
 
+## 병합→배포: clean merge ≠ safe + 리더 커밋 규율 (howto 세션 교훈)
+
+기능 워크트리를 `main`에 병합해 배포할 때, **텍스트 충돌 0인 clean merge라도 의미적으로 깨질 수 있다.** howto 배포에서 `git merge`는 conflict 0이었지만 병합본이 tsc 12·빌드 실패였다. 원인·규율:
+
+- **clean merge 후 리더는 반드시 `pnpm exec tsc --noEmit` + `pnpm build` + 전체 vitest를 병합 워크트리에서 재실행한다.** "충돌 없이 병합됨"은 "빌드 그린"을 증명하지 않는다(주장≠증명의 병합판).
+- **feature 워크트리에서 추가한 새 의존성은 `main` 워크트리 `node_modules`에 없다** → 병합 직후 `pnpm install`(커밋된 lockfile에서). howto가 `highlight.js`/`mermaid`를 feature 워크트리에서 `pnpm add`했는데 main 워크트리엔 미설치 → `Cannot find module` 11건. lockfile은 커밋돼도 node_modules는 워크트리별이다.
+- **main이 그새 공유 타입/스키마를 바꿨으면 병합은 clean이나 필수 필드 누락으로 깨진다.** howto 병합 시 main이 `ToolMeta`의 `isNew`(저장 필드)→`addedAt`(필수) 파생으로 바꿔서, 내 레지스트리 엔트리가 `isNew` 잔존 + `addedAt` 누락으로 tsc 실패. 새 도구가 레지스트리·i18n·라우트 같은 **공유 표면**을 건드리면 병합 후 그 파일들의 최신 계약(`git show main:src/tools/types.ts`)에 맞춰 재정렬한다.
+- **리더 커밋 규율(비타협): 스테이징은 명시적 `git add <파일>`만, `-A`/`.`로 워크트리를 통째로 쓸지 말 것.** howto 배포에서 `git commit --amend`가 main 워크트리에 있던 **타 세션의 untracked 파일 4종**(unit-converter 블루프린트·dragon/nuclear png·dev-people generated.json 타임스탬프)을 흡수하고 커밋 메시지까지 뒤바꿔 push됐다(기능 무손상이나 타 세션 WIP를 조기 커밋). **예방:** ① 커밋 전 `git status --short`로 내 것 아닌 `M`/`??`를 식별 ② `git add`에 파일을 명시 ③ 커밋 후 `git show --stat HEAD`로 스코프가 의도와 일치하는지 확인 ④ 병합 커밋에 `--amend`를 쓰지 말 것(HEAD가 예상과 다를 수 있다 — amend 전 `git log -1`로 대상 확인). 특히 여러 세션이 같은 main 워크트리를 공유하면 untracked는 남의 WIP일 수 있다.
+- **이미 push되어 peer가 위에 커밋을 쌓은 공개 이력은 재작성(force-push)하지 않는다.** 커밋 메시지가 틀려도, main(=CF 배포 분기)에 peer 세션이 활성인 상태의 force-push는 되돌리기 어려운 외부 반영이라 cosmetic 이득 대비 위험이 크다. 잘못은 후속 커밋/문서로 정정한다.
+
 ## 데이터 전달 프로토콜
 
 - **태스크 기반**(`TaskCreate`/`TaskUpdate`): 작업 상태·의존 관계 추적.
