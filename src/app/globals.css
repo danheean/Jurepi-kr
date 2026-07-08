@@ -162,3 +162,77 @@ input[type='range']::-moz-range-thumb {
   background: radial-gradient(circle, var(--accent-sky) 0 22%, transparent 23%);
   cursor: pointer;
 }
+
+/* Syntax highlighting theme (highlight.js) — mapped to the design system's
+   contrast-tuned *-ink tokens instead of a generic vendor theme, so code reads
+   on --surface-sunken (the CodeBlock body) and auto-adapts to Phase 2 dark (the
+   ink tokens flip in the dark block). Without these rules the .hljs-* spans that
+   highlight.js emits have no color and code renders monochrome. Used by the
+   shared <Markdown enableCodeHighlight> path (currently the howto guides). */
+.hljs {
+  color: var(--text);
+}
+.hljs-comment,
+.hljs-quote,
+.hljs-doctag {
+  /* --text-secondary, not --text-muted: the code body is --surface-sunken
+     (darker than white), where --text-muted only reaches 4.23:1. secondary
+     keeps comments de-emphasized while clearing WCAG AA (≈5.3:1). */
+  color: var(--text-secondary);
+  font-style: italic;
+}
+.hljs-keyword,
+.hljs-literal,
+.hljs-selector-tag,
+.hljs-section,
+.hljs-selector-keyword {
+  color: var(--accent-sky-ink);
+}
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-meta .hljs-string {
+  color: var(--accent-mint-ink);
+}
+.hljs-built_in,
+.hljs-title,
+.hljs-title.function_,
+.hljs-title.class_,
+.hljs-type,
+.hljs-name {
+  /* --brand-ink-strong, not --brand-ink: on the --surface-sunken code body
+     brand-ink is only 4.26:1; the strong tier clears AA (≈6:1) and stays honey. */
+  color: var(--brand-ink-strong);
+}
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-literal.number_ {
+  color: var(--accent-coral-ink);
+}
+.hljs-attr,
+.hljs-attribute,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id {
+  color: var(--accent-sky-ink);
+}
+.hljs-variable,
+.hljs-template-variable,
+.hljs-meta,
+.hljs-params {
+  color: var(--accent-sun-ink);
+}
+.hljs-deletion {
+  color: var(--accent-rose-ink);
+}
+.hljs-punctuation,
+.hljs-operator {
+  color: var(--text-secondary);
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: 700;
+}
