@@ -186,3 +186,28 @@ describe('Markdown styling tokens', () => {
     expect(code).toHaveClass('text-accent-mint');
   });
 });
+
+describe('Markdown rich images', () => {
+  // markdown wraps a standalone image line in <p>. MarkdownImage renders a
+  // <figure>/<figcaption>, which are invalid inside <p> and cause a React
+  // hydration error in production. The p override must unwrap image-only paras.
+  it('should not nest a <figure> inside a <p>', () => {
+    const { container } = render(
+      <Markdown enableRichImages>{'![caption](/images/x.png)'}</Markdown>
+    );
+    expect(container.querySelector('figure')).toBeInTheDocument();
+    expect(container.querySelector('p figure')).toBeNull();
+    expect(container.querySelector('p figcaption')).toBeNull();
+  });
+
+  it('should still render the image figure with caption', () => {
+    render(<Markdown enableRichImages>{'![my caption](/images/x.png)'}</Markdown>);
+    expect(screen.getByRole('img')).toHaveAttribute('src', '/images/x.png');
+    expect(screen.getByText('my caption')).toBeInTheDocument();
+  });
+
+  it('should still wrap plain text in a <p>', () => {
+    const { container } = render(<Markdown enableRichImages>Just text</Markdown>);
+    expect(container.querySelector('p')?.textContent).toBe('Just text');
+  });
+});

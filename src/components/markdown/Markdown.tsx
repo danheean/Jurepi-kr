@@ -64,6 +64,15 @@ function extractCodeFromPre(children: React.ReactNode): {
 }
 
 /**
+ * Stable module-level identity for the rich-image override so the paragraph
+ * override can detect an image-only paragraph and avoid wrapping the <figure>
+ * in a <p> (invalid HTML → hydration error).
+ */
+function ImageOverride(props: { src?: string; alt?: string }) {
+  return <MarkdownImage src={props.src} alt={props.alt} />;
+}
+
+/**
  * Override map for block mode elements.
  * Maps markdown elements to DESIGN token-styled components.
  * Conditionally includes enhanced code/image overrides based on props.
@@ -91,9 +100,24 @@ function getBlockOverrides(
       ),
     },
     p: {
-      component: ({ children }: { children: React.ReactNode }) => (
-        <p className="text-body text-text-secondary leading-relaxed mb-3">{children}</p>
-      ),
+      component: ({ children }: { children: React.ReactNode }) => {
+        // Markdown wraps a standalone image line in <p>. With rich images the
+        // image renders as a <figure>/<figcaption>, which are invalid inside a
+        // <p> and break hydration. Unwrap when the paragraph is image-only.
+        const kids = React.Children.toArray(children).filter(
+          (c) => !(typeof c === 'string' && c.trim() === '')
+        );
+        if (
+          kids.length === 1 &&
+          React.isValidElement(kids[0]) &&
+          kids[0].type === ImageOverride
+        ) {
+          return <>{children}</>;
+        }
+        return (
+          <p className="text-body text-text-secondary leading-relaxed mb-3">{children}</p>
+        );
+      },
     },
     strong: {
       component: ({ children }: { children: React.ReactNode }) => (
@@ -193,11 +217,7 @@ function getBlockOverrides(
 
   // Add img override only if enableRichImages is true
   if (enableRichImages) {
-    overrides.img = {
-      component: (props: { src?: string; alt?: string }) => (
-        <MarkdownImage src={props.src} alt={props.alt} />
-      ),
-    };
+    overrides.img = { component: ImageOverride };
   }
 
   return overrides;
