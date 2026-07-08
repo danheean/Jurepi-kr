@@ -573,12 +573,14 @@ export default async function ToolPage({ params }: Props) {
           <ShareButtons />
         </div>
 
-        {/* Themed mascot greeting — right-aligned banner in the shared tool
-            template, so every current & future tool gets it with no per-tool
-            edits. In-flow (not floated) to avoid overlapping the varied tool
-            layouts below; the tool's own title/intro follows immediately. */}
-        <div className="mb-6 flex justify-end">
-          <ToolCharacter slug={slug} />
+        {/* Themed mascot floats to the right so the tool's own title/intro flows
+            to its left (home-style side-by-side), and the body clears below.
+            Shared template affordance — every current & future tool gets it. */}
+        <div className="float-right ml-5 mb-3 w-[100px] sm:w-[148px]">
+          <ToolCharacter
+            slug={slug}
+            className="h-auto w-full rounded-2xl shadow-card"
+          />
         </div>
 
         {/* Tool Content with Error Boundary */}
@@ -591,6 +593,8 @@ export default async function ToolPage({ params }: Props) {
             <ToolContent slug={slug} locale={locale} />
           </Suspense>
         </ErrorBoundary>
+        {/* Contain the float so ads / anything after it never wrap around it. */}
+        <div className="clear-both" />
 
         {/* Ads are inserted automatically by Google AdSense Auto Ads
             (loader in <head>); no manual ad slot is placed here. */}
