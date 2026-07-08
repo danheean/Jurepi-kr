@@ -6,7 +6,7 @@ export function JsonFormatterIntro() {
 
   return (
     <section
-      className="space-y-4 mb-12 pb-8 border-b border-surface-muted"
+      className="space-y-4 mb-12 pb-8 border-b border-hairline"
       aria-labelledby="json-formatter-heading"
     >
       {/* Eyebrow */}

@@ -145,7 +145,7 @@ export function SyntaxHighlight({
   return (
     <code
       className={`
-        block p-4 bg-surface rounded-lg border border-surface-muted
+        block p-4 bg-surface rounded-lg border border-hairline shadow-card
         font-mono text-sm leading-relaxed overflow-x-auto
         ${className}
       `}

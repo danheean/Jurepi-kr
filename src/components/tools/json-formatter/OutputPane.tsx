@@ -129,7 +129,7 @@ export function OutputPane({
 
       {/* Action Buttons */}
       {hasOutput && (
-        <div className="flex gap-2 p-4 border-t border-surface-muted">
+        <div className="flex gap-2 p-4 border-t border-hairline">
           <Button
             onClick={handleCopy}
             variant="secondary"
