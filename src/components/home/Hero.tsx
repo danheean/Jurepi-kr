@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { Mail } from 'lucide-react';
-import { HeroMascot } from './HeroMascot';
+import { WelcomeCharacter } from './WelcomeCharacter';
 
 /**
  * Hero: static server component — eyebrow, headline, subhead, a "request a tool"
@@ -66,11 +66,7 @@ export async function Hero(): Promise<React.ReactNode> {
           </div>
 
           <div className="flex-shrink-0">
-            <HeroMascot
-              greeting={t('mascotGreeting')}
-              size={156}
-              priority
-            />
+            <WelcomeCharacter />
           </div>
         </div>
       </div>

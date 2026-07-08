@@ -56,7 +56,8 @@
     "loading": "Loading tool…",
     "errorTitle": "Something went wrong",
     "errorBody": "The tool encountered an error. Please try refreshing the page.",
-    "errorAction": "Refresh"
+    "errorAction": "Refresh",
+    "characterAlt": "Jurepi character"
   },
   "share": {
     "heading": "Share",

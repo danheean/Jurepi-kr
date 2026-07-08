@@ -33,6 +33,14 @@ const defaultMessages = {
     contact: 'Contact',
     consentReopen: 'Privacy settings',
   },
+  toolPage: {
+    back: 'Back',
+    loading: 'Loading tool…',
+    errorTitle: 'Something went wrong',
+    errorBody: 'The tool encountered an error. Please try refreshing the page.',
+    errorAction: 'Refresh',
+    characterAlt: 'Jurepi character',
+  },
   home: {
     eyebrow: 'Free online tools',
     headline: 'Everyday tools, all in one place.',

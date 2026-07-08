@@ -24,6 +24,7 @@ import { LunarConverterHowTo } from '@/components/tools/lunar-converter/LunarCon
 import { LunarConverterFaq } from '@/components/tools/lunar-converter/LunarConverterFaq';
 import { LunarConverterStructuredData } from '@/components/tools/lunar-converter/LunarConverterStructuredData';
 import { ShareButtons } from '@/components/share';
+import { ToolCharacter } from '@/components/tools/ToolCharacter';
 import { QRCodeIntro } from '@/components/tools/qr-code/QRCodeIntro';
 import { QRCodeHowTo } from '@/components/tools/qr-code/QRCodeHowTo';
 import { QRCodeFaq } from '@/components/tools/qr-code/QRCodeFaq';
@@ -570,6 +571,14 @@ export default async function ToolPage({ params }: Props) {
             ← {t('back')}
           </a>
           <ShareButtons />
+        </div>
+
+        {/* Themed mascot greeting — right-aligned banner in the shared tool
+            template, so every current & future tool gets it with no per-tool
+            edits. In-flow (not floated) to avoid overlapping the varied tool
+            layouts below; the tool's own title/intro follows immediately. */}
+        <div className="mb-6 flex justify-end">
+          <ToolCharacter slug={slug} />
         </div>
 
         {/* Tool Content with Error Boundary */}

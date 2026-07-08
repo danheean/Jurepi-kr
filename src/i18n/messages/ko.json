@@ -56,7 +56,8 @@
     "loading": "도구를 불러오는 중…",
     "errorTitle": "문제가 발생했어요",
     "errorBody": "도구에서 오류가 발생했습니다. 페이지를 새로고침해 주세요.",
-    "errorAction": "새로고침"
+    "errorAction": "새로고침",
+    "characterAlt": "Jurepi 캐릭터"
   },
   "share": {
     "heading": "공유하기",
