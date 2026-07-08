@@ -15,7 +15,7 @@ export function JsonTreeView({ json, className = '' }: JsonTreeViewProps) {
     return (
       <div
         className={`
-          p-4 bg-surface rounded-lg border border-surface-muted
+          p-4 bg-surface rounded-lg border border-hairline shadow-card
           font-mono text-sm overflow-x-auto
           ${className}
         `}

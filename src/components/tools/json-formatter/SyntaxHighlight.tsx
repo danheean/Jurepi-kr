@@ -121,12 +121,16 @@ function tokenizeJson(json: string): Token[] {
   return tokens;
 }
 
+// Text-legible token colors: the raw `--accent-*` fills are only ~1.4–2.9:1 on
+// white (fill role, not text). Their `-ink` variants are the WCAG-safe text
+// tokens (≥4.5:1 on white, and flip to light values in dark theme). Keys use
+// near-black bold so all five roles stay mutually distinguishable.
 const tokenColorMap: Record<TokenType, string> = {
-  string: 'text-accent-sky',
-  number: 'text-accent-sun',
-  boolean: 'text-accent-rose',
-  null: 'text-accent-mint',
-  key: 'text-accent-mint-ink font-medium',
+  string: 'text-accent-sky-ink',
+  number: 'text-accent-sun-ink',
+  boolean: 'text-accent-rose-ink',
+  null: 'text-accent-mint-ink',
+  key: 'text-text font-semibold',
   bracket: 'text-text',
   punctuation: 'text-text-secondary',
   whitespace: '', // Preserve whitespace as-is
@@ -139,31 +143,35 @@ export function SyntaxHighlight({
   const tokens = useMemo(() => tokenizeJson(json), [json]);
 
   return (
-    <code
+    // <pre> is the semantic wrapper for a multi-line code block; it preserves
+    // whitespace and carries the card styling, with <code> as the inline content.
+    <pre
       className={`
-        block p-4 bg-surface rounded-lg border border-surface-muted
+        p-4 bg-surface rounded-lg border border-hairline shadow-card
         font-mono text-sm leading-relaxed overflow-x-auto
         ${className}
       `}
     >
-      {tokens.map((token, index) => {
-        const color = tokenColorMap[token.type];
+      <code>
+        {tokens.map((token, index) => {
+          const color = tokenColorMap[token.type];
 
-        // Render whitespace as-is, other tokens with color
-        if (token.type === 'whitespace') {
+          // Render whitespace as-is, other tokens with color
+          if (token.type === 'whitespace') {
+            return (
+              <span key={index} className="whitespace-pre">
+                {token.value}
+              </span>
+            );
+          }
+
           return (
-            <span key={index} className="whitespace-pre">
+            <span key={index} className={color}>
               {token.value}
             </span>
           );
-        }
-
-        return (
-          <span key={index} className={color}>
-            {token.value}
-          </span>
-        );
-      })}
-    </code>
+        })}
+      </code>
+    </pre>
   );
 }

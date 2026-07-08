@@ -6,7 +6,7 @@ export function JsonFormatterHowTo() {
 
   return (
     <section
-      className="space-y-6 my-12 pb-8 border-b border-surface-muted"
+      className="space-y-6 my-12 pb-8 border-b border-hairline"
       aria-labelledby="how-to-heading"
     >
       <h2 id="how-to-heading" className="text-2xl font-bold text-text">
