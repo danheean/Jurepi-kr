@@ -1,14 +1,21 @@
 #!/usr/bin/env node
 /**
- * Slice the Jurepi character sprite sheet into per-tool webp assets.
+ * Generate per-tool square character avatars into public/characters/<slug>.webp.
  *
- * Source: docs/resources/jurepi_characters.png (1254×1254, a 6×4 grid of 24
- * mascot tiles, each themed to one tool). Output: public/characters/<slug>.webp
- * for the 22 live tools plus a `home` welcome pose.
+ * Two sources, in priority order per slug:
+ *   1. A clean per-tool individual image at
+ *      docs/resources/jurepi_characters/<slug>.png (1254×1254, self-framed
+ *      app-icon, no bleed) — preferred. Resized straight into the square frame.
+ *   2. Fallback: a tile sliced from the sprite sheet
+ *      docs/resources/jurepi_characters/jurepi_characters.png (6×4 grid of 24),
+ *      contain-padded into the same square frame so the layout stays uniform
+ *      until an individual image is generated.
  *
- * Requires ImageMagick (`magick`) on PATH. One-time asset generation; re-run if
- * the sprite is regenerated. TILE_TO_SLUG is the single source of truth for the
- * grid→tool mapping (left→right, top→bottom, 0-indexed).
+ * Output is a uniform 1:1 square so <Image> uses one fixed width/height
+ * (CLS-safe) and every tool avatar shares the same framed shape. Requires
+ * ImageMagick (`magick`) on PATH. Re-run whenever an individual image is added
+ * or the sprite is regenerated. TILE_TO_SLUG is the single source of truth for
+ * the sprite grid→tool mapping (left→right, top→bottom, 0-indexed).
  */
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, existsSync, statSync } from 'node:fs';
@@ -16,18 +23,17 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const ROOT = new URL('..', import.meta.url).pathname;
-const SPRITE = join(ROOT, 'docs/resources/jurepi_characters.png');
+const CHAR_DIR = join(ROOT, 'docs/resources/jurepi_characters');
+const SPRITE = join(CHAR_DIR, 'jurepi_characters.png');
 const OUT_DIR = join(ROOT, 'public/characters');
 
 const COLS = 6;
 const ROWS = 4;
-// Uniform 2:3 output so <Image> can use one fixed width/height (CLS-safe) for
-// every tile. CONTAIN-fit (not cover) + centre-extent pads to the frame with the
-// sheet's cream so no character/prop is ever clipped — wider tiles (e.g.
-// find-replace) get thin cream bands instead of cropped edges. 300×450 is
-// retina-safe for a ~150px display.
-const OUT_W = 300;
-const OUT_H = 450;
+// Uniform 1:1 square output. Individual images are already square and
+// self-framed; sprite fallbacks are CONTAIN-fit + centre-extent so the portrait
+// tile is padded (never clipped) into the same square cream frame. 300×300 is
+// retina-safe for the ~72px avatar display.
+const OUT_SIZE = 300;
 const QUALITY = 80;
 const PAD = '#fdf3e2'; // sheet cream (sampled from the sprite corners)
 
@@ -80,26 +86,57 @@ function main() {
   let written = 0;
   TILE_TO_SLUG.forEach((slug, i) => {
     if (!slug) return;
+    const dest = join(OUT_DIR, `${slug}.webp`);
+    const individual = join(CHAR_DIR, `${slug}.png`);
+
+    // Prefer the clean per-tool individual image (no bleed, self-framed).
+    if (existsSync(individual)) {
+      const edge = OUT_SIZE - 1;
+      execFileSync('magick', [
+        individual,
+        '-resize', `${OUT_SIZE}x${OUT_SIZE}`,
+        '-background', PAD,
+        '-gravity', 'center',
+        '-extent', `${OUT_SIZE}x${OUT_SIZE}`,
+        // Normalize edge-connected white backgrounds to the sheet cream so every
+        // avatar shares one frame tone. Flood-fill from the four corners only —
+        // interior whites (QR modules, speech bubbles, checkerboards) are
+        // enclosed by outlines and stay untouched. No-op on already-cream tiles.
+        '-fuzz', '8%',
+        '-fill', PAD,
+        '-draw', 'color 0,0 floodfill',
+        '-draw', `color ${edge},0 floodfill`,
+        '-draw', `color 0,${edge} floodfill`,
+        '-draw', `color ${edge},${edge} floodfill`,
+        '-quality', String(QUALITY),
+        dest,
+      ]);
+      const kb = (statSync(dest).size / 1024).toFixed(1);
+      console.log(`[chars] ${slug} ← individual image → ${slug}.webp (${kb} KB)`);
+      written += 1;
+      return;
+    }
+
+    // Fallback: slice the sprite tile and pad it into the same square frame.
     const row = Math.floor(i / COLS);
     const col = i % COLS;
     const x = X_CUTS[col];
     const y = Y_CUTS[row];
     const w = X_CUTS[col + 1] - x;
     const h = Y_CUTS[row + 1] - y;
-    const dest = join(OUT_DIR, `${slug}.webp`);
     execFileSync('magick', [
       SPRITE,
       '-crop', `${w}x${h}+${x}+${y}`,
       '+repage',
-      '-resize', `${OUT_W}x${OUT_H}`,
+      '-resize', `${OUT_SIZE}x${OUT_SIZE}`,
       '-background', PAD,
       '-gravity', 'center',
-      '-extent', `${OUT_W}x${OUT_H}`,
+      '-extent', `${OUT_SIZE}x${OUT_SIZE}`,
       '-quality', String(QUALITY),
       dest,
     ]);
     const kb = (statSync(dest).size / 1024).toFixed(1);
-    console.log(`[chars] tile ${String(i).padStart(2)} (r${row}c${col}) → ${slug}.webp (${kb} KB)`);
+    console.log(`[chars] ${slug} ← sprite tile ${String(i).padStart(2)} (r${row}c${col}) → ${slug}.webp (${kb} KB)`);
     written += 1;
   });
 

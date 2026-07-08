@@ -13,10 +13,12 @@ interface ToolCharacterProps {
 
 /**
  * ToolCharacter renders a tool's themed Jurepi mascot illustration
- * (public/characters/<slug>.webp — a uniform 2:3 tile sliced from the sprite
- * sheet via scripts/slice-characters.mjs). Server-compatible; isomorphic
- * useTranslations localizes the alt. Explicit intrinsic 2:3 width/height keeps
- * layout CLS-safe; callers scale it responsively through className.
+ * (public/characters/<slug>.webp — a uniform 1:1 square avatar built by
+ * scripts/slice-characters.mjs, preferring a clean per-tool individual image
+ * and falling back to a square-padded sprite tile). Server-compatible;
+ * isomorphic useTranslations localizes the alt. Explicit intrinsic 1:1
+ * width/height keeps layout CLS-safe; callers scale it responsively through
+ * className.
  */
 export function ToolCharacter({
   slug,
@@ -30,12 +32,13 @@ export function ToolCharacter({
       src={`/characters/${slug}.webp`}
       alt={alt ?? t('characterAlt')}
       width={300}
-      height={450}
+      height={300}
       priority={priority}
       className={
         className ??
-        // Match the home welcome character's framed, lifted look.
-        'h-auto w-[120px] rounded-2xl shadow-card sm:w-[150px]'
+        // Small framed avatar that sits beside the tool title, with the
+        // home welcome character's rounded, lifted look.
+        'h-auto w-[64px] rounded-2xl shadow-card sm:w-[72px]'
       }
     />
   );

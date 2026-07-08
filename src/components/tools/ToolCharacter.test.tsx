@@ -35,6 +35,19 @@ describe('ToolCharacter', () => {
     expect(screen.getByRole('img')).toHaveAttribute('alt', 'Jurepi character');
   });
 
+  it('renders a square avatar (width === height) so square assets are not distorted', () => {
+    renderWithLocale(<ToolCharacter slug="ladder" />, 'ko');
+    const img = screen.getByRole('img');
+    expect(img.getAttribute('width')).toBe(img.getAttribute('height'));
+  });
+
+  it('uses the small beside-title avatar size by default', () => {
+    renderWithLocale(<ToolCharacter slug="ladder" />, 'ko');
+    const img = screen.getByRole('img');
+    expect(img.className).toContain('w-[64px]');
+    expect(img.className).toContain('sm:w-[72px]');
+  });
+
   it('honors an explicit alt override (e.g. the home welcome pose)', () => {
     renderWithLocale(
       <ToolCharacter slug="home" alt="Jurepi mascot" />,

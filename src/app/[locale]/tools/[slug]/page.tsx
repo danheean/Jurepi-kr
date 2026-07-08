@@ -573,10 +573,10 @@ export default async function ToolPage({ params }: Props) {
           <ShareButtons />
         </div>
 
-        {/* Themed mascot floats to the right so the tool's own title/intro flows
-            to its left (home-style side-by-side), and the body clears below.
+        {/* Small themed avatar floats to the left so the tool's own title/intro
+            flows beside it (avatar-next-to-title), and the body clears below.
             Shared template affordance — every current & future tool gets it. */}
-        <div className="float-right ml-5 mb-3 w-[100px] sm:w-[148px]">
+        <div className="float-left mr-4 mb-2 w-[64px] sm:w-[72px]">
           <ToolCharacter
             slug={slug}
             className="h-auto w-full rounded-2xl shadow-card"
