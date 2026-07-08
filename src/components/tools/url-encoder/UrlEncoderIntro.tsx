@@ -10,7 +10,7 @@ export function UrlEncoderIntro() {
 
   return (
     <header className="space-y-4 mb-8">
-      <p className="text-xs font-bold tracking-wider text-brand uppercase">
+      <p className="text-xs font-bold tracking-wider text-brand-ink uppercase">
         {locale === 'ko' ? '개발 도구' : 'Developer Tool'}
       </p>
       <h1 className="font-display text-4xl md:text-5xl font-bold text-text leading-tight">

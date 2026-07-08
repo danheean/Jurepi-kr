@@ -29,7 +29,7 @@ export function HowtoFaq() {
         <div className="space-y-4">
           {items.map((item, idx) => (
             <details key={idx} className="border border-hairline rounded-lg p-4">
-              <summary className="cursor-pointer font-bold text-text hover:text-brand">
+              <summary className="cursor-pointer font-bold text-text hover:text-brand-ink">
                 {item.q}
               </summary>
               <p className="mt-2 text-text-secondary">{item.a}</p>

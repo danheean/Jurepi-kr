@@ -35,7 +35,7 @@ export function RestaurantMapFaq() {
             key={idx}
             className="group rounded-lg border border-hairline bg-surface p-4 hover:bg-surface-muted transition"
           >
-            <summary className="cursor-pointer font-semibold text-text group-open:text-brand">
+            <summary className="cursor-pointer font-semibold text-text group-open:text-brand-ink">
               {item.q}
             </summary>
             <p className="mt-3 text-sm text-text-secondary leading-relaxed">{item.a}</p>

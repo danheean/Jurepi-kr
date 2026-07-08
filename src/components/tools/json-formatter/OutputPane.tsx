@@ -54,7 +54,7 @@ export function OutputPane({
             px-4 py-2 text-sm font-medium border-b-2 transition-colors
             ${
               activeTab === 'formatted'
-                ? 'border-brand text-brand'
+                ? 'border-brand-ink text-brand-ink'
                 : 'border-transparent text-text-secondary hover:text-text'
             }
           `}
@@ -67,7 +67,7 @@ export function OutputPane({
             px-4 py-2 text-sm font-medium border-b-2 transition-colors
             ${
               activeTab === 'tree'
-                ? 'border-brand text-brand'
+                ? 'border-brand-ink text-brand-ink'
                 : 'border-transparent text-text-secondary hover:text-text'
             }
           `}

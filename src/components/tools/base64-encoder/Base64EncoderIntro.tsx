@@ -11,7 +11,7 @@ export function Base64EncoderIntro() {
   return (
     <section className="space-y-4 py-12">
       {/* Eyebrow: DEVELOPER TOOL */}
-      <p className="text-xs font-bold uppercase tracking-widest text-brand">
+      <p className="text-xs font-bold uppercase tracking-widest text-brand-ink">
         {t('intro.category')}
       </p>
 

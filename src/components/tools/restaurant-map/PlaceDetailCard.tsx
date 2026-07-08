@@ -99,7 +99,7 @@ export function PlaceDetailCard({ place, onClose }: PlaceDetailCardProps) {
               />
             )}
             <div className="flex flex-col">
-              <h3 className="text-xs font-semibold text-brand uppercase tracking-wide">
+              <h3 className="text-xs font-semibold text-brand-ink uppercase tracking-wide">
                 {t('personalNote.label')}
               </h3>
               {place.curator && (

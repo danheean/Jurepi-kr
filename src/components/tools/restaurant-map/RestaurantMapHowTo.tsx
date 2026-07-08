@@ -12,7 +12,7 @@ export function RestaurantMapHowTo() {
         <ol className="space-y-3 text-text-secondary leading-relaxed">
           {STEP_KEYS.map((key, index) => (
             <li key={key} className="flex gap-3">
-              <span className="shrink-0 font-semibold text-brand">{index + 1}.</span>
+              <span className="shrink-0 font-semibold text-brand-ink">{index + 1}.</span>
               <span>{t(key)}</span>
             </li>
           ))}

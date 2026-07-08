@@ -75,7 +75,7 @@ describe('OutputPane', () => {
     await userEvent.click(treeTab[0]);
 
     await waitFor(() => {
-      expect(screen.getByText('Tree')).toHaveClass('border-brand');
+      expect(screen.getByText('Tree')).toHaveClass('border-brand-ink');
     });
   });
 
@@ -191,7 +191,7 @@ describe('OutputPane', () => {
     await userEvent.click(formatTab[0]);
 
     await waitFor(() => {
-      expect(formatTab[0]).toHaveClass('border-brand');
+      expect(formatTab[0]).toHaveClass('border-brand-ink');
     });
   });
 

@@ -36,7 +36,7 @@ export function IpDisplay({ data, onRefresh, isLoading = false }: IpDisplayProps
       <div className="w-full max-w-[600px] bg-surface rounded-2xl border border-hairline p-8 shadow-card">
         {/* IP Display */}
         <div className="flex flex-col items-center gap-4 mb-6">
-          <p className="text-xs font-semibold tracking-widest text-brand uppercase">
+          <p className="text-xs font-semibold tracking-widest text-brand-ink uppercase">
             {t('display.ipv4Label')}
           </p>
           {/* max-w-full + break-all let the chip shrink below the IP's
@@ -106,7 +106,7 @@ export function IpDisplay({ data, onRefresh, isLoading = false }: IpDisplayProps
         onClick={onRefresh}
         disabled={isLoading}
         aria-label={t('display.refresh')}
-        className="flex items-center justify-center gap-2 px-4 py-2 text-brand font-semibold border border-brand rounded-lg hover:bg-brand-soft disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-[44px] min-w-[120px]"
+        className="flex items-center justify-center gap-2 px-4 py-2 text-brand-ink font-semibold border border-brand-ink rounded-lg hover:bg-brand-soft disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-[44px] min-w-[120px]"
       >
         <RotateCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
         <span>{t('display.refresh')}</span>

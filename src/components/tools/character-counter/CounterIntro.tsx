@@ -10,7 +10,7 @@ export function CounterIntro() {
 
   return (
     <header className="space-y-4 mb-8">
-      <div className="text-xs uppercase tracking-wider font-semibold text-brand mb-2">
+      <div className="text-xs uppercase tracking-wider font-semibold text-brand-ink mb-2">
         {t('intro.eyebrow')}
       </div>
       <h1 className="font-display text-4xl md:text-5xl font-bold text-text leading-tight">

@@ -110,7 +110,7 @@ export function TermList({
         {query && (
           <button
             onClick={onClearQuery}
-            className="text-sm text-brand hover:underline"
+            className="text-sm text-brand-ink hover:underline"
           >
             {t('search.clear')}
           </button>

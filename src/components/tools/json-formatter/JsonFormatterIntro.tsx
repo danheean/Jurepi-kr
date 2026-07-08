@@ -10,7 +10,7 @@ export function JsonFormatterIntro() {
       aria-labelledby="json-formatter-heading"
     >
       {/* Eyebrow */}
-      <p className="text-xs font-bold text-brand uppercase tracking-wide">
+      <p className="text-xs font-bold text-brand-ink uppercase tracking-wide">
         {t('intro.eyebrow')}
       </p>
 

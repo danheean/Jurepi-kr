@@ -27,7 +27,7 @@ export function RegexCheatsheet() {
             <div className="space-y-1">
               {section.items.map((item) => (
                 <div key={item.token} className="flex gap-2 text-xs">
-                  <code className="font-mono bg-surface-muted rounded px-2 py-1 text-brand min-w-fit">
+                  <code className="font-mono bg-surface-muted rounded px-2 py-1 text-brand-ink min-w-fit">
                     {item.token}
                   </code>
                   <span className="text-text-secondary">

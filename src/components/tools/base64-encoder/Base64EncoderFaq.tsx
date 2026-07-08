@@ -17,7 +17,7 @@ export function Base64EncoderFaq() {
       <div className="space-y-3">
         {faqItems.map((item) => (
           <details key={item.q} className="group border border-hairline rounded-lg p-4 cursor-pointer">
-            <summary className="font-semibold text-text group-open:text-brand">
+            <summary className="font-semibold text-text group-open:text-brand-ink">
               {item.q}
             </summary>
             <p className="mt-3 text-text-secondary">{item.a}</p>
