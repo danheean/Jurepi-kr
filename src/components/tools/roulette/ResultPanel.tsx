@@ -88,7 +88,7 @@ export function ResultPanel({
             onClick={onRemoveAndSpin}
             data-testid="roulette-remove-and-spin-btn"
             disabled={spinning || options.length <= 1}
-            className="flex-1 px-4 py-2 border border-brand text-brand rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:enabled:bg-brand hover:enabled:text-on-brand transition-colors"
+            className="flex-1 px-4 py-2 border border-brand-ink text-brand-ink rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:enabled:bg-brand hover:enabled:text-on-brand transition-colors"
           >
             {t('result.removeAndSpin')}
           </button>

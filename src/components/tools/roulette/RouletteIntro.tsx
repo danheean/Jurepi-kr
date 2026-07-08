@@ -7,7 +7,7 @@ export function RouletteIntro() {
 
   return (
     <section className="mb-8">
-      <div className="text-sm font-semibold uppercase tracking-wide text-brand mb-2">
+      <div className="text-sm font-semibold uppercase tracking-wide text-brand-ink mb-2">
         {t('intro.eyebrow')}
       </div>
       <h1 className="font-display text-4xl font-bold text-text mb-4">
