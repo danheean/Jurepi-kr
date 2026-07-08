@@ -88,7 +88,7 @@ export async function HowtoSpoke({ guide, locale, catalog = [] }: HowtoSpokeProp
                 <a
                   key={slug}
                   href={`/${locale}/tools/howto/${slug}`}
-                  className="px-3 py-1 rounded-full bg-surface-muted text-text-muted hover:bg-surface-sunken transition-colors"
+                  className="inline-flex items-center min-h-[44px] px-3 py-2 rounded-full bg-surface-muted text-text-muted hover:bg-surface-sunken transition-colors"
                 >
                   {related![locale].title}
                 </a>
@@ -101,7 +101,7 @@ export async function HowtoSpoke({ guide, locale, catalog = [] }: HowtoSpokeProp
       <nav className="pt-6">
         <a
           href={`/${locale}/tools/howto`}
-          className="text-brand hover:underline font-medium"
+          className="inline-flex items-center min-h-[44px] text-brand hover:underline font-medium"
         >
           ← {t('spoke.backToHub')}
         </a>

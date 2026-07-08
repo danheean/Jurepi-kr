@@ -137,7 +137,7 @@ export function CodeBlock({
   return (
     <figure className="bg-surface-sunken rounded-md border border-hairline overflow-hidden mb-3">
       {/* Header: language label + copy button */}
-      <div className="flex items-center justify-between px-3 py-2 bg-surface-muted border-b border-hairline">
+      <div className="flex items-center justify-between pl-3 pr-1.5 py-0.5 bg-surface-muted border-b border-hairline">
         <span className="text-xs font-mono font-semibold text-text-secondary uppercase">
           {displayLanguage}
         </span>
@@ -145,7 +145,9 @@ export function CodeBlock({
           onClick={handleCopy}
           aria-label={copyLabel}
           title={copyLabel}
-          className="text-xs px-2 py-1 rounded border border-hairline-strong bg-surface text-text-secondary hover:text-brand-ink hover:border-brand-ink transition-colors"
+          // min-h/min-w 44px meets the project's WCAG 2.5.5 touch-target floor
+          // (consistent with the guide-card star + range inputs); text stays xs.
+          className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] text-xs px-2 rounded border border-hairline-strong bg-surface text-text-secondary hover:text-brand-ink hover:border-brand-ink transition-colors"
         >
           {copied ? copiedLabel : copyLabel}
         </button>
