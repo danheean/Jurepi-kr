@@ -2708,7 +2708,8 @@
       "tabs": {
         "all": "전체",
         "favorites": "즐겨찾기",
-        "recent": "최근"
+        "recent": "최근",
+        "label": "주제 필터"
       },
       "topics": {
         "setup": "설치·설정",

@@ -6,11 +6,11 @@ export function HowtoIntro() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <BookOpen className="w-4 h-4 text-brand" />
-        <span className="text-xs font-bold uppercase tracking-wide text-brand">
-          {t('intro.eyebrow')}
-        </span>
+      {/* Category chip reuses the card-badge vocabulary (color = meaning) instead
+          of the all-caps tracked eyebrow. */}
+      <div className="inline-flex items-center gap-1.5 rounded-full bg-accent-sky-soft px-3 py-1 text-xs font-medium text-accent-sky-ink">
+        <BookOpen className="w-3.5 h-3.5" />
+        {t('intro.eyebrow')}
       </div>
       <div>
         <h1 className="text-3xl md:text-4xl font-bold text-text mb-4">

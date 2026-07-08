@@ -145,7 +145,7 @@ export function CodeBlock({
           onClick={handleCopy}
           aria-label={copyLabel}
           title={copyLabel}
-          className="text-xs px-2 py-1 rounded bg-accent-sky text-text hover:bg-accent-sky/80 transition-colors"
+          className="text-xs px-2 py-1 rounded border border-hairline-strong bg-surface text-text-secondary hover:text-brand-ink hover:border-brand-ink transition-colors"
         >
           {copied ? copiedLabel : copyLabel}
         </button>

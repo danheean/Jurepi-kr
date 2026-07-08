@@ -37,6 +37,7 @@ const config: Config = {
         'accent-grape-soft': 'var(--accent-grape-soft)',
         'accent-rose': 'var(--accent-rose)',
         'accent-rose-soft': 'var(--accent-rose-soft)',
+        'accent-coral-ink': 'var(--accent-coral-ink)',
         'accent-sky-ink': 'var(--accent-sky-ink)',
         'accent-mint-ink': 'var(--accent-mint-ink)',
         'accent-sun-ink': 'var(--accent-sun-ink)',

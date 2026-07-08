@@ -12,13 +12,15 @@ interface GuideCardProps {
   currentLocale: 'ko' | 'en';
 }
 
+// Badge text uses the *-ink tier (dark, WCAG-AA on the *-soft tint). The bright
+// accent (text-accent-*) fails contrast on its own soft background (1.5–2.2:1).
 const TOPIC_COLORS: Record<string, { bg: string; badge: string }> = {
-  setup: { bg: 'bg-accent-sky-soft', badge: 'text-accent-sky' },
-  'ai-tools': { bg: 'bg-accent-coral-soft', badge: 'text-accent-coral' },
-  git: { bg: 'bg-accent-grape-soft', badge: 'text-accent-grape' },
-  api: { bg: 'bg-accent-rose-soft', badge: 'text-accent-rose' },
-  cli: { bg: 'bg-accent-sun-soft', badge: 'text-accent-sun' },
-  deploy: { bg: 'bg-accent-mint-soft', badge: 'text-accent-mint' },
+  setup: { bg: 'bg-accent-sky-soft', badge: 'text-accent-sky-ink' },
+  'ai-tools': { bg: 'bg-accent-coral-soft', badge: 'text-accent-coral-ink' },
+  git: { bg: 'bg-accent-grape-soft', badge: 'text-accent-grape-ink' },
+  api: { bg: 'bg-accent-rose-soft', badge: 'text-accent-rose-ink' },
+  cli: { bg: 'bg-accent-sun-soft', badge: 'text-accent-sun-ink' },
+  deploy: { bg: 'bg-accent-mint-soft', badge: 'text-accent-mint-ink' },
 };
 
 export function GuideCard({
@@ -110,7 +112,9 @@ export function GuideCard({
       <button
         onClick={handleStarClick}
         aria-pressed={isFavorite}
-        className="absolute top-4 right-4 text-text-muted hover:text-brand transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand rounded"
+        // p-3 around the 20px icon gives a 44px tap target (WCAG 2.5.5); top/right-1
+        // offsets keep the icon visually at the top-4/right-4 corner.
+        className="absolute top-1 right-1 p-3 text-text-muted hover:text-brand transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand rounded-full"
         aria-label={isFavorite ? t('card.unfavorite') : t('card.favorite')}
         data-testid={`guide-star-${guide.slug}`}
       >

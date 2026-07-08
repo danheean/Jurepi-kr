@@ -2708,7 +2708,8 @@
       "tabs": {
         "all": "All",
         "favorites": "Favorites",
-        "recent": "Recent"
+        "recent": "Recent",
+        "label": "Topic filter"
       },
       "topics": {
         "setup": "Setup",

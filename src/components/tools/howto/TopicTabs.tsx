@@ -24,18 +24,20 @@ export function TopicTabs({ activeTopic, setActiveTopic, favCount, recentCount }
   ]);
 
   return (
-    <div className="flex gap-2 overflow-x-auto pb-2" role="tablist">
+    // Filter chips (not ARIA tabs — they narrow a list, they don't switch panels),
+    // so each is a toggle button with aria-pressed rather than role="tab".
+    <div className="flex gap-2 overflow-x-auto pb-2" role="group" aria-label={t('tabs.label')}>
       {tabs.map(tab => (
         <button
           key={tab.id}
+          type="button"
           onClick={() => setActiveTopic(tab.id)}
           className={`px-4 py-2 rounded-full font-medium text-sm whitespace-nowrap transition-colors ${
             activeTopic === tab.id
               ? 'bg-brand text-on-brand'
               : 'bg-surface-muted text-text-secondary hover:bg-surface-sunken'
           }`}
-          role="tab"
-          aria-selected={activeTopic === tab.id}
+          aria-pressed={activeTopic === tab.id}
         >
           {tab.label}
         </button>

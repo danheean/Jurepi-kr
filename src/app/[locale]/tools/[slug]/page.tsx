@@ -281,8 +281,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'howto') {
-    title = t('meta.title');
-    description = t('meta.description');
+    // howto's catalog uses top-level title/description (no meta.* block).
+    title = t('title');
+    description = t('description');
   } else {
     return {};
   }

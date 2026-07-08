@@ -43,6 +43,7 @@
   --accent-rose-soft: #fee2e7;
 
   /* Accent ink — dark, text-safe shade of an accent for labels on its *-soft tint (WCAG AA) */
+  --accent-coral-ink: #b3243c; /* dark coral — 5.52:1 on accent-coral-soft, 6.49:1 on white (bright --accent-coral is only 2.13:1) */
   --accent-sky-ink: #0369a1; /* dark sky — 5.95:1 on white, text/link/icon-safe (bright --accent-sky is only 2.14:1) */
   --accent-mint-ink: #0f766e; /* 4.82:1 on accent-mint-soft */
   --accent-sun-ink: #92400e; /* 6.32:1 on accent-sun-soft */
@@ -134,6 +135,7 @@
   --accent-mint-ink: #5eead4; /* light teal — readable on dark surface + dark mint tile */
   --accent-sun-ink: #fcd34d; /* light amber — readable on dark surface + dark sun tile */
   --accent-rose-ink: #fda4af; /* light rose — readable on dark surface + dark rose tile */
+  --accent-coral-ink: #fda4af; /* light coral — 8.9:1 on dark surface, 6.0:1 on dark coral tile */
 
   /* Dark accent tints (DESIGN.md Phase 2): low-alpha overlays of the accent over
      --surface replace the pastel *-soft pastels so icon tiles read dark; the
@@ -172,6 +174,7 @@
     --accent-mint-ink: #5eead4;
     --accent-sun-ink: #fcd34d;
     --accent-rose-ink: #fda4af;
+    --accent-coral-ink: #fda4af;
     --accent-coral-soft: color-mix(in srgb, var(--accent-coral) 22%, var(--surface));
     --accent-mint-soft: color-mix(in srgb, var(--accent-mint) 20%, var(--surface));
     --accent-sky-soft: color-mix(in srgb, var(--accent-sky) 20%, var(--surface));
