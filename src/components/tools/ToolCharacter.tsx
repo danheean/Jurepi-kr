@@ -34,7 +34,8 @@ export function ToolCharacter({
       priority={priority}
       className={
         className ??
-        'h-auto w-[104px] rounded-xl sm:w-[132px]'
+        // Match the home welcome character's framed, lifted look.
+        'h-auto w-[120px] rounded-2xl shadow-card sm:w-[150px]'
       }
     />
   );

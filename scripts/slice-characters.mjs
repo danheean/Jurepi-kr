@@ -22,19 +22,24 @@ const OUT_DIR = join(ROOT, 'public/characters');
 const COLS = 6;
 const ROWS = 4;
 // Uniform 2:3 output so <Image> can use one fixed width/height (CLS-safe) for
-// every tile. Cover-resize + center-extent normalizes the slightly-varying cell
-// aspect ratios and trims minor neighbour slivers at the edges. 300×450 is
+// every tile. CONTAIN-fit (not cover) + centre-extent pads to the frame with the
+// sheet's cream so no character/prop is ever clipped — wider tiles (e.g.
+// find-replace) get thin cream bands instead of cropped edges. 300×450 is
 // retina-safe for a ~150px display.
 const OUT_W = 300;
 const OUT_H = 450;
 const QUALITY = 80;
+const PAD = '#fdf3e2'; // sheet cream (sampled from the sprite corners)
 
 // The sheet has an outer margin and uneven gutters, so equal division bleeds
 // neighbors in. These cut lines were measured from the brightness profile
 // (gutters = local cream maxima; outer edges = small inset that keeps a thin
 // cream border without clipping any character). 7 x-cuts → 6 columns; 5 y-cuts
 // → 4 rows. See scripts note; re-measure if the sprite is regenerated.
-const X_CUTS = [16, 261, 434, 623, 818, 1029, 1240];
+// Note: the col-1 cut is pulled left of the raw gutter (261) so find-replace's
+// "문장 A→B" label — which sits right on the boundary — isn't clipped; the
+// character-counter content to its left ends well before this.
+const X_CUTS = [16, 246, 434, 623, 818, 1029, 1240];
 const Y_CUTS = [56, 349, 634, 910, 1200];
 
 // Grid index (row-major, 0-based) → asset slug. `null` = unused spare tile.
@@ -86,7 +91,8 @@ function main() {
       SPRITE,
       '-crop', `${w}x${h}+${x}+${y}`,
       '+repage',
-      '-resize', `${OUT_W}x${OUT_H}^`,
+      '-resize', `${OUT_W}x${OUT_H}`,
+      '-background', PAD,
       '-gravity', 'center',
       '-extent', `${OUT_W}x${OUT_H}`,
       '-quality', String(QUALITY),
