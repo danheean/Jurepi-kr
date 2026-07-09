@@ -131,7 +131,7 @@ export const tools: ToolMeta[] = [
     id: 'transparent-background',
     slug: 'transparent-background',
     category: 'converter',
-    icon: 'Zap',
+    icon: 'Eraser',
     accent: 'sky',
     status: 'live',
     addedAt: '2026-07-04',

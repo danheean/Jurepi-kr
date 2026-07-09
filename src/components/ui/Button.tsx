@@ -39,7 +39,7 @@ export function Button({
       disabled={disabled || isLoading}
       className={`
         rounded-lg text-button transition-all duration-200
-        active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
+        motion-safe:active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2
         ${variantClasses[variant]}
         ${sizeClasses[size]}

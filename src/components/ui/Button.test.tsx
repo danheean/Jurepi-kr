@@ -53,9 +53,9 @@ describe('Button Component', () => {
     expect(btn).toHaveClass('focus-visible:ring-2');
   });
 
-  it('has active:scale-95 transform', () => {
+  it('has a motion-safe active:scale-95 transform (gated for reduced motion)', () => {
     render(<Button>Scale</Button>);
     const btn = screen.getByText('Scale');
-    expect(btn).toHaveClass('active:scale-95');
+    expect(btn).toHaveClass('motion-safe:active:scale-95');
   });
 });

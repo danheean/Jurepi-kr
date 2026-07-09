@@ -36,9 +36,10 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <Hero />
-      {/* SNS share — same affordance as tool pages, for sharing the hub itself */}
-      <div className="mx-auto max-w-container px-6 md:px-8 lg:px-12 -mt-6 mb-2 flex justify-end">
-        <ShareButtons />
+      {/* SNS share — inline, anchored to the container edge (not a floating cluster);
+          shares the hub itself, same affordance as tool pages. */}
+      <div className="mx-auto max-w-container px-6 md:px-8 lg:px-12 pb-6 md:pb-8">
+        <ShareButtons orientation="horizontal" />
       </div>
       <ToolExplorer initialTools={searchableTools} />
     </>

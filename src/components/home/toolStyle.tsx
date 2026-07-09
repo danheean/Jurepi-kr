@@ -1,14 +1,27 @@
 import type { AccentColor } from '@/tools/types';
+import type { LucideIcon } from 'lucide-react';
 import {
+  Binary,
+  BookA,
+  BookOpen,
+  Bookmark,
+  Braces,
+  Cake,
+  CalendarSync,
+  Eraser,
+  Globe,
+  Link,
   ListTree,
-  Dices,
-  Type,
-  Ruler,
-  Percent,
-  Timer,
-  CalendarDays,
+  MapPin,
   NotebookPen,
+  QrCode,
   Replace,
+  RotateCcw,
+  Ruler,
+  Trophy,
+  Type,
+  Users,
+  Zap,
   Wrench,
 } from 'lucide-react';
 
@@ -31,9 +44,36 @@ export function accentTileClass(accent: AccentColor): {
 }
 
 /**
- * Lucide icon name → React component. Tree-shake friendly (explicit map).
- * Fallback to Wrench if icon not found.
+ * Lucide icon name → component. Explicit map (tree-shake friendly) covering
+ * every `icon` referenced in the tool registry, so no tool silently regresses
+ * to the generic Wrench. `toolStyle.test.tsx` asserts registry ↔ map parity, so
+ * a new tool with an unmapped icon fails CI instead of shipping a wrench.
+ * `Wrench` stays as a defensive fallback only.
  */
+export const TOOL_ICONS: Record<string, LucideIcon> = {
+  Binary,
+  BookA,
+  BookOpen,
+  Bookmark,
+  Braces,
+  Cake,
+  CalendarSync,
+  Eraser,
+  Globe,
+  Link,
+  ListTree,
+  MapPin,
+  NotebookPen,
+  QrCode,
+  Replace,
+  RotateCcw,
+  Ruler,
+  Trophy,
+  Type,
+  Users,
+  Zap,
+};
+
 export function ToolIcon({
   name,
   className,
@@ -41,18 +81,7 @@ export function ToolIcon({
   name: string;
   className?: string;
 }): React.ReactNode {
-  const iconMap: Record<string, React.ComponentType<any>> = {
-    ListTree,
-    Dices,
-    Type,
-    Ruler,
-    Percent,
-    Timer,
-    CalendarDays,
-    NotebookPen,
-    Replace,
-  };
-  const Icon = iconMap[name] || Wrench;
+  const Icon = TOOL_ICONS[name] ?? Wrench;
   return (
     <Icon
       className={className || 'w-6 h-6'}

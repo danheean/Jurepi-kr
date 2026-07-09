@@ -53,7 +53,7 @@ export async function Footer(): Promise<React.ReactNode> {
                       <li key={tool.slug}>
                         <Link
                           href={`/tools/${tool.slug}`}
-                          className="inline-flex min-h-[36px] items-center text-body-sm text-text-secondary hover:text-brand-ink transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded"
+                          className="inline-flex min-h-[44px] items-center text-body-sm text-text-secondary hover:text-brand-ink transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded md:min-h-[36px]"
                         >
                           {tool.name}
                         </Link>

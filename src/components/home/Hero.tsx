@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { Mail } from 'lucide-react';
+import { Mail, Sparkles } from 'lucide-react';
 import { WelcomeCharacter } from './WelcomeCharacter';
 
 /**
@@ -36,16 +36,17 @@ export async function Hero(): Promise<React.ReactNode> {
       <div className="mx-auto max-w-container">
         <div className="flex flex-col-reverse items-center justify-between gap-12 md:flex-row md:gap-20">
           <div className="flex-1 text-center md:text-left">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.15em] text-brand-ink">
+            <p className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-3 py-1 text-sm font-semibold text-brand-ink-strong">
+              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
               {t('eyebrow')}
             </p>
             <h1
               id="hero-heading"
-              className="mb-6 font-display text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1.1] text-text"
+              className="mb-6 break-keep text-balance font-display text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1.1] text-text"
             >
               {t('headline')}
             </h1>
-            <p className="mx-auto max-w-[540px] text-lg leading-relaxed text-text-secondary md:mx-0">
+            <p className="mx-auto max-w-[540px] break-keep text-pretty text-lg leading-relaxed text-text-secondary md:mx-0">
               {t('subhead')}
             </p>
             <a

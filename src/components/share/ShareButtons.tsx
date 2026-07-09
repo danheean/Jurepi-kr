@@ -29,6 +29,13 @@ interface ShareButtonsProps {
   url?: string;
   /** Optional title to share (defaults to document.title if not provided). */
   title?: string;
+  /**
+   * Layout of the label vs. the button row.
+   * - `vertical` (default): label stacked above the buttons (breadcrumb rows, panels).
+   * - `horizontal`: label and buttons on one line — an anchored inline affordance
+   *   (e.g. "share this hub" on the home page) instead of a floating icon cluster.
+   */
+  orientation?: 'vertical' | 'horizontal';
 }
 
 /**
@@ -37,7 +44,12 @@ interface ShareButtonsProps {
  * Buttons share the `url`/`title` props when given (e.g. an entity spoke URL from
  * a hub detail panel); otherwise they resolve both at click time from the current page.
  */
-export function ShareButtons({ className = '', url, title }: ShareButtonsProps): React.ReactNode {
+export function ShareButtons({
+  className = '',
+  url,
+  title,
+  orientation = 'vertical',
+}: ShareButtonsProps): React.ReactNode {
   const t = useTranslations('share');
   const [mounted, setMounted] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -92,10 +104,18 @@ export function ShareButtons({ className = '', url, title }: ShareButtonsProps):
     }
   };
 
+  const isHorizontal = orientation === 'horizontal';
+
   return (
-    <div className={`flex flex-col gap-4 ${className}`}>
-      {/* Heading (optional, quiet label) */}
-      <div className="text-xs uppercase tracking-widest text-text-secondary">
+    <div
+      className={`flex gap-x-3 gap-y-2 ${
+        isHorizontal
+          ? 'flex-row flex-wrap items-center'
+          : 'flex-col gap-4'
+      } ${className}`}
+    >
+      {/* Heading (quiet label) */}
+      <div className="text-xs font-semibold uppercase tracking-widest text-text-secondary">
         {t('heading')}
       </div>
 

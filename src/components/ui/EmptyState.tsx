@@ -32,11 +32,11 @@ export function EmptyState({
         </div>
       )}
 
-      <h2 className="font-display text-2xl font-bold text-text mb-4 text-center">
+      <h2 className="font-display text-2xl font-bold text-text mb-4 text-balance break-keep text-center">
         {heading}
       </h2>
 
-      <p className="text-center text-text-secondary mb-8 max-w-[24rem]">
+      <p className="text-center text-pretty break-keep text-text-secondary mb-8 max-w-[24rem]">
         {body}
       </p>
 
