@@ -38,16 +38,14 @@ export function ToolGrid({
     // Show favorites-specific empty state if filtering by favorites
     if (isEmptyBecauseFavorites && onShowAll) {
       return (
-        <div className="mx-auto max-w-container px-6 md:px-8 lg:px-12">
-          <EmptyState
-            heading={tFav('emptyHeading')}
-            body={tFav('emptyBody')}
-            actionLabel={tFav('showAll')}
-            onAction={onShowAll}
-            showMascot={true}
-            testId={testId ? `${testId}-empty-favorites` : undefined}
-          />
-        </div>
+        <EmptyState
+          heading={tFav('emptyHeading')}
+          body={tFav('emptyBody')}
+          actionLabel={tFav('showAll')}
+          onAction={onShowAll}
+          showMascot={true}
+          testId={testId ? `${testId}-empty-favorites` : undefined}
+        />
       );
     }
 

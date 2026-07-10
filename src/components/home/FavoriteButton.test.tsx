@@ -116,7 +116,7 @@ describe('FavoriteButton', () => {
     expect(button).toBeInTheDocument();
   });
 
-  it('applies text-accent-rose when favorited', () => {
+  it('applies the rose-soft chip + rose-ink icon when favorited (3:1 non-text contrast)', () => {
     const handleToggle = vi.fn();
     render(
       <FavoriteButton
@@ -128,7 +128,8 @@ describe('FavoriteButton', () => {
     );
 
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('text-accent-rose');
+    expect(button).toHaveClass('bg-accent-rose-soft');
+    expect(button).toHaveClass('text-accent-rose-ink');
   });
 
   it('applies text-text-muted when not favorited', () => {
@@ -159,8 +160,8 @@ describe('FavoriteButton', () => {
 
     const button = screen.getByRole('button');
     expect(button).toHaveClass('focus-visible:ring-2');
-    expect(button).toHaveClass('ring-offset-2');
-    expect(button).toHaveClass('ring-focus-ring');
+    expect(button).toHaveClass('focus-visible:ring-offset-2');
+    expect(button).toHaveClass('focus-visible:ring-focus-ring');
   });
 
   it('has 44px dimensions (w-11 h-11)', () => {

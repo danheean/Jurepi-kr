@@ -44,12 +44,12 @@ export function FavoriteButton({
         flex items-center justify-center
         rounded-lg
         transition-colors duration-150 ease-out
-        focus-visible:outline-none focus-visible:ring-2 ring-offset-2 ring-focus-ring
-        hover:bg-surface-sunken
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus-ring
+        motion-safe:active:scale-95
         ${
           isFavorited
-            ? 'text-accent-rose'
-            : 'text-text-muted'
+            ? 'bg-accent-rose-soft text-accent-rose-ink'
+            : 'text-text-muted hover:bg-surface-sunken'
         }
       `}
     >
