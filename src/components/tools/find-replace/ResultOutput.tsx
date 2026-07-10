@@ -82,7 +82,7 @@ export function ResultOutput({
       </div>
 
       {totalCount > 0 && (
-        <div className="text-xs text-text-secondary">
+        <div className="text-xs text-text-secondary" aria-live="polite">
           {t('result.totalCount', { count: totalCount, ruleCount })}
         </div>
       )}
