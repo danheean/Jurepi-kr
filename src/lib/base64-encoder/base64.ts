@@ -32,6 +32,20 @@ export function normalizeInput(input: string): string {
 }
 
 /**
+ * Split an optional `data:` URL prefix from a Base64 payload.
+ * Accepts `data:<mime>;base64,<data>` (and the rare `data:<mime>,<data>`).
+ * When the input is not a data URL, returns it unchanged with `mime: null`.
+ */
+export function parseDataUrl(input: string): { mime: string | null; data: string } {
+  const match = input.trim().match(/^data:([^;,]*)(?:;[^,]*)?,([\s\S]*)$/i);
+  if (!match) {
+    return { mime: null, data: input };
+  }
+  const mime = match[1] ? match[1].toLowerCase() : null;
+  return { mime, data: match[2] };
+}
+
+/**
  * Convert standard Base64 to URL-safe variant.
  * + → -, / → _
  * Does not remove padding (caller decides).

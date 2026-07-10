@@ -2252,7 +2252,10 @@
         "copyDataUri": "Copy Data-URI",
         "copyText": "Copy Text",
         "download": "Download",
-        "copied": "Copied!"
+        "copied": "Copied!",
+        "imageAlt": "Decoded image",
+        "downloadImage": "Download image",
+        "copyImage": "Copy image"
       },
       "errors": {
         "invalidBase64": "Invalid Base64 format. Only A-Za-z0-9+/= characters allowed (standard) or A-Za-z0-9-_= (URL-safe).",
@@ -2276,7 +2279,8 @@
           "Base64 is a binary-to-text encoding scheme that represents binary data in an ASCII string format. It uses a set of 64 printable ASCII characters.",
           "The standard variant uses + and / characters, while the URL-safe variant uses - and _ instead to avoid conflicts with URL syntax and special characters.",
           "This tool guarantees UTF-8 safety, so you can safely encode emoji, Korean text, newlines, and all other characters without data loss.",
-          "Base64 is encoding, not encryption. It provides no security. Use proper encryption for sensitive data."
+          "Base64 is encoding, not encryption. It provides no security. Use proper encryption for sensitive data.",
+          "When decoding, paste Base64 that encodes an image (PNG, JPEG, GIF, WebP, BMP, ICO, or SVG) and this tool detects it automatically and renders the image right on screen — you can download or copy it from the preview."
         ]
       },
       "faq": {
@@ -2297,6 +2301,10 @@
           {
             "q": "Is my data stored on a server?",
             "a": "No. All processing happens in your browser only. Nothing is sent to or stored on any server. Only your last used mode preference is stored locally."
+          },
+          {
+            "q": "Can I preview a decoded image on screen?",
+            "a": "Yes. In the decode direction, paste the Base64 (or a data:image URL) of an image such as PNG, JPEG, GIF, WebP, BMP, ICO, or SVG and the tool recognizes it, renders a preview, and offers download and copy buttons. Non-image data is still decoded as text."
           }
         ]
       }

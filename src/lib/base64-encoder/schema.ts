@@ -58,6 +58,41 @@ export const decodeResultSchema = z.discriminatedUnion('ok', [
 
 export type DecodeResult = z.infer<typeof decodeResultSchema>;
 
+// Smart decode result: text, image, or error.
+// `decodeSmart` sniffs the decoded bytes and returns an image payload (ready
+// for an <img> data URI) when the content is a known image format.
+export const decodeSmartResultSchema = z.discriminatedUnion('ok', [
+  z.object({
+    ok: z.literal(true),
+    kind: z.literal('text'),
+    plaintext: z.string(),
+    sizeBytes: z.number().nonnegative(),
+  }),
+  z.object({
+    ok: z.literal(true),
+    kind: z.literal('image'),
+    mimeType: z.string(),
+    /** Standard (non URL-safe) Base64 body, for blob reconstruction. */
+    base64: z.string(),
+    /** `data:<mime>;base64,<body>` — usable directly as an <img> src. */
+    dataUri: z.string(),
+    sizeBytes: z.number().positive(),
+  }),
+  z.object({
+    ok: z.literal(false),
+    error: base64EncoderErrorSchema,
+  }),
+]);
+
+export type DecodeSmartResult = z.infer<typeof decodeSmartResultSchema>;
+
+export type DecodedImage = {
+  mimeType: string;
+  base64: string;
+  dataUri: string;
+  sizeBytes: number;
+};
+
 // File metadata
 export const fileInfoSchema = z.object({
   name: z.string(),

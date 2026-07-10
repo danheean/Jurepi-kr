@@ -1,6 +1,31 @@
-import { EncodeResult, DecodeResult, Base64EncoderError, Variant } from './schema';
-import { isValidBase64, normalizeInput, bytesToBase64, base64ToBytes } from './base64';
+import {
+  EncodeResult,
+  DecodeResult,
+  DecodeSmartResult,
+  Base64EncoderError,
+  Variant,
+} from './schema';
+import {
+  isValidBase64,
+  normalizeInput,
+  bytesToBase64,
+  base64ToBytes,
+  parseDataUrl,
+} from './base64';
 import { guessMimeType } from './mime';
+import { sniffImageMime } from './sniff';
+
+/**
+ * Strictly decode UTF-8 bytes to a string.
+ * @returns the decoded string, or `null` when the bytes are not valid UTF-8.
+ */
+function decodeUtf8Strict(bytes: Uint8Array): string | null {
+  try {
+    return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Safely encode plaintext to Base64 with UTF-8 safety.
@@ -60,13 +85,9 @@ export function safeDecode(base64: string, variant: Variant): DecodeResult {
     // Decode Base64 to bytes
     const bytes = base64ToBytes(normalized);
 
-    // Use TextDecoder with strict UTF-8 validation
-    const decoder = new TextDecoder('utf-8', { fatal: true });
-    let plaintext: string;
-
-    try {
-      plaintext = decoder.decode(bytes);
-    } catch (decodingError) {
+    // Strict UTF-8 validation
+    const plaintext = decodeUtf8Strict(bytes);
+    if (plaintext === null) {
       return {
         ok: false,
         error: {
@@ -153,6 +174,93 @@ export async function encodeFile(
       error: {
         code: 'fileReadError',
         message: 'Failed to read or encode file',
+        details: error instanceof Error ? error.message : String(error),
+      },
+    };
+  }
+}
+
+/**
+ * Smart-decode a Base64 (or `data:` URL) string.
+ *
+ * Order of resolution:
+ *  1. Strip a `data:` URL prefix if present (keeping its declared MIME as a hint).
+ *  2. Validate + decode to bytes (accepts standard or URL-safe input).
+ *  3. If the bytes are a known image (by magic bytes, or an image data-URL hint),
+ *     return an `image` payload with a ready-to-render standard data URI.
+ *  4. Otherwise decode as strict UTF-8 text.
+ *  5. Non-image, non-UTF-8 bytes yield a `notUtf8` error (unchanged behaviour).
+ *
+ * Never throws — returns a discriminated union.
+ */
+export function decodeSmart(input: string, variant: Variant): DecodeSmartResult {
+  try {
+    const { mime: declaredMime, data } = parseDataUrl(input);
+    const normalized = normalizeInput(data);
+
+    if (normalized.length === 0) {
+      return {
+        ok: false,
+        error: {
+          code: 'invalidBase64',
+          message: 'Empty Base64 input',
+          details: 'No Base64 data was provided',
+        },
+      };
+    }
+
+    // Accept whichever variant the payload actually uses (a data URL may be
+    // standard even when the UI is set to URL-safe).
+    const otherVariant: Variant = variant === 'standard' ? 'urlSafe' : 'standard';
+    if (!isValidBase64(normalized, variant) && !isValidBase64(normalized, otherVariant)) {
+      return {
+        ok: false,
+        error: {
+          code: 'invalidBase64',
+          message: 'Invalid Base64 format',
+          details: 'Check for invalid characters',
+        },
+      };
+    }
+
+    const bytes = base64ToBytes(normalized);
+
+    const sniffed = sniffImageMime(bytes);
+    const imageMime =
+      sniffed ?? (declaredMime && declaredMime.startsWith('image/') ? declaredMime : null);
+
+    if (imageMime) {
+      // Re-encode as standard Base64 so the data URI is always browser-valid.
+      const standardBase64 = bytesToBase64(bytes, 'standard');
+      return {
+        ok: true,
+        kind: 'image',
+        mimeType: imageMime,
+        base64: standardBase64,
+        dataUri: `data:${imageMime};base64,${standardBase64}`,
+        sizeBytes: bytes.length,
+      };
+    }
+
+    const plaintext = decodeUtf8Strict(bytes);
+    if (plaintext === null) {
+      return {
+        ok: false,
+        error: {
+          code: 'notUtf8',
+          message: 'Invalid UTF-8 sequence in decoded data',
+          details: 'The decoded bytes do not form valid UTF-8 text',
+        },
+      };
+    }
+
+    return { ok: true, kind: 'text', plaintext, sizeBytes: bytes.length };
+  } catch (error) {
+    return {
+      ok: false,
+      error: {
+        code: 'invalidBase64',
+        message: 'Failed to decode Base64',
         details: error instanceof Error ? error.message : String(error),
       },
     };

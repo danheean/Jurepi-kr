@@ -528,6 +528,9 @@ const defaultMessages = {
         copyText: 'Copy Text',
         download: 'Download',
         copied: 'Copied!',
+        imageAlt: 'Decoded image',
+        downloadImage: 'Download image',
+        copyImage: 'Copy image',
       },
       meta: {
         title: 'Base64 Encoder/Decoder — Text & File Conversion',

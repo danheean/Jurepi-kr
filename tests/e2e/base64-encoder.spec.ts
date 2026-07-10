@@ -166,6 +166,39 @@ test.describe('Base64 Encoder - E2E', () => {
     expect(errors).toEqual([]);
   });
 
+  test('Scenario 5: decoding image Base64 renders an image preview + download', async ({
+    page,
+  }) => {
+    // 1x1 transparent PNG.
+    const PNG_1x1 =
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+
+    const errors = collectPageErrors(page);
+    await page.goto(TOOL_URL_KO);
+    await page.waitForLoadState('networkidle');
+
+    const input = page.getByRole('textbox').first();
+    await expect(input).toBeVisible({ timeout: 10_000 });
+
+    // Decode direction, paste raw PNG Base64 (no data: prefix)
+    await page.locator('input[type="radio"][value="decode"]').check();
+    await input.fill(PNG_1x1);
+
+    // The decoded image is shown as an <img> (not garbled text)
+    const img = page.locator('main img[src^="data:image/png"]');
+    await expect(img).toBeVisible({ timeout: 5_000 });
+
+    // Download the decoded image
+    const downloadButton = page.getByRole('button', { name: '이미지 다운로드' });
+    await expect(downloadButton).toBeVisible();
+    const downloadPromise = page.waitForEvent('download', { timeout: 10_000 });
+    await downloadButton.click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/\.png$/);
+
+    expect(errors).toEqual([]);
+  });
+
   test('mobile 320px: no horizontal overflow, live conversion usable', async ({
     page,
   }) => {

@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   safeEncode,
-  safeDecode,
   encodeFile,
   decodeToBlob,
+  decodeSmart,
 } from '@/lib/base64-encoder/encoder';
 import { isValidBase64, normalizeInput } from '@/lib/base64-encoder/base64';
 import {
@@ -11,7 +11,19 @@ import {
   FILE_SIZE_LIMIT_MB,
   STORAGE_KEY,
   type Base64EncoderError,
+  type DecodedImage,
 } from '@/lib/base64-encoder/schema';
+
+/** Filename extension per detectable image MIME type. */
+const IMAGE_MIME_EXTENSION: Record<string, string> = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/gif': 'gif',
+  'image/webp': 'webp',
+  'image/bmp': 'bmp',
+  'image/x-icon': 'ico',
+  'image/svg+xml': 'svg',
+};
 
 export interface Base64State {
   mode: 'text' | 'file';
@@ -20,6 +32,8 @@ export interface Base64State {
   inputText: string;
   inputFile: File | null;
   outputText: string;
+  /** Set when a text-mode decode yields an image; null otherwise. */
+  decodedImage: DecodedImage | null;
   isLoading: boolean;
   error: Base64EncoderError | null;
   isValidInput: boolean;
@@ -34,6 +48,8 @@ export interface Base64Actions {
   process(): Promise<void>;
   copy(target: 'base64' | 'dataUri' | 'text'): Promise<boolean>;
   download(filename?: string): void;
+  downloadImage(filename?: string): void;
+  copyImage(): Promise<boolean>;
 }
 
 interface PersistedPrefs {
@@ -55,6 +71,7 @@ export function useBase64(): [Base64State, Base64Actions] {
   const [inputText, setInputTextState] = useState('');
   const [inputFile, setInputFileState] = useState<File | null>(null);
   const [outputText, setOutputText] = useState('');
+  const [decodedImage, setDecodedImage] = useState<DecodedImage | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Base64EncoderError | null>(null);
 
@@ -137,6 +154,7 @@ export function useBase64(): [Base64State, Base64Actions] {
   // Main process function: encode/decode based on current state
   const process = useCallback(async () => {
     setError(null);
+    setDecodedImage(null);
 
     if (mode === 'file' && inputFile) {
       setIsLoading(true);
@@ -173,11 +191,19 @@ export function useBase64(): [Base64State, Base64Actions] {
             setOutputText(result.base64);
           }
         } else {
-          const normalized = normalizeInput(inputText);
-          const result = safeDecode(normalized, variant);
+          const result = decodeSmart(inputText, variant);
           if (!result.ok) {
             setError(result.error);
             setOutputText('');
+          } else if (result.kind === 'image') {
+            // Show the decoded image instead of garbled text.
+            setOutputText('');
+            setDecodedImage({
+              mimeType: result.mimeType,
+              base64: result.base64,
+              dataUri: result.dataUri,
+              sizeBytes: result.sizeBytes,
+            });
           } else {
             setOutputText(result.plaintext);
           }
@@ -209,6 +235,7 @@ export function useBase64(): [Base64State, Base64Actions] {
 
     if (!hasInput || !isValidInput) {
       setOutputText('');
+      setDecodedImage(null);
       setError(null);
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
@@ -276,6 +303,43 @@ export function useBase64(): [Base64State, Base64Actions] {
     [outputText, mode, inputFile, direction]
   );
 
+  // Download the decoded image as a file.
+  const downloadImage = useCallback(
+    (filename?: string) => {
+      if (!decodedImage) return;
+      const result = decodeToBlob(decodedImage.base64, decodedImage.mimeType);
+      if (!result.ok) return;
+      const ext = IMAGE_MIME_EXTENSION[decodedImage.mimeType] ?? 'bin';
+      const url = URL.createObjectURL(result.blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename || `decoded.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },
+    [decodedImage]
+  );
+
+  // Copy the decoded image to the clipboard (best-effort; browser support varies).
+  const copyImage = useCallback(async (): Promise<boolean> => {
+    if (!decodedImage) return false;
+    if (typeof ClipboardItem === 'undefined' || !navigator.clipboard?.write) {
+      return false;
+    }
+    const result = decodeToBlob(decodedImage.base64, decodedImage.mimeType);
+    if (!result.ok) return false;
+    try {
+      await navigator.clipboard.write([
+        new ClipboardItem({ [decodedImage.mimeType]: result.blob }),
+      ]);
+      return true;
+    } catch {
+      return false;
+    }
+  }, [decodedImage]);
+
   // Cleanup timers on unmount
   useEffect(() => {
     return () => {
@@ -293,11 +357,12 @@ export function useBase64(): [Base64State, Base64Actions] {
       inputText,
       inputFile,
       outputText,
+      decodedImage,
       isLoading,
       error,
       isValidInput,
     }),
-    [mode, variant, direction, inputText, inputFile, outputText, isLoading, error, isValidInput]
+    [mode, variant, direction, inputText, inputFile, outputText, decodedImage, isLoading, error, isValidInput]
   );
 
   // Build actions object with stable reference
@@ -311,8 +376,10 @@ export function useBase64(): [Base64State, Base64Actions] {
       process,
       copy,
       download,
+      downloadImage,
+      copyImage,
     }),
-    [setMode, setVariant, setDirection, setInputText, setInputFile, process, copy, download]
+    [setMode, setVariant, setDirection, setInputText, setInputFile, process, copy, download, downloadImage, copyImage]
   );
 
   return [state, actions];

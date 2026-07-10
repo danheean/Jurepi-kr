@@ -147,4 +147,74 @@ describe('OutputDisplay', () => {
     expect(copiedMessage).not.toBeInTheDocument();
     expect(mockOnCopy).toHaveBeenCalled();
   });
+
+  describe('decoded image preview', () => {
+    const decodedImage = {
+      dataUri: 'data:image/png;base64,iVBORw0KGgoAAAA=',
+      mimeType: 'image/png',
+      sizeBytes: 2048,
+    };
+
+    it('renders an <img> preview (not a textarea) when decode yields an image', () => {
+      render(
+        <OutputDisplay
+          outputText=""
+          direction="decode"
+          onCopy={vi.fn()}
+          onDownload={vi.fn()}
+          decodedImage={decodedImage}
+          onDownloadImage={vi.fn()}
+          onCopyImage={vi.fn()}
+        />
+      );
+
+      const img = screen.getByRole('img') as HTMLImageElement;
+      expect(img.getAttribute('src')).toBe(decodedImage.dataUri);
+      // The plain-text textarea should not be rendered for an image result.
+      expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+      // Caption shows the format + size.
+      expect(screen.getByText(/PNG/)).toBeInTheDocument();
+    });
+
+    it('calls onDownloadImage and onCopyImage from the preview buttons', async () => {
+      const onDownloadImage = vi.fn();
+      const onCopyImage = vi.fn().mockResolvedValue(true);
+
+      render(
+        <OutputDisplay
+          outputText=""
+          direction="decode"
+          onCopy={vi.fn()}
+          onDownload={vi.fn()}
+          decodedImage={decodedImage}
+          onDownloadImage={onDownloadImage}
+          onCopyImage={onCopyImage}
+        />
+      );
+
+      screen.getByText('Download image').click();
+      expect(onDownloadImage).toHaveBeenCalled();
+
+      screen.getByText('Copy image').click();
+      const copied = await screen.findAllByText('Copied!');
+      expect(copied.length).toBeGreaterThan(0);
+      expect(onCopyImage).toHaveBeenCalled();
+    });
+
+    it('shows the text output when decoding non-image content', () => {
+      render(
+        <OutputDisplay
+          outputText="Hello, world!"
+          direction="decode"
+          onCopy={vi.fn()}
+          onDownload={vi.fn()}
+          decodedImage={null}
+        />
+      );
+
+      expect(screen.queryByRole('img')).not.toBeInTheDocument();
+      const textarea = screen.getByRole('textbox') as HTMLTextAreaElement;
+      expect(textarea.value).toBe('Hello, world!');
+    });
+  });
 });

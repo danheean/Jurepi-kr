@@ -89,6 +89,9 @@ export function Base64Encoder({ locale }: Props) {
               showDownload={state.mode === 'file' && state.direction === 'encode'}
               isLoading={state.isLoading}
               disabled={!state.outputText}
+              decodedImage={state.decodedImage}
+              onDownloadImage={actions.downloadImage}
+              onCopyImage={actions.copyImage}
             />
           </div>
         </div>

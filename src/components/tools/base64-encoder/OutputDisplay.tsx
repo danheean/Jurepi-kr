@@ -4,6 +4,13 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 
 type CopyTarget = 'base64' | 'dataUri' | 'text';
+type FeedbackTarget = CopyTarget | 'image';
+
+interface DecodedImagePreview {
+  dataUri: string;
+  mimeType: string;
+  sizeBytes: number;
+}
 
 interface Props {
   outputText: string;
@@ -13,9 +20,34 @@ interface Props {
   showDownload?: boolean;
   isLoading?: boolean;
   disabled?: boolean;
+  decodedImage?: DecodedImagePreview | null;
+  onDownloadImage?: () => void;
+  onCopyImage?: () => Promise<boolean>;
 }
 
 const COPIED_FEEDBACK_MS = 1600;
+
+/** Human-readable byte size. */
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+/** Short, human label for an image MIME type (e.g. "image/png" → "PNG"). */
+function mimeLabel(mimeType: string): string {
+  const sub = mimeType.split('/')[1] ?? mimeType;
+  return sub.replace('svg+xml', 'svg').replace('x-icon', 'ico').toUpperCase();
+}
+
+// Neutral checkerboard so transparent PNGs read clearly against the page.
+const CHECKERBOARD_STYLE: React.CSSProperties = {
+  backgroundColor: '#ffffff',
+  backgroundImage:
+    'linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%)',
+  backgroundSize: '16px 16px',
+  backgroundPosition: '0 0, 0 8px, 8px -8px, -8px 0',
+};
 
 export function OutputDisplay({
   outputText,
@@ -25,9 +57,12 @@ export function OutputDisplay({
   showDownload = false,
   isLoading = false,
   disabled = false,
+  decodedImage = null,
+  onDownloadImage,
+  onCopyImage,
 }: Props) {
   const t = useTranslations('tools.base64-encoder');
-  const [copiedTarget, setCopiedTarget] = useState<CopyTarget | null>(null);
+  const [copiedTarget, setCopiedTarget] = useState<FeedbackTarget | null>(null);
   const copiedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -38,28 +73,80 @@ export function OutputDisplay({
     };
   }, []);
 
-  const handleCopy = async (target: CopyTarget) => {
-    const success = await onCopy(target);
-    if (success) {
-      setCopiedTarget(target);
-      if (copiedTimeoutRef.current) {
-        clearTimeout(copiedTimeoutRef.current);
-      }
-      copiedTimeoutRef.current = setTimeout(() => {
-        setCopiedTarget(null);
-      }, COPIED_FEEDBACK_MS);
+  const flagCopied = (target: FeedbackTarget) => {
+    setCopiedTarget(target);
+    if (copiedTimeoutRef.current) {
+      clearTimeout(copiedTimeoutRef.current);
     }
+    copiedTimeoutRef.current = setTimeout(() => {
+      setCopiedTarget(null);
+    }, COPIED_FEEDBACK_MS);
   };
 
-  const hasOutput = outputText.length > 0;
-  const isButtonDisabled = !hasOutput || isLoading || disabled;
+  const handleCopy = async (target: CopyTarget) => {
+    const success = await onCopy(target);
+    if (success) flagCopied(target);
+  };
 
-  const copyButtonClass = (target: CopyTarget) =>
+  const handleCopyImage = async () => {
+    if (!onCopyImage) return;
+    const success = await onCopyImage();
+    if (success) flagCopied('image');
+  };
+
+  const showImage = direction === 'decode' && decodedImage !== null;
+
+  const primaryButtonClass = (active: boolean) =>
     `px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-      copiedTarget === target
+      active
         ? 'bg-success text-on-success'
         : 'bg-brand text-on-brand hover:bg-brand-strong'
     }`;
+
+  const secondaryButtonClass =
+    'px-4 py-2 rounded-lg text-sm font-medium bg-surface-muted border border-hairline text-text hover:bg-surface-sunken transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
+
+  // Image result: render a visual preview instead of garbled text.
+  if (showImage && decodedImage) {
+    return (
+      <div className="space-y-3">
+        <figure className="space-y-3">
+          <div
+            className="rounded-lg border border-hairline overflow-hidden p-4"
+            style={CHECKERBOARD_STYLE}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={decodedImage.dataUri}
+              alt={t('output.imageAlt')}
+              className="mx-auto block max-h-96 max-w-full object-contain"
+            />
+          </div>
+          <figcaption className="text-sm text-text-secondary">
+            {mimeLabel(decodedImage.mimeType)} · {formatBytes(decodedImage.sizeBytes)}
+          </figcaption>
+        </figure>
+
+        <div aria-live="polite" className="sr-only">
+          {copiedTarget === 'image' ? t('output.copied') : ''}
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          <button onClick={() => onDownloadImage?.()} className={secondaryButtonClass}>
+            {t('output.downloadImage')}
+          </button>
+          {onCopyImage && (
+            <button onClick={handleCopyImage} className={primaryButtonClass(copiedTarget === 'image')}>
+              {copiedTarget === 'image' ? t('output.copied') : t('output.copyImage')}
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  const hasOutput = outputText.length > 0;
+  const isButtonDisabled = !hasOutput || isLoading || disabled;
 
   const copyButtonLabel = (target: CopyTarget, labelKey: string) =>
     copiedTarget === target ? t('output.copied') : t(labelKey);
@@ -84,14 +171,14 @@ export function OutputDisplay({
             <button
               onClick={() => handleCopy('base64')}
               disabled={isButtonDisabled}
-              className={copyButtonClass('base64')}
+              className={primaryButtonClass(copiedTarget === 'base64')}
             >
               {copyButtonLabel('base64', 'output.copyBase64')}
             </button>
             <button
               onClick={() => handleCopy('dataUri')}
               disabled={isButtonDisabled}
-              className={copyButtonClass('dataUri')}
+              className={primaryButtonClass(copiedTarget === 'dataUri')}
             >
               {copyButtonLabel('dataUri', 'output.copyDataUri')}
             </button>
@@ -102,7 +189,7 @@ export function OutputDisplay({
           <button
             onClick={() => handleCopy('text')}
             disabled={isButtonDisabled}
-            className={copyButtonClass('text')}
+            className={primaryButtonClass(copiedTarget === 'text')}
           >
             {copyButtonLabel('text', 'output.copyText')}
           </button>
@@ -112,7 +199,7 @@ export function OutputDisplay({
           <button
             onClick={() => onDownload()}
             disabled={isButtonDisabled}
-            className="px-4 py-2 rounded-lg text-sm font-medium bg-surface-muted border border-hairline text-text hover:bg-surface-sunken transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className={secondaryButtonClass}
           >
             {t('output.download')}
           </button>

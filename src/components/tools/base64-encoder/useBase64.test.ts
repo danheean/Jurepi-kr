@@ -503,6 +503,96 @@ describe('useBase64 hook', () => {
     });
   });
 
+  describe('decoded image handling', () => {
+    // 1x1 transparent PNG.
+    const PNG_1x1 =
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+
+    async function decodeInput(input: string) {
+      const { result } = renderHook(() => useBase64());
+      act(() => {
+        result.current[1].setDirection('decode');
+        result.current[1].setInputText(input);
+      });
+      await act(async () => {
+        await result.current[1].process();
+      });
+      return result;
+    }
+
+    it('sets decodedImage when decoding image Base64', async () => {
+      const result = await decodeInput(PNG_1x1);
+      const state = result.current[0];
+
+      expect(state.decodedImage).not.toBeNull();
+      expect(state.decodedImage?.mimeType).toBe('image/png');
+      expect(state.decodedImage?.dataUri.startsWith('data:image/png;base64,')).toBe(true);
+      expect(state.decodedImage?.sizeBytes).toBeGreaterThan(0);
+      expect(state.outputText).toBe('');
+      expect(state.error).toBeNull();
+    });
+
+    it('clears decodedImage when the next decode is plain text', async () => {
+      const result = await decodeInput(PNG_1x1);
+      expect(result.current[0].decodedImage).not.toBeNull();
+
+      act(() => {
+        result.current[1].setInputText('aGVsbG8=');
+      });
+      await act(async () => {
+        await result.current[1].process();
+      });
+
+      const state = result.current[0];
+      expect(state.decodedImage).toBeNull();
+      expect(state.outputText).toBe('hello');
+    });
+
+    it('downloadImage triggers a download anchor for the image', async () => {
+      const clickSpy = vi
+        .spyOn(HTMLAnchorElement.prototype, 'click')
+        .mockImplementation(() => {});
+      try {
+        const result = await decodeInput(PNG_1x1);
+        act(() => {
+          result.current[1].downloadImage();
+        });
+        expect(clickSpy).toHaveBeenCalled();
+      } finally {
+        clickSpy.mockRestore();
+      }
+    });
+
+    it('copyImage returns false when clipboard image write is unavailable', async () => {
+      const result = await decodeInput(PNG_1x1);
+      let ok = true;
+      await act(async () => {
+        ok = await result.current[1].copyImage();
+      });
+      expect(ok).toBe(false);
+    });
+
+    it('copyImage writes the image to the clipboard when supported', async () => {
+      const write = vi.fn().mockResolvedValue(undefined);
+      class FakeClipboardItem {
+        constructor(public readonly items: Record<string, Blob>) {}
+      }
+      vi.stubGlobal('ClipboardItem', FakeClipboardItem as unknown as typeof ClipboardItem);
+      vi.stubGlobal('navigator', { clipboard: { write } } as unknown as Navigator);
+      try {
+        const result = await decodeInput(PNG_1x1);
+        let ok = false;
+        await act(async () => {
+          ok = await result.current[1].copyImage();
+        });
+        expect(ok).toBe(true);
+        expect(write).toHaveBeenCalledTimes(1);
+      } finally {
+        vi.unstubAllGlobals();
+      }
+    });
+  });
+
   describe('localStorage persistence edge cases', () => {
     it('handles localStorage quota exceeded gracefully', () => {
       const originalSetItem = Storage.prototype.setItem;
