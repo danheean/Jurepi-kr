@@ -46,7 +46,7 @@ export function CharacterCounter() {
           onChange={(e) => setText(e.target.value)}
           placeholder={t('textarea.placeholder')}
           aria-label={t('textarea.ariaLabel')}
-          className="flex-1 min-h-72 p-4 rounded-lg border border-hairline bg-surface text-text placeholder-text-secondary resize-y focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand font-mono"
+          className="flex-1 min-h-72 p-4 rounded-lg border border-hairline bg-surface text-text placeholder-text-secondary resize-y focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand font-mono"
         />
         <div className="text-sm text-text-secondary">{hintText}</div>
       </div>

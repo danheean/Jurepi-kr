@@ -85,7 +85,7 @@ export function LimitIndicator({
       <div className="flex flex-wrap gap-2">
         <button
           onClick={() => handlePresetClick('twitter')}
-          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand ${
             limit?.id === 'twitter'
               ? 'bg-brand text-on-brand'
               : 'bg-surface-muted text-text hover:bg-surface-sunken'
@@ -97,7 +97,7 @@ export function LimitIndicator({
 
         <button
           onClick={() => handlePresetClick('meta_description')}
-          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand ${
             limit?.id === 'meta_description'
               ? 'bg-brand text-on-brand'
               : 'bg-surface-muted text-text hover:bg-surface-sunken'
@@ -109,7 +109,7 @@ export function LimitIndicator({
 
         <button
           onClick={handleCustomClick}
-          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand ${
             limit?.id === 'custom'
               ? 'bg-brand text-on-brand'
               : 'bg-surface-muted text-text hover:bg-surface-sunken'
@@ -121,7 +121,7 @@ export function LimitIndicator({
 
         <button
           onClick={() => handlePresetClick('none')}
-          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 py-2 min-h-11 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand ${
             limit?.id === 'none'
               ? 'bg-brand text-on-brand'
               : 'bg-surface-muted text-text hover:bg-surface-sunken'
@@ -139,7 +139,7 @@ export function LimitIndicator({
           value={customInput}
           onChange={handleCustomInputChange}
           placeholder={t('limit.customInput.placeholder')}
-          className="w-full px-3 py-2 min-h-11 rounded-lg border border-hairline bg-surface text-text placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand"
+          className="w-full px-3 py-2 min-h-11 rounded-lg border border-hairline bg-surface text-text placeholder-text-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand"
           aria-label={t('limit.customInput.ariaLabel')}
         />
       )}
