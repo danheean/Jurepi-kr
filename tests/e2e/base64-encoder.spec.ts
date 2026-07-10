@@ -199,6 +199,33 @@ test.describe('Base64 Encoder - E2E', () => {
     expect(errors).toEqual([]);
   });
 
+  test('Scenario 6: decoding an image data: URL renders an image preview (regression)', async ({
+    page,
+  }) => {
+    // A pasted data URI is exactly what the encode side's "Copy Data-URI"
+    // produces. The validation gate used to reject the data: prefix, so the
+    // image round-trip silently produced no output.
+    const PNG_DATA_URL =
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+
+    const errors = collectPageErrors(page);
+    await page.goto(TOOL_URL_KO);
+    await page.waitForLoadState('networkidle');
+
+    const input = page.getByRole('textbox').first();
+    await expect(input).toBeVisible({ timeout: 10_000 });
+
+    await page.locator('input[type="radio"][value="decode"]').check();
+    await input.fill(PNG_DATA_URL);
+
+    // The image renders (previously: empty output).
+    const img = page.locator('main img[src^="data:image/png"]');
+    await expect(img).toBeVisible({ timeout: 5_000 });
+    await expect(page.getByRole('button', { name: '이미지 다운로드' })).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
   test('mobile 320px: no horizontal overflow, live conversion usable', async ({
     page,
   }) => {

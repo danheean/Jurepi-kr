@@ -5,7 +5,7 @@ import {
   decodeToBlob,
   decodeSmart,
 } from '@/lib/base64-encoder/encoder';
-import { isValidBase64, normalizeInput } from '@/lib/base64-encoder/base64';
+import { isDecodableInput } from '@/lib/base64-encoder/base64';
 import {
   DEBOUNCE_MS,
   FILE_SIZE_LIMIT_MB,
@@ -71,6 +71,10 @@ export function useBase64(): [Base64State, Base64Actions] {
   const [inputText, setInputTextState] = useState('');
   const [inputFile, setInputFileState] = useState<File | null>(null);
   const [outputText, setOutputText] = useState('');
+  // Full `data:<mime>;base64,…` for the current encode output — carries the
+  // real MIME (text/plain, image/png, application/pdf…) so "Copy Data-URI"
+  // yields a valid, renderable URI instead of a hardcoded text/plain one.
+  const [outputDataUri, setOutputDataUri] = useState('');
   const [decodedImage, setDecodedImage] = useState<DecodedImage | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Base64EncoderError | null>(null);
@@ -143,8 +147,10 @@ export function useBase64(): [Base64State, Base64Actions] {
     if (mode === 'text') {
       if (inputText.trim().length === 0) return false;
       if (direction === 'decode') {
-        const normalized = normalizeInput(inputText);
-        return isValidBase64(normalized, variant);
+        // Mirror decodeSmart's acceptance: strip data: URLs and accept either
+        // variant, so a pasted data URI (or mismatched-variant Base64) reaches
+        // the decoder instead of being silently dropped by this gate.
+        return isDecodableInput(inputText, variant);
       }
       return true;
     }
@@ -155,6 +161,7 @@ export function useBase64(): [Base64State, Base64Actions] {
   const process = useCallback(async () => {
     setError(null);
     setDecodedImage(null);
+    setOutputDataUri('');
 
     if (mode === 'file' && inputFile) {
       setIsLoading(true);
@@ -165,6 +172,8 @@ export function useBase64(): [Base64State, Base64Actions] {
           setOutputText('');
         } else {
           setOutputText(result.base64);
+          // Real MIME (image/png, application/pdf, …) from the file.
+          setOutputDataUri(result.dataUri);
         }
       } catch (err) {
         setError({
@@ -189,6 +198,7 @@ export function useBase64(): [Base64State, Base64Actions] {
             setOutputText('');
           } else {
             setOutputText(result.base64);
+            setOutputDataUri(result.dataUri); // data:text/plain;base64,…
           }
         } else {
           const result = decodeSmart(inputText, variant);
@@ -235,6 +245,7 @@ export function useBase64(): [Base64State, Base64Actions] {
 
     if (!hasInput || !isValidInput) {
       setOutputText('');
+      setOutputDataUri('');
       setDecodedImage(null);
       setError(null);
       if (debounceTimerRef.current) {
@@ -262,8 +273,10 @@ export function useBase64(): [Base64State, Base64Actions] {
 
       if (target === 'base64' && outputText && direction === 'encode') {
         textToCopy = outputText;
-      } else if (target === 'dataUri' && outputText && direction === 'encode') {
-        textToCopy = `data:text/plain;base64,${outputText}`;
+      } else if (target === 'dataUri' && outputDataUri && direction === 'encode') {
+        // Use the encoder-produced data URI so the MIME matches the content
+        // (image/png, application/pdf, text/plain, …) — not a hardcoded type.
+        textToCopy = outputDataUri;
       } else if (target === 'text' && outputText && direction === 'decode') {
         textToCopy = outputText;
       } else {
@@ -278,7 +291,7 @@ export function useBase64(): [Base64State, Base64Actions] {
         return false;
       }
     },
-    [outputText, direction]
+    [outputText, outputDataUri, direction]
   );
 
   // Download file
