@@ -1000,6 +1000,7 @@ const defaultMessages = {
       },
     },
     'find-replace': (enMessages as any).tools['find-replace'],
+    'cron-parser': (enMessages as any).tools['cron-parser'],
   },
 };
 
