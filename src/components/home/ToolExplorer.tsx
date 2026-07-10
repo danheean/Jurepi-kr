@@ -134,6 +134,7 @@ export function ToolExplorer({
             <FavoritesFilterToggle
               active={favoritesOnly}
               onToggle={() => setFavoritesOnly((v) => !v)}
+              count={favoriteIds.length}
             />
           </div>
         </div>
