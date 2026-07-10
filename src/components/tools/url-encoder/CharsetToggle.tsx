@@ -28,7 +28,7 @@ export function CharsetToggle({ value, onChange, isLoading }: Props) {
             disabled={isLoading}
             className={`px-4 py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-colors ${
               value === charset
-                ? 'bg-accent-grape text-on-brand'
+                ? 'bg-brand text-on-brand'
                 : 'bg-surface-muted text-text hover:bg-hairline-strong'
             } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             aria-pressed={value === charset}

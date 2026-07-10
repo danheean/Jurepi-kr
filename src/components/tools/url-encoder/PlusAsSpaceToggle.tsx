@@ -21,7 +21,7 @@ export function PlusAsSpaceToggle({ value, onChange, decodeOnly }: Props) {
         type="checkbox"
         checked={value}
         onChange={(e) => onChange(e.target.checked)}
-        className="w-4 h-4 rounded accent-accent-grape"
+        className="w-4 h-4 rounded accent-brand"
         aria-label={t('plusAsSpace.label')}
       />
       <div>

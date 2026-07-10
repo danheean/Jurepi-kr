@@ -39,7 +39,7 @@ export function TextInput({ value, onChange, onProcess, onCommit, batchMode, onC
           onBlur={onCommit}
           placeholder={t('input.placeholder')}
           aria-label={t('input.aria')}
-          className="w-full min-h-32 p-4 border border-hairline rounded-lg bg-surface text-text placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-focus-ring resize-vertical font-mono text-sm"
+          className="w-full min-h-32 p-4 border border-hairline rounded-lg bg-surface text-text placeholder-text-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 resize-vertical font-mono text-sm"
         />
       ) : (
         <input
@@ -50,7 +50,7 @@ export function TextInput({ value, onChange, onProcess, onCommit, batchMode, onC
           onBlur={onCommit}
           placeholder={t('input.placeholder')}
           aria-label={t('input.aria')}
-          className="w-full px-4 py-3 border border-hairline rounded-lg bg-surface text-text placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-focus-ring font-mono text-sm"
+          className="w-full px-4 py-3 border border-hairline rounded-lg bg-surface text-text placeholder-text-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 font-mono text-sm"
         />
       )}
       <div className="flex justify-between items-center text-xs text-text-secondary">
