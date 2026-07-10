@@ -13,7 +13,8 @@ interface FavoriteButtonProps {
 
 /**
  * FavoriteButton: Heart icon button to toggle favorite status.
- * Non-interactive component — 44px target, aria-pressed, no navigation.
+ * Rendered as a sibling OUTSIDE the card's anchor — clicking it never
+ * navigates. 44px target, aria-pressed carries the on/off state.
  */
 export function FavoriteButton({
   slug,
@@ -48,8 +49,8 @@ export function FavoriteButton({
         motion-safe:active:scale-95
         ${
           isFavorited
-            ? 'bg-accent-rose-soft text-accent-rose-ink'
-            : 'text-text-muted hover:bg-surface-sunken'
+            ? 'bg-accent-rose-soft text-accent-rose-ink hover:bg-accent-rose/20'
+            : 'text-text-muted hover:bg-surface-sunken hover:text-accent-rose-ink'
         }
       `}
     >

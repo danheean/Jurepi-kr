@@ -93,14 +93,17 @@ export function ToolCard({
 
   if (isLive) {
     return (
-      <div className="relative h-full">
+      // Hover lift keys off the wrapper (group/card) so the card responds even
+      // when the cursor is over the favorite button; focus ring + press scale
+      // stay keyed to the Link so focusing/pressing the star never styles the card.
+      <div className="group/card relative h-full">
         <Link
           href={`/tools/${tool.slug}`}
           locale={locale}
           data-testid={testId}
           className="group block h-full"
         >
-          <div className="bg-surface border border-hairline rounded-xl p-5 shadow-card min-h-[150px] flex flex-col justify-start transition-all duration-200 ease-out group-hover:-translate-y-1 group-hover:shadow-card-hover group-hover:border-brand-soft group-active:scale-99 group-focus-visible:outline-none group-focus-visible:ring-2 group-focus-visible:ring-offset-2 group-focus-visible:ring-focus-ring cursor-pointer motion-reduce:group-hover:translate-y-0">
+          <div className="bg-surface border border-hairline rounded-xl p-5 shadow-card min-h-[150px] flex flex-col justify-start transition-all duration-200 ease-out group-hover/card:-translate-y-1 group-hover/card:shadow-card-hover group-hover/card:border-brand-soft group-active:scale-99 group-focus-visible:outline-none group-focus-visible:ring-2 group-focus-visible:ring-offset-2 group-focus-visible:ring-focus-ring cursor-pointer motion-reduce:group-hover/card:translate-y-0">
             {content}
           </div>
         </Link>
