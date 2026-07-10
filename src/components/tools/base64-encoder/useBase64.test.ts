@@ -482,6 +482,42 @@ describe('useBase64 hook', () => {
       }
     });
 
+    it('copies a data URI with the real MIME type for an encoded image (regression)', async () => {
+      // Bug: "Copy Data-URI" hardcoded `data:text/plain;base64,…` for every
+      // mode, so an encoded image produced an invalid text/plain data URI.
+      // Async file reading (encodeFile → file.arrayBuffer) needs real timers.
+      vi.useRealTimers();
+      const mockClipboard = vi.fn().mockResolvedValue(undefined);
+      vi.stubGlobal('navigator', { clipboard: { writeText: mockClipboard } } as any);
+
+      try {
+        const { result } = renderHook(() => useBase64());
+        const pngFile = new File([new Uint8Array([0x89, 0x50, 0x4e, 0x47])], 'photo.png', {
+          type: 'image/png',
+        });
+
+        act(() => {
+          result.current[1].setMode('file');
+          result.current[1].setInputFile(pngFile);
+        });
+        await act(async () => {
+          await result.current[1].process();
+        });
+
+        let success = false;
+        await act(async () => {
+          success = await result.current[1].copy('dataUri');
+        });
+
+        expect(success).toBe(true);
+        const copied = mockClipboard.mock.calls[0][0] as string;
+        expect(copied.startsWith('data:image/png;base64,')).toBe(true);
+        expect(copied.startsWith('data:text/plain')).toBe(false);
+      } finally {
+        vi.unstubAllGlobals();
+      }
+    });
+
     it('does not copy in decode mode for base64 target', async () => {
       const mockClipboard = vi.fn().mockResolvedValue(undefined);
       vi.stubGlobal('navigator', {

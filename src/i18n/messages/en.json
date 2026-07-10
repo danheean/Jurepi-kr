@@ -2249,7 +2249,7 @@
         "label": "Input",
         "fileSelect": "Select file",
         "textPlaceholder": "Paste text or Base64…",
-        "fileLabel": "Drag files or click to browse",
+        "fileLabel": "Drag an image, PDF, font, or other file — or click to browse",
         "fileSuccess": "File selected: {filename} ({size})"
       },
       "process": {
@@ -2291,7 +2291,8 @@
           "The standard variant uses + and / characters, while the URL-safe variant uses - and _ instead to avoid conflicts with URL syntax and special characters.",
           "This tool guarantees UTF-8 safety, so you can safely encode emoji, Korean text, newlines, and all other characters without data loss.",
           "Base64 is encoding, not encryption. It provides no security. Use proper encryption for sensitive data.",
-          "When decoding, paste Base64 that encodes an image (PNG, JPEG, GIF, WebP, BMP, ICO, or SVG) and this tool detects it automatically and renders the image right on screen — you can download or copy it from the preview."
+          "When decoding, paste Base64 that encodes an image (PNG, JPEG, GIF, WebP, BMP, ICO, or SVG) and this tool detects it automatically and renders the image right on screen — you can download or copy it from the preview.",
+          "In practice it is used most in web development: inline small images, icons, fonts (woff2), and SVG as data: URIs in CSS or HTML to cut requests; handle email attachments (MIME); store certificates and keys (PEM) or Kubernetes Secrets; carry binaries such as PDFs inside JSON, XML, or URLs; and build 'Authorization: Basic' headers."
         ]
       },
       "faq": {
@@ -2316,6 +2317,10 @@
           {
             "q": "Can I preview a decoded image on screen?",
             "a": "Yes. In the decode direction, paste the Base64 (or a data:image URL) of an image such as PNG, JPEG, GIF, WebP, BMP, ICO, or SVG and the tool recognizes it, renders a preview, and offers download and copy buttons. Non-image data is still decoded as text."
+          },
+          {
+            "q": "When is Base64 typically used?",
+            "a": "Common uses include inlining small images, fonts, and SVG as data: URIs on the web; email attachments (MIME); storing certificates and keys (PEM) or Kubernetes Secrets; carrying binaries such as PDFs inside JSON, XML, or URLs; building 'Authorization: Basic' headers; and decoding JWT segments or unknown Base64 blobs to inspect their contents."
           }
         ]
       }
