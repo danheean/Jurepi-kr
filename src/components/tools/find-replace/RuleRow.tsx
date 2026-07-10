@@ -76,7 +76,7 @@ export function RuleRow({
               onClick={() => onUpdate({ [opt.field]: !active } as Partial<Rule>)}
               aria-pressed={active}
               aria-label={t(`option.${opt.i18n}.label`)}
-              className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
+              className={`inline-flex items-center justify-center min-h-11 min-w-11 px-2 text-xs font-medium rounded transition-colors ${
                 active
                   ? 'bg-brand text-on-brand'
                   : 'bg-surface-muted text-text-secondary hover:bg-surface-sunken'
@@ -124,7 +124,7 @@ export function RuleRow({
         <button
           onClick={() => onUpdate({ enabled: !rule.enabled })}
           aria-pressed={rule.enabled}
-          className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
+          className={`inline-flex items-center justify-center min-h-11 min-w-11 px-2 text-xs font-medium rounded transition-colors ${
             rule.enabled
               ? 'bg-accent-grape text-on-brand'
               : 'bg-surface-muted text-text-secondary'
@@ -136,7 +136,7 @@ export function RuleRow({
         </button>
         <button
           onClick={onDuplicate}
-          className="p-1 text-text-secondary hover:text-text rounded focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 transition-colors"
+          className="inline-flex items-center justify-center min-h-11 min-w-11 text-text-secondary hover:text-text rounded focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 transition-colors"
           title={t('rule.duplicate')}
           aria-label={t('rule.duplicate')}
           data-testid={`rule-duplicate-${rule.id}`}
@@ -145,7 +145,7 @@ export function RuleRow({
         </button>
         <button
           onClick={onDelete}
-          className="p-1 text-text-secondary hover:text-danger rounded focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 transition-colors"
+          className="inline-flex items-center justify-center min-h-11 min-w-11 text-text-secondary hover:text-danger rounded focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 transition-colors"
           title={t('rule.delete')}
           aria-label={t('rule.delete')}
           data-testid={`rule-delete-${rule.id}`}
@@ -155,7 +155,7 @@ export function RuleRow({
         {index > 0 && (
           <button
             onClick={onMoveUp}
-            className="p-1 text-text-secondary hover:text-text rounded focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 transition-colors"
+            className="inline-flex items-center justify-center min-h-11 min-w-11 text-text-secondary hover:text-text rounded focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 transition-colors"
             title={t('rule.moveUp')}
             aria-label={t('rule.moveUp')}
             data-testid={`rule-moveup-${rule.id}`}
@@ -166,7 +166,7 @@ export function RuleRow({
         {index < totalRules - 1 && (
           <button
             onClick={onMoveDown}
-            className="p-1 text-text-secondary hover:text-text rounded focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 transition-colors"
+            className="inline-flex items-center justify-center min-h-11 min-w-11 text-text-secondary hover:text-text rounded focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 transition-colors"
             title={t('rule.moveDown')}
             aria-label={t('rule.moveDown')}
             data-testid={`rule-movedown-${rule.id}`}
