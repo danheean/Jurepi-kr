@@ -184,6 +184,14 @@ curl -s -o /dev/null -w "%{http_code}\n" "$BASE/ko/nonexistent-xyz"  # 404
 
 체크가 하나라도 실패하면 "배포 완료"가 아니다. `references/troubleshooting.md`로 간다.
 
+### 배포 직후 브라우저 검증은 엣지 캐시를 우회하라 — `curl`(fresh)로 렌더 body를 먼저 본다
+
+배포 완료 판정의 **1차 진실은 `curl`**, 브라우저는 캐시에 오염된다. cron-parser Quartz 배포 실측: push→CF 빌드 후 **`curl`은 새 HTML(ModeToggle 렌더 마크업 `aria-pressed=…>Quartz` 포함)을 정상 반환**했는데, **MCP 브라우저 navigate는 같은 시각 ModeToggle이 통째로 없는 버전**을 보여줬다(CF 엣지 PoP 간 전파 시차 + 브라우저/엣지 캐시). "배포가 UI를 빠뜨렸나?"로 오진할 뻔했으나 fresh curl이 배포본 정상을 증명.
+
+- **배포 완료 감지·검증은 `curl`로** — 새 도구는 배포 전 라이브에서 404였다가 200이 되는 것을 폴링(`until curl … | grep -q "<새 기능 마커>"`)해 전파를 확인한다. 이때 마커는 **렌더 body**에 있는 것으로 고른다(RSC 데이터 스트림 `__next_f`의 이스케이프 사본 `\"@type\":\"SoftwareApplication\"`은 실제 `<script type=application/ld+json>` 블록과 별개 — `"@type":"SoftwareApplication"` 실값 개수로 세라. curl의 단순 substring grep은 이 사본 때문에 2배로 부풀 수 있다).
+- **브라우저에서 재확인할 땐 캐시버스터 쿼리**(`?cb=<고유값>`)로 navigate — 정적 HTML도 브라우저/중간 캐시를 우회한다. cron-parser: `?cb=quartz1`로 재접속하니 ModeToggle과 Quartz 파싱이 정상 표시.
+- **"브라우저에 안 보임"과 "배포 미완/코드 결함"을 혼동하지 말 것** — fresh `curl`의 렌더 body가 정상이면 배포는 정상이고 브라우저 쪽 캐시 문제다. 반대로 curl body에도 없으면 그때가 진짜 배포/빌드 문제다.
+
 ## 트러블슈팅
 
 증상별 원인·해결은 분리된 런북에 있다. **배포/빌드 실패 시 반드시 읽어라:** `references/troubleshooting.md`
