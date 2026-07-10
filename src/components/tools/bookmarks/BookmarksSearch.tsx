@@ -36,7 +36,7 @@ export function BookmarksSearch({ query, setQuery, resultCount }: BookmarksSearc
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           aria-label={t('label')}
-          className="w-full min-h-11 pl-9 pr-11 py-2.5 rounded-lg border border-hairline bg-surface text-text placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-focus-ring transition-all"
+          className="w-full min-h-11 pl-9 pr-11 py-2.5 rounded-lg border border-hairline bg-surface text-text placeholder-text-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 transition-all"
         />
         {query && (
           <button

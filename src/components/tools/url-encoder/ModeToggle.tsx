@@ -22,7 +22,7 @@ export function ModeToggle({ value, onChange }: Props) {
               value={mode}
               checked={value === mode}
               onChange={() => onChange(mode)}
-              className="w-4 h-4 accent-accent-grape"
+              className="w-4 h-4 accent-brand"
               aria-label={t(`mode.${mode}.label`)}
             />
             <span className="text-sm font-medium text-text">{t(`mode.${mode}.label`)}</span>

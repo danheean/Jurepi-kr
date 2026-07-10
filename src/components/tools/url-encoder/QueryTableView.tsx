@@ -45,7 +45,7 @@ export function QueryTableView({
         onClick={() => setIsOpen(!isOpen)}
         className={`w-full px-4 py-3 rounded-lg font-semibold transition-colors ${
           isOpen
-            ? 'bg-accent-grape text-on-brand'
+            ? 'bg-brand text-on-brand'
             : 'bg-surface-muted text-text hover:bg-hairline-strong'
         }`}
         aria-expanded={isOpen}
@@ -67,7 +67,7 @@ export function QueryTableView({
                     value={row.key}
                     onChange={(e) => onRowsChange(editRow(rows, idx, e.target.value, row.value))}
                     placeholder={t('queryTable.keyPlaceholder')}
-                    className="flex-1 px-3 py-2 bg-surface border border-hairline rounded text-sm focus:outline-none focus:ring-2 focus:ring-focus-ring"
+                    className="flex-1 px-3 py-2 bg-surface border border-hairline rounded text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2"
                   />
                   <span className="text-text-secondary">=</span>
                   <input
@@ -75,7 +75,7 @@ export function QueryTableView({
                     value={row.value}
                     onChange={(e) => onRowsChange(editRow(rows, idx, row.key, e.target.value))}
                     placeholder={t('queryTable.valuePlaceholder')}
-                    className="flex-1 px-3 py-2 bg-surface border border-hairline rounded text-sm focus:outline-none focus:ring-2 focus:ring-focus-ring"
+                    className="flex-1 px-3 py-2 bg-surface border border-hairline rounded text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2"
                   />
                   <button
                     onClick={() => onRowsChange(deleteRow(rows, idx))}
@@ -91,7 +91,7 @@ export function QueryTableView({
 
           <button
             onClick={() => onRowsChange(addRow(rows))}
-            className="flex items-center gap-2 px-3 py-2.5 min-h-[44px] text-sm font-medium text-accent-grape-ink hover:bg-accent-grape/10 rounded transition-colors"
+            className="flex items-center gap-2 px-3 py-2.5 min-h-[44px] text-sm font-medium text-brand-ink hover:bg-brand-soft rounded transition-colors"
             aria-label={t('queryTable.addRow')}
           >
             <Plus className="w-4 h-4" strokeWidth={1.75} />
@@ -101,7 +101,7 @@ export function QueryTableView({
           <button
             onClick={handleRebuild}
             disabled={rebuilding || isLoading}
-            className="w-full px-4 py-2.5 min-h-[44px] bg-accent-grape text-on-brand rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="w-full px-4 py-2.5 min-h-[44px] bg-brand text-on-brand rounded-lg font-semibold hover:bg-brand-strong transition-colors disabled:opacity-50"
             aria-label={t('queryTable.rebuild')}
           >
             {rebuilding ? t('queryTable.rebuilding') : t('queryTable.rebuild')}

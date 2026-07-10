@@ -28,7 +28,7 @@ export function LinkRow({ label, url, description, locale, youtubeId, image }: L
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="self-start inline-flex items-center gap-1 min-h-11 text-accent-sky-ink hover:underline text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-focus-ring rounded"
+          className="self-start inline-flex items-center gap-1 min-h-11 text-accent-sky-ink hover:underline text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded"
           aria-label={`${label} ${t('openInNewTab')}`}
         >
           <span className="text-xs uppercase tracking-wide">{t('externalLink')}</span>
@@ -45,7 +45,7 @@ export function LinkRow({ label, url, description, locale, youtubeId, image }: L
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-start gap-3 p-3 rounded-lg hover:bg-surface-muted transition-colors focus:outline-none focus:ring-2 focus:ring-focus-ring"
+        className="flex items-start gap-3 p-3 rounded-lg hover:bg-surface-muted transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
         aria-label={`${label} ${t('openInNewTab')}`}
       >
         {/* Thumbnail (reserved space to prevent CLS) */}
@@ -81,7 +81,7 @@ export function LinkRow({ label, url, description, locale, youtubeId, image }: L
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="block p-3 rounded-lg hover:bg-surface-muted transition-colors focus:outline-none focus:ring-2 focus:ring-focus-ring"
+      className="block p-3 rounded-lg hover:bg-surface-muted transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
       aria-label={`${label} ${t('openInNewTab')}`}
     >
       <div className="flex items-start gap-3 min-h-11">
