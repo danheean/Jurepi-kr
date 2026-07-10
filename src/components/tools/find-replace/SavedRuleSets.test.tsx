@@ -59,7 +59,8 @@ describe('SavedRuleSets', () => {
 
     expect(screen.getByText('My Rules')).toBeInTheDocument();
     expect(screen.getByText('Cleanup Set')).toBeInTheDocument();
-    expect(screen.getByText('1 rule')).toBeInTheDocument();
+    // Rule count is now i18n-driven (en catalog: "{count} rules"), not hardcoded English
+    expect(screen.getByText('1 rules')).toBeInTheDocument();
     expect(screen.getByText('2 rules')).toBeInTheDocument();
   });
 

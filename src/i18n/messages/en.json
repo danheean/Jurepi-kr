@@ -1876,7 +1876,8 @@
         "saveNamePlaceholder": "Rule-set name (e.g., Clean special chars)",
         "apply": "Apply",
         "delete": "Delete",
-        "empty": "No saved rule-sets"
+        "empty": "No saved rule-sets",
+        "ruleCount": "{count} rules"
       },
       "cheatsheet": {
         "title": "Regex Cheatsheet",

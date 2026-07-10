@@ -1876,7 +1876,8 @@
         "saveNamePlaceholder": "규칙 세트 이름 (예: 특수문자 정리)",
         "apply": "적용",
         "delete": "삭제",
-        "empty": "저장된 규칙 세트가 없습니다"
+        "empty": "저장된 규칙 세트가 없습니다",
+        "ruleCount": "규칙 {count}개"
       },
       "cheatsheet": {
         "title": "정규식 치트시트",

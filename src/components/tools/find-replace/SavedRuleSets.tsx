@@ -85,7 +85,7 @@ export function SavedRuleSets({
                   {set.name}
                 </div>
                 <div className="text-xs text-text-secondary">
-                  {set.rules.length} {set.rules.length === 1 ? 'rule' : 'rules'}
+                  {t('savedSets.ruleCount', { count: set.rules.length })}
                 </div>
               </div>
               <button
