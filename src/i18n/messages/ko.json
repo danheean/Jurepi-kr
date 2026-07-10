@@ -674,11 +674,49 @@
       "fieldsHeading": "필드",
       "clearRecentsLabel": "최근 항목 지우기",
       "fields": {
+        "second": "초 (0–59)",
         "minute": "분 (0–59)",
         "hour": "시간 (0–23)",
         "dom": "일자 (1–31)",
         "month": "월 (1–12)",
-        "dow": "요일 (0–6)"
+        "dow": "요일 (0–6)",
+        "year": "년 (1970–2099)"
+      },
+      "mode": {
+        "label": "형식",
+        "unix": "Unix crontab",
+        "quartz": "Quartz",
+        "unixHint": "5필드: 분 시 일 월 요일",
+        "quartzHint": "6~7필드: 초 분 시 일 월 요일 [년]"
+      },
+      "quartzDescriptions": {
+        "everySecond": "매초",
+        "everyNSeconds": "{n}초마다",
+        "everyMinute": "매분",
+        "everyHour": "매시간",
+        "everyDay": "매일",
+        "custom": "사용자 지정 일정",
+        "atTime": "{time}",
+        "onDates": "{dates}일",
+        "onDays": "{days}",
+        "onMonths": "{months}월",
+        "years": "{years}년",
+        "noSpecific": "지정 안 함",
+        "lastDay": "그 달 마지막 날",
+        "lastOffset": "그 달 마지막에서 {n}일 전",
+        "lastWeekday": "그 달 마지막 평일",
+        "nearestWeekday": "{n}일에 가장 가까운 평일",
+        "lastDow": "그 달 마지막 {day}",
+        "nthDow": "그 달 {n}번째 {day}"
+      },
+      "quartzErrors": {
+        "needsQuestion": "일·요일 중 하나는 ?여야 합니다",
+        "bothSpecified": "일과 요일을 동시에 지정할 수 없습니다(하나는 ?)",
+        "fieldCount": "Quartz는 6~7개 필드가 필요합니다",
+        "outOfRange": "값이 허용 범위를 벗어났습니다",
+        "invalidStep": "잘못된 단계 값입니다",
+        "invalidPattern": "잘못된 패턴입니다",
+        "invalidValue": "잘못된 값입니다"
       },
       "errors": {
         "invalidField": "필드 오류: {field} — {message}",
@@ -714,7 +752,16 @@
         "weekdays5pm": "평일 오후 5시",
         "dailyNoon": "매일 정오",
         "weeklySunday": "매주 일요일 자정",
-        "yearly": "매년 1월 1일 자정"
+        "yearly": "매년 1월 1일 자정",
+        "quartz": {
+          "everySecond": "매초",
+          "every30Seconds": "30초마다",
+          "everyMinute": "매분",
+          "weekdays9am": "평일 오전 9시",
+          "monthlyLastDay": "매월 마지막날 자정",
+          "thirdFriday9am": "매월 셋째 금요일 오전 9시",
+          "fifteenthNearestWeekday9am": "매월 15일 가까운 평일 오전 9시"
+        }
       },
       "intro": {
         "eyebrow": "크론 표현식 해석",

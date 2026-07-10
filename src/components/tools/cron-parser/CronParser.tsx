@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useCronParser } from './useCronParser';
+import { ModeToggle } from './ModeToggle';
 import { ExpressionInput } from './ExpressionInput';
 import { TimezoneSelector } from './TimezoneSelector';
 import { ParseResultDisplay } from './ParseResultDisplay';
@@ -24,9 +25,13 @@ export function CronParser() {
     setTimezone,
     recents,
     removeRecent,
+    mode,
+    setMode,
     parsedFields,
     parseError,
     description,
+    quartzFields,
+    quartzDescription,
     nextRuns,
   } = useCronParser();
 
@@ -40,6 +45,9 @@ export function CronParser() {
 
   return (
     <div className="space-y-8">
+      {/* Format mode toggle: Unix crontab | Quartz */}
+      <ModeToggle mode={mode} onChange={setMode} />
+
       {/* Top controls: input, timezone, presets */}
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -53,7 +61,7 @@ export function CronParser() {
               onChange={setExpression}
             />
             <p className="text-xs text-text-secondary">
-              {t('hint', { defaultValue: '5 fields: minute hour dom month dow' })}
+              {t(mode === 'quartz' ? 'mode.quartzHint' : 'mode.unixHint')}
             </p>
           </div>
 
@@ -72,7 +80,7 @@ export function CronParser() {
         {/* Presets and copy button */}
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-end">
           <div className="flex-1 min-w-0">
-            <PresetExpressions onSelect={handlePresetSelect} />
+            <PresetExpressions mode={mode} onSelect={handlePresetSelect} />
           </div>
           {expression && (
             <CopyButton expression={expression} />
@@ -83,8 +91,11 @@ export function CronParser() {
       {/* Parse results or error */}
       {expression && (
         <ParseResultDisplay
+          mode={mode}
           fields={parsedFields}
           description={description}
+          quartzFields={quartzFields}
+          quartzDescription={quartzDescription}
           nextRuns={nextRuns}
           error={parseError}
           timezone={timezone}

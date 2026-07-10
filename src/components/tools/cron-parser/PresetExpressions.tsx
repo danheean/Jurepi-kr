@@ -1,18 +1,20 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { PRESET_EXPRESSIONS } from '@/lib/cron-parser';
+import { PRESET_EXPRESSIONS, QUARTZ_PRESETS } from '@/lib/cron-parser';
 
 interface PresetExpressionsProps {
+  mode?: 'unix' | 'quartz';
   onSelect: (expression: string) => void;
 }
 
-export function PresetExpressions({ onSelect }: PresetExpressionsProps) {
+export function PresetExpressions({ mode = 'unix', onSelect }: PresetExpressionsProps) {
   const t = useTranslations('tools.cron-parser');
+  const presets = mode === 'quartz' ? QUARTZ_PRESETS : PRESET_EXPRESSIONS;
 
   return (
     <div className="flex flex-wrap gap-2">
-      {PRESET_EXPRESSIONS.map((preset) => (
+      {presets.map((preset) => (
         <button
           key={preset.id}
           onClick={() => onSelect(preset.expression)}

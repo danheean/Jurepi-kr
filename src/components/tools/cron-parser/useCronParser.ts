@@ -6,12 +6,17 @@ import {
   parseCron,
   toDescriptionModel,
   computeNextRuns,
+  parseQuartz,
+  describeQuartz,
+  computeNextRunsQuartz,
   TIMEZONE_NAMES,
   DEBOUNCE_MS,
   NEXT_RUNS_LIMIT,
   MAX_LOOKAHEAD_YEARS,
   ParsedFields,
   DescriptionModel,
+  QuartzFields,
+  QuartzDescriptionModel,
   NextRun,
 } from '@/lib/cron-parser';
 
@@ -21,6 +26,7 @@ const StorageSchema = z.object({
   lastExpression: z.string().default(''),
   timezone: z.string().default('Local'),
   recents: z.array(z.string()).max(20).default([]),
+  mode: z.enum(['unix', 'quartz']).default('unix'),
 });
 
 type StorageState = z.infer<typeof StorageSchema>;
@@ -35,17 +41,25 @@ export function useCronParser() {
   const [expression, setExpressionState] = useState('');
   const [timezone, setTimezoneState] = useState('Local');
   const [recents, setRecentsState] = useState<string[]>([]);
+  const [mode, setModeState] = useState<'unix' | 'quartz'>('unix');
 
-  // Parse results
+  // Parse results (unix)
   const [parsedFields, setParsedFields] = useState<ParsedFields | null>(null);
-  const [parseError, setParseError] = useState<ParseErrorInfo | null>(null);
   const [description, setDescription] = useState<DescriptionModel | null>(null);
+
+  // Parse results (quartz)
+  const [quartzFields, setQuartzFields] = useState<QuartzFields | null>(null);
+  const [quartzDescription, setQuartzDescription] = useState<QuartzDescriptionModel | null>(null);
+
+  // Common parse result
+  const [parseError, setParseError] = useState<ParseErrorInfo | null>(null);
   const [nextRuns, setNextRuns] = useState<NextRun[] | null>(null);
 
   // Refs for stable callbacks and debounce
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const expressionRefRef = useRef(expression);
   const timezoneRefRef = useRef(timezone);
+  const modeRefRef = useRef(mode);
 
   // Load from localStorage on mount (hydration-safe)
   useEffect(() => {
@@ -69,8 +83,10 @@ export function useCronParser() {
             setTimezoneState(data.timezone);
           }
           setRecentsState(data.recents);
+          setModeState(data.mode);
           expressionRefRef.current = data.lastExpression;
           timezoneRefRef.current = data.timezone;
+          modeRefRef.current = data.mode;
         }
       } catch {
         // Silently fail, use defaults
@@ -80,7 +96,7 @@ export function useCronParser() {
 
   // Persist state to localStorage
   const persistState = useCallback(
-    (expr: string, tz: string, recs: string[]) => {
+    (expr: string, tz: string, recs: string[], m: 'unix' | 'quartz') => {
       try {
         localStorage.setItem(
           STORAGE_KEY,
@@ -88,6 +104,7 @@ export function useCronParser() {
             lastExpression: expr,
             timezone: tz,
             recents: recs,
+            mode: m,
           })
         );
       } catch {
@@ -98,42 +115,85 @@ export function useCronParser() {
   );
 
   // Parse expression (called after debounce)
-  const performParse = useCallback((expr: string, tz: string) => {
+  const performParse = useCallback((expr: string, tz: string, m: 'unix' | 'quartz') => {
     if (!expr.trim()) {
       setParsedFields(null);
+      setQuartzFields(null);
       setParseError(null);
       setDescription(null);
+      setQuartzDescription(null);
       setNextRuns(null);
       return;
     }
 
-    const fields = parseCron(expr);
-    if (!fields.isValid && fields.error) {
-      setParseError(fields.error);
-      setParsedFields(null);
-      setDescription(null);
-      setNextRuns(null);
+    if (m === 'quartz') {
+      // Parse as Quartz
+      const fields = parseQuartz(expr);
+      if (!fields.isValid && fields.error) {
+        setParseError(fields.error);
+        setQuartzFields(null);
+        setQuartzDescription(null);
+        setNextRuns(null);
+        setParsedFields(null);
+        setDescription(null);
+      } else {
+        setQuartzFields(fields);
+        setParseError(null);
+        setParsedFields(null);
+        setDescription(null);
+
+        const desc = describeQuartz(fields);
+        setQuartzDescription(desc);
+
+        const runs = computeNextRunsQuartz(fields, {
+          now: new Date(),
+          timezone: tz,
+          limit: NEXT_RUNS_LIMIT,
+          maxYears: MAX_LOOKAHEAD_YEARS,
+        });
+        setNextRuns(runs);
+
+        // Add to recents if valid
+        setRecentsState((prev) => {
+          const updated = [expr, ...prev.filter((e) => e !== expr)].slice(0, 20);
+          persistState(expr, tz, updated, m);
+          return updated;
+        });
+      }
     } else {
-      setParsedFields(fields);
-      setParseError(null);
+      // Parse as Unix cron
+      const fields = parseCron(expr);
+      if (!fields.isValid && fields.error) {
+        setParseError(fields.error);
+        setParsedFields(null);
+        setDescription(null);
+        setNextRuns(null);
+        setQuartzFields(null);
+        setQuartzDescription(null);
+      } else {
+        setParsedFields(fields);
+        setParseError(null);
+        setQuartzFields(null);
+        setQuartzDescription(null);
 
-      const desc = toDescriptionModel(fields);
-      setDescription(desc);
+        const desc = toDescriptionModel(fields);
+        setDescription(desc);
 
-      const runs = computeNextRuns(fields, {
-        now: new Date(),
-        timezone: tz,
-        limit: NEXT_RUNS_LIMIT,
-        maxYears: MAX_LOOKAHEAD_YEARS,
-      });
-      setNextRuns(runs);
+        const runs = computeNextRuns(fields, {
+          now: new Date(),
+          timezone: tz,
+          limit: NEXT_RUNS_LIMIT,
+          maxYears: MAX_LOOKAHEAD_YEARS,
+        });
+        setNextRuns(runs);
 
-      // Add to recents if valid
-      setRecentsState((prev) => {
-        const updated = [expr, ...prev.filter((e) => e !== expr)].slice(0, 20);
-        persistState(expr, tz, updated);
-        return updated;
-      });
+        // Add to recents if valid
+        setRecentsState((prev) => {
+          const updated = [expr, ...prev.filter((e) => e !== expr)].slice(0, 20);
+          persistState(expr, tz, updated, m);
+          return updated;
+        });
+      }
     }
   }, [persistState]);
 
@@ -150,11 +210,11 @@ export function useCronParser() {
 
       // Set new debounce timer
       debounceTimerRef.current = setTimeout(() => {
-        performParse(expr, timezoneRefRef.current);
+        performParse(expr, timezoneRefRef.current, modeRefRef.current);
       }, DEBOUNCE_MS);
 
       // Persist expression immediately
-      persistState(expr, timezoneRefRef.current, recents);
+      persistState(expr, timezoneRefRef.current, recents, modeRefRef.current);
     },
     [performParse, recents, persistState]
   );
@@ -169,10 +229,18 @@ export function useCronParser() {
       timezoneRefRef.current = tz;
 
       // Persist immediately
-      persistState(expression, tz, recents);
+      persistState(expression, tz, recents, mode);
 
       // Recompute nextRuns with new timezone (don't re-parse)
-      if (parsedFields && !parseError) {
+      if (mode === 'quartz' && quartzFields && !parseError) {
+        const runs = computeNextRunsQuartz(quartzFields, {
+          now: new Date(),
+          timezone: tz,
+          limit: NEXT_RUNS_LIMIT,
+          maxYears: MAX_LOOKAHEAD_YEARS,
+        });
+        setNextRuns(runs);
+      } else if (mode === 'unix' && parsedFields && !parseError) {
         const runs = computeNextRuns(parsedFields, {
           now: new Date(),
           timezone: tz,
@@ -182,7 +250,7 @@ export function useCronParser() {
         setNextRuns(runs);
       }
     },
-    [expression, recents, parsedFields, parseError, persistState]
+    [expression, recents, mode, parsedFields, quartzFields, parseError, persistState]
   );
 
   // Remove recent expression
@@ -190,9 +258,26 @@ export function useCronParser() {
     (expr: string) => {
       const updated = recents.filter((r) => r !== expr);
       setRecentsState(updated);
-      persistState(expression, timezone, updated);
+      persistState(expression, timezone, updated, mode);
     },
-    [recents, expression, timezone, persistState]
+    [recents, expression, timezone, mode, persistState]
+  );
+
+  // setMode (immediate, with re-parse)
+  const setMode = useCallback(
+    (newMode: 'unix' | 'quartz') => {
+      if (newMode === mode) return;
+
+      setModeState(newMode);
+      modeRefRef.current = newMode;
+
+      // Persist immediately
+      persistState(expression, timezone, recents, newMode);
+
+      // Re-parse with new mode
+      performParse(expression, timezone, newMode);
+    },
+    [mode, expression, timezone, recents, persistState, performParse]
   );
 
   // Cleanup debounce on unmount
@@ -211,9 +296,13 @@ export function useCronParser() {
     setTimezone,
     recents,
     removeRecent,
+    mode,
+    setMode,
     parsedFields,
     parseError,
     description,
+    quartzFields,
+    quartzDescription,
     nextRuns,
   };
 }

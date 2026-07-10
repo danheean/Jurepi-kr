@@ -674,11 +674,49 @@
       "fieldsHeading": "Fields",
       "clearRecentsLabel": "Clear Recents",
       "fields": {
+        "second": "Second (0–59)",
         "minute": "Minute (0–59)",
         "hour": "Hour (0–23)",
         "dom": "Day of Month (1–31)",
         "month": "Month (1–12)",
-        "dow": "Day of Week (0–6)"
+        "dow": "Day of Week (0–6)",
+        "year": "Year (1970–2099)"
+      },
+      "mode": {
+        "label": "Format",
+        "unix": "Unix crontab",
+        "quartz": "Quartz",
+        "unixHint": "5 fields: min hour dom mon dow",
+        "quartzHint": "6–7 fields: sec min hour dom mon dow [year]"
+      },
+      "quartzDescriptions": {
+        "everySecond": "Every second",
+        "everyNSeconds": "Every {n} seconds",
+        "everyMinute": "Every minute",
+        "everyHour": "Every hour",
+        "everyDay": "Every day",
+        "custom": "Custom schedule",
+        "atTime": "at {time}",
+        "onDates": "on day {dates}",
+        "onDays": "on {days}",
+        "onMonths": "in {months}",
+        "years": "in {years}",
+        "noSpecific": "unspecified",
+        "lastDay": "on the last day of the month",
+        "lastOffset": "{n} day(s) before the end of the month",
+        "lastWeekday": "on the last weekday of the month",
+        "nearestWeekday": "on the weekday nearest the {n}th",
+        "lastDow": "on the last {day} of the month",
+        "nthDow": "on the {n}-th {day} of the month"
+      },
+      "quartzErrors": {
+        "needsQuestion": "Day-of-month or day-of-week must be '?'",
+        "bothSpecified": "Cannot specify both day-of-month and day-of-week (use '?')",
+        "fieldCount": "Quartz needs 6–7 fields",
+        "outOfRange": "Value is out of range",
+        "invalidStep": "Invalid step value",
+        "invalidPattern": "Invalid pattern",
+        "invalidValue": "Invalid value"
       },
       "errors": {
         "invalidField": "Field error: {field} — {message}",
@@ -714,7 +752,16 @@
         "weekdays5pm": "Weekdays at 5:00 PM",
         "dailyNoon": "Daily at noon",
         "weeklySunday": "Weekly on Sunday",
-        "yearly": "Yearly on Jan 1"
+        "yearly": "Yearly on Jan 1",
+        "quartz": {
+          "everySecond": "Every second",
+          "every30Seconds": "Every 30 seconds",
+          "everyMinute": "Every minute",
+          "weekdays9am": "Weekdays at 9:00 AM",
+          "monthlyLastDay": "Last day of month, midnight",
+          "thirdFriday9am": "3rd Friday at 9:00 AM",
+          "fifteenthNearestWeekday9am": "Nearest weekday to the 15th, 9:00 AM"
+        }
       },
       "intro": {
         "eyebrow": "Decode Cron Schedules",

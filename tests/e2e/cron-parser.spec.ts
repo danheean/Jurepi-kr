@@ -125,6 +125,52 @@ test.describe('Cron Expression Parser - E2E', () => {
     expect(errors).toEqual([]);
   });
 
+  test('Scenario 6: Quartz mode → 6-field expression parses live (seconds, #, ?)', async ({
+    page,
+  }) => {
+    const errors = collectPageErrors(page);
+    await page.goto(TOOL_URL_KO);
+    await page.waitForLoadState('networkidle');
+
+    // Switch to Quartz format
+    await page.getByRole('button', { name: 'Quartz' }).click();
+
+    // 3rd Friday of the month at 09:00 (Quartz 6 = FRI)
+    await page.getByRole('textbox').first().fill('0 0 9 ? * 6#3');
+
+    // Field breakdown gains the Quartz-only "Second" column
+    await expect(page.locator('main table th').first()).toContainText('초', {
+      timeout: 5_000,
+    });
+
+    // Next-runs table lists an upcoming occurrence, no crash/error
+    const nextRuns = page.locator('main table').last().locator('tbody tr');
+    await expect(nextRuns.first()).toBeVisible({ timeout: 5_000 });
+    await expect(nextRuns.first()).toContainText('Friday');
+
+    expect(errors).toEqual([]);
+  });
+
+  test('Scenario 7: Quartz — both dom and dow specified → localized error, no crash', async ({
+    page,
+  }) => {
+    const errors = collectPageErrors(page);
+    await page.goto(TOOL_URL_KO);
+    await page.waitForLoadState('networkidle');
+
+    await page.getByRole('button', { name: 'Quartz' }).click();
+
+    // Quartz forbids specifying both day-of-month and day-of-week
+    await page.getByRole('textbox').first().fill('0 0 9 15 * MON');
+
+    const alert = page.getByRole('alert');
+    await expect(alert).toBeVisible({ timeout: 5_000 });
+    // Message is localized (Korean), not a raw identifier like "bothSpecified"
+    await expect(alert).not.toContainText('bothSpecified');
+
+    expect(errors).toEqual([]);
+  });
+
   test('mobile 320px: no horizontal overflow, parse usable', async ({ page }) => {
     const errors = collectPageErrors(page);
     await page.setViewportSize({ width: 320, height: 720 });

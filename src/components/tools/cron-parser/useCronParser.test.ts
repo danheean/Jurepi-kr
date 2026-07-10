@@ -319,4 +319,89 @@ describe('useCronParser hook', () => {
     // Verify list is capped (max 20)
     expect(result.current.recents.length).toBeLessThanOrEqual(20);
   });
+
+  it('initializes with default mode unix', () => {
+    const { result } = renderHook(() => useCronParser());
+
+    expect(result.current.mode).toBe('unix');
+  });
+
+  it('switches to quartz mode and persists', async () => {
+    const { result } = renderHook(() => useCronParser());
+
+    act(() => {
+      result.current.setMode('quartz');
+    });
+
+    expect(result.current.mode).toBe('quartz');
+
+    // Verify persisted to localStorage
+    const stored = localStorage.getItem('jurepi-cron-parser-state');
+    expect(stored).not.toBeNull();
+    const parsed = JSON.parse(stored!);
+    expect(parsed.mode).toBe('quartz');
+  });
+
+  it('parses unix cron when mode is unix', async () => {
+    const { result } = renderHook(() => useCronParser());
+
+    act(() => {
+      result.current.setMode('unix');
+      result.current.setExpression('0 9 * * MON-FRI');
+    });
+
+    await waitFor(
+      () => {
+        expect(result.current.parsedFields).not.toBeNull();
+        expect(result.current.description).not.toBeNull();
+      },
+      { timeout: 2000 }
+    );
+
+    // Should have unix-format fields
+    expect(result.current.parsedFields?.minute).toEqual([0]);
+  });
+
+  it('returns quartz fields when parsing in quartz mode', async () => {
+    const { result } = renderHook(() => useCronParser());
+
+    // Set mode to quartz
+    act(() => {
+      result.current.setMode('quartz');
+    });
+
+    expect(result.current.mode).toBe('quartz');
+
+    // After switching to quartz mode, quartz fields should be available
+    // (even if the expression is empty, the structure should be there)
+    expect(result.current.hasOwnProperty('quartzFields')).toBe(true);
+    expect(result.current.hasOwnProperty('quartzDescription')).toBe(true);
+  });
+
+  it('clears fields when mode changes', async () => {
+    const { result } = renderHook(() => useCronParser());
+
+    // Start with unix
+    act(() => {
+      result.current.setMode('unix');
+      result.current.setExpression('0 9 * * *');
+    });
+
+    await waitFor(
+      () => {
+        expect(result.current.parsedFields).not.toBeNull();
+      },
+      { timeout: 2000 }
+    );
+
+    // Switch to quartz
+    act(() => {
+      result.current.setMode('quartz');
+    });
+
+    // Unix fields should be null, quartz fields should be evaluated for same expression
+    // (which should fail because it's not valid quartz format)
+    expect(result.current.parseError).not.toBeNull();
+  });
+
 });
