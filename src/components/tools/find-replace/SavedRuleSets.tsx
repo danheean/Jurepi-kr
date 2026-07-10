@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Trash2 } from 'lucide-react';
 import type { SavedRuleSet } from '@/lib/find-replace';
@@ -24,7 +24,6 @@ export function SavedRuleSets({
 }: SavedRuleSetsProps) {
   const t = useTranslations('tools.find-replace');
   const [saveNameInput, setSaveNameInput] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
     if (saveNameInput.trim()) {
@@ -33,16 +32,6 @@ export function SavedRuleSets({
     }
   };
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && document.activeElement === inputRef.current) {
-        handleSave();
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [saveNameInput]);
-
   return (
     <div className="space-y-2">
       <h3 className="text-sm font-semibold text-text">{t('savedSets.title')}</h3>
@@ -50,10 +39,17 @@ export function SavedRuleSets({
       {/* Save input */}
       <div className="flex gap-2">
         <input
-          ref={inputRef}
           type="text"
           value={saveNameInput}
           onChange={(e) => setSaveNameInput(e.target.value)}
+          onKeyDown={(e) => {
+            // Enter saves; skip while an IME (e.g. Hangul) is composing to avoid
+            // the confirm-Enter double-firing the save.
+            if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+              e.preventDefault();
+              handleSave();
+            }
+          }}
           placeholder={t('savedSets.saveNamePlaceholder')}
           className="flex-1 min-h-11 px-3 py-2 rounded border border-hairline bg-surface-muted text-text placeholder-text-secondary text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
           data-testid="save-ruleset-input"
