@@ -62,6 +62,7 @@ DESIGN.md의 핵심 4가지를 모든 화면이 보여야 한다(design-quality 
 
 - **금지: 가시 콘텐츠를 `hidden`(=`display:none`) 요소로 감싸기.** 크롤 링크를 넣겠다고 카드 본문(용어명·정의·태그)을 `<a className="hidden">` 안에 넣으면 **화면 카드가 통째로 비어버린다**(실제: new-word TermCard — 크롤러엔 href 보이나 사용자 화면은 빈 카드. tsc·유닛·빌드·프리렌더 grep 전부 그린, 전체 E2E `toBeVisible` "element is not visible"로만 적발). 링크는 숨기는 게 아니라 **보이는 카드 그 자체**여야 한다.
 - **인터랙티브 자식은 앵커 밖 형제로.** 즐겨찾기 버튼 등은 `<a>` 안에 넣으면 무효 HTML(button-in-anchor) — `relative` 래퍼에 앵커와 버튼을 형제로 두고 버튼을 `absolute` 배치, `onClick`은 `stopPropagation`+`preventDefault`.
+- **형제 액션 버튼 + 카드 hover의 분리 배선(home-favorites FavoriteButton 확립 패턴).** ① 카드 hover 리프트는 **래퍼의 named group**(`group/card` 래퍼 + 카드에 `group-hover/card:*`)에 배선 — 커서가 버튼 위에 있어도 카드가 함께 반응해 "카드 위인데 리프트가 꺼지는" 경계 인지가 없다 ② **포커스 링·press scale은 앵커의 무명 `group`에 유지** — 래퍼 group에 옮기면 버튼 포커스가 카드 링을 오발화하고 버튼 클릭이 카드를 스케일한다 ③ 카드 모서리에 기존 배지가 있으면 배지 컨테이너에 **상수 오프셋**(`pr-9` 등 — 조건이 SSR=클라 동일해야 CLS 0)으로 겹침 회피 ④ 버튼 상태색은 soft+ink 페어링(`bg-accent-<c>-soft text-accent-<c>-ink`)으로 비텍스트 대비 3:1 확보(밝은 원색 아이콘 단독은 2.x:1로 미달).
 - 완료 전 **렌더된 카드를 실제로 띄워(스크린샷/a11y 트리) 본문이 보이는지** 확인 — DOM 존재(`getByText`)는 `display:none`을 통과시킨다(`jurepi-tdd` 참조).
 
 ## anti-template 규율 (banned)
@@ -94,6 +95,7 @@ DESIGN.md의 핵심 4가지를 모든 화면이 보여야 한다(design-quality 
 - 히어로 H1 `clamp(32px,6vw,56px)`; 도구 H1 `clamp(28px,5vw,40px)`.
 - 사다리 보드: 컬럼 ≥44px gap, >7명 좁은 화면은 가로 스크롤(컬럼 짜부 금지).
 - 320/375/768/1024/1440/1920 검증, overflow 없음.
+- **수평 스크롤 pill/필터 행 끝에 새 컨트롤을 덧붙이지 말 것 — 모바일에서 발견 불가가 된다.** 행 끝 컨트롤은 320px 초기 뷰포트 완전 밖(home-favorites 실측: 즐겨찾기 토글 x=746 vs 뷰포트 320 — 주 관객인 모바일에서 신기능이 안 보였고, 유닛·E2E·빌드 전부 그린이라 감사 boundingBox로만 적발). 신규 컨트롤은 **스크롤 컨테이너 밖 고정 슬롯**으로: 외곽 flex `[flex-1 min-w-0 overflow-x-auto 스크롤영역][shrink-0 컨트롤]`. 게이트 = 320px에서 `getBoundingClientRect().right <= 320` 확인.
 
 ## 체크리스트 (컴포넌트 완료 전)
 
