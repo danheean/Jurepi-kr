@@ -1,5 +1,5 @@
-import { render, screen } from '@/__test__/test-utils';
-import { describe, it, expect } from 'vitest';
+import { render, screen, userEvent } from '@/__test__/test-utils';
+import { describe, it, expect, vi } from 'vitest';
 import { ToolCard } from './ToolCard';
 import type { SearchableTool } from '@/lib/tool-search';
 
@@ -100,5 +100,139 @@ describe('ToolCard', () => {
     // ToolIcon renders as an SVG element (lucide-react)
     const svgs = container.querySelectorAll('svg');
     expect(svgs.length).toBeGreaterThan(0);
+  });
+
+  describe('Favorite button', () => {
+    it('does not render favorite button when onToggleFavorite is not provided', () => {
+      render(<ToolCard tool={mockLiveTool} />);
+      const buttons = screen.queryAllByRole('button');
+      const favoriteButton = buttons.find(btn =>
+        btn.getAttribute('aria-label')?.includes('favorites')
+      );
+      expect(favoriteButton).toBeUndefined();
+    });
+
+    it('renders favorite button when onToggleFavorite is provided for live tool', () => {
+      const handleToggle = vi.fn();
+      render(
+        <ToolCard
+          tool={mockLiveTool}
+          isFavorited={false}
+          onToggleFavorite={handleToggle}
+        />
+      );
+
+      const buttons = screen.getAllByRole('button');
+      const favoriteButton = buttons.find(btn =>
+        btn.getAttribute('aria-label')?.includes('favorites')
+      );
+      expect(favoriteButton).toBeInTheDocument();
+    });
+
+    it('does not render favorite button for coming_soon tool even when onToggleFavorite is provided', () => {
+      const handleToggle = vi.fn();
+      render(
+        <ToolCard
+          tool={mockComingSoonTool}
+          isFavorited={false}
+          onToggleFavorite={handleToggle}
+        />
+      );
+
+      const buttons = screen.queryAllByRole('button');
+      const favoriteButton = buttons.find(btn =>
+        btn.getAttribute('aria-label')?.includes('favorites')
+      );
+      expect(favoriteButton).toBeUndefined();
+    });
+
+    it('calls onToggleFavorite with slug when favorite button is clicked', async () => {
+      const user = userEvent.setup();
+      const handleToggle = vi.fn();
+      render(
+        <ToolCard
+          tool={mockLiveTool}
+          isFavorited={false}
+          onToggleFavorite={handleToggle}
+        />
+      );
+
+      const buttons = screen.getAllByRole('button');
+      const favoriteButton = buttons.find(btn =>
+        btn.getAttribute('aria-label')?.includes('favorites')
+      );
+
+      if (favoriteButton) {
+        await user.click(favoriteButton);
+        expect(handleToggle).toHaveBeenCalledWith('ladder');
+      }
+    });
+
+    it('displays correct aria-pressed state based on isFavorited', () => {
+      const handleToggle = vi.fn();
+      const { rerender } = render(
+        <ToolCard
+          tool={mockLiveTool}
+          isFavorited={false}
+          onToggleFavorite={handleToggle}
+        />
+      );
+
+      const buttons = screen.getAllByRole('button');
+      let favoriteButton = buttons.find(btn =>
+        btn.getAttribute('aria-label')?.includes('favorites')
+      );
+      expect(favoriteButton).toHaveAttribute('aria-pressed', 'false');
+
+      rerender(
+        <ToolCard
+          tool={mockLiveTool}
+          isFavorited={true}
+          onToggleFavorite={handleToggle}
+        />
+      );
+
+      const updatedButtons = screen.getAllByRole('button');
+      favoriteButton = updatedButtons.find(btn =>
+        btn.getAttribute('aria-label')?.includes('favorites')
+      );
+      expect(favoriteButton).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    it('uses provided testId for favorite button', () => {
+      const handleToggle = vi.fn();
+      render(
+        <ToolCard
+          tool={mockLiveTool}
+          testId="ladder-card"
+          isFavorited={false}
+          onToggleFavorite={handleToggle}
+        />
+      );
+
+      const favoriteButton = screen.getByTestId('ladder-card-favorite');
+      expect(favoriteButton).toBeInTheDocument();
+    });
+
+    it('adds pr-9 padding to badges container when favorite button is shown', () => {
+      const handleToggle = vi.fn();
+      const { container } = render(
+        <ToolCard
+          tool={mockLiveTool}
+          isFavorited={false}
+          onToggleFavorite={handleToggle}
+        />
+      );
+
+      const badgeContainer = container.querySelector('.pr-9');
+      expect(badgeContainer).toBeInTheDocument();
+    });
+
+    it('does not add pr-9 padding when favorite button is not shown', () => {
+      const { container } = render(<ToolCard tool={mockLiveTool} />);
+
+      const badgeContainer = container.querySelector('.pr-9');
+      expect(badgeContainer).not.toBeInTheDocument();
+    });
   });
 });

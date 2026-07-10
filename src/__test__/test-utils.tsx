@@ -54,6 +54,15 @@ const defaultMessages = {
     resultCount: '{count, plural, one {# tool} other {# tools}}',
     requestButton: 'Request a tool',
     requestSubject: '[Jurepi] Tool request',
+    favorites: {
+      filterLabel: 'Favorites',
+      filterAria: 'Filter by favorites',
+      addAria: 'Add {name} to favorites',
+      removeAria: 'Remove {name} from favorites',
+      emptyHeading: 'No favorites yet',
+      emptyBody: 'Tap the heart on a card to add favorites.',
+      showAll: 'Show all tools',
+    },
   },
   categories: {
     all: 'All',

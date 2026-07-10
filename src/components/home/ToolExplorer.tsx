@@ -1,13 +1,16 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import type { SearchableTool } from '@/lib/tool-search';
 import type { ToolCategory } from '@/tools/types';
 import { useToolSearch } from '@/hooks/useToolSearch';
+import { useHomeFavorites } from '@/hooks/useHomeFavorites';
+import { isInFavorites } from '@/lib/home-favorites/favorites';
 import { SearchBar } from './SearchBar';
 import { CategoryFilter } from './CategoryFilter';
 import { ToolGrid } from './ToolGrid';
+import { FavoritesFilterToggle } from './FavoritesFilterToggle';
 
 interface ToolExplorerProps {
   initialTools: SearchableTool[];
@@ -39,16 +42,31 @@ export function ToolExplorer({
     reset,
   } = useToolSearch(initialTools);
   const hydratedRef = useRef(false);
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
+
+  // Get live tool slugs for favorites hook
+  const liveSlugs = useMemo(
+    () =>
+      initialTools.filter((t) => t.status === 'live').map((t) => t.slug),
+    [initialTools]
+  );
+
+  // Initialize favorites state
+  const { favoriteIds, toggleFavorite } = useHomeFavorites(liveSlugs);
 
   // Hydrate from the URL once, on the client only (keeps SSR static).
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const urlQuery = params.get('q') ?? '';
     const urlCat = params.get('cat');
+    const urlFavorites = params.get('favorites') === 'true';
+
     if (urlQuery) setQuery(urlQuery);
     if (urlCat && categories.some((c) => c.id === urlCat)) {
       setCategory(urlCat as ToolCategory | 'all');
     }
+    if (urlFavorites) setFavoritesOnly(true);
+
     hydratedRef.current = true;
     // Run once on mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,9 +78,27 @@ export function ToolExplorer({
     const params = new URLSearchParams();
     if (query.trim()) params.set('q', query);
     if (category !== 'all') params.set('cat', category);
+    if (favoritesOnly) params.set('favorites', 'true');
     const qs = params.toString();
     window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
-  }, [query, category]);
+  }, [query, category, favoritesOnly]);
+
+  // Apply favorites filter if enabled
+  const visible = favoritesOnly
+    ? results.filter(
+        (t) => t.status === 'live' && isInFavorites(favoriteIds, t.slug)
+      )
+    : results;
+
+  // Check if empty because of favorites filter (vs other search/category filters)
+  const isEmptyBecauseFavorites =
+    visible.length === 0 &&
+    favoritesOnly &&
+    query.trim() === '' &&
+    category === 'all';
+
+  // Include favoritesOnly in filtered state for result count display
+  const anyFilter = isFiltered || favoritesOnly;
 
   return (
     <section
@@ -87,20 +123,33 @@ export function ToolExplorer({
           categories={categories}
           active={category}
           onChange={setCategory}
+          trailing={
+            <FavoritesFilterToggle
+              active={favoritesOnly}
+              onToggle={() => setFavoritesOnly((v) => !v)}
+            />
+          }
         />
 
-        {isFiltered && results.length > 0 && (
+        {anyFilter && visible.length > 0 && (
           <div className="mx-auto max-w-container px-6 md:px-8 lg:px-12">
             <p className="text-sm text-text-muted" aria-live="polite">
-              {t('resultCount', { count: results.length })}
+              {t('resultCount', { count: visible.length })}
             </p>
           </div>
         )}
 
         <ToolGrid
-          tools={results}
-          isFiltered={isFiltered}
-          onReset={reset}
+          tools={visible}
+          isFiltered={anyFilter}
+          onReset={() => {
+            reset();
+            setFavoritesOnly(false);
+          }}
+          favoriteIds={favoriteIds}
+          onToggleFavorite={toggleFavorite}
+          isEmptyBecauseFavorites={isEmptyBecauseFavorites}
+          onShowAll={() => setFavoritesOnly(false)}
           testId={testId ? `${testId}-grid` : undefined}
         />
       </div>

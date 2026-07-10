@@ -44,6 +44,15 @@
     "meta": {
       "title": "Jurepi · Free Online Tools",
       "description": "A free online tool hub with no sign-up required. Use handy tools like the ladder game and daily questions right in your browser."
+    },
+    "favorites": {
+      "filterLabel": "Favorites",
+      "filterAria": "Filter by favorites",
+      "addAria": "Add {name} to favorites",
+      "removeAria": "Remove {name} from favorites",
+      "emptyHeading": "No favorites yet",
+      "emptyBody": "Tap the heart on a card to add favorites.",
+      "showAll": "Show all tools"
     }
   },
   "notFound": {

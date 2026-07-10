@@ -74,4 +74,70 @@ describe('ToolGrid', () => {
     expect(grid).toHaveClass('grid-cols-1');
     expect(grid).toHaveClass('sm:grid-cols-2');
   });
+
+  describe('Favorites', () => {
+    it('passes favorite state to ToolCard', () => {
+      const onToggleFavorite = vi.fn();
+      const { container } = render(
+        <ToolGrid
+          tools={mockTools}
+          isFiltered={false}
+          onReset={() => {}}
+          testId="grid"
+          favoriteIds={['ladder']}
+          onToggleFavorite={onToggleFavorite}
+        />
+      );
+      // Both cards should be rendered with favorite state
+      expect(screen.getByText('Ladder Game')).toBeInTheDocument();
+      expect(screen.getByText('Random Picker')).toBeInTheDocument();
+    });
+
+    it('shows favorites-specific empty state when isEmptyBecauseFavorites is true', () => {
+      const onShowAll = vi.fn();
+      render(
+        <ToolGrid
+          tools={[]}
+          isFiltered={false}
+          onReset={() => {}}
+          testId="grid"
+          isEmptyBecauseFavorites={true}
+          onShowAll={onShowAll}
+        />
+      );
+      expect(screen.getByText('No favorites yet')).toBeInTheDocument();
+      expect(screen.getByText('Tap the heart on a card to add favorites.')).toBeInTheDocument();
+    });
+
+    it('calls onShowAll when favorites empty state action is clicked', async () => {
+      const onShowAll = vi.fn();
+      const user = userEvent.setup();
+      render(
+        <ToolGrid
+          tools={[]}
+          isFiltered={false}
+          onReset={() => {}}
+          testId="grid"
+          isEmptyBecauseFavorites={true}
+          onShowAll={onShowAll}
+        />
+      );
+      const showAllButton = screen.getByTestId('grid-empty-favorites-action');
+      await user.click(showAllButton);
+      expect(onShowAll).toHaveBeenCalled();
+    });
+
+    it('shows generic empty state when empty but not because of favorites', () => {
+      render(
+        <ToolGrid
+          tools={[]}
+          isFiltered={true}
+          onReset={() => {}}
+          testId="grid"
+          isEmptyBecauseFavorites={false}
+        />
+      );
+      expect(screen.getByText('No results found')).toBeInTheDocument();
+    });
+  });
 });

@@ -174,4 +174,93 @@ describe('ToolExplorer', () => {
       expect(screen.queryByText('Ladder Game')).not.toBeInTheDocument();
     }, { timeout: 500 });
   });
+
+  describe('favorites', () => {
+    // Two live tools so the filter can visibly narrow, plus one coming_soon.
+    const favToolsFixture: SearchableTool[] = [
+      ...mockTools,
+      {
+        id: 'roulette',
+        slug: 'roulette',
+        name: 'Decision Roulette',
+        description: 'Spin the wheel to decide',
+        category: 'random',
+        accent: 'rose',
+        icon: 'Disc',
+        status: 'live',
+        addedAt: '2026-07-01',
+        order: 3,
+        keywords: ['roulette', 'spin'],
+      },
+    ];
+
+    beforeEach(() => {
+      window.localStorage.clear();
+    });
+
+    it('narrows the grid to favorited tools when the filter is toggled on', async () => {
+      const user = userEvent.setup();
+      render(<ToolExplorer initialTools={favToolsFixture} />);
+
+      // Favorite only the ladder tool via its star button.
+      await user.click(
+        screen.getByRole('button', { name: 'Add Ladder Game to favorites' })
+      );
+      await user.click(
+        screen.getByRole('button', { name: 'Filter by favorites' })
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText('Ladder Game')).toBeInTheDocument();
+        expect(screen.queryByText('Decision Roulette')).not.toBeInTheDocument();
+        expect(screen.queryByText('Word Counter')).not.toBeInTheDocument();
+      });
+    });
+
+    it('shows the favorites empty state with an escape action when 0 favorites', async () => {
+      const user = userEvent.setup();
+      render(<ToolExplorer initialTools={favToolsFixture} />);
+
+      const toggle = screen.getByRole('button', { name: 'Filter by favorites' });
+      await user.click(toggle);
+
+      await waitFor(() => {
+        expect(screen.getByText('No favorites yet')).toBeInTheDocument();
+      });
+
+      await user.click(screen.getByRole('button', { name: 'Show all tools' }));
+
+      await waitFor(() => {
+        expect(screen.getByText('Ladder Game')).toBeInTheDocument();
+        expect(toggle).toHaveAttribute('aria-pressed', 'false');
+      });
+    });
+
+    it('reflects the favorites filter in the URL and clears it when toggled off', async () => {
+      const user = userEvent.setup();
+      render(<ToolExplorer initialTools={favToolsFixture} />);
+
+      const toggle = screen.getByRole('button', { name: 'Filter by favorites' });
+      await user.click(toggle);
+      await waitFor(() => {
+        expect(window.location.search).toContain('favorites=true');
+      });
+
+      await user.click(toggle);
+      await waitFor(() => {
+        expect(window.location.search).not.toContain('favorites=true');
+      });
+    });
+
+    it('does not render a star button on coming_soon cards', () => {
+      render(<ToolExplorer initialTools={favToolsFixture} />);
+
+      expect(
+        screen.getByRole('button', { name: 'Add Ladder Game to favorites' })
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: 'Add Word Counter to favorites' })
+      ).not.toBeInTheDocument();
+    });
+  });
 });

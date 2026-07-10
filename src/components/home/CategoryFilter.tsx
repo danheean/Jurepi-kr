@@ -7,6 +7,7 @@ interface CategoryFilterProps {
   categories: CategoryOption[];
   active: CategoryOption['id'];
   onChange: (id: CategoryOption['id']) => void;
+  trailing?: React.ReactNode;
 }
 
 /**
@@ -14,17 +15,19 @@ interface CategoryFilterProps {
  * Inactive: surface-muted bg + text-secondary.
  * Active: brand bg + white text.
  * Each pill is a ≥44px button.
+ * Optional trailing element (e.g., FavoritesFilterToggle) renders after category pills.
  */
 export function CategoryFilter({
   categories,
   active,
   onChange,
+  trailing,
 }: CategoryFilterProps): React.ReactNode {
   const t = useTranslations();
 
   return (
     <div className="mx-auto max-w-container w-full overflow-x-auto scrollbar-hide">
-      <div className="flex gap-3 pb-2 px-6 md:px-8 lg:px-12 min-w-max md:min-w-0 md:flex-wrap">
+      <div className="flex gap-3 pb-2 px-6 md:px-8 lg:px-12 min-w-max md:min-w-0 md:flex-wrap md:justify-between">
         {categories.map(cat => {
           const isActive = cat.id === active;
           return (
@@ -42,6 +45,7 @@ export function CategoryFilter({
             </button>
           );
         })}
+        {trailing}
       </div>
     </div>
   );
