@@ -17,7 +17,7 @@ import { PRESETS } from '@/lib/find-replace';
  * Main find-replace orchestrator (Client Component).
  * - Manages mounted gate (for localStorage hydration)
  * - Owns keyboard shortcuts (single window listener, not per-component)
- * - Layout: source textarea (left), rules/presets/result (right)
+ * - Layout: source textarea + result (left), rules/presets/saved/cheatsheet (right)
  */
 export function FindReplace() {
   const t = useTranslations('tools.find-replace');
@@ -81,12 +81,23 @@ export function FindReplace() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* Left: Source text input (2/3 on desktop) */}
-      <div className="lg:col-span-2">
+      {/* Left: Source text input (top) → result (bottom) — the text flow (2/3 on desktop) */}
+      <div className="lg:col-span-2 space-y-6">
         <SourceTextInput text={text} onChange={setText} />
+
+        {/* Result */}
+        <ResultOutput
+          output={applyResult.output}
+          spans={applyResult.spans}
+          totalCount={applyResult.totalCount}
+          ruleCount={rules.filter((r) => r.enabled).length}
+          timedOut={applyResult.timedOut}
+          onCopy={copyResult}
+          onDownload={downloadResult}
+        />
       </div>
 
-      {/* Right: Rules, presets, result, saved sets, cheatsheet (1/3 on desktop) */}
+      {/* Right: Rules, presets, saved sets, cheatsheet — controls (1/3 on desktop) */}
       <div className="lg:col-span-1 space-y-6">
         {/* Rules */}
         <RuleList
@@ -102,17 +113,6 @@ export function FindReplace() {
 
         {/* Presets */}
         <PresetLibrary presets={PRESETS} onSelectPreset={selectPreset} />
-
-        {/* Result */}
-        <ResultOutput
-          output={applyResult.output}
-          spans={applyResult.spans}
-          totalCount={applyResult.totalCount}
-          ruleCount={rules.filter((r) => r.enabled).length}
-          timedOut={applyResult.timedOut}
-          onCopy={copyResult}
-          onDownload={downloadResult}
-        />
 
         {/* Saved rule sets */}
         <SavedRuleSets
