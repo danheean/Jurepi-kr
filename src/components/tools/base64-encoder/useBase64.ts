@@ -5,7 +5,7 @@ import {
   decodeToBlob,
   decodeSmart,
 } from '@/lib/base64-encoder/encoder';
-import { isValidBase64, normalizeInput } from '@/lib/base64-encoder/base64';
+import { isDecodableInput } from '@/lib/base64-encoder/base64';
 import {
   DEBOUNCE_MS,
   FILE_SIZE_LIMIT_MB,
@@ -143,8 +143,10 @@ export function useBase64(): [Base64State, Base64Actions] {
     if (mode === 'text') {
       if (inputText.trim().length === 0) return false;
       if (direction === 'decode') {
-        const normalized = normalizeInput(inputText);
-        return isValidBase64(normalized, variant);
+        // Mirror decodeSmart's acceptance: strip data: URLs and accept either
+        // variant, so a pasted data URI (or mismatched-variant Base64) reaches
+        // the decoder instead of being silently dropped by this gate.
+        return isDecodableInput(inputText, variant);
       }
       return true;
     }

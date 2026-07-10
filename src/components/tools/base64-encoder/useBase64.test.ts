@@ -211,6 +211,37 @@ describe('useBase64 hook', () => {
       expect(state.isValidInput).toBe(false);
     });
 
+    it('returns true for a data: URL in decode mode (regression)', () => {
+      // The gate previously rejected the data: prefix, so a pasted data URI
+      // (what "Copy Data-URI" produces) never reached the decoder.
+      const { result } = renderHook(() => useBase64());
+      const [, actions] = result.current;
+
+      act(() => {
+        actions.setDirection('decode');
+        actions.setInputText('data:text/plain;base64,aGVsbG8=');
+      });
+
+      let state = result.current[0];
+      expect(state.isValidInput).toBe(true);
+    });
+
+    it('returns true for mismatched-variant Base64 in decode mode', () => {
+      // URL-safe payload while the UI is set to standard — decodeSmart accepts
+      // both, so the gate must too.
+      const { result } = renderHook(() => useBase64());
+      const [, actions] = result.current;
+
+      act(() => {
+        actions.setDirection('decode');
+        actions.setVariant('standard');
+        actions.setInputText('SGVsbG8gV29ybGQ');
+      });
+
+      let state = result.current[0];
+      expect(state.isValidInput).toBe(true);
+    });
+
     it('returns false for file exceeding size limit', () => {
       const { result } = renderHook(() => useBase64());
       const [, actions] = result.current;
@@ -528,6 +559,19 @@ describe('useBase64 hook', () => {
       expect(state.decodedImage?.mimeType).toBe('image/png');
       expect(state.decodedImage?.dataUri.startsWith('data:image/png;base64,')).toBe(true);
       expect(state.decodedImage?.sizeBytes).toBeGreaterThan(0);
+      expect(state.outputText).toBe('');
+      expect(state.error).toBeNull();
+    });
+
+    it('sets decodedImage when decoding an image data: URL (regression)', async () => {
+      // encode → "Copy Data-URI" → decode round-trip: the pasted value carries
+      // a data:image/png prefix. Previously the gate dropped it and no image
+      // ever rendered.
+      const result = await decodeInput(`data:image/png;base64,${PNG_1x1}`);
+      const state = result.current[0];
+
+      expect(state.decodedImage).not.toBeNull();
+      expect(state.decodedImage?.mimeType).toBe('image/png');
       expect(state.outputText).toBe('');
       expect(state.error).toBeNull();
     });

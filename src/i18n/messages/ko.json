@@ -2235,8 +2235,10 @@
       },
       "variant": {
         "label": "방식",
-        "standard": "표준 (A-Za-z0-9+/)",
-        "urlSafe": "URL-safe (A-Za-z0-9-_)"
+        "standard": "표준",
+        "standardHint": "A-Za-z0-9+/",
+        "urlSafe": "URL-safe",
+        "urlSafeHint": "A-Za-z0-9-_"
       },
       "direction": {
         "label": "방향",

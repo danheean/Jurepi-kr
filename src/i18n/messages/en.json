@@ -2235,8 +2235,10 @@
       },
       "variant": {
         "label": "Variant",
-        "standard": "Standard (A-Za-z0-9+/)",
-        "urlSafe": "URL-Safe (A-Za-z0-9-_)"
+        "standard": "Standard",
+        "standardHint": "A-Za-z0-9+/",
+        "urlSafe": "URL-Safe",
+        "urlSafeHint": "A-Za-z0-9-_"
       },
       "direction": {
         "label": "Direction",
