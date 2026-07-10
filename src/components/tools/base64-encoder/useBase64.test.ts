@@ -673,6 +673,65 @@ describe('useBase64 hook', () => {
     });
   });
 
+  describe('decoded file handling', () => {
+    // "JVBERi0xLjQK" = "%PDF-1.4\n"; declared MIME application/pdf → file.
+    const PDF_DATA_URL = 'data:application/pdf;base64,JVBERi0xLjQK';
+
+    async function decodeInput(input: string) {
+      const { result } = renderHook(() => useBase64());
+      act(() => {
+        result.current[1].setDirection('decode');
+        result.current[1].setInputText(input);
+      });
+      await act(async () => {
+        await result.current[1].process();
+      });
+      return result;
+    }
+
+    it('sets decodedFile for a declared binary data URL', async () => {
+      const result = await decodeInput(PDF_DATA_URL);
+      const state = result.current[0];
+
+      expect(state.decodedFile).not.toBeNull();
+      expect(state.decodedFile?.mimeType).toBe('application/pdf');
+      expect(state.decodedFile?.sizeBytes).toBeGreaterThan(0);
+      expect(state.outputText).toBe('');
+      expect(state.decodedImage).toBeNull();
+      expect(state.error).toBeNull();
+    });
+
+    it('downloadDecodedFile triggers a download anchor', async () => {
+      const clickSpy = vi
+        .spyOn(HTMLAnchorElement.prototype, 'click')
+        .mockImplementation(() => {});
+      try {
+        const result = await decodeInput(PDF_DATA_URL);
+        act(() => {
+          result.current[1].downloadDecodedFile();
+        });
+        expect(clickSpy).toHaveBeenCalled();
+      } finally {
+        clickSpy.mockRestore();
+      }
+    });
+
+    it('clears decodedFile when the next decode is plain text', async () => {
+      const result = await decodeInput(PDF_DATA_URL);
+      expect(result.current[0].decodedFile).not.toBeNull();
+
+      act(() => {
+        result.current[1].setInputText('aGVsbG8=');
+      });
+      await act(async () => {
+        await result.current[1].process();
+      });
+
+      expect(result.current[0].decodedFile).toBeNull();
+      expect(result.current[0].outputText).toBe('hello');
+    });
+  });
+
   describe('localStorage persistence edge cases', () => {
     it('handles localStorage quota exceeded gracefully', () => {
       const originalSetItem = Storage.prototype.setItem;
