@@ -105,6 +105,6 @@ describe('SolarInput', () => {
     );
 
     const yearSelect = screen.getByLabelText('연도');
-    expect(yearSelect).toHaveClass('focus:ring-2');
+    expect(yearSelect).toHaveClass('focus-visible:ring-2');
   });
 });

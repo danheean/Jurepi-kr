@@ -48,7 +48,7 @@ export function LunarInput({ year, month, day, isLeap, onChange }: LunarInputPro
             id="lunar-year"
             value={year || ''}
             onChange={(e) => onChange(parseInt(e.target.value) || 0, month, day, isLeap)}
-            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus:ring-2 focus:ring-accent-grape"
+            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             aria-label={t('lunar.year')}
           >
             <option value="">{t('lunar.year')}</option>
@@ -69,7 +69,7 @@ export function LunarInput({ year, month, day, isLeap, onChange }: LunarInputPro
             id="lunar-month"
             value={month || ''}
             onChange={(e) => onChange(year, parseInt(e.target.value) || 0, day, isLeap)}
-            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus:ring-2 focus:ring-accent-grape"
+            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             aria-label={t('lunar.month')}
           >
             <option value="">{t('lunar.month')}</option>
@@ -90,7 +90,7 @@ export function LunarInput({ year, month, day, isLeap, onChange }: LunarInputPro
             id="lunar-day"
             value={day || ''}
             onChange={(e) => onChange(year, month, parseInt(e.target.value) || 0, isLeap)}
-            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus:ring-2 focus:ring-accent-grape"
+            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             aria-label={t('lunar.day')}
           >
             <option value="">{t('lunar.day')}</option>
@@ -110,7 +110,7 @@ export function LunarInput({ year, month, day, isLeap, onChange }: LunarInputPro
         role="switch"
         aria-checked={isLeap}
         aria-label={t('lunar.leapMonthLabel')}
-        className="flex items-center gap-3 min-h-[44px] rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-grape"
+        className="flex items-center gap-3 min-h-[44px] rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
       >
         <span
           className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${

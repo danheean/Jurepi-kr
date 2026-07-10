@@ -28,7 +28,7 @@ export function RecentsList({ recents, onSelectRecent }: RecentsListProps) {
           <button
             key={idx}
             onClick={() => onSelectRecent(recent)}
-            className="w-full p-3 rounded-lg bg-surface border border-hairline text-left hover:bg-surface-muted hover:border-hairline-strong transition-colors focus:outline-none focus:ring-2 focus:ring-accent-grape"
+            className="w-full p-3 rounded-lg bg-surface border border-hairline text-left hover:bg-surface-muted hover:border-hairline-strong transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             aria-label={`${recent.solarDate} → ${recent.lunarDate}`}
           >
             <p className="text-sm font-medium text-text">{recent.solarDate}</p>

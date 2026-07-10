@@ -55,7 +55,7 @@ export function SolarInput({ year, month, day, onChange }: SolarInputProps) {
             id="solar-year"
             value={year || ''}
             onChange={(e) => onChange(parseInt(e.target.value) || 0, month, day)}
-            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus:ring-2 focus:ring-accent-grape"
+            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             aria-label={t('solar.year')}
           >
             <option value="">{t('solar.year')}</option>
@@ -76,7 +76,7 @@ export function SolarInput({ year, month, day, onChange }: SolarInputProps) {
             id="solar-month"
             value={month || ''}
             onChange={(e) => onChange(year, parseInt(e.target.value) || 0, day)}
-            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus:ring-2 focus:ring-accent-grape"
+            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             aria-label={t('solar.month')}
           >
             <option value="">{t('solar.month')}</option>
@@ -97,7 +97,7 @@ export function SolarInput({ year, month, day, onChange }: SolarInputProps) {
             id="solar-day"
             value={day || ''}
             onChange={(e) => onChange(year, month, parseInt(e.target.value) || 0)}
-            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus:ring-2 focus:ring-accent-grape"
+            className="px-3 py-2 min-h-[44px] rounded-lg border border-hairline bg-surface text-text text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             aria-label={t('solar.day')}
           >
             <option value="">{t('solar.day')}</option>
