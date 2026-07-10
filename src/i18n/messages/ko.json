@@ -2433,7 +2433,9 @@
         "copied": "복사되었습니다!",
         "imageAlt": "디코딩된 이미지",
         "downloadImage": "이미지 다운로드",
-        "copyImage": "이미지 복사"
+        "copyImage": "이미지 복사",
+        "fileReady": "디코딩된 파일",
+        "downloadFile": "파일 다운로드"
       },
       "errors": {
         "invalidBase64": "잘못된 Base64 형식입니다. A-Za-z0-9+/= 문자만 포함되어야 합니다(표준) 또는 A-Za-z0-9-_= (URL-safe).",

@@ -226,6 +226,37 @@ test.describe('Base64 Encoder - E2E', () => {
     expect(errors).toEqual([]);
   });
 
+  test('Scenario 7: decoding a non-image binary data URL offers a file download', async ({
+    page,
+  }) => {
+    // "JVBERi0xLjQK" = "%PDF-1.4\n"; declared MIME application/pdf → file card.
+    const PDF_DATA_URL = 'data:application/pdf;base64,JVBERi0xLjQK';
+
+    const errors = collectPageErrors(page);
+    await page.goto(TOOL_URL_KO);
+    await page.waitForLoadState('networkidle');
+
+    const input = page.getByRole('textbox').first();
+    await expect(input).toBeVisible({ timeout: 10_000 });
+
+    await page.locator('input[type="radio"][value="decode"]').check();
+    await input.fill(PDF_DATA_URL);
+
+    // A file-download card appears (not an image, not a text output).
+    const downloadButton = page.getByRole('button', { name: '파일 다운로드' });
+    await expect(downloadButton).toBeVisible({ timeout: 5_000 });
+    // No decoded-image preview for a non-image payload.
+    await expect(page.locator('main img[src^="data:image"]')).toHaveCount(0);
+
+    // Downloading names the file by its MIME extension (.pdf).
+    const downloadPromise = page.waitForEvent('download', { timeout: 10_000 });
+    await downloadButton.click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+
+    expect(errors).toEqual([]);
+  });
+
   test('mobile 320px: no horizontal overflow, live conversion usable', async ({
     page,
   }) => {

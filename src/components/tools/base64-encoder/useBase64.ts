@@ -6,12 +6,14 @@ import {
   decodeSmart,
 } from '@/lib/base64-encoder/encoder';
 import { isDecodableInput } from '@/lib/base64-encoder/base64';
+import { extensionForMime } from '@/lib/base64-encoder/mime';
 import {
   DEBOUNCE_MS,
   FILE_SIZE_LIMIT_MB,
   STORAGE_KEY,
   type Base64EncoderError,
   type DecodedImage,
+  type DecodedFile,
 } from '@/lib/base64-encoder/schema';
 
 /** Filename extension per detectable image MIME type. */
@@ -34,6 +36,8 @@ export interface Base64State {
   outputText: string;
   /** Set when a text-mode decode yields an image; null otherwise. */
   decodedImage: DecodedImage | null;
+  /** Set when a decode yields a non-image binary file (by declared MIME). */
+  decodedFile: DecodedFile | null;
   isLoading: boolean;
   error: Base64EncoderError | null;
   isValidInput: boolean;
@@ -50,6 +54,7 @@ export interface Base64Actions {
   download(filename?: string): void;
   downloadImage(filename?: string): void;
   copyImage(): Promise<boolean>;
+  downloadDecodedFile(filename?: string): void;
 }
 
 interface PersistedPrefs {
@@ -76,6 +81,7 @@ export function useBase64(): [Base64State, Base64Actions] {
   // yields a valid, renderable URI instead of a hardcoded text/plain one.
   const [outputDataUri, setOutputDataUri] = useState('');
   const [decodedImage, setDecodedImage] = useState<DecodedImage | null>(null);
+  const [decodedFile, setDecodedFile] = useState<DecodedFile | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Base64EncoderError | null>(null);
 
@@ -161,6 +167,7 @@ export function useBase64(): [Base64State, Base64Actions] {
   const process = useCallback(async () => {
     setError(null);
     setDecodedImage(null);
+    setDecodedFile(null);
     setOutputDataUri('');
 
     if (mode === 'file' && inputFile) {
@@ -214,6 +221,14 @@ export function useBase64(): [Base64State, Base64Actions] {
               dataUri: result.dataUri,
               sizeBytes: result.sizeBytes,
             });
+          } else if (result.kind === 'file') {
+            // Declared binary (PDF, zip, …): offer a file download.
+            setOutputText('');
+            setDecodedFile({
+              mimeType: result.mimeType,
+              base64: result.base64,
+              sizeBytes: result.sizeBytes,
+            });
           } else {
             setOutputText(result.plaintext);
           }
@@ -247,6 +262,7 @@ export function useBase64(): [Base64State, Base64Actions] {
       setOutputText('');
       setOutputDataUri('');
       setDecodedImage(null);
+      setDecodedFile(null);
       setError(null);
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
@@ -335,6 +351,25 @@ export function useBase64(): [Base64State, Base64Actions] {
     [decodedImage]
   );
 
+  // Download the decoded (non-image) binary file, named by its MIME extension.
+  const downloadDecodedFile = useCallback(
+    (filename?: string) => {
+      if (!decodedFile) return;
+      const result = decodeToBlob(decodedFile.base64, decodedFile.mimeType);
+      if (!result.ok) return;
+      const ext = extensionForMime(decodedFile.mimeType);
+      const url = URL.createObjectURL(result.blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename || `decoded.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },
+    [decodedFile]
+  );
+
   // Copy the decoded image to the clipboard (best-effort; browser support varies).
   const copyImage = useCallback(async (): Promise<boolean> => {
     if (!decodedImage) return false;
@@ -371,11 +406,12 @@ export function useBase64(): [Base64State, Base64Actions] {
       inputFile,
       outputText,
       decodedImage,
+      decodedFile,
       isLoading,
       error,
       isValidInput,
     }),
-    [mode, variant, direction, inputText, inputFile, outputText, decodedImage, isLoading, error, isValidInput]
+    [mode, variant, direction, inputText, inputFile, outputText, decodedImage, decodedFile, isLoading, error, isValidInput]
   );
 
   // Build actions object with stable reference
@@ -391,8 +427,9 @@ export function useBase64(): [Base64State, Base64Actions] {
       download,
       downloadImage,
       copyImage,
+      downloadDecodedFile,
     }),
-    [setMode, setVariant, setDirection, setInputText, setInputFile, process, copy, download, downloadImage, copyImage]
+    [setMode, setVariant, setDirection, setInputText, setInputFile, process, copy, download, downloadImage, copyImage, downloadDecodedFile]
   );
 
   return [state, actions];

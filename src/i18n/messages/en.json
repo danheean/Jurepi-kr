@@ -2433,7 +2433,9 @@
         "copied": "Copied!",
         "imageAlt": "Decoded image",
         "downloadImage": "Download image",
-        "copyImage": "Copy image"
+        "copyImage": "Copy image",
+        "fileReady": "Decoded file",
+        "downloadFile": "Download file"
       },
       "errors": {
         "invalidBase64": "Invalid Base64 format. Only A-Za-z0-9+/= characters allowed (standard) or A-Za-z0-9-_= (URL-safe).",
