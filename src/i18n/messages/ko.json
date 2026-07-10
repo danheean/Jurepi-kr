@@ -2526,7 +2526,7 @@
         ]
       },
       "intro": {
-        "eyebrow": "개발자 도구",
+        "eyebrow": "개발 도구",
         "title": "내 아이피 찾기",
         "lead": "내 공개 IP를 한눈에 확인하세요. IPv4, IPv6, ISP 정보를 표시합니다."
       }
@@ -2702,7 +2702,7 @@
         "copy": "Ctrl+C"
       },
       "intro": {
-        "eyebrow": "개발자 도구",
+        "eyebrow": "개발 도구",
         "title": "JSON 정렬 및 검증",
         "lead": "복잡한 JSON을 한눈에 정리하고, 무효한 JSON의 정확한 오류 위치를 확인하세요."
       },

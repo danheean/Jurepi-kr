@@ -40,6 +40,15 @@ export function CalendarPanel({
   const t = useTranslations('tools.qna-a-day');
   const locale = useLocale();
   const bcp47 = locale === 'en' ? 'en-US' : 'ko-KR';
+  // Localized short weekday headers (Sun→Sat). Derived from the active locale so
+  // the /en calendar shows Sun/Mon/… instead of hardcoded Korean labels.
+  const weekdayLabels = useMemo(() => {
+    const fmt = new Intl.DateTimeFormat(bcp47, { weekday: 'short' });
+    // 2023-01-01 is a Sunday; format the seven days of that week.
+    return Array.from({ length: 7 }, (_, i) =>
+      fmt.format(new Date(Date.UTC(2023, 0, 1 + i)))
+    );
+  }, [bcp47]);
   const [selectedYear, setSelectedYear] = useState<number>(
     parseInt(today.slice(0, 4), 10)
   );
@@ -178,9 +187,9 @@ export function CalendarPanel({
 
         {/* Weekday headers */}
         <div className="grid grid-cols-7 gap-1">
-          {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
+          {weekdayLabels.map((day, i) => (
             <div
-              key={day}
+              key={i}
               className="h-10 flex items-center justify-center text-caption font-medium text-text-secondary"
             >
               {day}
