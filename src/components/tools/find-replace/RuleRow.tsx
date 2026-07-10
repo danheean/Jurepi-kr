@@ -46,7 +46,7 @@ export function RuleRow({
           onChange={(e) => onUpdate({ find: e.target.value })}
           placeholder={t('rule.find.placeholder')}
           aria-label={t('rule.find.label')}
-          className="w-full px-3 py-2 rounded border border-hairline bg-surface-muted text-text placeholder-text-secondary text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+          className="w-full min-h-11 px-3 py-2 rounded border border-hairline bg-surface-muted text-text placeholder-text-secondary text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
           data-testid={`rule-find-${rule.id}`}
         />
         <input
@@ -55,7 +55,7 @@ export function RuleRow({
           onChange={(e) => onUpdate({ replace: e.target.value })}
           placeholder={t('rule.replace.placeholder')}
           aria-label={t('rule.replace.label')}
-          className="w-full px-3 py-2 rounded border border-hairline bg-surface-muted text-text placeholder-text-secondary text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+          className="w-full min-h-11 px-3 py-2 rounded border border-hairline bg-surface-muted text-text placeholder-text-secondary text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
           data-testid={`rule-replace-${rule.id}`}
         />
       </div>
@@ -98,7 +98,7 @@ export function RuleRow({
           onChange={(e) => onUpdate({ flags: e.target.value || undefined })}
           placeholder={t('option.flags.label')}
           aria-label={t('option.flags.label')}
-          className="w-full px-3 py-2 rounded border border-hairline bg-surface-muted text-text text-xs focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+          className="w-full min-h-11 px-3 py-2 rounded border border-hairline bg-surface-muted text-text text-xs focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
           maxLength={6}
           data-testid={`rule-flags-${rule.id}`}
         />
