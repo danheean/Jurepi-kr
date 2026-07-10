@@ -32,6 +32,19 @@ DESIGN.md의 핵심 4가지를 모든 화면이 보여야 한다(design-quality 
 - coming_soon: opacity 0.7, hover lift 없음, cursor default, 준비중 뱃지.
 - 버튼/칩/카드 전체가 클릭 타깃.
 
+## 포커스·활성·선택 색 — 도구 유형별 규칙 (impeccable 22-도구 폴리시 캠페인)
+
+전 도구를 훑으니 색 드리프트가 유형별로 갈렸다. 정합 규칙:
+
+- **포커스 링은 항상 `focus-visible:`, 절대 맨 `focus:` 아님.** bare `focus:ring-*`은 마우스 클릭에도 링이 떠 노이즈다 — 키보드 사용자만 봐야 한다(22개 중 ~12개가 이 드리프트: character-counter·lunar·roulette·url-encoder·json-formatter·new-word·rankings·bookmarks·qna 등). 표준: `focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2`. **텍스트 입력(textarea/input)도 `focus-visible:`** — 브라우저 휴리스틱상 텍스트 입력은 포커스 시 항상 `:focus-visible`를 만족하므로 클릭해도 링이 보인다(동작 동일, 관례만 정합). tsc·유닛·빌드 모두 그린이라 **grep으로만** 잡힌다: 변경 파일에 `focus:ring`/`focus:border`(앞에 `-visible` 없이)가 있으면 드리프트. 검증: 키보드 Tab 후 `getComputedStyle(el).boxShadow`에 브랜드색 링, `el.matches(':focus-visible')===true` 실측.
+- **활성/선택 색은 도구 유형으로 갈린다** — "액센트≠CTA"의 정밀판:
+  - **상호작용 유틸 도구**(사다리·룰렛·변환기·카운터·인코더…): 활성 탭/pill/토글·주 액션 = **브랜드**(`bg-brand text-on-brand`). 액센트를 활성색으로 쓰면 위반 → 브랜드로(unit-converter 활성 탭 `bg-accent-sky`, url-encoder 활성 탭/버튼 `bg-accent-grape`를 교정).
+  - **콘텐츠 컬렉션 허브**(new-word·rankings·bookmarks·dev-people): **카드 선택 상태 = 도구 액센트**(`border-accent-* bg-accent-*-soft` 또는 `ring-accent-*`)가 **의도된 공통 관례** — 위반 아님, **유지한다**. 이 허브 4종이 전부 이 패턴이라 정합(교차 확인 후 유지 결정). 카드 별/즐겨찾기 focus 링도 액센트 계열 유지 가능하되 트리거는 `focus-visible:`.
+  - **조절 슬라이더**(range): thumb/track에 도구 액센트 = 정체성 게이지로 OK(unit-converter 소수점·roulette 볼륨·transparent-background tolerance/feather — 전부 유지).
+  - **네이티브 라디오/체크박스**: `accent-brand`. 브라우저 기본 파랑(speed-quiz — 허니골드 팔레트와 충돌)도, `accent-accent-<tool>`(url-encoder — 액센트 남용)도 아니다. json-formatter가 레퍼런스: `<input className="… accent-brand">`.
+- **액센트-충돌 심각도로 판단한다**: 쿨/명도차 큰 액센트(sky·grape)를 활성색으로 = 브랜드 골드와 시각적으로 **튀는** 명백한 위반 → 브랜드. 하지만 **웜-골드 계열 액센트(sun ≈ brand)**를 서브틀한 지표(탭 밑줄 등)에, 그것도 **의도적으로 테스트에 못박은** 경우는 조화로운 정체성이라 **존중**(knitting-gauge 탭 밑줄 `bg-accent-sun`, ModeTabs.test가 codify). 기준: 액센트가 브랜드와 **튀는가(쿨/명도차)** vs **조화로운가(웜 골드)** + **의도가 테스트로 codify됐는가**.
+- **폴리시의 정직한 결과에 "변경 없음"이 포함된다.** 이미 규칙을 지키는 도구(my-ip·ladder·restaurant-map·knitting-gauge)는 억지 변경을 만들지 말고 "검증 완료·변경 없음"으로 보고한다 — 장식은 폴리시가 아니다. 단, 그 판정은 grep(포커스/토큰/액센트) + 라이브 시각(ko/en·320/1440) + 콘솔 0을 실제로 돌린 뒤에만.
+
 ## 오버레이/팝오버/확장 입력 (떠 있는 레이어)
 
 드롭다운·콤보박스·검색 패널처럼 트리거에서 펼쳐지는 레이어는 **너비를 스스로 선언**해야 한다.
@@ -92,6 +105,7 @@ DESIGN.md의 핵심 4가지를 모든 화면이 보여야 한다(design-quality 
 - [ ] **인라인 스타일/서드파티 SDK 주입 HTML의 `var(--토큰)` 문자열도 팬텀 검사를 했는가** — Tailwind 클래스 가드(`color-tokens.test`)는 인라인 `style="background-color: var(--accent)"` 같은 CSS 변수 참조를 **스캔하지 않는다**. 미존재 변수는 조용히 빈 값=투명 렌더(restaurant-map: NAVER 지도 마커 배경이 팬텀 `var(--accent)`로 투명 → 마커가 사실상 안 보여 사용자가 "지도 무응답"으로 인식; tsc·유닛·빌드·E2E 전부 그린). 액센트 변수의 실명은 `--accent-{coral,mint,sky,sun,grape,rose}`(카테고리별)이지 `--accent`가 아니다. 반환 전 변경 파일의 `var(--` 를 grep해 `globals.css` 정의와 대조하고, 지도/캔버스/SDK 주입 표면은 렌더된 화면에서 색이 실제 보이는지 확인한다(`getComputedStyle(...).backgroundColor`가 `rgba(0,0,0,0)`이면 팬텀).
 - [ ] **빈 상태(empty state)는 컨텍스트별로 분기했고, 필터/검색 무결과에는 탈출 액션이 있는가** — 무결과 상황에 엉뚱한 온보딩 문구(즐겨찾기 안내 등)가 뜨면 사용자는 **오류로 인식**한다(restaurant-map '기타' 클릭 → "별을 눌러 즐겨찾기를 저장하세요"+내 위치 버튼 → 오류 신고로 이어짐). 규칙: ① 필터/검색 무결과 = "조건에 맞는 결과 없음" + **필터 초기화** 버튼 ② 탭 고유 빈 상태(즐겨찾기/최근)는 그 탭의 온보딩 문구 ③ 애초에 결과가 0일 수밖에 없는 필터(데이터에 없는 카테고리)는 **렌더하지 않는다**(카탈로그 파생, RegionTabs 패턴).
 - [ ] 액센트를 CTA에 쓰지 않았는가(브랜드 바이올렛 유지)
+- [ ] **포커스 링이 전부 `focus-visible:`인가**(맨 `focus:ring`/`focus:border` 금지 — `grep 'focus:ring\|focus:border' | grep -v focus-visible`), 활성/선택 색이 도구 유형 규칙(유틸=브랜드, 콘텐츠 허브 카드=액센트, 슬라이더=액센트, 네이티브 라디오/체크박스=`accent-brand`)에 맞는가
 - [ ] reduced-motion 폴백이 있는가
 - [ ] 떠 있는 레이어(드롭다운/콤보박스/패널)는 명시적 너비 + 엣지 앵커이고, 열어서 너비를 눈으로 확인했는가
 - [ ] 실제 제품 스크린샷처럼 믿을 만한가
