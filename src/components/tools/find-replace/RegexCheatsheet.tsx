@@ -21,7 +21,7 @@ export function RegexCheatsheet() {
 
         {CHEATSHEET.map((section) => (
           <div key={section.section} className="space-y-2">
-            <h4 className="text-xs font-semibold text-text uppercase tracking-wide">
+            <h4 className="text-sm font-semibold text-text">
               {t(`cheatsheet.sections.${section.section}`)}
             </h4>
             <div className="space-y-1">
