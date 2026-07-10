@@ -79,7 +79,7 @@ export function OptionList({
           data-testid="roulette-add-input"
           placeholder={t('options.placeholder')}
           disabled={maxReached}
-          className="flex-1 min-w-0 px-3 py-2 border border-hairline rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-rose disabled:opacity-50"
+          className="flex-1 min-w-0 px-3 py-2 border border-hairline rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:opacity-50"
           aria-label={t('options.label')}
         />
         <input
@@ -90,7 +90,7 @@ export function OptionList({
           max={MAX_WEIGHT}
           data-testid="roulette-add-weight"
           disabled={maxReached}
-          className="w-16 px-2 py-2 border border-hairline rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-rose disabled:opacity-50"
+          className="w-16 px-2 py-2 border border-hairline rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:opacity-50"
           aria-label={t('options.weight')}
         />
         <button
@@ -120,7 +120,7 @@ export function OptionList({
               onChange={(e) => onUpdate(idx, e.target.value, opt.weight)}
               placeholder={`${t('options.placeholder')}`}
               maxLength={50}
-              className="flex-1 min-w-[10rem] px-3 py-2 border border-hairline rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-rose"
+              className="flex-1 min-w-[10rem] px-3 py-2 border border-hairline rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
               aria-label={`${t('options.label')} ${idx + 1}`}
             />
 
@@ -131,7 +131,7 @@ export function OptionList({
               onChange={(e) => onUpdate(idx, opt.label, parseInt(e.target.value, 10) || 1)}
               min={MIN_WEIGHT}
               max={MAX_WEIGHT}
-              className="w-16 px-2 py-2 border border-hairline rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-rose"
+              className="w-16 px-2 py-2 border border-hairline rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
               aria-label={`${t('options.weight')} ${idx + 1}`}
             />
 

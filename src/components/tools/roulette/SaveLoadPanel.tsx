@@ -55,7 +55,7 @@ export function SaveLoadPanel({
             onKeyDown={handleSaveKeyDown}
             maxLength={50}
             placeholder={t('save.input')}
-            className="flex-1 px-3 py-2 border border-hairline rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-rose"
+            className="flex-1 px-3 py-2 border border-hairline rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
           />
           <button
             onClick={handleSave}
