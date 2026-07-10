@@ -14,7 +14,7 @@ export function DirectionToggle({ value, onChange }: Props) {
   return (
     <button
       onClick={() => onChange(value === 'encode' ? 'decode' : 'encode')}
-      className="flex items-center gap-2 px-4 py-2 bg-brand text-on-brand rounded-lg font-semibold hover:bg-brand-strong transition-colors"
+      className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] bg-brand text-on-brand rounded-lg font-semibold hover:bg-brand-strong transition-colors"
       aria-label={t('direction.toggle')}
       title={t('direction.toggle')}
     >

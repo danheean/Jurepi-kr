@@ -558,7 +558,8 @@
         "valuePlaceholder": "값",
         "addRow": "매개변수 추가",
         "deleteRow": "삭제",
-        "rebuild": "쿼리 문자열 재구성"
+        "rebuild": "쿼리 문자열 재구성",
+        "rebuilding": "재구성 중…"
       },
       "recents": {
         "label": "최근 입력",

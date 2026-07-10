@@ -45,7 +45,7 @@ export function QueryTableView({
         onClick={() => setIsOpen(!isOpen)}
         className={`w-full px-4 py-3 rounded-lg font-semibold transition-colors ${
           isOpen
-            ? 'bg-accent-grape text-white'
+            ? 'bg-accent-grape text-on-brand'
             : 'bg-surface-muted text-text hover:bg-hairline-strong'
         }`}
         aria-expanded={isOpen}
@@ -91,7 +91,7 @@ export function QueryTableView({
 
           <button
             onClick={() => onRowsChange(addRow(rows))}
-            className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-accent-grape hover:bg-accent-grape/10 rounded transition"
+            className="flex items-center gap-2 px-3 py-2.5 min-h-[44px] text-sm font-medium text-accent-grape-ink hover:bg-accent-grape/10 rounded transition-colors"
             aria-label={t('queryTable.addRow')}
           >
             <Plus className="w-4 h-4" strokeWidth={1.75} />
@@ -101,10 +101,10 @@ export function QueryTableView({
           <button
             onClick={handleRebuild}
             disabled={rebuilding || isLoading}
-            className="w-full px-4 py-2 bg-accent-grape text-white rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-50"
+            className="w-full px-4 py-2.5 min-h-[44px] bg-accent-grape text-on-brand rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
             aria-label={t('queryTable.rebuild')}
           >
-            {rebuilding ? 'Building...' : t('queryTable.rebuild')}
+            {rebuilding ? t('queryTable.rebuilding') : t('queryTable.rebuild')}
           </button>
         </div>
       )}

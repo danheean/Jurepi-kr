@@ -11,7 +11,7 @@ export function BatchToggle({ value, onChange }: Props) {
   const t = useTranslations('tools.url-encoder');
 
   return (
-    <label className="flex items-center gap-3 cursor-pointer">
+    <label className="flex items-center gap-3 min-h-[44px] cursor-pointer">
       <input
         type="checkbox"
         checked={value}

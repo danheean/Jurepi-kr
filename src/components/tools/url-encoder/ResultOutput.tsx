@@ -74,7 +74,7 @@ export function ResultOutput({ result, error, onCopy, isLoading }: Props) {
           <button
             onClick={handleCopy}
             disabled={isLoading}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg font-medium text-sm transition-colors ${
               copyState === 'success'
                 ? 'bg-success text-on-success'
                 : 'bg-brand text-on-brand hover:bg-brand-strong'

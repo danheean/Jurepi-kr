@@ -20,7 +20,7 @@ export function RecentsList({ recents, onSelect, onClear }: Props) {
         onClick={() => setIsOpen(!isOpen)}
         className={`w-full px-4 py-3 rounded-lg font-semibold transition-colors ${
           isOpen
-            ? 'bg-accent-grape text-white'
+            ? 'bg-accent-grape text-on-brand'
             : 'bg-surface-muted text-text hover:bg-hairline-strong'
         }`}
         aria-expanded={isOpen}

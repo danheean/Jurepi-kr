@@ -15,7 +15,7 @@ export function ModeToggle({ value, onChange }: Props) {
       <legend className="block text-sm font-semibold text-text">{t('mode.label')}</legend>
       <div className="flex gap-2">
         {(['component', 'uri'] as const).map((mode) => (
-          <label key={mode} className="flex items-center gap-2 cursor-pointer">
+          <label key={mode} className="flex items-center gap-2 min-h-[44px] cursor-pointer">
             <input
               type="radio"
               name="mode"
