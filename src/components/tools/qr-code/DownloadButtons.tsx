@@ -98,7 +98,7 @@ export function DownloadButtons({
       <button
         onClick={downloadPNG}
         disabled={!canDownload || !isContrastAcceptable}
-        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-brand text-on-brand font-medium rounded-md hover:bg-brand-strong disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-brand text-on-brand font-medium rounded-md hover:bg-brand-strong disabled:opacity-50 disabled:cursor-not-allowed transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
       >
         <Download className="w-4 h-4" />
         {t('buttons.downloadPng')}
@@ -108,7 +108,7 @@ export function DownloadButtons({
       <button
         onClick={downloadSVG}
         disabled={!canDownload || !isContrastAcceptable}
-        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent-sky-soft text-accent-sky-ink font-medium rounded-md hover:bg-accent-sky-soft/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-accent-sky/30"
+        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-surface-muted text-text font-medium rounded-md hover:bg-surface-sunken disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-hairline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
       >
         <Download className="w-4 h-4" />
         {t('buttons.downloadSvg')}
@@ -118,7 +118,7 @@ export function DownloadButtons({
       <button
         onClick={copyToClipboard}
         disabled={!canDownload || !isContrastAcceptable}
-        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-surface-muted text-text-secondary font-medium rounded-md hover:bg-surface-muted/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-hairline"
+        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-surface text-text-secondary font-medium rounded-md hover:bg-surface-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-hairline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
       >
         <Copy className="w-4 h-4" />
         {t('buttons.copyClipboard')}
@@ -128,7 +128,7 @@ export function DownloadButtons({
       {!isContrastAcceptable && (
         <button
           onClick={onConfirmLowContrast}
-          className="w-full px-4 py-2 text-sm text-warning-ink font-medium hover:bg-surface-muted rounded-md transition-colors border border-warning"
+          className="w-full px-4 py-2 text-sm text-warning-ink font-medium hover:bg-surface-muted rounded-md transition-colors border border-warning focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
         >
           {t('buttons.confirmLowContrast')}
         </button>
