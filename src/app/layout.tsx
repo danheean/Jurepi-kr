@@ -29,7 +29,10 @@ export const metadata: Metadata = {
   // <head> of every prerendered page (verifiers may fetch any URL).
   verification: {
     other: {
-      'naver-site-verification': '66d158bb0b9b227ac53e363c3af2e9a54d55de4c',
+      'naver-site-verification': [
+        '66d158bb0b9b227ac53e363c3af2e9a54d55de4c',
+        'b07656b720c0cca4cf67053c691dec6ff10d2535',
+      ],
     },
   },
 };
