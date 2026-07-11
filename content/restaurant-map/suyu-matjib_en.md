@@ -1,5 +1,5 @@
 ---
-title: "Suyu-dong Eats"
+title: "Gangbuk & Seongbuk Eats"
 sourceNote: "Curator picks, as of July 2026"
 places:
   - name: "Kidari Tuna Sushi"
@@ -28,6 +28,15 @@ places:
     description: "A retro-style Korean pub in Suyu-dong, Gangbuk-gu."
     personalNote: "Retro vibes and generous plates. Perfect for a drink along 4.19-ro."
     link: "https://naver.me/FaOw8xhg"
+
+  - name: "Woojeong Sushi (Aged Sashimi)"
+    lat: 37.5940817
+    lng: 127.0341569
+    category: japanese
+    address: "1F #106, 29 Jongam-ro 5-gil, Seongbuk-gu, Seoul"
+    description: "An aged-sashimi and sushi specialist in Jongam-dong, Seongbuk-gu; the monkfish-liver cream udon is a known side."
+    personalNote: "The aging gives the sashimi a firm, dense bite. True to its 'a bite and a sip' concept, it's great with a drink — don't skip the monkfish-liver cream udon."
+    link: "https://naver.me/5bVwxwSy"
 ---
 
-The 갈곶동 핵주먹 curator's own picks around Suyu-dong.
+The 갈곶동 핵주먹 curator's own picks around Gangbuk and Seongbuk.

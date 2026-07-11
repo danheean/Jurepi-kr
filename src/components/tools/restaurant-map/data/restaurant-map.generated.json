@@ -1,9 +1,498 @@
 [
   {
+    "slug": "suyu-matjib",
+    "region": "seoul",
+    "curator": "nuclear",
+    "city": "서울 강북구·성북구",
+    "asOfDate": "2026-07-11",
+    "ko": {
+      "title": "강북·성북 맛집",
+      "sourceNote": "큐레이터가 고른 곳, 2026년 7월 기준",
+      "places": [
+        {
+          "name": "키다리참치초밥",
+          "lat": 37.641363,
+          "lng": 127.028792,
+          "category": "japanese",
+          "address": "서울 강북구 도봉로 385 1층",
+          "description": "강북구 수유동의 참치·초밥 전문점.",
+          "personalNote": "가성비 참치초밥은 여기가 끝판왕. 점심 특선 노려라.",
+          "link": "https://naver.me/xf5uXkhK",
+          "id": "suyu-matjib#0",
+          "curator": "nuclear"
+        },
+        {
+          "name": "참숯주먹고기",
+          "lat": 37.6480192,
+          "lng": 127.012614,
+          "category": "korean",
+          "address": "서울 강북구 4.19로 14",
+          "description": "강북구 수유동의 참숯 고기구이 전문점.",
+          "personalNote": "이름값 하는 주먹만 한 고기 한 점. 숯불 향에 소주가 절로 당긴다.",
+          "link": "https://naver.me/5neKHifD",
+          "id": "suyu-matjib#1",
+          "curator": "nuclear"
+        },
+        {
+          "name": "아옛날이여고래사냥",
+          "lat": 37.648227,
+          "lng": 127.013576,
+          "category": "korean",
+          "address": "서울 강북구 4.19로 6",
+          "description": "강북구 수유동의 옛날 감성 한식 주점.",
+          "personalNote": "레트로 감성에 안주가 실하다. 4.19로에서 술 한잔 생각나면 여기.",
+          "link": "https://naver.me/FaOw8xhg",
+          "id": "suyu-matjib#2",
+          "curator": "nuclear"
+        },
+        {
+          "name": "우정초밥 (숙성사시미 전문)",
+          "lat": 37.5940817,
+          "lng": 127.0341569,
+          "category": "japanese",
+          "address": "서울 성북구 종암로5길 29 1층 106호",
+          "description": "성북 종암동의 숙성 사시미·초밥 전문점. 아구간크림우동 같은 사이드 메뉴도 알려져 있다.",
+          "personalNote": "숙성회라 식감이 쫀쫀해요. '한 점에 한 잔' 컨셉답게 반주로 딱, 아구간크림우동은 꼭 추가하세요.",
+          "link": "https://naver.me/5bVwxwSy",
+          "id": "suyu-matjib#3",
+          "curator": "nuclear"
+        }
+      ]
+    },
+    "en": {
+      "title": "Gangbuk & Seongbuk Eats",
+      "sourceNote": "Curator picks, as of July 2026",
+      "places": [
+        {
+          "name": "Kidari Tuna Sushi",
+          "lat": 37.641363,
+          "lng": 127.028792,
+          "category": "japanese",
+          "address": "1F, 385 Dobong-ro, Gangbuk-gu, Seoul",
+          "description": "A tuna and sushi specialist in Suyu-dong, Gangbuk-gu.",
+          "personalNote": "Best-value tuna sushi around—go straight for the lunch special.",
+          "link": "https://naver.me/xf5uXkhK",
+          "id": "suyu-matjib#0",
+          "curator": "nuclear"
+        },
+        {
+          "name": "Chamsut Jumeok Gogi",
+          "lat": 37.6480192,
+          "lng": 127.012614,
+          "category": "korean",
+          "address": "14 4.19-ro, Gangbuk-gu, Seoul",
+          "description": "A charcoal-grilled meat house in Suyu-dong, Gangbuk-gu.",
+          "personalNote": "A fist-sized cut that lives up to the name. Charcoal smoke and soju, done.",
+          "link": "https://naver.me/5neKHifD",
+          "id": "suyu-matjib#1",
+          "curator": "nuclear"
+        },
+        {
+          "name": "Goraesanyang",
+          "lat": 37.648227,
+          "lng": 127.013576,
+          "category": "korean",
+          "address": "6 4.19-ro, Gangbuk-gu, Seoul",
+          "description": "A retro-style Korean pub in Suyu-dong, Gangbuk-gu.",
+          "personalNote": "Retro vibes and generous plates. Perfect for a drink along 4.19-ro.",
+          "link": "https://naver.me/FaOw8xhg",
+          "id": "suyu-matjib#2",
+          "curator": "nuclear"
+        },
+        {
+          "name": "Woojeong Sushi (Aged Sashimi)",
+          "lat": 37.5940817,
+          "lng": 127.0341569,
+          "category": "japanese",
+          "address": "1F #106, 29 Jongam-ro 5-gil, Seongbuk-gu, Seoul",
+          "description": "An aged-sashimi and sushi specialist in Jongam-dong, Seongbuk-gu; the monkfish-liver cream udon is a known side.",
+          "personalNote": "The aging gives the sashimi a firm, dense bite. True to its 'a bite and a sip' concept, it's great with a drink — don't skip the monkfish-liver cream udon.",
+          "link": "https://naver.me/5bVwxwSy",
+          "id": "suyu-matjib#3",
+          "curator": "nuclear"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "seoul-north-matjib",
+    "region": "seoul",
+    "curator": "honey",
+    "city": "서울 강북구·도봉구",
+    "asOfDate": "2026-07-11",
+    "ko": {
+      "title": "북서울(강북·도봉) 맛집",
+      "sourceNote": "직접 다녀온 곳 위주 · 2026년 7월 기준",
+      "places": [
+        {
+          "name": "참행복한집",
+          "lat": 37.648096,
+          "lng": 127.013078,
+          "category": "korean",
+          "address": "서울 강북구 4.19로2길 10",
+          "description": "4.19로 골목의 오래된 고깃집. 두툼한 생고기와 넉넉한 밑반찬으로 동네 회식 단골로 통한다.",
+          "personalNote": "혼자 가도 눈치 안 보이고, 불판에 김치 구워 먹다 보면 소주 한 병이 순삭입니다.",
+          "link": "https://naver.me/GkIB7Kfu",
+          "id": "seoul-north-matjib#0",
+          "curator": "honey"
+        },
+        {
+          "name": "시래기화덕생선구이",
+          "lat": 37.6460422,
+          "lng": 127.0077917,
+          "category": "korean",
+          "address": "서울 강북구 4.19로 61-1 1층",
+          "description": "화덕에 구운 고등어·삼치 정식이 간판. 시래기된장국이 함께 나오는 백반형 생선구이집이다.",
+          "personalNote": "생선 껍질 바삭하게 구워주는 집. 시래기국 리필해달라 하면 흔쾌히 주십니다.",
+          "link": "https://naver.me/GNJsLtLE",
+          "id": "seoul-north-matjib#1",
+          "curator": "honey"
+        },
+        {
+          "name": "까미노빵집",
+          "lat": 37.6461642,
+          "lng": 127.0078943,
+          "category": "dessert",
+          "address": "서울 강북구 4.19로 61",
+          "description": "4.19로의 작은 동네 베이커리. 소금빵과 식사빵류가 꾸준히 잘나간다.",
+          "personalNote": "오후 늦게 가면 소금빵이 동나 있어요. 근처 갈 일 있으면 오전에 들르길 추천.",
+          "link": "https://naver.me/5mvw83jr",
+          "id": "seoul-north-matjib#2",
+          "curator": "honey"
+        },
+        {
+          "name": "샘터마루",
+          "lat": 37.6466714,
+          "lng": 127.0061284,
+          "category": "korean",
+          "address": "서울 강북구 4.19로12길 35",
+          "description": "정갈한 백반·한정식을 내는 4.19로 골목 한식당. 점심 백반이 특히 알차다.",
+          "personalNote": "반찬 가짓수로 승부하는 집. 부모님 모시고 가기 딱 좋습니다.",
+          "link": "https://naver.me/G4dNqTD3",
+          "id": "seoul-north-matjib#3",
+          "curator": "honey"
+        },
+        {
+          "name": "산방낙지",
+          "lat": 37.645683,
+          "lng": 127.0057792,
+          "category": "korean",
+          "address": "서울 강북구 4.19로 82",
+          "description": "매콤한 낙지볶음과 연포탕이 주력인 4.19로의 낙지 전문점.",
+          "personalNote": "매운 거 좋아하면 낙지볶음, 해장하러 왔으면 연포탕. 둘 다 실패 없습니다.",
+          "link": "https://naver.me/FG3wbgpC",
+          "id": "seoul-north-matjib#4",
+          "curator": "honey"
+        },
+        {
+          "name": "연포생선구이전문점",
+          "lat": 37.6317654,
+          "lng": 127.0249,
+          "category": "korean",
+          "address": "서울 강북구 덕릉로28길 65",
+          "description": "수유 덕릉로 인근의 생선구이 백반집. 모둠 생선구이 정식이 든든하다.",
+          "personalNote": "가성비로는 이 동네 최고. 반찬에 계란찜까지 나오면 이미 이긴 겁니다.",
+          "link": "https://naver.me/539MW93V",
+          "id": "seoul-north-matjib#5",
+          "curator": "honey"
+        },
+        {
+          "name": "다래함박스텍",
+          "lat": 37.632781,
+          "lng": 127.019013,
+          "category": "other",
+          "address": "서울 강북구 수유로 20-2",
+          "description": "수유동의 오래된 경양식집. 함박스테이크와 돈가스를 옛날 방식 그대로 낸다.",
+          "personalNote": "요즘 감성 아니고 진짜 '옛날 경양식'. 데미글라스 소스에 밥 비벼 먹는 맛이 있어요.",
+          "link": "https://naver.me/xUZkfvJD",
+          "id": "seoul-north-matjib#6",
+          "curator": "honey"
+        },
+        {
+          "name": "선해어 선헤어",
+          "lat": 37.6433698,
+          "lng": 127.0132768,
+          "category": "other",
+          "address": "서울 강북구 인수봉로72가길 10 1층",
+          "description": "강북 인수봉로의 동네 미용실. 맛집은 아니지만 큐레이터의 동선에 늘 들어 있는 단골 가게.",
+          "personalNote": "밥집은 아니지만, 머리 자르고 근처 4.19로에서 밥 먹는 게 제 루틴이라 같이 넣었습니다.",
+          "link": "https://naver.me/FetIix38",
+          "id": "seoul-north-matjib#7",
+          "curator": "honey"
+        },
+        {
+          "name": "영이네꽃화원",
+          "lat": 37.661574,
+          "lng": 127.024396,
+          "category": "other",
+          "address": "서울 도봉구 방학동 463-2",
+          "description": "도봉 방학동의 넓은 화훼농원. 다육이·관엽식물이 다양해 구경만 해도 재밌다.",
+          "personalNote": "밥집 아닌 거 압니다. 근데 주차 넉넉하고 식물 구경하다 근처서 밥 먹기 좋아 슬쩍 끼웠어요.",
+          "link": "https://naver.me/xHE1RYsZ",
+          "id": "seoul-north-matjib#8",
+          "curator": "honey"
+        },
+        {
+          "name": "수유동성당",
+          "lat": 37.6427195,
+          "lng": 127.0219525,
+          "category": "other",
+          "address": "서울 강북구 삼각산로 165",
+          "description": "강북 삼각산로의 성당. 동네 랜드마크로, 미사 후 근처에서 식사하는 코스로 익숙한 곳.",
+          "personalNote": "당연히 맛집은 아니고요, 이 동네 다닐 때 기준점이 되는 곳이라 지도에 남겨둡니다.",
+          "link": "https://naver.me/FP8h7q1h",
+          "id": "seoul-north-matjib#9",
+          "curator": "honey"
+        }
+      ]
+    },
+    "en": {
+      "title": "North Seoul (Gangbuk & Dobong) Eats",
+      "sourceNote": "Places I've been to myself · as of July 2026",
+      "places": [
+        {
+          "name": "Cham Haengbokhan Jip",
+          "lat": 37.648096,
+          "lng": 127.013078,
+          "category": "korean",
+          "address": "10 4.19-ro 2-gil, Gangbuk-gu, Seoul",
+          "description": "A veteran BBQ joint in the 4.19-ro alleys, known for thick cuts of fresh pork and generous banchan.",
+          "personalNote": "Come solo without a second glance — grill some kimchi on the side and a bottle of soju vanishes fast.",
+          "link": "https://naver.me/GkIB7Kfu",
+          "id": "seoul-north-matjib#0",
+          "curator": "honey"
+        },
+        {
+          "name": "Siraegi Hwadeok Grilled Fish",
+          "lat": 37.6460422,
+          "lng": 127.0077917,
+          "category": "korean",
+          "address": "61-1 4.19-ro, Gangbuk-gu, Seoul (1F)",
+          "description": "Kiln-grilled mackerel set meals served with a hearty siraegi (dried radish green) doenjang soup.",
+          "personalNote": "They get the skin properly crisp — and yes, they'll refill the siraegi soup if you ask nicely.",
+          "link": "https://naver.me/GNJsLtLE",
+          "id": "seoul-north-matjib#1",
+          "curator": "honey"
+        },
+        {
+          "name": "Camino Bakery",
+          "lat": 37.6461642,
+          "lng": 127.0078943,
+          "category": "dessert",
+          "address": "61 4.19-ro, Gangbuk-gu, Seoul",
+          "description": "A small neighborhood bakery on 4.19-ro, with reliably good salt bread and everyday loaves.",
+          "personalNote": "Go in the morning — the salt bread is usually gone by late afternoon.",
+          "link": "https://naver.me/5mvw83jr",
+          "id": "seoul-north-matjib#2",
+          "curator": "honey"
+        },
+        {
+          "name": "Saemteo Maru",
+          "lat": 37.6466714,
+          "lng": 127.0061284,
+          "category": "korean",
+          "address": "35 4.19-ro 12-gil, Gangbuk-gu, Seoul",
+          "description": "A tidy Korean restaurant on 4.19-ro; the lunch baekban set is especially good value.",
+          "personalNote": "It wins on the sheer number of side dishes — a safe bet when you're treating your parents.",
+          "link": "https://naver.me/G4dNqTD3",
+          "id": "seoul-north-matjib#3",
+          "curator": "honey"
+        },
+        {
+          "name": "Sanbang Nakji",
+          "lat": 37.645683,
+          "lng": 127.0057792,
+          "category": "korean",
+          "address": "82 4.19-ro, Gangbuk-gu, Seoul",
+          "description": "A nakji (small octopus) specialist on 4.19-ro, strong on spicy stir-fry and yeonpo-tang.",
+          "personalNote": "Get the spicy stir-fry if you love heat, the yeonpo-tang if you're nursing a hangover. Neither disappoints.",
+          "link": "https://naver.me/FG3wbgpC",
+          "id": "seoul-north-matjib#4",
+          "curator": "honey"
+        },
+        {
+          "name": "Yeonpo Grilled Fish",
+          "lat": 37.6317654,
+          "lng": 127.0249,
+          "category": "korean",
+          "address": "65 Deongneung-ro 28-gil, Gangbuk-gu, Seoul",
+          "description": "A grilled-fish baekban spot near Deongneung-ro in Suyu, with a filling mixed-fish set.",
+          "personalNote": "Best value in the area — when the banchan includes steamed egg, you've already won.",
+          "link": "https://naver.me/539MW93V",
+          "id": "seoul-north-matjib#5",
+          "curator": "honey"
+        },
+        {
+          "name": "Darae Hambak Steak",
+          "lat": 37.632781,
+          "lng": 127.019013,
+          "category": "other",
+          "address": "20-2 Suyu-ro, Gangbuk-gu, Seoul",
+          "description": "An old-school Western-style diner in Suyu, serving hamburg steak and pork cutlet the retro way.",
+          "personalNote": "Not the trendy kind — genuine retro diner fare. Mixing rice into the demi-glace is half the joy.",
+          "link": "https://naver.me/xUZkfvJD",
+          "id": "seoul-north-matjib#6",
+          "curator": "honey"
+        },
+        {
+          "name": "Seonhae-eo Hair",
+          "lat": 37.6433698,
+          "lng": 127.0132768,
+          "category": "other",
+          "address": "10 Insubong-ro 72ga-gil, Gangbuk-gu, Seoul (1F)",
+          "description": "A neighborhood hair salon on Insubong-ro. Not a restaurant, but a regular stop on the curator's rounds.",
+          "personalNote": "Not a food spot — but a haircut here followed by lunch on nearby 4.19-ro is my routine, so it made the map.",
+          "link": "https://naver.me/FetIix38",
+          "id": "seoul-north-matjib#7",
+          "curator": "honey"
+        },
+        {
+          "name": "Yeongi-ne Flower Garden",
+          "lat": 37.661574,
+          "lng": 127.024396,
+          "category": "other",
+          "address": "463-2 Banghak-dong, Dobong-gu, Seoul",
+          "description": "A spacious plant nursery in Banghak-dong, Dobong — a fun browse for succulents and foliage plants.",
+          "personalNote": "I know it's not a restaurant. But parking is easy, and browsing plants before a nearby meal is a great combo.",
+          "link": "https://naver.me/xHE1RYsZ",
+          "id": "seoul-north-matjib#8",
+          "curator": "honey"
+        },
+        {
+          "name": "Suyu-dong Catholic Church",
+          "lat": 37.6427195,
+          "lng": 127.0219525,
+          "category": "other",
+          "address": "165 Samgaksan-ro, Gangbuk-gu, Seoul",
+          "description": "A Catholic church on Samgaksan-ro, a local landmark and a familiar 'after-Mass meal nearby' anchor.",
+          "personalNote": "Obviously not a restaurant — but it's my orientation point in this neighborhood, so it stays on the map.",
+          "link": "https://naver.me/FP8h7q1h",
+          "id": "seoul-north-matjib#9",
+          "curator": "honey"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "seoul-etc-matjib",
+    "region": "seoul",
+    "curator": "honey",
+    "city": "서울",
+    "asOfDate": "2026-07-11",
+    "ko": {
+      "title": "서울 강남·용산·성북·중랑 맛집",
+      "sourceNote": "직접 다녀온 곳 위주 · 2026년 7월 기준",
+      "places": [
+        {
+          "name": "농민백암순대 역삼직영점",
+          "lat": 37.4949366,
+          "lng": 127.0314467,
+          "category": "korean",
+          "address": "서울 강남구 역삼로3길 20-4 1층",
+          "description": "역삼동의 백암순대 직영점. 순대국과 모둠순대가 대표로, 잡내 없는 국물이 특징.",
+          "personalNote": "강남에서 순대국 당길 때 여기. 모둠순대에 소주 한 잔이면 마무리 완벽합니다.",
+          "link": "https://naver.me/GGGni6a3",
+          "id": "seoul-etc-matjib#0",
+          "curator": "honey"
+        },
+        {
+          "name": "이춘복참치 용산본점",
+          "lat": 37.5421506,
+          "lng": 126.9730327,
+          "category": "japanese",
+          "address": "서울 용산구 한강대로 266-2 1층",
+          "description": "용산의 참치 전문점. 부위별로 썰어주는 참치회 코스가 간판.",
+          "personalNote": "대뱃살 나올 때까지 참는 재미가 있어요. 김에 밥·와사비 얹어 먹는 조합 강추.",
+          "link": "https://naver.me/GrgjFs3E",
+          "id": "seoul-etc-matjib#1",
+          "curator": "honey"
+        },
+        {
+          "name": "쭈꾸미킹2.0 상봉점",
+          "lat": 37.5998501,
+          "lng": 127.0954786,
+          "category": "korean",
+          "address": "서울 중랑구 송림길 13",
+          "description": "중랑 상봉의 쭈꾸미볶음 전문점. 매운 강도 조절이 되는 철판 쭈꾸미가 주력.",
+          "personalNote": "매운맛 단계 있으니 자신 없으면 중간부터. 볶음밥까지 가야 진짜 마무리입니다.",
+          "link": "https://naver.me/GahUtQDV",
+          "id": "seoul-etc-matjib#2",
+          "curator": "honey"
+        },
+        {
+          "name": "용초수",
+          "lat": 37.5872402,
+          "lng": 127.0299284,
+          "category": "chinese",
+          "address": "서울 성북구 고려대로27길 20",
+          "description": "고려대 안암동의 중식당. 마파두부와 볶음밥류, 마라 메뉴로 알려진 동네 중국집.",
+          "personalNote": "마파두부에 호남볶음밥 조합 추천. 고대 앞이라 자리 없을 때 많으니 애매한 시간대를 노리세요.",
+          "link": "https://naver.me/FDnClZ2T",
+          "id": "seoul-etc-matjib#3",
+          "curator": "honey"
+        }
+      ]
+    },
+    "en": {
+      "title": "Gangnam·Yongsan·Seongbuk·Jungnang Eats",
+      "sourceNote": "Places I've been to myself · as of July 2026",
+      "places": [
+        {
+          "name": "Nongmin Baegam Sundae (Yeoksam)",
+          "lat": 37.4949366,
+          "lng": 127.0314467,
+          "category": "korean",
+          "address": "20-4 Yeoksam-ro 3-gil, Gangnam-gu, Seoul (1F)",
+          "description": "The Yeoksam branch of Baegam Sundae; the gukbap and mixed sundae plate shine, with clean, funk-free broth.",
+          "personalNote": "My Gangnam sundae-gukbap fix. A mixed sundae plate with a shot of soju is the perfect close.",
+          "link": "https://naver.me/GGGni6a3",
+          "id": "seoul-etc-matjib#0",
+          "curator": "honey"
+        },
+        {
+          "name": "Lee Chun-bok Tuna (Yongsan)",
+          "lat": 37.5421506,
+          "lng": 126.9730327,
+          "category": "japanese",
+          "address": "266-2 Hangang-daero, Yongsan-gu, Seoul (1F)",
+          "description": "A tuna specialist in Yongsan; the cut-by-cut tuna sashimi course is the signature.",
+          "personalNote": "Half the fun is holding out for the fatty belly cuts. Wrap it in seaweed with rice and wasabi — trust me.",
+          "link": "https://naver.me/GrgjFs3E",
+          "id": "seoul-etc-matjib#1",
+          "curator": "honey"
+        },
+        {
+          "name": "Jjukkumi King 2.0 (Sangbong)",
+          "lat": 37.5998501,
+          "lng": 127.0954786,
+          "category": "korean",
+          "address": "13 Songnim-gil, Jungnang-gu, Seoul",
+          "description": "A jjukkumi (spicy octopus) specialist in Sangbong, Jungnang, with adjustable heat on the griddle.",
+          "personalNote": "Pick a middle spice level if you're unsure — and you're not done until the fried rice at the end.",
+          "link": "https://naver.me/GahUtQDV",
+          "id": "seoul-etc-matjib#2",
+          "curator": "honey"
+        },
+        {
+          "name": "Yongchosu",
+          "lat": 37.5872402,
+          "lng": 127.0299284,
+          "category": "chinese",
+          "address": "20 Goryeodae-ro 27-gil, Seongbuk-gu, Seoul",
+          "description": "A neighborhood Chinese restaurant in Anam-dong near Korea University, known for mapo tofu, fried rice, and mala dishes.",
+          "personalNote": "Get the mapo tofu with Honam fried rice. It's right by campus, so aim for an off-peak hour to skip the crowd.",
+          "link": "https://naver.me/FDnClZ2T",
+          "id": "seoul-etc-matjib#3",
+          "curator": "honey"
+        }
+      ]
+    }
+  },
+  {
     "slug": "seoul-gotgot",
     "region": "seoul",
     "curator": "dragon",
-    "asOfDate": "2026-07-10",
+    "asOfDate": "2026-07-11",
     "ko": {
       "title": "서울 곳곳 맛집",
       "sourceNote": "큐레이터가 고른 곳, 2026년 7월 기준",
@@ -42,6 +531,30 @@
           "personalNote": "매운맛 당길 땐 배달 말고 직접 가서 갓 볶은 걸로. 오리지널이 답이다.",
           "link": "https://naver.me/xv3neCh8",
           "id": "seoul-gotgot#2",
+          "curator": "dragon"
+        },
+        {
+          "name": "도레미분식 즉석떡볶이",
+          "lat": 37.6513487,
+          "lng": 127.013875,
+          "category": "korean",
+          "address": "서울 도봉구 삼양로144길 18",
+          "description": "도봉구 쌍문동의 즉석떡볶이·분식 노포. 순대튀김 등 튀김류도 인기.",
+          "personalNote": "즉석떡볶이에 순대튀김 조합이 국룰. 라면사리 꼭 넣고 마지막엔 밥 볶아 드세요.",
+          "link": "https://naver.me/Fio7MbTJ",
+          "id": "seoul-gotgot#3",
+          "curator": "dragon"
+        },
+        {
+          "name": "규카츠정 성수점",
+          "lat": 37.5445818,
+          "lng": 127.054961,
+          "category": "japanese",
+          "address": "서울 성동구 아차산로 96 지하1층 101호",
+          "description": "성수동의 규카츠(소고기 커틀릿) 전문점. 겉은 바삭 속은 레어인 규카츠가 대표.",
+          "personalNote": "각자 돌판에 취향껏 구워 먹는 재미가 있어요. 와사비 간장에 찍는 걸 추천합니다.",
+          "link": "https://naver.me/IgJGrzK4",
+          "id": "seoul-gotgot#4",
           "curator": "dragon"
         }
       ]
@@ -85,97 +598,380 @@
           "link": "https://naver.me/xv3neCh8",
           "id": "seoul-gotgot#2",
           "curator": "dragon"
+        },
+        {
+          "name": "Doremi Bunsik (Instant Tteokbokki)",
+          "lat": 37.6513487,
+          "lng": 127.013875,
+          "category": "korean",
+          "address": "18 Samyang-ro 144-gil, Dobong-gu, Seoul",
+          "description": "A veteran instant-tteokbokki and bunsik spot in Ssangmun-dong, Dobong-gu; the fried sundae is a favorite too.",
+          "personalNote": "Instant tteokbokki plus fried sundae is the move. Add a ramen bundle, then fry rice in the leftover sauce.",
+          "link": "https://naver.me/Fio7MbTJ",
+          "id": "seoul-gotgot#3",
+          "curator": "dragon"
+        },
+        {
+          "name": "Gyukatsu Jeong (Seongsu)",
+          "lat": 37.5445818,
+          "lng": 127.054961,
+          "category": "japanese",
+          "address": "B1 #101, 96 Achasan-ro, Seongdong-gu, Seoul",
+          "description": "A gyukatsu (beef cutlet) specialist in Seongsu-dong — crisp outside, rare inside.",
+          "personalNote": "Half the fun is grilling each piece to taste on your own hot stone. Go for the wasabi-soy dip.",
+          "link": "https://naver.me/IgJGrzK4",
+          "id": "seoul-gotgot#4",
+          "curator": "dragon"
         }
       ]
     }
   },
   {
-    "slug": "suyu-matjib",
+    "slug": "seoul-downtown-matjib",
     "region": "seoul",
-    "curator": "nuclear",
-    "city": "서울 강북구",
-    "asOfDate": "2026-07-10",
+    "curator": "honey",
+    "city": "서울 중구·종로구",
+    "asOfDate": "2026-07-11",
     "ko": {
-      "title": "수유동 맛집",
-      "sourceNote": "큐레이터가 고른 곳, 2026년 7월 기준",
+      "title": "서울 도심(중구·종로) 맛집",
+      "sourceNote": "직접 다녀온 곳 위주 · 2026년 7월 기준",
       "places": [
         {
-          "name": "키다리참치초밥",
-          "lat": 37.641363,
-          "lng": 127.028792,
-          "category": "japanese",
-          "address": "서울 강북구 도봉로 385 1층",
-          "description": "강북구 수유동의 참치·초밥 전문점.",
-          "personalNote": "가성비 참치초밥은 여기가 끝판왕. 점심 특선 노려라.",
-          "link": "https://naver.me/xf5uXkhK",
-          "id": "suyu-matjib#0",
-          "curator": "nuclear"
+          "name": "화목순대국전문 광화문1호점",
+          "lat": 37.5712514,
+          "lng": 126.9747764,
+          "category": "korean",
+          "address": "서울 종로구 새문안로5길 11",
+          "description": "광화문의 순대국 노포. 진한 국물과 푸짐한 건더기로 직장인 점심 줄이 길다.",
+          "personalNote": "국물 진하고 잡내 없어요. 다대기 조금씩 풀어가며 먹는 게 제 방식.",
+          "link": "https://naver.me/xlldAY0P",
+          "id": "seoul-downtown-matjib#0",
+          "curator": "honey"
         },
         {
-          "name": "참숯주먹고기",
-          "lat": 37.6480192,
-          "lng": 127.012614,
+          "name": "무교동북어국집",
+          "lat": 37.5677548,
+          "lng": 126.9798583,
           "category": "korean",
-          "address": "서울 강북구 4.19로 14",
-          "description": "강북구 수유동의 참숯 고기구이 전문점.",
-          "personalNote": "이름값 하는 주먹만 한 고기 한 점. 숯불 향에 소주가 절로 당긴다.",
-          "link": "https://naver.me/5neKHifD",
-          "id": "suyu-matjib#1",
-          "curator": "nuclear"
+          "address": "서울 중구 을지로1길 38",
+          "description": "무교동의 북어국 단일 메뉴 노포. 맑고 시원한 북어국 한 그릇이 전부다.",
+          "personalNote": "메뉴가 하나라 고민할 게 없어요. 해장엔 이만한 게 없습니다.",
+          "link": "https://naver.me/GFsRuRct",
+          "id": "seoul-downtown-matjib#1",
+          "curator": "honey"
         },
         {
-          "name": "아옛날이여고래사냥",
-          "lat": 37.648227,
-          "lng": 127.013576,
-          "category": "korean",
-          "address": "서울 강북구 4.19로 6",
-          "description": "강북구 수유동의 옛날 감성 한식 주점.",
-          "personalNote": "레트로 감성에 안주가 실하다. 4.19로에서 술 한잔 생각나면 여기.",
-          "link": "https://naver.me/FaOw8xhg",
-          "id": "suyu-matjib#2",
-          "curator": "nuclear"
+          "name": "유가",
+          "lat": 37.5566901,
+          "lng": 126.9814671,
+          "category": "chinese",
+          "address": "서울 중구 퇴계로12길 68",
+          "description": "중구 퇴계로의 중식당. 짬뽕·마파두부 등 기본기 탄탄한 동네 중국집.",
+          "personalNote": "화려하진 않아도 기본에 충실. 짬뽕 국물이 칼칼해서 자꾸 생각납니다.",
+          "link": "https://naver.me/xCjGwNiY",
+          "id": "seoul-downtown-matjib#2",
+          "curator": "honey"
+        },
+        {
+          "name": "예지사",
+          "lat": 37.5714321,
+          "lng": 127.0136915,
+          "category": "other",
+          "address": "서울 종로구 종로52길 22",
+          "description": "종로의 문구 도매점. 맛집은 아니지만 종로 나들이 때 들르는 단골 코스.",
+          "personalNote": "밥집 아닙니다. 종로에서 문구 사고 근처 노포에서 밥 먹는 루트라 같이 적어뒀어요.",
+          "link": "https://naver.me/5kPthx6s",
+          "id": "seoul-downtown-matjib#3",
+          "curator": "honey"
         }
       ]
     },
     "en": {
-      "title": "Suyu-dong Eats",
-      "sourceNote": "Curator picks, as of July 2026",
+      "title": "Downtown Seoul (Jung-gu & Jongno) Eats",
+      "sourceNote": "Places I've been to myself · as of July 2026",
       "places": [
         {
-          "name": "Kidari Tuna Sushi",
-          "lat": 37.641363,
-          "lng": 127.028792,
+          "name": "Hwamok Sundae-guk (Gwanghwamun)",
+          "lat": 37.5712514,
+          "lng": 126.9747764,
+          "category": "korean",
+          "address": "11 Saemunan-ro 5-gil, Jongno-gu, Seoul",
+          "description": "A veteran sundae-gukbap house in Gwanghwamun; rich broth and hearty portions draw long office-lunch lines.",
+          "personalNote": "Deep broth, no funk. I like adding the chili paste little by little as I go.",
+          "link": "https://naver.me/xlldAY0P",
+          "id": "seoul-downtown-matjib#0",
+          "curator": "honey"
+        },
+        {
+          "name": "Mugyo-dong Bugeo-guk",
+          "lat": 37.5677548,
+          "lng": 126.9798583,
+          "category": "korean",
+          "address": "38 Eulji-ro 1-gil, Jung-gu, Seoul",
+          "description": "A single-dish pollock-soup institution in Mugyo-dong — one clear, soothing bowl and that's it.",
+          "personalNote": "One menu, zero decisions. Nothing beats it for a hangover.",
+          "link": "https://naver.me/GFsRuRct",
+          "id": "seoul-downtown-matjib#1",
+          "curator": "honey"
+        },
+        {
+          "name": "Yuga",
+          "lat": 37.5566901,
+          "lng": 126.9814671,
+          "category": "chinese",
+          "address": "68 Toegye-ro 12-gil, Jung-gu, Seoul",
+          "description": "A Chinese restaurant on Toegye-ro, a solid neighborhood spot for jjamppong and mapo tofu.",
+          "personalNote": "Nothing flashy, just fundamentals done right — the fiery jjamppong broth keeps calling me back.",
+          "link": "https://naver.me/xCjGwNiY",
+          "id": "seoul-downtown-matjib#2",
+          "curator": "honey"
+        },
+        {
+          "name": "Yejisa Stationery",
+          "lat": 37.5714321,
+          "lng": 127.0136915,
+          "category": "other",
+          "address": "22 Jong-ro 52-gil, Jongno-gu, Seoul",
+          "description": "A stationery wholesaler in Jongno. Not a restaurant, but a regular stop on a Jongno outing.",
+          "personalNote": "Not food — but 'buy stationery in Jongno, then eat at an old nearby spot' is a route, so it's here.",
+          "link": "https://naver.me/5kPthx6s",
+          "id": "seoul-downtown-matjib#3",
+          "curator": "honey"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "seongsu-seoulforest-matjib",
+    "region": "seoul",
+    "curator": "honey",
+    "city": "서울 성동구",
+    "asOfDate": "2026-07-11",
+    "ko": {
+      "title": "성수·서울숲 맛집",
+      "sourceNote": "직접 다녀온 곳 위주 · 2026년 7월 기준",
+      "places": [
+        {
+          "name": "밥플러스 아이티캐슬점",
+          "lat": 37.5511473,
+          "lng": 127.0448681,
+          "category": "korean",
+          "address": "서울 성동구 광나루로 130",
+          "description": "서울숲 아이티캐슬 인근의 한식 뷔페. 점심 직장인 수요가 많은 집밥 스타일.",
+          "personalNote": "성수 오피스 점심 고민될 때 무난한 선택. 나물 반찬이 은근 맛있습니다.",
+          "link": "https://naver.me/GgUzOX0s",
+          "id": "seongsu-seoulforest-matjib#0",
+          "curator": "honey"
+        },
+        {
+          "name": "온정돈까스 성수뚝섬점",
+          "lat": 37.5490083,
+          "lng": 127.0451313,
           "category": "japanese",
-          "address": "1F, 385 Dobong-ro, Gangbuk-gu, Seoul",
-          "description": "A tuna and sushi specialist in Suyu-dong, Gangbuk-gu.",
-          "personalNote": "Best-value tuna sushi around—go straight for the lunch special.",
-          "link": "https://naver.me/xf5uXkhK",
-          "id": "suyu-matjib#0",
-          "curator": "nuclear"
+          "address": "서울 성동구 왕십리로14길 12-1 1층",
+          "description": "성수·뚝섬의 돈카츠 전문점. 등심·안심 돈카츠를 바삭하게 튀겨낸다.",
+          "personalNote": "튀김옷 얇고 고기 도톰한 스타일. 웨이팅 있으면 이름 적고 서울숲 한 바퀴 돌고 오세요.",
+          "link": "https://naver.me/xLNzx8MW",
+          "id": "seongsu-seoulforest-matjib#1",
+          "curator": "honey"
         },
         {
-          "name": "Chamsut Jumeok Gogi",
-          "lat": 37.6480192,
-          "lng": 127.012614,
+          "name": "비사벌 전주 콩나물국밥",
+          "lat": 37.5463535,
+          "lng": 127.0450375,
           "category": "korean",
-          "address": "14 4.19-ro, Gangbuk-gu, Seoul",
-          "description": "A charcoal-grilled meat house in Suyu-dong, Gangbuk-gu.",
-          "personalNote": "A fist-sized cut that lives up to the name. Charcoal smoke and soju, done.",
-          "link": "https://naver.me/5neKHifD",
-          "id": "suyu-matjib#1",
-          "curator": "nuclear"
+          "address": "서울 성동구 왕십리로6길 1-2",
+          "description": "전주식 콩나물국밥집. 뚝배기에 수란 곁들여 나오는 해장 메뉴가 대표.",
+          "personalNote": "전날 과음했으면 여기. 수란 국물에 풀어서 후루룩하면 정신이 돌아옵니다.",
+          "link": "https://naver.me/Gqf57oth",
+          "id": "seongsu-seoulforest-matjib#2",
+          "curator": "honey"
         },
         {
-          "name": "Goraesanyang",
-          "lat": 37.648227,
-          "lng": 127.013576,
+          "name": "호앙비엣 성수점",
+          "lat": 37.5457724,
+          "lng": 127.0459814,
+          "category": "other",
+          "address": "서울 성동구 왕십리로4길 10-3 1층",
+          "description": "성수 골목의 베트남 음식점. 소고기 쌀국수와 분짜가 인기 메뉴.",
+          "personalNote": "국물 진한 쌀국수 좋아하면 여기. 분짜는 양이 좀 적으니 곱빼기 추천.",
+          "link": "https://naver.me/F2LRVx0n",
+          "id": "seongsu-seoulforest-matjib#3",
+          "curator": "honey"
+        },
+        {
+          "name": "빠오즈푸 서울숲직영점",
+          "lat": 37.5459829,
+          "lng": 127.0462068,
+          "category": "chinese",
+          "address": "서울 성동구 왕십리로6길 13 1층",
+          "description": "서울숲 직영 딤섬·중식 만두 전문점. 샤오롱바오와 군만두류가 주력.",
+          "personalNote": "샤오롱바오 육즙 조심하세요. 급하게 물면 입천장 다 데입니다(경험담).",
+          "link": "https://naver.me/GuCayQC7",
+          "id": "seongsu-seoulforest-matjib#4",
+          "curator": "honey"
+        },
+        {
+          "name": "밀도 성수점",
+          "lat": 37.5462557,
+          "lng": 127.0448657,
+          "category": "dessert",
+          "address": "서울 성동구 왕십리로 96",
+          "description": "식빵으로 유명한 베이커리의 성수점. 우유식빵·통밀식빵이 대표 상품.",
+          "personalNote": "식빵 하나로 줄 서게 만드는 집. 갓 나온 우유식빵은 그냥 뜯어 먹어도 맛있어요.",
+          "link": "https://naver.me/GxroH0V3",
+          "id": "seongsu-seoulforest-matjib#5",
+          "curator": "honey"
+        },
+        {
+          "name": "엘더버거 성수",
+          "lat": 37.5463228,
+          "lng": 127.042963,
+          "category": "other",
+          "address": "서울 성동구 서울숲2길 40-7 1층",
+          "description": "서울숲 인근의 수제버거집. 두툼한 패티와 직접 만든 번이 특징.",
+          "personalNote": "패티 육향 살아있는 정통 스타일. 감튀보다 어니언링을 추천합니다.",
+          "link": "https://naver.me/xiLZ8I4A",
+          "id": "seongsu-seoulforest-matjib#6",
+          "curator": "honey"
+        },
+        {
+          "name": "쵸리상경",
+          "lat": 37.54705,
+          "lng": 127.0427003,
           "category": "korean",
-          "address": "6 4.19-ro, Gangbuk-gu, Seoul",
-          "description": "A retro-style Korean pub in Suyu-dong, Gangbuk-gu.",
-          "personalNote": "Retro vibes and generous plates. Perfect for a drink along 4.19-ro.",
-          "link": "https://naver.me/FaOw8xhg",
-          "id": "suyu-matjib#2",
-          "curator": "nuclear"
+          "address": "서울 성동구 서울숲4길 18-8 2층",
+          "description": "서울숲길의 한식 주점 겸 식당. 안주로도 밥으로도 좋은 메뉴 구성.",
+          "personalNote": "혼술하기 좋은 분위기. 낮엔 밥집, 밤엔 술집으로 두 번 가게 됩니다.",
+          "link": "https://naver.me/FYrEoo5J",
+          "id": "seongsu-seoulforest-matjib#7",
+          "curator": "honey"
+        },
+        {
+          "name": "레피아",
+          "lat": 37.551069,
+          "lng": 127.0446229,
+          "category": "other",
+          "address": "서울 성동구 광나루로 130 서울숲아이티캐슬 505호",
+          "description": "서울숲 아이티캐슬에 있는 IT 회사. 맛집은 아니지만 성수 오피스 동선의 기준점.",
+          "personalNote": "여긴 밥집 아닙니다. 이 빌딩 오갈 때 근처 맛집 찾는 기준이라 표시만 해뒀어요.",
+          "link": "https://naver.me/x7eaIxFb",
+          "id": "seongsu-seoulforest-matjib#8",
+          "curator": "honey"
+        }
+      ]
+    },
+    "en": {
+      "title": "Seongsu & Seoul Forest Eats",
+      "sourceNote": "Places I've been to myself · as of July 2026",
+      "places": [
+        {
+          "name": "Bab Plus (IT Castle)",
+          "lat": 37.5511473,
+          "lng": 127.0448681,
+          "category": "korean",
+          "address": "130 Gwangnaru-ro, Seongdong-gu, Seoul",
+          "description": "A Korean buffet near Seoul Forest IT Castle, home-style and popular with the lunch office crowd.",
+          "personalNote": "A safe pick when you can't decide on lunch in Seongsu — the namul sides are quietly great.",
+          "link": "https://naver.me/GgUzOX0s",
+          "id": "seongsu-seoulforest-matjib#0",
+          "curator": "honey"
+        },
+        {
+          "name": "Onjeong Tonkatsu (Seongsu Ttukseom)",
+          "lat": 37.5490083,
+          "lng": 127.0451313,
+          "category": "japanese",
+          "address": "12-1 Wangsimni-ro 14-gil, Seongdong-gu, Seoul (1F)",
+          "description": "A tonkatsu specialist in Seongsu·Ttukseom, frying loin and tenderloin cutlets to a proper crunch.",
+          "personalNote": "Thin crust, thick meat. If there's a wait, put your name down and take a lap around Seoul Forest.",
+          "link": "https://naver.me/xLNzx8MW",
+          "id": "seongsu-seoulforest-matjib#1",
+          "curator": "honey"
+        },
+        {
+          "name": "Bisabeol Jeonju Kongnamul Gukbap",
+          "lat": 37.5463535,
+          "lng": 127.0450375,
+          "category": "korean",
+          "address": "1-2 Wangsimni-ro 6-gil, Seongdong-gu, Seoul",
+          "description": "A Jeonju-style kongnamul gukbap house; the hangover bowl with a poached egg on the side is the star.",
+          "personalNote": "Overdid it last night? Come here. Stir the poached egg into the broth and you'll feel human again.",
+          "link": "https://naver.me/Gqf57oth",
+          "id": "seongsu-seoulforest-matjib#2",
+          "curator": "honey"
+        },
+        {
+          "name": "Hoang Viet (Seongsu)",
+          "lat": 37.5457724,
+          "lng": 127.0459814,
+          "category": "other",
+          "address": "10-3 Wangsimni-ro 4-gil, Seongdong-gu, Seoul (1F)",
+          "description": "A Vietnamese eatery in a Seongsu backstreet, popular for beef pho and bun cha.",
+          "personalNote": "For rich-broth pho lovers. The bun cha runs small, so go for the large.",
+          "link": "https://naver.me/F2LRVx0n",
+          "id": "seongsu-seoulforest-matjib#3",
+          "curator": "honey"
+        },
+        {
+          "name": "Baozipu (Seoul Forest)",
+          "lat": 37.5459829,
+          "lng": 127.0462068,
+          "category": "chinese",
+          "address": "13 Wangsimni-ro 6-gil, Seongdong-gu, Seoul (1F)",
+          "description": "A dim sum and Chinese dumpling specialist by Seoul Forest, strong on xiaolongbao and pan-fried dumplings.",
+          "personalNote": "Careful with the xiaolongbao soup — bite too fast and you'll scald your palate (speaking from experience).",
+          "link": "https://naver.me/GuCayQC7",
+          "id": "seongsu-seoulforest-matjib#4",
+          "curator": "honey"
+        },
+        {
+          "name": "Mildo (Seongsu)",
+          "lat": 37.5462557,
+          "lng": 127.0448657,
+          "category": "dessert",
+          "address": "96 Wangsimni-ro, Seongdong-gu, Seoul",
+          "description": "The Seongsu branch of a bakery famous for its shokupan; milk and whole-wheat loaves are the staples.",
+          "personalNote": "The bakery that makes people queue for bread. Fresh milk shokupan is great torn apart and eaten plain.",
+          "link": "https://naver.me/GxroH0V3",
+          "id": "seongsu-seoulforest-matjib#5",
+          "curator": "honey"
+        },
+        {
+          "name": "Elder Burger Seongsu",
+          "lat": 37.5463228,
+          "lng": 127.042963,
+          "category": "other",
+          "address": "40-7 Seoulsup 2-gil, Seongdong-gu, Seoul (1F)",
+          "description": "A craft burger joint near Seoul Forest, with a thick patty and house-made buns.",
+          "personalNote": "Classic style with a beefy patty. Get the onion rings over the fries.",
+          "link": "https://naver.me/xiLZ8I4A",
+          "id": "seongsu-seoulforest-matjib#6",
+          "curator": "honey"
+        },
+        {
+          "name": "Chori Sanggyeong",
+          "lat": 37.54705,
+          "lng": 127.0427003,
+          "category": "korean",
+          "address": "18-8 Seoulsup 4-gil, Seongdong-gu, Seoul (2F)",
+          "description": "A Korean gastro-pub on Seoul Forest-gil, with a menu that works for both drinks and a proper meal.",
+          "personalNote": "Great for a solo drink — lunch spot by day, bar by night, so I end up going twice.",
+          "link": "https://naver.me/FYrEoo5J",
+          "id": "seongsu-seoulforest-matjib#7",
+          "curator": "honey"
+        },
+        {
+          "name": "Lepia",
+          "lat": 37.551069,
+          "lng": 127.0446229,
+          "category": "other",
+          "address": "130 Gwangnaru-ro, Seongdong-gu, Seoul (Seoul Forest IT Castle #505)",
+          "description": "An IT company inside Seoul Forest IT Castle. Not a restaurant, just an anchor on the Seongsu office route.",
+          "personalNote": "Not a food place. It's just my reference point for finding lunch around this building.",
+          "link": "https://naver.me/x7eaIxFb",
+          "id": "seongsu-seoulforest-matjib#8",
+          "curator": "honey"
         }
       ]
     }
@@ -265,6 +1061,97 @@
           "personalNote": "Warm jokbal that melts in your mouth, bite after bite.",
           "link": "https://naver.me/Fmf6NMII",
           "id": "seoul-matjib#2",
+          "curator": "honey"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "daejeon-daegu-matjib",
+    "region": "nationwide",
+    "curator": "honey",
+    "city": "대전·대구",
+    "asOfDate": "2026-07-11",
+    "ko": {
+      "title": "대전·대구 맛집",
+      "sourceNote": "직접 다녀온 곳 위주 · 2026년 7월 기준",
+      "places": [
+        {
+          "name": "천복순대국밥 궁동점",
+          "lat": 36.3597988,
+          "lng": 127.3423317,
+          "category": "korean",
+          "address": "대전 유성구 문화원로 57",
+          "description": "대전 유성 궁동의 순대국밥집. 학생·직장인이 즐겨 찾는 진한 국물의 국밥.",
+          "personalNote": "대전 갈 일 있으면 들르는 국밥집. 밥 말기 전에 국물부터 한 술 떠보세요.",
+          "link": "https://naver.me/GNJsUqCw",
+          "id": "daejeon-daegu-matjib#0",
+          "curator": "honey"
+        },
+        {
+          "name": "이비가짬뽕 유성본점",
+          "lat": 36.3604662,
+          "lng": 127.3404875,
+          "category": "chinese",
+          "address": "대전 유성구 문화원로 39",
+          "description": "대전 유성의 짬뽕 프랜차이즈 본점. 얼큰한 짬뽕과 탕수육 조합이 정석.",
+          "personalNote": "본점이라 그런지 불맛이 확실히 다릅니다. 짬뽕은 얼큰 단계로 가세요.",
+          "link": "https://naver.me/GKItE3wC",
+          "id": "daejeon-daegu-matjib#1",
+          "curator": "honey"
+        },
+        {
+          "name": "맛찬들왕소금구이 서변점",
+          "lat": 35.9191542,
+          "lng": 128.596395,
+          "category": "korean",
+          "address": "대구 북구 호국로39길 26",
+          "description": "대구 북구 서변동의 소금구이 고깃집. 왕소금에 구워내는 삼겹·목살이 대표.",
+          "personalNote": "대구 갔을 때 회식 장소로 딱. 소금구이라 느끼함 덜하고 밑반찬이 알찹니다.",
+          "link": "https://naver.me/xiLGqey5",
+          "id": "daejeon-daegu-matjib#2",
+          "curator": "honey"
+        }
+      ]
+    },
+    "en": {
+      "title": "Daejeon & Daegu Eats",
+      "sourceNote": "Places I've been to myself · as of July 2026",
+      "places": [
+        {
+          "name": "Cheonbok Sundae Gukbap (Gung-dong)",
+          "lat": 36.3597988,
+          "lng": 127.3423317,
+          "category": "korean",
+          "address": "57 Munhwawon-ro, Yuseong-gu, Daejeon",
+          "description": "A sundae-gukbap house in Gung-dong, Yuseong (Daejeon), beloved by students and workers for its rich bowl.",
+          "personalNote": "My go-to bowl when I'm in Daejeon. Try a spoon of broth before you add the rice.",
+          "link": "https://naver.me/GNJsUqCw",
+          "id": "daejeon-daegu-matjib#0",
+          "curator": "honey"
+        },
+        {
+          "name": "Ebiga Jjamppong (Yuseong)",
+          "lat": 36.3604662,
+          "lng": 127.3404875,
+          "category": "chinese",
+          "address": "39 Munhwawon-ro, Yuseong-gu, Daejeon",
+          "description": "The flagship of a jjamppong chain in Yuseong, Daejeon; the spicy jjamppong-and-tangsuyuk combo is the classic order.",
+          "personalNote": "Being the flagship, the wok-hei really shows — order the jjamppong on the spicier side.",
+          "link": "https://naver.me/GKItE3wC",
+          "id": "daejeon-daegu-matjib#1",
+          "curator": "honey"
+        },
+        {
+          "name": "Matchandeul Salt-Grill (Seobyeon)",
+          "lat": 35.9191542,
+          "lng": 128.596395,
+          "category": "korean",
+          "address": "26 Hoguk-ro 39-gil, Buk-gu, Daegu",
+          "description": "A salt-grilled BBQ house in Seobyeon-dong, Buk-gu (Daegu); coarse-salt-grilled pork belly and shoulder are the mains.",
+          "personalNote": "A solid group-dinner pick when I'm in Daegu — salt-grilling keeps it less greasy, and the sides are generous.",
+          "link": "https://naver.me/xiLGqey5",
+          "id": "daejeon-daegu-matjib#2",
           "curator": "honey"
         }
       ]
