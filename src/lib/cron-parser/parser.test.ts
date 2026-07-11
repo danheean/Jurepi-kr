@@ -247,5 +247,29 @@ describe('parseCron', () => {
       expect(result.error?.code).toBe('unknownValue');
       expect(result.error?.params).toMatchObject({ value: 'NOPE' });
     });
+
+    it('attaches invalidStep code for a malformed step', () => {
+      const result = parseCron('*/0 9 * * *');
+      expect(result.isValid).toBe(false);
+      expect(result.error?.code).toBe('invalidStep');
+    });
+
+    it('attaches wrongFieldCount code for the wrong number of fields', () => {
+      const result = parseCron('0 9 * *');
+      expect(result.isValid).toBe(false);
+      expect(result.error?.code).toBe('wrongFieldCount');
+    });
+
+    it('attaches unsupportedSyntax code for Quartz syntax in Unix mode', () => {
+      const result = parseCron('0 9 ? * *');
+      expect(result.isValid).toBe(false);
+      expect(result.error?.code).toBe('unsupportedSyntax');
+    });
+
+    it('attaches unknownMacro code for a bad macro', () => {
+      const result = parseCron('@nope');
+      expect(result.isValid).toBe(false);
+      expect(result.error?.code).toBe('unknownMacro');
+    });
   });
 });

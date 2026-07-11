@@ -56,6 +56,7 @@ export interface SyntaxError {
   type: 'syntax';
   message: string;
   position?: number;
+  code?: string; // localization hook: errors.<code>
 }
 
 export interface ParseError {

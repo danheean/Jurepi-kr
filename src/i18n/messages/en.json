@@ -733,7 +733,9 @@
         "noUpcomingRuns": "No upcoming run times found within 4 years.",
         "unknownMacro": "Unknown macro. Valid macros: @yearly, @monthly, @weekly, @daily, @hourly",
         "valueOutOfRange": "Invalid value {value} (must be {min}–{max})",
-        "unknownValue": "Unknown value: {value}"
+        "unknownValue": "Unknown value: {value}",
+        "invalidStep": "Invalid step value: {value}",
+        "invalidRange": "Invalid range: {value}"
       },
       "fieldLabels": {
         "second": "second",
@@ -743,7 +745,8 @@
         "month": "month",
         "dow": "day-of-week",
         "year": "year",
-        "macro": "macro"
+        "macro": "macro",
+        "syntax": "syntax"
       },
       "descriptions": {
         "everyMinute": "Every minute",

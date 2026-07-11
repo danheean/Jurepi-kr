@@ -21,6 +21,7 @@ export function parseCron(expr: string): ParsedFields {
       error: {
         field: 'syntax',
         message: tokenResult.error?.message || 'Invalid expression',
+        code: tokenResult.error?.code,
       },
     };
   }
@@ -39,6 +40,7 @@ export function parseCron(expr: string): ParsedFields {
         error: {
           field: 'macro',
           message: macroResult.error?.message || 'Unknown macro',
+          code: 'unknownMacro',
         },
       };
     }
@@ -129,6 +131,8 @@ function parseField(
           error: {
             field: fieldName,
             message: parsed.error || `Invalid step: ${token.value}`,
+            code: 'invalidStep',
+            params: { value: token.value },
           },
         };
       }
@@ -141,6 +145,8 @@ function parseField(
           error: {
             field: fieldName,
             message: parsed.error || `Invalid range: ${token.value}`,
+            code: 'invalidRange',
+            params: { value: token.value },
           },
         };
       }
@@ -158,6 +164,8 @@ function parseField(
               error: {
                 field: fieldName,
                 message: parsed.error || `Invalid step in list: ${part}`,
+                code: 'invalidStep',
+                params: { value: part },
               },
             };
           }
@@ -170,6 +178,8 @@ function parseField(
               error: {
                 field: fieldName,
                 message: parsed.error || `Invalid range in list: ${part}`,
+                code: 'invalidRange',
+                params: { value: part },
               },
             };
           }

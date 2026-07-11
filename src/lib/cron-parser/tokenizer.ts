@@ -31,6 +31,7 @@ export function tokenizeCron(expr: string): TokenizeResult {
         message:
           'Quartz syntax not supported. Use standard POSIX cron: *, ranges (1-5), steps (*/15), lists (1,3,5), names (JAN-DEC, SUN-SAT).',
         position: trimmed.includes('#') ? trimmed.indexOf('#') : trimmed.indexOf('?'),
+        code: 'unsupportedSyntax',
       },
     };
   }
@@ -50,6 +51,7 @@ export function tokenizeCron(expr: string): TokenizeResult {
             message:
               'Quartz syntax not supported. Use standard POSIX cron: *, ranges (1-5), steps (*/15), lists (1,3,5), names (JAN-DEC, SUN-SAT).',
             position: trimmed.indexOf('L'),
+            code: 'unsupportedSyntax',
           },
         };
       }
@@ -68,6 +70,7 @@ export function tokenizeCron(expr: string): TokenizeResult {
             message:
               'Quartz syntax not supported. Use standard POSIX cron: *, ranges (1-5), steps (*/15), lists (1,3,5), names (JAN-DEC, SUN-SAT).',
             position: trimmed.indexOf('W'),
+            code: 'unsupportedSyntax',
           },
         };
       }
@@ -85,6 +88,7 @@ export function tokenizeCron(expr: string): TokenizeResult {
         message:
           'Cron expression must have 5 fields: minute hour day-of-month month day-of-week.',
         position: 0,
+        code: 'wrongFieldCount',
       },
     };
   }
