@@ -45,6 +45,20 @@ describe('useAgeLookup', () => {
     });
   });
 
+  it('computes the next-birthday countdown on the LUNAR recurrence, not the birth-year solar day', async () => {
+    // 음력 1972-06-09 → 양력 1972-07-19 (birth year). As of 2026-07-15 the buggy
+    // path counted to 2026-07-19 (=4). The lunar recurrence is 음력 2026-06-09
+    // → 양력 2026-07-22 (=7). Fix asOf to make this deterministic.
+    const { result } = renderHook(() => useAgeLookup());
+    act(() => result.current.setUseAsOf(true));
+    act(() => result.current.setAsOfDate('2026-07-15'));
+    act(() => result.current.setBirthdate('1972-06-09', 'lunar', false));
+    await waitFor(() => {
+      expect(result.current.age).not.toBeNull();
+      expect(result.current.age?.nextBirthdayCountdown).toBe(7);
+    });
+  });
+
   it('errors when a leap month does not exist that year', async () => {
     const { result } = renderHook(() => useAgeLookup());
     // 2000 has no leap month at month 5 with isLeap → no-leap

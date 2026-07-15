@@ -6,6 +6,7 @@ import { parseBirthdateInput, parsePeopleStore, type Person, type PeopleStore } 
 import { addPerson, removePerson } from '@/lib/age-calculator/people';
 import { pushRecent, serializeRecents, deserializeRecents, type RecentEntry } from '@/lib/age-calculator/recents';
 import { resolveBirthdate, isResolveError, type CalendarType } from '@/lib/age-calculator/resolve';
+import { lunarNextBirthdayCountdown } from '@/lib/age-calculator/lunar-next-birthday';
 
 export type AgeError = 'invalid' | 'future' | 'too-old' | 'no-leap';
 
@@ -150,6 +151,21 @@ export function useAgeLookup(): UseAgeLookupReturn {
               date: resolved.lunarDate.date,
               isLeapMonth: resolved.lunarDate.isLeapMonth,
             };
+      // Lunar birthdays recur on the LUNAR calendar: re-project this/next year's
+      // lunar month/day onto the solar calendar instead of reusing the birth-year
+      // solar month/day (which the base countdown assumes). Falls back to the
+      // solar value when the lunar recurrence can't be resolved.
+      if (calendarType === 'lunar') {
+        const [, lm, ld] = resolved.lunarDate.date.split('-').map(Number);
+        const lunarCountdown = await lunarNextBirthdayCountdown(
+          lm,
+          ld,
+          resolved.lunarDate.isLeapMonth,
+          asOf
+        );
+        if (cancelled) return;
+        if (lunarCountdown != null) result.nextBirthdayCountdown = lunarCountdown;
+      }
       setAge(result);
       setError(null);
     })();

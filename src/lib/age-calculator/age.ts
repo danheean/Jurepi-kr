@@ -112,7 +112,21 @@ export function breakdown(
 }
 
 /**
+ * daysUntilCountdown: Ceil-days from asOfDate until a concrete future target
+ * date, clamped to the valid birthday range [1, 366]. Shared by the solar
+ * countdown and the lunar-aware countdown so both round/clamp identically.
+ */
+export function daysUntilCountdown(target: Date, asOfDate: Date): number {
+  const msPerDay = 1000 * 60 * 60 * 24;
+  const countDown = Math.ceil((target.getTime() - asOfDate.getTime()) / msPerDay);
+  return Math.max(1, Math.min(366, countDown));
+}
+
+/**
  * nextBirthdayCountdown: Days until next birthday (1-366).
+ * Solar-calendar recurrence: the birthday recurs on the same solar month/day.
+ * For LUNAR-entered birthdays the recurrence is on the lunar calendar — see
+ * lunarNextBirthdayCountdown (the hook overrides this value for those).
  */
 export function nextBirthdayCountdown(birthDate: Date, asOfDate: Date): number {
   const birthMonth = birthDate.getMonth();
@@ -126,11 +140,7 @@ export function nextBirthdayCountdown(birthDate: Date, asOfDate: Date): number {
     nextAnniversary = new Date(asOfDate.getFullYear() + 1, birthMonth, birthDay);
   }
 
-  const msPerDay = 1000 * 60 * 60 * 24;
-  const countDown = Math.ceil((nextAnniversary.getTime() - asOfDate.getTime()) / msPerDay);
-
-  // Ensure countdown is in valid range [1, 366]
-  return Math.max(1, Math.min(366, countDown));
+  return daysUntilCountdown(nextAnniversary, asOfDate);
 }
 
 /**
