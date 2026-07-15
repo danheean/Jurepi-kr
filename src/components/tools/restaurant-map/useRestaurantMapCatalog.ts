@@ -11,6 +11,7 @@ import {
 } from '@/lib/restaurant-map/schema';
 import { filterPlaces } from '@/lib/restaurant-map/search';
 import { haversineDistance } from '@/lib/restaurant-map/geo';
+import { recommendedOrder } from '@/lib/restaurant-map/order';
 import {
   toggleFavorite,
   pushRecent,
@@ -255,7 +256,11 @@ export function useRestaurantMapCatalog(
     // Apply search filter
     places = filterPlaces(places, state.query, locale);
 
-    // With an active user location, nearest places come first (immutable sort)
+    // Ordering:
+    // - With an active user location → nearest-first (the hero result).
+    // - Otherwise, in a browse view → 큐레이터 추천순 (curator round-robin), so the
+    //   top shows each curator's lead instead of one list dominating by authoring
+    //   accident. Favorites/recent keep their own (MRU) order.
     const geo = state.userGeo;
     if (geo) {
       places = [...places].sort(
@@ -263,6 +268,8 @@ export function useRestaurantMapCatalog(
           haversineDistance(geo.lat, geo.lng, a.lat, a.lng) -
           haversineDistance(geo.lat, geo.lng, b.lat, b.lng)
       );
+    } else if (state.activeRegion !== 'favorites' && state.activeRegion !== 'recent') {
+      places = recommendedOrder(places);
     }
 
     return places;

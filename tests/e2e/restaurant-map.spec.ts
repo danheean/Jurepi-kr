@@ -253,10 +253,17 @@ test.describe('Restaurant Map - E2E', () => {
     const main = page.locator('main');
     await expect(page.getByRole('searchbox')).toBeVisible({ timeout: 10_000 });
 
-    // Catalog order before using location: 콩블랑제리 (first list, first place)
-    await expect(main.locator('#place-list [data-testid^="place-card-"]').first()).toContainText(
-      '콩블랑제리'
-    );
+    // Default order (no location) = 큐레이터 추천순: each curator's lead is
+    // interleaved to the top, so the first cards come from distinct source lists
+    // (not one list dominating by authoring order). Robust to content changes.
+    const cards = main.locator('#place-list [data-testid^="place-card-"]');
+    const topSlugs = () =>
+      cards.evaluateAll((els) =>
+        els
+          .slice(0, 3)
+          .map((e) => (e.getAttribute('data-testid') || '').replace(/^place-card-/, '').split('#')[0])
+      );
+    expect(new Set(await topSlugs()).size).toBe(3);
 
     await page.getByRole('button', { name: '내 위치' }).click();
 
@@ -272,9 +279,8 @@ test.describe('Restaurant Map - E2E', () => {
     const clearBtn = page.getByRole('button', { name: '위치 해제' });
     await expect(clearBtn).toHaveAttribute('aria-pressed', 'true');
     await clearBtn.click();
-    await expect(main.locator('#place-list [data-testid^="place-card-"]').first()).toContainText(
-      '콩블랑제리'
-    );
+    // Clearing restores the 큐레이터 추천순 interleave (distinct lists up top).
+    expect(new Set(await topSlugs()).size).toBe(3);
     await expect(main.locator('#place-list').getByText(/^\d+(\.\d+)?km$/)).toHaveCount(0);
 
     expect(errors).toEqual([]);
