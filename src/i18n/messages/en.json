@@ -1074,6 +1074,11 @@
         "breadcrumbHome": "Home",
         "backToHub": "← Browse all rankings",
         "asOfPrefix": "as of"
+      },
+      "copyrightNotice": {
+        "prefix": "This page compiles publicly available facts with clear source attribution. If you believe it infringes your rights, please ",
+        "linkLabel": "contact us",
+        "suffix": " and we'll review and act promptly."
       }
     },
     "age-calculator": {
@@ -3372,6 +3377,10 @@
       {
         "title": "Intellectual property",
         "body": "All content on Jurepi, including text, graphics, logos, and code, is owned by or licensed to Jurepi and is protected by copyright and intellectual property laws. You may use the tools for personal, non-commercial purposes only."
+      },
+      {
+        "title": "Copyright infringement reports",
+        "body": "Some tools, such as Various Rankings, compile publicly available facts from third-party sources like TIOBE and Forbes with clear attribution. If you believe this infringes your copyright or other rights, please contact us using the details below. We will review your report promptly and correct or remove the content as appropriate."
       },
       {
         "title": "Third-party advertising and links",

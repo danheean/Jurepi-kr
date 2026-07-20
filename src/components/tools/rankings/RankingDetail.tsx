@@ -64,6 +64,21 @@ export function RankingDetail({ ranking, onClose }: RankingDetailProps) {
 
       {/* Semantic table */}
       <RankingTable ranking={ranking} />
+
+      {/* Copyright/takedown notice — reinforces the ProvenanceBanner attribution */}
+      <p
+        data-testid="rankings-copyright-notice"
+        className="text-xs text-text-muted leading-relaxed"
+      >
+        {tRoot('copyrightNotice.prefix')}
+        <a
+          href={`/${locale}/contact`}
+          className="underline hover:text-text-secondary transition-colors"
+        >
+          {tRoot('copyrightNotice.linkLabel')}
+        </a>
+        {tRoot('copyrightNotice.suffix')}
+      </p>
     </div>
   );
 }

@@ -66,6 +66,21 @@ export function RankingsSpoke({ ranking, locale }: RankingsSpokeProps) {
           {t('spoke.backToHub')}
         </a>
       </div>
+
+      {/* Copyright/takedown notice — reinforces the ProvenanceBanner attribution */}
+      <p
+        data-testid="rankings-copyright-notice"
+        className="text-xs text-text-muted leading-relaxed"
+      >
+        {t('copyrightNotice.prefix')}
+        <a
+          href={`/${locale}/contact`}
+          className="underline hover:text-text-secondary transition-colors"
+        >
+          {t('copyrightNotice.linkLabel')}
+        </a>
+        {t('copyrightNotice.suffix')}
+      </p>
     </div>
   );
 }
