@@ -1,3 +1,4 @@
+import { FIELD_ORDER } from './schema';
 import type { MergedRanking } from './schema';
 
 /**
@@ -30,8 +31,7 @@ export function byField(catalog: MergedRanking[], field: string): MergedRanking[
  */
 export function fields(catalog: MergedRanking[]): string[] {
   const unique = new Set(catalog.map((r) => r.field));
-  const fieldOrder = ['ai', 'programming', 'tech', 'games', 'movies', 'music'] as const;
-  return fieldOrder.filter((f) => unique.has(f)) as string[];
+  return FIELD_ORDER.filter((f) => unique.has(f)) as string[];
 }
 
 /**

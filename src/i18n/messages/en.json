@@ -976,7 +976,9 @@
         "tech": "Technology",
         "games": "Games",
         "movies": "Movies",
-        "music": "Music"
+        "music": "Music",
+        "sports": "Sports",
+        "education": "Education"
       },
       "tabs": {
         "all": "All",

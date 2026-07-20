@@ -976,7 +976,9 @@
         "tech": "기술",
         "games": "게임",
         "movies": "영화",
-        "music": "음악"
+        "music": "음악",
+        "sports": "스포츠",
+        "education": "교육"
       },
       "tabs": {
         "all": "전체",

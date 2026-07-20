@@ -2,117 +2,217 @@
   {
     "slug": "llm-agent-leaderboard",
     "field": "ai",
-    "asOfDate": "2026-06",
+    "asOfDate": "2026-07-17",
     "sourceUrl": "https://arena.ai/leaderboard/agent",
     "ko": {
       "title": "LLM 에이전트 순위",
-      "sourceNote": "Agent Arena 리더보드 기준 · 2026-06-29",
+      "sourceNote": "Agent Arena 에이전트 리더보드 기준(누적 105만+ 세션·35개 모델, 성공률·툴환각 등 5개 신호 종합 산정) · 2026년 7월 17일",
       "items": [
         {
           "rank": 1,
           "name": "Claude Fable 5 (High)",
-          "description": "제공: Anthropic · 순개선도 13.34%"
+          "description": "제공: Anthropic · 순개선도 13.94% (전월 대비 +0.60%p, 1위 유지)"
         },
         {
           "rank": 2,
-          "name": "Claude Opus 4.8 (Thinking)",
-          "description": "제공: Anthropic · 순개선도 9.37%"
+          "name": "GPT 5.6 Sol (xHigh)",
+          "description": "제공: OpenAI · 순개선도 10.94% (신규 모델, 7월 13일 추가 · 2위 진입)"
         },
         {
           "rank": 3,
-          "name": "GPT 5.5 (xHigh)",
-          "description": "제공: OpenAI · 순개선도 8.21%"
+          "name": "Claude Opus 4.8 (Thinking)",
+          "description": "제공: Anthropic · 순개선도 9.28% (전월 대비 -0.09%p, 2위→3위)"
         },
         {
           "rank": 4,
-          "name": "Claude Opus 4.7",
-          "description": "제공: Anthropic · 순개선도 8.16%"
+          "name": "GPT 5.5 (xHigh)",
+          "description": "제공: OpenAI · 순개선도 8.26% (전월 대비 +0.05%p, 3위→4위)"
         },
         {
           "rank": 5,
-          "name": "Claude Opus 4.7 (Thinking)",
-          "description": "제공: Anthropic · 순개선도 8.07%"
+          "name": "Claude Sonnet 5 (High)",
+          "description": "제공: Anthropic · 순개선도 8.00% (신규 모델 · 5위 진입)"
         },
         {
           "rank": 6,
-          "name": "GPT 5.5 (High)",
-          "description": "제공: OpenAI · 순개선도 7.13%"
+          "name": "Claude Opus 4.7 (Thinking)",
+          "description": "제공: Anthropic · 순개선도 7.73% (전월 대비 -0.34%p, 5위→6위)"
         },
         {
           "rank": 7,
-          "name": "GLM 5.2 (Max)",
-          "description": "제공: Zhipu AI · 순개선도 6.93%"
+          "name": "Claude Opus 4.7",
+          "description": "제공: Anthropic · 순개선도 7.63% (전월 대비 -0.53%p, 4위→7위)"
         },
         {
           "rank": 8,
-          "name": "GPT 5.4 (High)",
-          "description": "제공: OpenAI · 순개선도 6.65%"
+          "name": "GPT 5.5 (High)",
+          "description": "제공: OpenAI · 순개선도 7.16% (전월 대비 +0.03%p, 6위→8위)"
         },
         {
           "rank": 9,
-          "name": "Claude Opus 4.6",
-          "description": "제공: Anthropic · 순개선도 6.47%"
+          "name": "GLM 5.2 (Max)",
+          "description": "제공: Z.ai · 순개선도 6.24% (전월 대비 -0.69%p, 7위→9위)"
         },
         {
           "rank": 10,
           "name": "GPT 5.5",
-          "description": "제공: OpenAI · 순개선도 6.22%"
+          "description": "제공: OpenAI · 순개선도 6.05% (전월 대비 -0.17%p, 10위 유지)"
+        },
+        {
+          "rank": 11,
+          "name": "Claude Opus 4.6",
+          "description": "제공: Anthropic · 순개선도 5.88% (전월 대비 -0.59%p, 9위→11위)"
+        },
+        {
+          "rank": 12,
+          "name": "GPT 5.4 (High)",
+          "description": "제공: OpenAI · 순개선도 5.86% (전월 대비 -0.79%p, 8위→12위)"
+        },
+        {
+          "rank": 13,
+          "name": "Grok 4.5",
+          "description": "제공: SpaceXAI · 순개선도 4.99% (신규 모델, 7월 13일 추가)"
+        },
+        {
+          "rank": 14,
+          "name": "Claude Opus 4.8",
+          "description": "제공: Anthropic · 순개선도 3.90% (20위 확장으로 신규 표시)"
+        },
+        {
+          "rank": 15,
+          "name": "Claude Sonnet 4.6",
+          "description": "제공: Anthropic · 순개선도 1.99% (20위 확장으로 신규 표시)"
+        },
+        {
+          "rank": 16,
+          "name": "GLM 5.1",
+          "description": "제공: Z.ai · 순개선도 1.19% (20위 확장으로 신규 표시)"
+        },
+        {
+          "rank": 17,
+          "name": "Muse Spark 1.1",
+          "description": "제공: Meta · 순개선도 0.17% (신규 모델, 7월 13일 추가)"
+        },
+        {
+          "rank": 18,
+          "name": "Qwen3.7 Plus",
+          "description": "제공: Alibaba · 순개선도 0.61% (20위 확장으로 신규 표시)"
+        },
+        {
+          "rank": 19,
+          "name": "Gemini 3.1 Pro Preview",
+          "description": "제공: Google · 순개선도 0.70% (20위 확장으로 신규 표시)"
+        },
+        {
+          "rank": 20,
+          "name": "Kimi K2.7 Code",
+          "description": "제공: Moonshot · 순개선도 0.76% (20위 확장으로 신규 표시)"
         }
       ]
     },
     "en": {
       "title": "LLM Agent Leaderboard",
-      "sourceNote": "Based on the Agent Arena leaderboard · June 29, 2026",
+      "sourceNote": "Based on the Agent Arena leaderboard (1M+ sessions, 35 models; aggregates 5 signals incl. success rate & tool hallucination) · July 17, 2026",
       "items": [
         {
           "rank": 1,
           "name": "Claude Fable 5 (High)",
-          "description": "By Anthropic · net improvement 13.34%"
+          "description": "By Anthropic · net improvement 13.94% (+0.60%p MoM, holds #1)"
         },
         {
           "rank": 2,
-          "name": "Claude Opus 4.8 (Thinking)",
-          "description": "By Anthropic · net improvement 9.37%"
+          "name": "GPT 5.6 Sol (xHigh)",
+          "description": "By OpenAI · net improvement 10.94% (new model, added Jul 13 · debuts at #2)"
         },
         {
           "rank": 3,
-          "name": "GPT 5.5 (xHigh)",
-          "description": "By OpenAI · net improvement 8.21%"
+          "name": "Claude Opus 4.8 (Thinking)",
+          "description": "By Anthropic · net improvement 9.28% (-0.09%p MoM, #2 to #3)"
         },
         {
           "rank": 4,
-          "name": "Claude Opus 4.7",
-          "description": "By Anthropic · net improvement 8.16%"
+          "name": "GPT 5.5 (xHigh)",
+          "description": "By OpenAI · net improvement 8.26% (+0.05%p MoM, #3 to #4)"
         },
         {
           "rank": 5,
-          "name": "Claude Opus 4.7 (Thinking)",
-          "description": "By Anthropic · net improvement 8.07%"
+          "name": "Claude Sonnet 5 (High)",
+          "description": "By Anthropic · net improvement 8.00% (new model · debuts at #5)"
         },
         {
           "rank": 6,
-          "name": "GPT 5.5 (High)",
-          "description": "By OpenAI · net improvement 7.13%"
+          "name": "Claude Opus 4.7 (Thinking)",
+          "description": "By Anthropic · net improvement 7.73% (-0.34%p MoM, #5 to #6)"
         },
         {
           "rank": 7,
-          "name": "GLM 5.2 (Max)",
-          "description": "By Zhipu AI · net improvement 6.93%"
+          "name": "Claude Opus 4.7",
+          "description": "By Anthropic · net improvement 7.63% (-0.53%p MoM, #4 to #7)"
         },
         {
           "rank": 8,
-          "name": "GPT 5.4 (High)",
-          "description": "By OpenAI · net improvement 6.65%"
+          "name": "GPT 5.5 (High)",
+          "description": "By OpenAI · net improvement 7.16% (+0.03%p MoM, #6 to #8)"
         },
         {
           "rank": 9,
-          "name": "Claude Opus 4.6",
-          "description": "By Anthropic · net improvement 6.47%"
+          "name": "GLM 5.2 (Max)",
+          "description": "By Z.ai · net improvement 6.24% (-0.69%p MoM, #7 to #9)"
         },
         {
           "rank": 10,
           "name": "GPT 5.5",
-          "description": "By OpenAI · net improvement 6.22%"
+          "description": "By OpenAI · net improvement 6.05% (-0.17%p MoM, holds #10)"
+        },
+        {
+          "rank": 11,
+          "name": "Claude Opus 4.6",
+          "description": "By Anthropic · net improvement 5.88% (-0.59%p MoM, #9 to #11)"
+        },
+        {
+          "rank": 12,
+          "name": "GPT 5.4 (High)",
+          "description": "By OpenAI · net improvement 5.86% (-0.79%p MoM, #8 to #12)"
+        },
+        {
+          "rank": 13,
+          "name": "Grok 4.5",
+          "description": "By SpaceXAI · net improvement 4.99% (new model, added Jul 13)"
+        },
+        {
+          "rank": 14,
+          "name": "Claude Opus 4.8",
+          "description": "By Anthropic · net improvement 3.90% (newly shown with the top-20 expansion)"
+        },
+        {
+          "rank": 15,
+          "name": "Claude Sonnet 4.6",
+          "description": "By Anthropic · net improvement 1.99% (newly shown with the top-20 expansion)"
+        },
+        {
+          "rank": 16,
+          "name": "GLM 5.1",
+          "description": "By Z.ai · net improvement 1.19% (newly shown with the top-20 expansion)"
+        },
+        {
+          "rank": 17,
+          "name": "Muse Spark 1.1",
+          "description": "By Meta · net improvement 0.17% (new model, added Jul 13)"
+        },
+        {
+          "rank": 18,
+          "name": "Qwen3.7 Plus",
+          "description": "By Alibaba · net improvement 0.61% (newly shown with the top-20 expansion)"
+        },
+        {
+          "rank": 19,
+          "name": "Gemini 3.1 Pro Preview",
+          "description": "By Google · net improvement 0.70% (newly shown with the top-20 expansion)"
+        },
+        {
+          "rank": 20,
+          "name": "Kimi K2.7 Code",
+          "description": "By Moonshot · net improvement 0.76% (newly shown with the top-20 expansion)"
         }
       ]
     }
@@ -120,137 +220,453 @@
   {
     "slug": "tiobe-programming-languages",
     "field": "programming",
-    "asOfDate": "2026-06",
+    "asOfDate": "2026-07",
     "sourceUrl": "https://www.tiobe.com/tiobe-index/",
     "ko": {
       "title": "프로그래밍 언어 인기 순위",
-      "sourceNote": "TIOBE 인덱스 기준 · 2026년 6월",
+      "sourceNote": "TIOBE 인덱스 기준(구글·빙·위키피디아 등 20여 검색엔진의 검색량으로 언어 '인기도' 측정, 기술적 우수성과 무관) · 2026년 7월",
       "items": [
         {
           "rank": 1,
           "name": "Python",
-          "description": "TIOBE 레이팅 18.96% (전년 대비 -6.91%p)"
+          "description": "TIOBE 레이팅 18.94% (전월 대비 -0.02%p, 1위 유지)"
         },
         {
           "rank": 2,
           "name": "C",
-          "description": "TIOBE 레이팅 10.77% (전년 대비 +1.30%p)"
+          "description": "TIOBE 레이팅 10.86% (전월 대비 +0.09%p, 2위 유지)"
         },
         {
           "rank": 3,
           "name": "C++",
-          "description": "TIOBE 레이팅 8.03% (전년 대비 -2.65%p)"
+          "description": "TIOBE 레이팅 9.12% (전월 대비 +1.09%p, 3위 유지)"
         },
         {
           "rank": 4,
           "name": "Java",
-          "description": "TIOBE 레이팅 7.90% (전년 대비 -0.94%p)"
+          "description": "TIOBE 레이팅 8.03% (전월 대비 +0.13%p, 4위 유지)"
         },
         {
           "rank": 5,
           "name": "C#",
-          "description": "TIOBE 레이팅 4.85% (전년 대비 +0.17%p)"
+          "description": "TIOBE 레이팅 4.49% (전월 대비 -0.36%p, 5위 유지)"
         },
         {
           "rank": 6,
           "name": "JavaScript",
-          "description": "TIOBE 레이팅 3.04% (전년 대비 -0.17%p)"
+          "description": "TIOBE 레이팅 2.72% (전월 대비 -0.32%p, 6위 유지)"
         },
         {
           "rank": 7,
           "name": "Visual Basic",
-          "description": "TIOBE 레이팅 2.80% (전년 대비 +0.59%p)"
+          "description": "TIOBE 레이팅 2.48% (전월 대비 -0.32%p, 7위 유지)"
         },
         {
           "rank": 8,
           "name": "SQL",
-          "description": "TIOBE 레이팅 1.77% (전년 대비 +0.23%p)"
+          "description": "TIOBE 레이팅 1.71% (전월 대비 -0.06%p, 8위 유지)"
         },
         {
           "rank": 9,
           "name": "R",
-          "description": "TIOBE 레이팅 1.69% (전년 대비 +0.30%p)"
+          "description": "TIOBE 레이팅 1.69% (전월 대비 변동 없음, 9위 유지)"
         },
         {
           "rank": 10,
-          "name": "Delphi/Object Pascal",
-          "description": "TIOBE 레이팅 1.54% (전년 대비 -0.60%p)"
+          "name": "Rust",
+          "description": "TIOBE 레이팅 1.34% (전월 대비 +0.08%p, 12위→10위)"
         },
         {
           "rank": 11,
-          "name": "Scratch",
-          "description": "TIOBE 레이팅 1.46% (전년 대비 +0.27%p)"
+          "name": "Delphi/Object Pascal",
+          "description": "TIOBE 레이팅 1.29% (전월 대비 -0.25%p, 10위→11위)"
         },
         {
           "rank": 12,
-          "name": "Rust",
-          "description": "TIOBE 레이팅 1.26% (전년 대비 +0.30%p)"
+          "name": "Scratch",
+          "description": "TIOBE 레이팅 1.27% (전월 대비 -0.19%p, 11위→12위)"
         }
       ]
     },
     "en": {
       "title": "Programming Language Popularity",
-      "sourceNote": "Based on the TIOBE Index · June 2026",
+      "sourceNote": "Based on the TIOBE Index (measures language 'popularity' via search volume across 20+ engines incl. Google, Bing, Wikipedia - not technical merit) · July 2026",
       "items": [
         {
           "rank": 1,
           "name": "Python",
-          "description": "TIOBE rating 18.96% (YoY -6.91%p)"
+          "description": "TIOBE rating 18.94% (-0.02%p MoM, holds #1)"
         },
         {
           "rank": 2,
           "name": "C",
-          "description": "TIOBE rating 10.77% (YoY +1.30%p)"
+          "description": "TIOBE rating 10.86% (+0.09%p MoM, holds #2)"
         },
         {
           "rank": 3,
           "name": "C++",
-          "description": "TIOBE rating 8.03% (YoY -2.65%p)"
+          "description": "TIOBE rating 9.12% (+1.09%p MoM, holds #3)"
         },
         {
           "rank": 4,
           "name": "Java",
-          "description": "TIOBE rating 7.90% (YoY -0.94%p)"
+          "description": "TIOBE rating 8.03% (+0.13%p MoM, holds #4)"
         },
         {
           "rank": 5,
           "name": "C#",
-          "description": "TIOBE rating 4.85% (YoY +0.17%p)"
+          "description": "TIOBE rating 4.49% (-0.36%p MoM, holds #5)"
         },
         {
           "rank": 6,
           "name": "JavaScript",
-          "description": "TIOBE rating 3.04% (YoY -0.17%p)"
+          "description": "TIOBE rating 2.72% (-0.32%p MoM, holds #6)"
         },
         {
           "rank": 7,
           "name": "Visual Basic",
-          "description": "TIOBE rating 2.80% (YoY +0.59%p)"
+          "description": "TIOBE rating 2.48% (-0.32%p MoM, holds #7)"
         },
         {
           "rank": 8,
           "name": "SQL",
-          "description": "TIOBE rating 1.77% (YoY +0.23%p)"
+          "description": "TIOBE rating 1.71% (-0.06%p MoM, holds #8)"
         },
         {
           "rank": 9,
           "name": "R",
-          "description": "TIOBE rating 1.69% (YoY +0.30%p)"
+          "description": "TIOBE rating 1.69% (unchanged MoM, holds #9)"
         },
         {
           "rank": 10,
-          "name": "Delphi/Object Pascal",
-          "description": "TIOBE rating 1.54% (YoY -0.60%p)"
+          "name": "Rust",
+          "description": "TIOBE rating 1.34% (+0.08%p MoM, #12 to #10)"
         },
         {
           "rank": 11,
-          "name": "Scratch",
-          "description": "TIOBE rating 1.46% (YoY +0.27%p)"
+          "name": "Delphi/Object Pascal",
+          "description": "TIOBE rating 1.29% (-0.25%p MoM, #10 to #11)"
         },
         {
           "rank": 12,
-          "name": "Rust",
-          "description": "TIOBE rating 1.26% (YoY +0.30%p)"
+          "name": "Scratch",
+          "description": "TIOBE rating 1.27% (-0.19%p MoM, #11 to #12)"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "world-cup-most-wins",
+    "field": "sports",
+    "asOfDate": "2026-07",
+    "sourceUrl": "https://www.fifa.com/ko/tournaments/mens/worldcup/articles/teams-most-wins-titles-trophies-ko",
+    "ko": {
+      "title": "월드컵 최다 우승국",
+      "sourceNote": "FIFA 공식 자료 기준(우승 횟수 내림차순 정렬, 동률은 국가명 가나다순) · 2026년 7월(2026 대회 결과 반영)",
+      "items": [
+        {
+          "rank": 1,
+          "name": "브라질",
+          "description": "5회 우승 (1958, 1962, 1970, 1994, 2002) · 역대 월드컵 최다 우승국"
+        },
+        {
+          "rank": 2,
+          "name": "독일",
+          "description": "4회 우승 (1954, 1974, 1990, 2014)"
+        },
+        {
+          "rank": 3,
+          "name": "이탈리아",
+          "description": "4회 우승 (1934, 1938, 1982, 2006)"
+        },
+        {
+          "rank": 4,
+          "name": "아르헨티나",
+          "description": "3회 우승 (1978, 1986, 2022)"
+        },
+        {
+          "rank": 5,
+          "name": "프랑스",
+          "description": "2회 우승 (1998, 2018)"
+        },
+        {
+          "rank": 6,
+          "name": "스페인",
+          "description": "2회 우승 (2010, 2026) · 2026년 결승에서 아르헨티나를 꺾고 두 번째 우승 달성"
+        },
+        {
+          "rank": 7,
+          "name": "우루과이",
+          "description": "2회 우승 (1930, 1950) · 1930년 제1회 월드컵 우승국"
+        },
+        {
+          "rank": 8,
+          "name": "잉글랜드",
+          "description": "1회 우승 (1966)"
+        }
+      ]
+    },
+    "en": {
+      "title": "Countries With the Most World Cup Wins",
+      "sourceNote": "Based on official FIFA records (sorted by title count descending, ties broken alphabetically) · July 2026 (reflects the 2026 tournament result)",
+      "items": [
+        {
+          "rank": 1,
+          "name": "Brazil",
+          "description": "5 titles (1958, 1962, 1970, 1994, 2002) - the all-time most World Cup wins"
+        },
+        {
+          "rank": 2,
+          "name": "Germany",
+          "description": "4 titles (1954, 1974, 1990, 2014)"
+        },
+        {
+          "rank": 3,
+          "name": "Italy",
+          "description": "4 titles (1934, 1938, 1982, 2006)"
+        },
+        {
+          "rank": 4,
+          "name": "Argentina",
+          "description": "3 titles (1978, 1986, 2022)"
+        },
+        {
+          "rank": 5,
+          "name": "France",
+          "description": "2 titles (1998, 2018)"
+        },
+        {
+          "rank": 6,
+          "name": "Spain",
+          "description": "2 titles (2010, 2026) - won their second title in the 2026 final against Argentina"
+        },
+        {
+          "rank": 7,
+          "name": "Uruguay",
+          "description": "2 titles (1930, 1950) - winners of the inaugural 1930 World Cup"
+        },
+        {
+          "rank": 8,
+          "name": "England",
+          "description": "1 title (1966)"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "national-university-rankings",
+    "field": "education",
+    "asOfDate": "2025-11",
+    "sourceUrl": "https://www.joongang.co.kr/article/25385480",
+    "ko": {
+      "title": "전국 대학 순위",
+      "sourceNote": "중앙일보 대학평가(제33회, 교수연구 95·교육여건 75·학생성과 80·사회평판 40=290점 만점) 기준, 전국 4년제 190개교 중 53개교 평가(동점은 학교명 가나다순 정렬) · 2025년 11월 25일 발표",
+      "items": [
+        {
+          "rank": 1,
+          "name": "서울대",
+          "description": "종합점수 216점 · 전년 1위 유지(10년 연속 1위)"
+        },
+        {
+          "rank": 2,
+          "name": "연세대",
+          "description": "종합점수 213점 · 전년 2위 유지"
+        },
+        {
+          "rank": 3,
+          "name": "한양대(서울)",
+          "description": "종합점수 209점 · 전년 5위→3위 상승"
+        },
+        {
+          "rank": 4,
+          "name": "고려대",
+          "description": "종합점수 208점 · 전년 4위 유지"
+        },
+        {
+          "rank": 5,
+          "name": "성균관대",
+          "description": "종합점수 207점 · 전년 3위→5위 하락"
+        },
+        {
+          "rank": 6,
+          "name": "경희대",
+          "description": "종합점수 178점 · 공동 6위, 전년 6위 유지"
+        },
+        {
+          "rank": 7,
+          "name": "이화여대",
+          "description": "종합점수 178점 · 공동 6위, 전년 7위에서 상승"
+        },
+        {
+          "rank": 8,
+          "name": "건국대",
+          "description": "종합점수 170점 · 공동 8위, 전년 10위에서 상승"
+        },
+        {
+          "rank": 9,
+          "name": "동국대",
+          "description": "종합점수 170점 · 공동 8위, 전년 9위에서 상승"
+        },
+        {
+          "rank": 10,
+          "name": "중앙대",
+          "description": "종합점수 170점 · 공동 8위, 전년 10위에서 상승"
+        },
+        {
+          "rank": 11,
+          "name": "서강대",
+          "description": "종합점수 169점 · 전년 8위→11위 하락"
+        },
+        {
+          "rank": 12,
+          "name": "인하대",
+          "description": "종합점수 158점 · 전년 14위→12위 상승"
+        },
+        {
+          "rank": 13,
+          "name": "한양대(ERICA)",
+          "description": "종합점수 157점 · 전년 16위→13위 상승"
+        },
+        {
+          "rank": 14,
+          "name": "국민대",
+          "description": "종합점수 154점 · 전년 13위→14위 하락"
+        },
+        {
+          "rank": 15,
+          "name": "아주대",
+          "description": "종합점수 152점 · 전년 12위→15위 하락"
+        },
+        {
+          "rank": 16,
+          "name": "서울시립대",
+          "description": "종합점수 144점 · 전년 14위→16위 하락"
+        },
+        {
+          "rank": 17,
+          "name": "한국외대",
+          "description": "종합점수 137점 · 전년 18위→17위 상승"
+        },
+        {
+          "rank": 18,
+          "name": "서울과기대",
+          "description": "종합점수 135점 · 전년 20위→18위 상승"
+        },
+        {
+          "rank": 19,
+          "name": "세종대",
+          "description": "종합점수 133점 · 전년 17위→19위 하락"
+        },
+        {
+          "rank": 20,
+          "name": "숙명여대",
+          "description": "종합점수 130점 · 전년 23위→20위 상승"
+        }
+      ]
+    },
+    "en": {
+      "title": "South Korea University Rankings",
+      "sourceNote": "Based on The JoongAng University Rankings (33rd ed.: research 95 + environment 75 + outcomes 80 + reputation 40 = 290pts; 53 of Korea's 190 4-yr univs; ties broken alphabetically) - Nov 25, 2025",
+      "items": [
+        {
+          "rank": 1,
+          "name": "Seoul National University",
+          "description": "Score 216 - #1 for the 10th straight year"
+        },
+        {
+          "rank": 2,
+          "name": "Yonsei University",
+          "description": "Score 213 - holds #2 YoY"
+        },
+        {
+          "rank": 3,
+          "name": "Hanyang University (Seoul)",
+          "description": "Score 209 - #5 to #3 YoY"
+        },
+        {
+          "rank": 4,
+          "name": "Korea University",
+          "description": "Score 208 - holds #4 YoY"
+        },
+        {
+          "rank": 5,
+          "name": "Sungkyunkwan University",
+          "description": "Score 207 - #3 to #5 YoY"
+        },
+        {
+          "rank": 6,
+          "name": "Kyung Hee University",
+          "description": "Score 178 - tied for #6, holds #6 YoY"
+        },
+        {
+          "rank": 7,
+          "name": "Ewha Womans University",
+          "description": "Score 178 - tied for #6, up from #7 YoY"
+        },
+        {
+          "rank": 8,
+          "name": "Konkuk University",
+          "description": "Score 170 - tied for #8, up from #10 YoY"
+        },
+        {
+          "rank": 9,
+          "name": "Dongguk University",
+          "description": "Score 170 - tied for #8, up from #9 YoY"
+        },
+        {
+          "rank": 10,
+          "name": "Chung-Ang University",
+          "description": "Score 170 - tied for #8, up from #10 YoY"
+        },
+        {
+          "rank": 11,
+          "name": "Sogang University",
+          "description": "Score 169 - #8 to #11 YoY"
+        },
+        {
+          "rank": 12,
+          "name": "Inha University",
+          "description": "Score 158 - #14 to #12 YoY"
+        },
+        {
+          "rank": 13,
+          "name": "Hanyang University (ERICA)",
+          "description": "Score 157 - #16 to #13 YoY"
+        },
+        {
+          "rank": 14,
+          "name": "Kookmin University",
+          "description": "Score 154 - #13 to #14 YoY"
+        },
+        {
+          "rank": 15,
+          "name": "Ajou University",
+          "description": "Score 152 - #12 to #15 YoY"
+        },
+        {
+          "rank": 16,
+          "name": "University of Seoul",
+          "description": "Score 144 - #14 to #16 YoY"
+        },
+        {
+          "rank": 17,
+          "name": "Hankuk University of Foreign Studies",
+          "description": "Score 137 - #18 to #17 YoY"
+        },
+        {
+          "rank": 18,
+          "name": "Seoul National University of Science and Technology",
+          "description": "Score 135 - #20 to #18 YoY"
+        },
+        {
+          "rank": 19,
+          "name": "Sejong University",
+          "description": "Score 133 - #17 to #19 YoY"
+        },
+        {
+          "rank": 20,
+          "name": "Sookmyung Women's University",
+          "description": "Score 130 - #23 to #20 YoY"
         }
       ]
     }
