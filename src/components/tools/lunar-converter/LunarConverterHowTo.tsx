@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 export function LunarConverterHowTo() {
   const t = useTranslations('tools.lunar-converter');
 
-  const sections = ['whatIs', 'sexagenary', 'howTo'] as const;
+  const sections = ['whatIs', 'sexagenary', 'howTo', 'useCases', 'tips'] as const;
 
   return (
     <section

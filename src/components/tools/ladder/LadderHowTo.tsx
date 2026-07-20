@@ -38,6 +38,24 @@ export function LadderHowTo() {
             {t('howTo.featuresBody')}
           </p>
         </article>
+
+        <article className="space-y-4">
+          <h3 className="text-card-title text-text">
+            {t('howTo.useCasesTitle')}
+          </h3>
+          <p className="font-body text-text-secondary leading-relaxed whitespace-pre-wrap">
+            {t('howTo.useCasesBody')}
+          </p>
+        </article>
+
+        <article className="space-y-4">
+          <h3 className="text-card-title text-text">
+            {t('howTo.tipsTitle')}
+          </h3>
+          <p className="font-body text-text-secondary leading-relaxed whitespace-pre-wrap">
+            {t('howTo.tipsBody')}
+          </p>
+        </article>
       </section>
     </details>
   );

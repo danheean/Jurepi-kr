@@ -54,6 +54,6 @@ describe('LunarConverterHowTo', () => {
     const { getAllByRole } = customRender(<LunarConverterHowTo />);
 
     const h3Elements = getAllByRole('heading', { level: 3 });
-    expect(h3Elements).toHaveLength(3);
+    expect(h3Elements).toHaveLength(5);
   });
 });

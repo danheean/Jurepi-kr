@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 export function AgeCalculatorHowTo() {
   const t = useTranslations('tools.age-calculator');
 
-  const sections = ['whatIs', 'howTo', 'features'] as const;
+  const sections = ['whatIs', 'howTo', 'features', 'useCases', 'tips'] as const;
 
   return (
     <section

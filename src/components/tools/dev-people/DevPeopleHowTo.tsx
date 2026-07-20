@@ -21,6 +21,14 @@ export function DevPeopleHowTo() {
           <h3 className="text-lg font-bold text-text mb-2">{t('featuresTitle')}</h3>
           <p className="leading-relaxed">{t('featuresBody')}</p>
         </div>
+        <div>
+          <h3 className="text-lg font-bold text-text mb-2">{t('useCasesTitle')}</h3>
+          <p className="leading-relaxed">{t('useCasesBody')}</p>
+        </div>
+        <div>
+          <h3 className="text-lg font-bold text-text mb-2">{t('tipsTitle')}</h3>
+          <p className="leading-relaxed">{t('tipsBody')}</p>
+        </div>
       </div>
     </section>
   );

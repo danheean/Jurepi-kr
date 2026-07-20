@@ -48,7 +48,7 @@ describe('LadderHowTo Component', () => {
   it('has article elements for each section', () => {
     const { container } = render(<LadderHowTo />);
     const articles = container.querySelectorAll('article');
-    expect(articles).toHaveLength(3);
+    expect(articles).toHaveLength(5);
   });
 
   it('applies space-y-8 to section inside details', () => {

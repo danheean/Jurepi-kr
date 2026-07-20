@@ -22,6 +22,16 @@ export function RankingsHowTo() {
           <h3 className="font-bold text-lg text-text">{t('featuresTitle')}</h3>
           <p className="text-text-secondary leading-relaxed">{t('featuresBody')}</p>
         </div>
+
+        <div className="space-y-2">
+          <h3 className="font-bold text-lg text-text">{t('useCasesTitle')}</h3>
+          <p className="text-text-secondary leading-relaxed">{t('useCasesBody')}</p>
+        </div>
+
+        <div className="space-y-2">
+          <h3 className="font-bold text-lg text-text">{t('tipsTitle')}</h3>
+          <p className="text-text-secondary leading-relaxed">{t('tipsBody')}</p>
+        </div>
       </div>
     </section>
   );

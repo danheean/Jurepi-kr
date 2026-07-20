@@ -199,7 +199,11 @@
         "howToTitle": "How to play",
         "howToBody": "Start by selecting the number of players. Then enter each player's name and the possible outcomes (e.g., names vs. prizes or chores). If you leave outcomes blank, the game fills them in automatically. Click 'Build ladder' to generate a random ladder. The ladder is built fairly using computer randomness, ensuring every player has an equal 1/N chance of any outcome. Click on a player's name to reveal their result by tracing the path, or use 'Reveal all' to show everyone at once. You can reshuffle for a new ladder or reset to change players and outcomes.",
         "featuresTitle": "Handy features",
-        "featuresBody": "Turn on 'Shuffle results' and the outcome slots are randomized so no one can predict the result in advance. Raise the 'Tension' and the ladder draws more horizontal rungs for a denser, more suspenseful trace—without changing fairness or the final result at all. 'Auto-suggest names' fills the board with fruit emoji and names for a quick start, while sound and confetti add to the fun of each reveal. Download the finished result as an image to share straight to a group chat. You can also play entirely by keyboard—number keys reveal a player, A reveals everyone, and R reshuffles."
+        "featuresBody": "Turn on 'Shuffle results' and the outcome slots are randomized so no one can predict the result in advance. Raise the 'Tension' and the ladder draws more horizontal rungs for a denser, more suspenseful trace—without changing fairness or the final result at all. 'Auto-suggest names' fills the board with fruit emoji and names for a quick start, while sound and confetti add to the fun of each reveal. Download the finished result as an image to share straight to a group chat. You can also play entirely by keyboard—number keys reveal a player, A reveals everyone, and R reshuffles.",
+        "useCasesTitle": "When to use it",
+        "useCasesBody": "Deciding who buys the coffee among friends, fairly splitting presentation or role order in a team project, drawing who gets a penalty at a gathering, or randomly assigning prizes or seats. Because the result is traced by a visible line, everyone can see it's fair.",
+        "tipsTitle": "Tips",
+        "tipsBody": "Enter the players and outcomes, build the ladder, then tap a name to follow its path down. 'Shuffle outcomes' randomizes where each result sits to make it harder to predict, and raising the tension adds more rungs for extra suspense. You can save the result as an image to share."
       },
       "useCases": {
         "heading": "When the Ladder Game comes in handy",
@@ -965,7 +969,11 @@
         "howToTitle": "How to Use",
         "howToBody": "Select a topic from the filter or search for keywords. Click on a topic card to see the curated links in that area. Star your favorites to save them, and your recently viewed topics are automatically tracked for quick access.",
         "featuresTitle": "Key Features",
-        "featuresBody": "Filter by topic, search in real-time, save favorites, track recently viewed topics. Every link is hand-curated by editors for quality and relevance, so you get trusted resources without having to sift through noise."
+        "featuresBody": "Filter by topic, search in real-time, save favorites, track recently viewed topics. Every link is hand-curated by editors for quality and relevance, so you get trusted resources without having to sift through noise.",
+        "useCasesTitle": "When to use it",
+        "useCasesBody": "Finding vetted resources on a specific topic (the eGovFrame standard framework, prompt engineering, and so on) in one place, needing a good set of starting links as you begin studying or working, or browsing useful sites gathered by topic.",
+        "tipsTitle": "Tips",
+        "tipsBody": "Open a topic tab to see its link collection, and use search to narrow to what you want. Star topics you visit often to find them in the Favorites tab, and recently viewed items are saved automatically. Each link opens safely in a new tab."
       },
       "faq": {
         "heading": "Frequently Asked Questions",
@@ -1078,7 +1086,11 @@
         "howToTitle": "How to Use",
         "howToBody": "Select a field from the filter or search for keywords. Click a ranking card to see detailed items and sources. Star your favorites to save them.",
         "featuresTitle": "Key Features",
-        "featuresBody": "Filter by field, search in real-time, save favorites, track recently viewed. Every ranking shows its source and date for transparency."
+        "featuresBody": "Filter by field, search in real-time, save favorites, track recently viewed. Every ranking shows its source and date for transparency.",
+        "useCasesTitle": "When to use it",
+        "useCasesBody": "Quickly scanning the latest rankings in an area you care about (programming language popularity, LLM leaderboards, wealth rankings, and so on), finding a trustworthy ranking with a clear source and as-of date, or reading the trend against previous snapshots.",
+        "tipsTitle": "Tips",
+        "tipsBody": "Each ranking shows its source and as-of date in a banner, so check how it was scored before reading the numbers. Item descriptions include the change versus the previous snapshot, making the trend easy to read. Tables are ordered by rank and score."
       },
       "faq": {
         "heading": "Frequently Asked Questions",
@@ -1094,6 +1106,14 @@
           {
             "q": "Can I suggest a new ranking?",
             "a": "We currently feature editor-curated rankings. You can submit new ranking suggestions via the Contact page."
+          },
+          {
+            "q": "How often are rankings updated?",
+            "a": "They're updated to each ranking's as-of date (shown in the banner). When the source updates, it's reflected with a new as-of date — these are snapshots at a point in time, not a live tally."
+          },
+          {
+            "q": "How are the rankings determined?",
+            "a": "The banner at the top of each ranking states the source and the method (for example, search volume or benchmark score). The same subject can rank differently by criteria, so check the banner too."
           }
         ]
       },
@@ -1239,7 +1259,11 @@
         "howToTitle": "How to use",
         "howToBody": "Enter your birthdate in YYYY-MM-DD format (for example, 2000-03-15) in the birthdate field. By default, the tool calculates age as of today. If you want to see what your age was on a different date, turn on the 'Reference date' toggle and pick a specific date. Press Enter or finish typing to see your results instantly.",
         "featuresTitle": "Features",
-        "featuresBody": "Save your family members' and friends' birthdates so you can instantly recalculate by clicking their name. The 'Recent calculations' list automatically saves dates you've looked up before, so you don't have to type them again. Copy your results and paste them into messages or notes to share with others."
+        "featuresBody": "Save your family members' and friends' birthdates so you can instantly recalculate by clicking their name. The 'Recent calculations' list automatically saves dates you've looked up before, so you don't have to type them again. Copy your results and paste them into messages or notes to share with others.",
+        "useCasesTitle": "When to use it",
+        "useCasesBody": "When you need the exact age to put on a form after Korea unified on 'international age', when calculating the age gap with a friend or celebrity, when checking your age as of a specific date (like enrollment or retirement), or when you're curious how many days you've lived or how many remain until your next birthday.",
+        "tipsTitle": "Tips",
+        "tipsBody": "Enter a birthdate to compare international age, year age, and Korean age at a glance. Enter a lunar birthday and it calculates this year's solar birthday and the days until the next one on the lunar calendar. Birthdays you check often are saved in 'Recent calculations' to reload with one click."
       },
       "faq": {
         "heading": "Frequently Asked Questions",
@@ -1346,7 +1370,11 @@
         "sexagenaryTitle": "What are the sexagenary cycle and zodiac animals?",
         "sexagenaryBody": "The sexagenary cycle (干支, Gapja) combines 10 heavenly stems and 12 earthly branches, repeating every 60 years. For example, 2024 is '갑진년' (Wood Dragon), and 2023 is '계묘년' (Water Rabbit). The 12 zodiac animals represent the 12 earthly branches: Rat (자), Ox (축), Tiger (인), Rabbit (묘), Dragon (진), Snake (사), Horse (오), Goat (미), Monkey (신), Rooster (유), Dog (술), Pig (해). Used for age reckoning and fortune-telling in Korea, China, Japan, and beyond.",
         "howToTitle": "How to Use",
-        "howToBody": "Enter a solar (Gregorian) date in the 'Solar' tab, and the tool shows the equivalent lunar date, sexagenary, and zodiac. Or enter a lunar date in the 'Lunar' tab to convert to solar. If the year has a leap month, toggle the 'Leap Month' checkbox for accurate conversion. Click 'Check Today' to instantly see the lunar date and sexagenary for the current date."
+        "howToBody": "Enter a solar (Gregorian) date in the 'Solar' tab, and the tool shows the equivalent lunar date, sexagenary, and zodiac. Or enter a lunar date in the 'Lunar' tab to convert to solar. If the year has a leap month, toggle the 'Leap Month' checkbox for accurate conversion. Click 'Check Today' to instantly see the lunar date and sexagenary for the current date.",
+        "useCasesTitle": "When to use it",
+        "useCasesBody": "Checking the solar date of a birthday or ancestral rite kept on the lunar calendar, finding what solar date a holiday like Seollal or Chuseok falls on this year, looking up the sexagenary year (like Gapjin) used in Korean fortune-telling, or moving a lunar date from an old document onto today's calendar.",
+        "tipsTitle": "Tips",
+        "tipsBody": "Enter the date you know (solar or lunar) and it instantly converts to the other. In years with a leap month, you can select whether it's the leap month, so match a rite or birthday exactly. The result also shows the sexagenary cycle (heavenly stem and earthly branch) and the zodiac animal. The supported range is 1391–2050 (per KASI)."
       },
       "faq": {
         "heading": "Frequently Asked Questions",
@@ -1920,7 +1948,11 @@
         "howToTitle": "How to use",
         "howToBody": "Search for people by name, tag (Java, Python, AI, etc.), or era. Click on any person card to explore their detailed profile, including biography, major achievements, publications, and related links. Save your frequently referenced figures to Favorites using the star button for quick access.",
         "featuresTitle": "Key features",
-        "featuresBody": "13 influential figures · Filter by tags (programming languages, domains, eras) · Real-time search · Save to favorites · Auto-tracked recent views · Detailed biographies and achievements · Related people recommendations"
+        "featuresBody": "13 influential figures · Filter by tags (programming languages, domains, eras) · Real-time search · Save to favorites · Auto-tracked recent views · Detailed biographies and achievements · Related people recommendations",
+        "useCasesTitle": "When to use it",
+        "useCasesBody": "When you're curious who created a programming language or tool, when you want to learn about a figure's achievements and anecdotes in the history of software, when you want inspiration for your career or study, or when you want to understand the person behind a technical term.",
+        "tipsTitle": "Tips",
+        "tipsBody": "Use the topic tags at the top to gather figures in an area you care about (language design, open source, and so on), and search to find a name directly. Each person’s page collects an intro, anecdotes, key achievements, books, and external links like Wikipedia. Star the ones you revisit."
       },
       "faq": {
         "items": [
@@ -1939,6 +1971,10 @@
           {
             "question": "Can I suggest new people to add?",
             "answer": "Yes! We welcome your feedback and suggestions. Visit our Contact page to suggest new figures you'd like to see in the dictionary."
+          },
+          {
+            "question": "How is the information verified?",
+            "answer": "Each person's intro and achievements are written from public sources and go through a separate check. For living people, only publicly verifiable facts are included. If you find an error, let us know."
           }
         ]
       }
