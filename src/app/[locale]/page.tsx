@@ -40,15 +40,16 @@ export default async function HomePage({ params }: Props) {
       {/* Site-wide Organization + WebSite JSON-LD in the prerendered HTML. */}
       <HomeStructuredData locale={locale} />
       <Hero />
-      {/* Editorial prose (what Jurepi is, privacy, why free, categories) so the
-          landing page carries real content, not just a tool grid. */}
-      <HomePitchSection locale={locale} />
       {/* SNS share — inline, anchored to the container edge (not a floating cluster);
           shares the hub itself, same affordance as tool pages. */}
       <div className="mx-auto max-w-container px-6 md:px-8 lg:px-12 pb-6 md:pb-8">
         <ShareButtons orientation="horizontal" />
       </div>
       <ToolExplorer initialTools={searchableTools} />
+      {/* Editorial prose (what Jurepi is, privacy, why free, categories) — placed
+          after the tool grid, just above the footer, so it carries real content
+          without pushing the tools below the fold. */}
+      <HomePitchSection locale={locale} />
     </>
   );
 }

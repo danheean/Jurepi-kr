@@ -66,7 +66,8 @@ describe('Header', () => {
 
     const aiLink = screen.getByRole('link', { name: /AI/i });
     expect(aiLink).toBeInTheDocument();
-    expect(aiLink).toHaveAttribute('href', 'https://ai.jurepi.kr/');
+    // Locale-aware: test-utils renders with locale "en".
+    expect(aiLink).toHaveAttribute('href', 'https://ai.jurepi.kr/en');
   });
 
   it('renders search trigger button', () => {

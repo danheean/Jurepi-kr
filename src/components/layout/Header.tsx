@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Sparkles } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import type { SearchableTool } from '@/lib/tool-search';
@@ -13,14 +13,18 @@ interface HeaderProps {
   tools: SearchableTool[];
 }
 
-// Sibling Jurepi property — AI tools live on their own subdomain.
-const AI_TOOLS_URL = 'https://ai.jurepi.kr/';
+// Sibling Jurepi property — AI tools live on their own subdomain, mirroring the
+// same locale routing (ko/en), so link to the current locale.
+const AI_TOOLS_BASE = 'https://ai.jurepi.kr';
 
 const WORDMARK_CLASS =
   'font-display text-xl font-bold text-brand-ink hover:text-brand-ink-strong transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded-lg';
 
+// The AI-tools link intentionally uses Pinterest's brand red (#e60023) to
+// signal it leads to a distinct sibling product, set apart from Jurepi's honey
+// brand color.
 const AI_LINK_CLASS =
-  'inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-semibold text-brand-ink hover:text-brand-ink-strong hover:bg-brand-soft transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 whitespace-nowrap';
+  'inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-semibold text-[#e60023] hover:text-[#ad081b] hover:bg-[#e60023]/10 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 whitespace-nowrap';
 
 // Full label ("AI 무료도구") crowds the 320px header alongside search + locale +
 // theme controls, so a compact "AI" chip stands in below the `sm` breakpoint.
@@ -28,6 +32,8 @@ const AI_LINK_SHORT = 'AI';
 
 export function Header({ tools }: HeaderProps): React.ReactNode {
   const t = useTranslations('header');
+  const locale = useLocale();
+  const aiToolsUrl = `${AI_TOOLS_BASE}/${locale}`;
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -59,7 +65,7 @@ export function Header({ tools }: HeaderProps): React.ReactNode {
             Jurepi
           </Link>
           <a
-            href={AI_TOOLS_URL}
+            href={aiToolsUrl}
             className={AI_LINK_CLASS}
             aria-label={t('aiToolsAria')}
           >

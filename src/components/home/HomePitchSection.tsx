@@ -16,7 +16,7 @@ export async function HomePitchSection({ locale }: { locale: string }) {
   return (
     <section
       aria-labelledby="pitch-heading"
-      className="mx-auto max-w-container px-6 pb-12 pt-4 md:px-8 md:pb-16 lg:px-12"
+      className="mx-auto mt-8 max-w-container border-t border-hairline px-6 pb-16 pt-12 md:px-8 md:pt-16 lg:px-12"
     >
       <h2
         id="pitch-heading"
