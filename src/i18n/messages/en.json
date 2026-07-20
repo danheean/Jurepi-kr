@@ -3497,6 +3497,148 @@
         "title": "JWT Decoder",
         "lead": "Understand JWT token structure at a glance, extract claims, and verify signatures. All processing happens in your browser."
       }
+    },
+    "cheer": {
+      "title": "Everyone's Cheer",
+      "description": "Show your cheer message big — wave it like an LED banner at concerts and games.",
+      "meta": {
+        "title": "Everyone's Cheer · Cheer Message Display",
+        "description": "Free online tool to show a cheer message big. Scrolling, flashing, and neon effects plus fullscreen and landscape for concerts, games, and events."
+      },
+      "intro": {
+        "eyebrow": "FUN TOOL",
+        "title": "Everyone's Cheer",
+        "lead": "Show your cheer message big — wave it like an LED banner at concerts and games."
+      },
+      "input": {
+        "label": "Cheer message",
+        "placeholder": "e.g., Go team!",
+        "clear": "Clear",
+        "recentsLabel": "Recent messages",
+        "noRecents": "No recent messages yet"
+      },
+      "presets": {
+        "heading": "Pick a cheer phrase",
+        "tabs": {
+          "concert": "Concert",
+          "sports": "Sports",
+          "birthday": "Birthday",
+          "event": "Event"
+        },
+        "phrases": {
+          "concert": {
+            "cheer": "Cheer!",
+            "encore": "Encore!",
+            "love-you": "Love you!",
+            "forever-fan": "Forever a fan",
+            "best-concert": "Best show ever!",
+            "comeback": "Welcome back!"
+          },
+          "sports": {
+            "win": "Let's win!",
+            "one-more-goal": "One more goal!",
+            "fighting-spirit": "Never give up!",
+            "go-team": "Go go go!",
+            "defense": "Defense!",
+            "golden-chance": "This is our chance!"
+          },
+          "birthday": {
+            "happy-birthday": "Happy birthday!",
+            "many-happy-returns": "Many happy returns!",
+            "wish-come-true": "Make it come true!",
+            "make-wish": "Make a wish!",
+            "special-day": "Star of the day!",
+            "all-the-best": "All the best!"
+          },
+          "event": {
+            "let-go": "Let's go!",
+            "lets-do-it": "Let's do it!",
+            "great-time": "Let's have fun!",
+            "good-luck": "Good luck!",
+            "have-fun": "Have fun!",
+            "full-energy": "Full energy!"
+          }
+        }
+      },
+      "controls": {
+        "effectLabel": "Effect",
+        "effect": {
+          "static": "Static",
+          "scroll": "Scroll",
+          "flash": "Flash",
+          "neon": "Neon"
+        },
+        "speedLabel": "Speed",
+        "speed": {
+          "slow": "Slow",
+          "medium": "Medium",
+          "fast": "Fast"
+        },
+        "textColorLabel": "Text color",
+        "bgColorLabel": "Background",
+        "colors": {
+          "white": "White",
+          "black": "Black",
+          "coral": "Coral",
+          "sun": "Yellow",
+          "sky": "Sky",
+          "grape": "Amber",
+          "rose": "Rose"
+        },
+        "sizeLabel": "Text size",
+        "landscapeLabel": "Landscape",
+        "landscapeAria": "Rotate banner to landscape",
+        "fullscreenLabel": "Fullscreen",
+        "fullscreenExit": "Exit fullscreen",
+        "fullscreenUnsupported": "This browser does not support fullscreen",
+        "keepAwakeLabel": "Keep screen on",
+        "keepAwakeUnsupported": "Not supported",
+        "lowContrastWarning": "Low contrast between text and background"
+      },
+      "display": {
+        "placeholder": "Your cheer message will appear here",
+        "ariaLabel": "Cheer banner: {text}"
+      },
+      "howTo": {
+        "heading": "How to use Everyone's Cheer",
+        "whatTitle": "What is Everyone's Cheer?",
+        "whatBody": "Everyone's Cheer is a free online tool that shows a short cheer message in giant letters that fill the screen. At concerts, stadiums, and events you can wave your phone like an LED banner so your message is visible from far away. Choose a scrolling, flashing, or neon glow effect, set the text and background colors, adjust the size, rotate to landscape, and go fullscreen to build your own cheer banner. No app install and no sign-up — it runs right in your browser.",
+        "howTitle": "How to use it",
+        "howBody": "Type the message you want to show in the cheer message box and it appears instantly, large, in the preview above. You can also tap a suggested phrase for concerts, sports, birthdays, or events to fill it in fast. Then pick an effect and speed, choose text and background colors, and set the size to get the look you want; if you plan to hold your phone sideways, turn on landscape rotation. Finally, tap the fullscreen button and the whole browser screen becomes your cheer banner. Press Esc or tap the screen to exit.",
+        "useCasesTitle": "When to use it",
+        "useCasesBody": "Show a fan message at your favorite artist's concert, or your team's chant at a baseball or soccer game. Display a birthday greeting at a party, or a fitting phrase at a school festival, company event, fan meeting, or proposal. It is also handy for signaling someone far away, or getting a message across in a loud place where words are hard to hear.",
+        "tipsTitle": "Tips",
+        "tipsBody": "In dark venues, a black background with bright text (white, yellow, or coral) and the neon effect reads best. Use the scroll effect for longer messages and the flash effect to make short, punchy chants stand out. To keep the screen from turning off while you cheer, switch on “Keep screen on” (supported browsers only). If the text and background contrast is low a warning appears, so pick a high-contrast pair that stays readable from a distance."
+      },
+      "faq": {
+        "heading": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Is my cheer message stored on a server?",
+            "a": "No. Everything runs entirely in your browser and your message is never sent anywhere. Recent messages are saved only in this device’s browser storage (localStorage) for convenience, and you can clear them anytime."
+          },
+          {
+            "q": "Does it work offline?",
+            "a": "Once the page has loaded, you can keep creating and showing cheer banners even if your connection drops. It is a 100% client-side tool that needs no server communication."
+          },
+          {
+            "q": "What effects are available?",
+            "a": "Four effects: static (fixed), scroll (text glides across), flash (blinking), and neon (glowing text). Scroll and flash have adjustable speed — slow, medium, or fast."
+          },
+          {
+            "q": "How do fullscreen and landscape work?",
+            "a": "Tap the fullscreen button to turn the whole browser screen into your banner for a bigger display. If you want to hold your phone sideways for extra width, turn on landscape and the text rotates 90 degrees to read horizontally."
+          },
+          {
+            "q": "Can I keep the screen from dimming while I cheer?",
+            "a": "Turn on “Keep screen on” and the screen will not auto-dim or switch off while the banner is showing. This option appears only on browsers that support it (recent mobile Chrome, iOS Safari 16.4+, and others)."
+          },
+          {
+            "q": "Does it work well on mobile?",
+            "a": "Yes. Everyone's Cheer is built mobile-first for use at live venues. It is easy to operate one-handed and is responsive so the banner fills even small screens."
+          }
+        ]
+      }
     }
   },
   "about": {

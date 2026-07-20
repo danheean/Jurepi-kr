@@ -39,6 +39,9 @@ import { MyIpStructuredData } from '@/components/tools/my-ip/MyIpStructuredData'
 import { RouletteHowTo } from '@/components/tools/roulette/RouletteHowTo';
 import { RouletteFaq } from '@/components/tools/roulette/RouletteFaq';
 import { RouletteStructuredData } from '@/components/tools/roulette/RouletteStructuredData';
+import { CheerHowTo } from '@/components/tools/cheer/CheerHowTo';
+import { CheerFaq } from '@/components/tools/cheer/CheerFaq';
+import { CheerStructuredData } from '@/components/tools/cheer/CheerStructuredData';
 import { CounterHowTo } from '@/components/tools/character-counter/CounterHowTo';
 import { CounterFaq } from '@/components/tools/character-counter/CounterFaq';
 import { CounterStructuredData } from '@/components/tools/character-counter/CounterStructuredData';
@@ -157,6 +160,12 @@ const MyIp = dynamic(() =>
 const Roulette = dynamic(() =>
   import('@/components/tools/roulette/Roulette').then((m) => ({
     default: m.Roulette,
+  }))
+);
+
+const Cheer = dynamic(() =>
+  import('@/components/tools/cheer/Cheer').then((m) => ({
+    default: m.Cheer,
   }))
 );
 
@@ -290,6 +299,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'roulette') {
+    title = t('meta.title');
+    description = t('meta.description');
+  } else if (slug === 'cheer') {
     title = t('meta.title');
     description = t('meta.description');
   } else if (slug === 'base64-encoder') {
@@ -500,6 +512,17 @@ async function ToolBody({ slug, locale }: { slug: string; locale: string }) {
         <LottoGenerator />
         <LottoGeneratorHowTo />
         <LottoGeneratorFaq />
+      </>
+    );
+  }
+
+  if (slug === 'cheer') {
+    return (
+      <>
+        <CheerStructuredData />
+        <Cheer />
+        <CheerHowTo />
+        <CheerFaq />
       </>
     );
   }
