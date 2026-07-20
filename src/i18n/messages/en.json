@@ -2224,6 +2224,10 @@
       },
       "howTo": {
         "title": "How to Use Find & Replace",
+        "whatIsTitle": "What is this tool?",
+        "whatIsBody": "Find & Replace transforms text by applying several 'find → replace' rules at once. Rules apply top to bottom in order, and each rule can turn on regex, case sensitivity, whole-word, or first-only options. It's not an AI that rewrites your sentences — it precisely swaps the words and phrases you define — and everything runs inside your own browser.",
+        "useCasesTitle": "When to use it",
+        "useCasesBody": "Renaming several names or terms across a whole document at once, cleaning up special characters or quotes in pasted text, using regex to change a repeating pattern in logs or data, or standardizing wording during translation or proofreading.",
         "steps": [
           "1. Paste the text you want to transform above.",
           "2. Add one or more find → replace rules.",
@@ -2259,6 +2263,14 @@
           {
             "q": "Can I replace one at a time using \"First only\"?",
             "a": "Yes, toggle \"First only\" to replace only the first match. For step-by-step replacement, you'd need to reload and repeat—this tool is optimized for replace-all."
+          },
+          {
+            "q": "Does it change my original text?",
+            "a": "No. Your original stays as-is and the transformed result is shown separately. Copy the result or download it as a .txt to use it."
+          },
+          {
+            "q": "Does it work offline?",
+            "a": "Yes. Every replacement runs inside your browser, so it works offline, and the text you enter is never sent anywhere."
           }
         ]
       }
@@ -2822,6 +2834,14 @@
         "dynamicVsStatic": {
           "title": "What's the difference between dynamic and static IP?",
           "body": "A dynamic IP changes each time you connect to the internet, while a static IP always remains the same. Most home internet connections use dynamic IPs."
+        },
+        "useCases": {
+          "title": "When to use it",
+          "body": "When you need your public IP to set up port forwarding on a router for remote access or a game server, to confirm a VPN or proxy is actually on and your IP has changed, to register (whitelist) your IP with a service, or to troubleshoot a connection problem."
+        },
+        "tips": {
+          "title": "Good to know",
+          "body": "What this tool shows is your public IP exposed to the internet, which differs from the private IP inside your home or office (like 192.168.x.x). A public IP reveals a rough region but not your exact home address. If you want to hide your real location, a VPN changes your IP to the VPN server's. This tool does not store your IP."
         }
       },
       "faq": {
@@ -3261,6 +3281,14 @@
           {
             "q": "Is my token information safe here?",
             "a": "Yes, completely safe. This tool runs 100% in your browser. The JWT token or signing key you paste is never sent to a server and never leaves your device. All parsing and verification happen locally on your computer. Even in development, never paste production secret keys into untrusted tools."
+          },
+          {
+            "q": "When would I use a JWT decoder?",
+            "a": "While developing or debugging an API, to check that the token in a login response or an Authorization header carries the right claims, to see whether a token has expired (exp), or to figure out the issuer, audience (aud), and permissions of a token you received from another service."
+          },
+          {
+            "q": "What should I watch out for with JWTs?",
+            "a": "A JWT's payload is only base64-encoded, not encrypted, so anyone can read it — never put sensitive data like passwords in it. Don't trust tokens whose signature algorithm is 'none', as they're easy to forge. And it's safest not to paste production signing keys anywhere, including this tool."
           }
         ]
       },

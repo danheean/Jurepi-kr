@@ -20,6 +20,12 @@ export function FindReplaceHowTo() {
         {t('howTo.title')}
       </h2>
 
+      {/* What is this tool? — always-visible overview */}
+      <article className="space-y-3">
+        <h3 className="text-xl font-semibold text-text">{t('howTo.whatIsTitle')}</h3>
+        <p className="text-text-secondary leading-relaxed">{t('howTo.whatIsBody')}</p>
+      </article>
+
       {/* Steps */}
       <div className="space-y-4">
         {steps.map((step, idx) => (
@@ -31,6 +37,12 @@ export function FindReplaceHowTo() {
           </div>
         ))}
       </div>
+
+      {/* When to use it */}
+      <article className="space-y-3">
+        <h3 className="text-xl font-semibold text-text">{t('howTo.useCasesTitle')}</h3>
+        <p className="text-text-secondary leading-relaxed">{t('howTo.useCasesBody')}</p>
+      </article>
 
       {/* Tips — each card carries its own title, so no separate section heading is needed */}
       {tips.length > 0 && (

@@ -19,6 +19,8 @@ export function MyIpHowTo() {
       title: t('howTo.dynamicVsStatic.title'),
       body: t('howTo.dynamicVsStatic.body'),
     },
+    { key: 'useCases', title: t('howTo.useCases.title'), body: t('howTo.useCases.body') },
+    { key: 'tips', title: t('howTo.tips.title'), body: t('howTo.tips.body') },
   ];
 
   return (

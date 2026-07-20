@@ -1,76 +1,51 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { MyIpHowTo } from './MyIpHowTo';
 import { NextIntlClientProvider } from 'next-intl';
+import messagesKo from '@/i18n/messages/ko.json';
+import messagesEn from '@/i18n/messages/en.json';
+import { MyIpHowTo } from './MyIpHowTo';
 
-const mockMessages = {
-  tools: {
-    'my-ip': {
-      howTo: {
-        title: 'How It Works',
-        whatIsIp: {
-          title: 'What is an IP Address?',
-          body: 'An IP address is a unique identifier...',
-        },
-        ipv4VsIpv6: {
-          title: 'IPv4 vs IPv6',
-          body: 'IPv4 uses 32-bit addresses...',
-        },
-        publicVsPrivate: {
-          title: 'Public vs Private IP',
-          body: 'A public IP is visible to the internet...',
-        },
-        dynamicVsStatic: {
-          title: 'Dynamic vs Static IP',
-          body: 'A dynamic IP can change...',
-        },
-      },
-    },
-  },
-};
-
-function renderWithI18n(component: React.ReactElement) {
-  return render(
-    <NextIntlClientProvider locale="en" messages={mockMessages}>
-      {component}
-    </NextIntlClientProvider>
-  );
-}
+const messages = { ko: messagesKo as any, en: messagesEn as any };
 
 describe('MyIpHowTo', () => {
-  it('should render HowTo title', () => {
-    renderWithI18n(<MyIpHowTo />);
+  it('renders all six concept sections from the real catalog (Korean)', () => {
+    render(
+      <NextIntlClientProvider locale="ko" messages={messages.ko}>
+        <MyIpHowTo />
+      </NextIntlClientProvider>
+    );
 
-    expect(screen.getByText('How It Works')).toBeInTheDocument();
+    const howTo = messagesKo.tools['my-ip'].howTo;
+    expect(screen.getByRole('heading', { level: 2, name: howTo.title })).toBeInTheDocument();
+    for (const key of ['whatIsIp', 'ipv4VsIpv6', 'publicVsPrivate', 'dynamicVsStatic', 'useCases', 'tips'] as const) {
+      expect(
+        screen.getByRole('heading', { level: 3, name: (howTo as any)[key].title })
+      ).toBeInTheDocument();
+    }
+    // Added use-cases prose renders (not just the key).
+    expect(screen.getByText(/공유기에 포트를 설정/)).toBeInTheDocument();
   });
 
-  it('should render all HowTo sections', () => {
-    renderWithI18n(<MyIpHowTo />);
-
-    expect(screen.getByText('What is an IP Address?')).toBeInTheDocument();
-    expect(screen.getByText('IPv4 vs IPv6')).toBeInTheDocument();
-    expect(screen.getByText('Public vs Private IP')).toBeInTheDocument();
-    expect(screen.getByText('Dynamic vs Static IP')).toBeInTheDocument();
+  it('has an accessible section (aria-labelledby)', () => {
+    const { container } = render(
+      <NextIntlClientProvider locale="ko" messages={messages.ko}>
+        <MyIpHowTo />
+      </NextIntlClientProvider>
+    );
+    expect(container.querySelector('section')).toHaveAttribute(
+      'aria-labelledby',
+      'my-ip-howto-heading'
+    );
   });
 
-  it('should render section bodies', () => {
-    renderWithI18n(<MyIpHowTo />);
-
-    expect(screen.getByText(/An IP address is a unique identifier/)).toBeInTheDocument();
-    expect(screen.getByText(/IPv4 uses 32-bit addresses/)).toBeInTheDocument();
-  });
-
-  it('should have accessible aria-labelledby on section', () => {
-    const { container } = renderWithI18n(<MyIpHowTo />);
-
-    const section = container.querySelector('section');
-    expect(section).toHaveAttribute('aria-labelledby', 'my-ip-howto-heading');
-  });
-
-  it('should render h2 heading', () => {
-    renderWithI18n(<MyIpHowTo />);
-
-    const h2 = screen.getByRole('heading', { level: 2 });
-    expect(h2).toHaveTextContent('How It Works');
+  it('renders in English with no Korean leakage', () => {
+    const { container } = render(
+      <NextIntlClientProvider locale="en" messages={messages.en}>
+        <MyIpHowTo />
+      </NextIntlClientProvider>
+    );
+    const howTo = messagesEn.tools['my-ip'].howTo;
+    expect(screen.getByRole('heading', { level: 3, name: howTo.useCases.title })).toBeInTheDocument();
+    expect(container.textContent ?? '').not.toMatch(/[가-힣]/);
   });
 });
