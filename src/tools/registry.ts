@@ -306,6 +306,17 @@ export const tools: ToolMeta[] = [
     order: 105,
     keywords: ['JWT', '디코더', '토큰', '분석', '검증', '서명', '개발', 'decoder', 'verify', 'token', 'payload', 'claims', 'security', 'JSON Web Token', 'cryptography'],
   },
+  {
+    id: 'cheer',
+    slug: 'cheer',
+    category: 'fun',
+    icon: 'Megaphone',
+    accent: 'coral',
+    status: 'live',
+    addedAt: '2026-07-20',
+    order: 185,
+    keywords: ['응원', '응원문구', '응원도구', '전광판', 'LED', '콘서트', '경기장', '배너', '슬로건', 'cheer', 'banner', 'marquee', 'LED sign', 'concert', 'stadium', 'fan', 'chant', 'slogan', 'scrolling text', 'fun'],
+  },
 ];
 
 /** Get all live tools for static generation */
