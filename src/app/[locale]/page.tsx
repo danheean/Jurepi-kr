@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { tools } from '@/tools/registry';
 import { Hero } from '@/components/home/Hero';
+import { HomePitchSection } from '@/components/home/HomePitchSection';
+import { HomeStructuredData } from '@/components/home/HomeStructuredData';
 import { ToolExplorer } from '@/components/home/ToolExplorer';
 import { ShareButtons } from '@/components/share';
 import { toSearchableTools } from '@/lib/searchable-tools';
@@ -35,7 +37,12 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <>
+      {/* Site-wide Organization + WebSite JSON-LD in the prerendered HTML. */}
+      <HomeStructuredData locale={locale} />
       <Hero />
+      {/* Editorial prose (what Jurepi is, privacy, why free, categories) so the
+          landing page carries real content, not just a tool grid. */}
+      <HomePitchSection locale={locale} />
       {/* SNS share — inline, anchored to the container edge (not a floating cluster);
           shares the hub itself, same affordance as tool pages. */}
       <div className="mx-auto max-w-container px-6 md:px-8 lg:px-12 pb-6 md:pb-8">

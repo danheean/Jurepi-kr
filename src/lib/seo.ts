@@ -117,6 +117,88 @@ export function absoluteToolUrl(locale: string, slug: string): string {
 }
 
 /**
+ * Absolute URL for a locale home page — single source for site-wide JSON-LD
+ * (Organization/WebSite) so structured data matches the homepage canonical.
+ */
+export function absoluteSiteUrl(locale: string): string {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jurepi.kr';
+  return `${siteUrl}/${locale}`;
+}
+
+/**
+ * Build site-wide Organization JSON-LD. Rendered once (homepage) so search
+ * engines and AI answer engines recognize the publisher entity behind every
+ * tool. Operator stays pseudonymous — no Person schema, no legal name.
+ */
+export function organizationJsonLd({
+  name,
+  description,
+  url,
+  logoUrl,
+  contactUrl,
+  sameAs,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  logoUrl: string;
+  contactUrl: string;
+  sameAs?: string[];
+}): Record<string, unknown> {
+  const ld: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name,
+    description,
+    url,
+    logo: logoUrl,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      url: contactUrl,
+      availableLanguage: ['Korean', 'English'],
+    },
+  };
+  if (sameAs && sameAs.length > 0) {
+    ld.sameAs = sameAs;
+  }
+  return ld;
+}
+
+/**
+ * Build site-wide WebSite JSON-LD with a SearchAction pointing at the homepage
+ * `?q=` query the tool grid already reads. Rendered once (homepage).
+ */
+export function webSiteJsonLd({
+  name,
+  description,
+  url,
+  inLanguage,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  inLanguage: string;
+}): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name,
+    description,
+    url,
+    inLanguage,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${url}?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+}
+
+/**
  * Build SoftwareApplication JSON-LD schema.
  * Structured data for search engines to understand the tool.
  */

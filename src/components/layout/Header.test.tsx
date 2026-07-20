@@ -57,6 +57,18 @@ describe('Header', () => {
     expect(wordmark).toHaveAttribute('href', '/');
   });
 
+  it('renders the AI tools link to the sibling property', () => {
+    render(
+      <ThemeProvider>
+        <Header tools={mockTools} />
+      </ThemeProvider>
+    );
+
+    const aiLink = screen.getByRole('link', { name: /AI/i });
+    expect(aiLink).toBeInTheDocument();
+    expect(aiLink).toHaveAttribute('href', 'https://ai.jurepi.kr/');
+  });
+
   it('renders search trigger button', () => {
     render(
       <ThemeProvider>

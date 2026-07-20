@@ -16,7 +16,9 @@
     "localeAria": "Select language",
     "localeKo": "Switch to Korean",
     "localeEn": "Switch to English",
-    "homeLink": "Home"
+    "homeLink": "Home",
+    "aiTools": "Free AI Tools",
+    "aiToolsAria": "Free AI Tools (opens a separate site)"
   },
   "footer": {
     "copyright": "© 2026 Jurepi · All tools are free.",
@@ -44,6 +46,26 @@
     "meta": {
       "title": "Jurepi · Free Online Tools",
       "description": "A free online tool hub with no sign-up required. Use handy tools like the ladder game and daily questions right in your browser."
+    },
+    "pitch": {
+      "heading": "Why Jurepi?",
+      "intro": "Jurepi is a free collection of the small tools you reach for every day — calculators and converters, text and developer utilities, random pickers and games — all in one place. There's nothing to install and no account to create; each tool runs right in your browser. Open it when you need it, close it when you're done.",
+      "items": [
+        {
+          "title": "Instant, no sign-up",
+          "description": "No login, no install, no payment. Open the link and the tool runs immediately, with every feature free to use."
+        },
+        {
+          "title": "Safe in your browser",
+          "description": "Whatever you type is processed inside your own browser. Nothing is sent to a server or stored remotely, so your data never leaves your device."
+        },
+        {
+          "title": "Grows by request",
+          "description": "Ask for a tool or feature and it gets built and added, one at a time. Only tools born from real use make it in."
+        }
+      ],
+      "categoriesTitle": "What's inside?",
+      "categoriesBody": "You'll find calculators (age, unit, and lunar-calendar conversion), text tools (character counting, find & replace), converter and developer tools (URL, Base64, JSON, QR, JWT), random pickers (ladder game, roulette), journaling and bookmarks, plus fun and news/ranking tools. Search the list below or browse by category to get started."
     },
     "favorites": {
       "filterLabel": "Favorites",
@@ -3216,6 +3238,18 @@
       {
         "title": "Built in the open",
         "body": "Jurepi is built and run by one person—Jurepi, a developer who loves books. New tools, improvements, and notes on design and engineering are shared on the blog. Follow along to see how Jurepi grows."
+      },
+      {
+        "title": "Built with AI, in the open",
+        "body": "Jurepi's tools and content are built with the help of modern AI—a way to turn ideas into working tools quickly and to ship useful features more often. The process and the result aren't hidden: the source code is public on GitHub, so anyone can see how a tool works and suggest improvements."
+      },
+      {
+        "title": "How each tool is made",
+        "body": "Every tool starts from a real frustration. The math is verified with tests first, then checked by hand on real screens and phones before it goes live. When something's wrong, it gets fixed quickly rather than left alone. If you spot anything off while using a tool, let us know—that feedback is where the next improvement begins."
+      },
+      {
+        "title": "Questions or ideas?",
+        "body": "If you have feedback on a tool, found a bug, or need a new feature, send an email anytime—we usually reply within a few days. Common questions and how-to notes are collected near the bottom of each tool page, so open a tool and take a look together."
       }
     ]
   },

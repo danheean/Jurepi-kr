@@ -85,7 +85,9 @@ test.describe('Main dashboard - E2E', () => {
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.locator('h1')).toContainText('Everyday tools');
-    await expect(main.getByText('Ladder Game')).toBeVisible();
+    // Target the tool card heading specifically — the homepage editorial prose
+    // also mentions "ladder game", so a loose getByText would be ambiguous.
+    await expect(main.getByRole('heading', { name: 'Ladder Game' })).toBeVisible();
     await expect(main.locator('a[href="/en/tools/ladder"]')).toHaveCount(1);
   });
 });
