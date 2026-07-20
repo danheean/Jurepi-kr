@@ -626,10 +626,14 @@
         "clear": "Esc — Clear input"
       },
       "howTo": {
-        "heading": "How to use URL Encoder",
+        "heading": "URL encoder guide",
         "whatIs": {
           "title": "What is URL encoding?",
           "body": "URL encoding converts special characters into percent-encoded sequences starting with '%'. For example, a space becomes %20, and & becomes %26. This makes it safe to pass text in URLs."
+        },
+        "steps": {
+          "title": "How to use it",
+          "body": "1. Choose the encode or decode direction. 2. Type text and the result appears instantly. 3. Switch between Component / Full URI mode and the UTF-8 / EUC-KR charset as needed. 4. You can also edit key=value pairs directly in the query-parameter table. Copy the result to use it right away."
         },
         "componentVsUri": {
           "title": "Component vs Full URI",
@@ -638,6 +642,14 @@
         "utf8VsEuckr": {
           "title": "UTF-8 vs EUC-KR",
           "body": "Most modern websites and systems use UTF-8. However, older Korean sites and legacy systems may use EUC-KR (CP949). For example, %C7%D1 is an invalid UTF-8 sequence, but when decoded as EUC-KR, it becomes the Korean character '한'."
+        },
+        "useCases": {
+          "title": "When to use it",
+          "body": "Safely encoding a link when it contains Korean, spaces, or special characters that would otherwise break it, decoding a URL full of '%' from somewhere else back into readable text, checking or editing query parameters like utm_source, or making sense of an address from an older Korean site that was encoded in EUC-KR."
+        },
+        "tips": {
+          "title": "Tips and gotchas",
+          "body": "Use Component mode when you're only handling the query value after the question mark, and Full URI mode for a complete address. If the result shows garbled Korean, switch the charset (UTF-8 ↔ EUC-KR). Encoding and decoding are not encryption, so don't rely on them to protect sensitive information."
         }
       },
       "faq": {
@@ -2305,11 +2317,22 @@
           {
             "q": "Why do bytes differ from character count?",
             "a": "In UTF-8, Korean characters and emoji take multiple bytes. Byte limits are common in programming."
+          },
+          {
+            "q": "How do I check a character limit?",
+            "a": "Pick a preset like Twitter or SMS, or type your own number, and the remaining count and any overage are shown in color (green → orange → red)."
+          },
+          {
+            "q": "Does it work offline?",
+            "a": "Yes. Every calculation runs inside your browser, so it works offline, and the text you enter is never sent anywhere."
           }
         ]
       },
       "howTo": {
-        "title": "How to Use",
+        "title": "Character & word counter guide",
+        "whatIsTitle": "What is this tool?",
+        "whatIsBody": "A character and word counter tallies the characters (with and without spaces), words, sentences, paragraphs, lines, and bytes (UTF-8) of text you type or paste, live as you go. It also estimates reading and speaking time, and counts characters made of several code points — like emoji or composed Korean syllables — as one. You can pick a character-limit preset like Twitter (280) or SMS and watch the remaining count change color, and every calculation runs inside your own browser.",
+        "stepsTitle": "How to use it",
         "steps": [
           {
             "step": 1,
@@ -2327,7 +2350,11 @@
             "step": 4,
             "text": "Copy the text or metrics for use elsewhere."
           }
-        ]
+        ],
+        "useCasesTitle": "When to use it",
+        "useCasesBody": "Fitting a character limit on social media like Twitter or Instagram, checking the length of a cover letter or report (characters excluding spaces), estimating how long a script will take to read aloud, or seeing how many SMS segments a message splits into by byte count. It's also commonly used to price translation or proofreading work by length.",
+        "tipsTitle": "Tips",
+        "tipsBody": "\"With spaces\" and \"without spaces\" counts are required in different situations, so check which the form wants. In UTF-8 a Korean character is 3 bytes, so byte-based limits are reached sooner than the character count suggests. Characters built from several code points — emoji, family emoji — are still counted as one, the way a person sees them. The preset's color (green → orange → red) shows at a glance how close you are to the limit."
       }
     },
     "roulette": {
@@ -2506,15 +2533,15 @@
         "lead": "Convert text and files to Base64 and back. UTF-8 safe, standard and URL-safe variants, drag-drop file upload."
       },
       "howTo": {
-        "title": "What is Base64?",
-        "items": [
-          "Base64 is a binary-to-text encoding scheme that represents binary data in an ASCII string format. It uses a set of 64 printable ASCII characters.",
-          "The standard variant uses + and / characters, while the URL-safe variant uses - and _ instead to avoid conflicts with URL syntax and special characters.",
-          "This tool guarantees UTF-8 safety, so you can safely encode emoji, Korean text, newlines, and all other characters without data loss.",
-          "Base64 is encoding, not encryption. It provides no security. Use proper encryption for sensitive data.",
-          "When decoding, paste Base64 that encodes an image (PNG, JPEG, GIF, WebP, BMP, ICO, or SVG) and this tool detects it automatically and renders the image right on screen — you can download or copy it from the preview.",
-          "In practice it is used most in web development: inline small images, icons, fonts (woff2), and SVG as data: URIs in CSS or HTML to cut requests; handle email attachments (MIME); store certificates and keys (PEM) or Kubernetes Secrets; carry binaries such as PDFs inside JSON, XML, or URLs; and build 'Authorization: Basic' headers."
-        ]
+        "title": "Base64 encoder & decoder guide",
+        "whatIsTitle": "What is this tool?",
+        "whatIsBody": "Base64 is an encoding that represents binary data — like images or files — using only 64 printable ASCII characters. This tool converts text and files to Base64 and back, and supports both the standard variant (+, /) and the URL-safe variant (-, _). It handles emoji, Korean, and newlines without data loss via UTF-8, and every conversion runs inside your own browser.",
+        "howToTitle": "How to use it",
+        "howToBody": "1. Choose the encode or decode direction and the standard or URL-safe variant. 2. Type text or upload a file. 3. The result appears instantly, ready to copy or download as a file. When decoding, paste Base64 (or a data: URI) that encodes an image (PNG, JPEG, GIF, WebP, BMP, ICO, SVG) and the tool detects it automatically and shows a preview right away.",
+        "useCasesTitle": "When to use it",
+        "useCasesBody": "Inlining small images, icons, fonts (woff2), or SVG as data: URIs in CSS or HTML to cut requests, inspecting Base64-wrapped data like an email attachment (MIME) or a certificate or key (PEM), carrying a binary such as a PDF inside JSON, XML, or a URL, or building an 'Authorization: Basic' header.",
+        "tipsTitle": "Tips and gotchas",
+        "tipsBody": "Base64 is not encryption — anyone can reverse it, so never use it to protect passwords or personal data. Encoding to Base64 makes data about 33% larger, so it's not suitable for big files. If the value goes into a URL or a file name, choose the URL-safe variant that uses - and _ instead of + and /."
       },
       "faq": {
         "heading": "Frequently Asked Questions",

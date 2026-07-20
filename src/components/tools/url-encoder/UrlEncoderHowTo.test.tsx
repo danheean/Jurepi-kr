@@ -28,16 +28,21 @@ describe('UrlEncoderHowTo', () => {
     expect(section).toHaveAttribute('aria-labelledby', 'url-encoder-howto-heading');
   });
 
-  it('renders three sub-section headings (what/component/charset)', () => {
+  it('renders all six sub-section headings (what/steps/component/charset/use-cases/tips)', () => {
     const { container } = renderHowTo();
     const h3s = container.querySelectorAll('h3');
-    expect(h3s).toHaveLength(3);
+    expect(h3s).toHaveLength(6);
+    const howTo = messagesKo.tools['url-encoder'].howTo;
+    const titles = Array.from(h3s).map((h) => h.textContent);
+    for (const key of ['whatIs', 'steps', 'componentVsUri', 'utf8VsEuckr', 'useCases', 'tips']) {
+      expect(titles).toContain(howTo[key].title);
+    }
   });
 
   it('renders answer-first body paragraphs', () => {
     const { container } = renderHowTo();
     const paragraphs = container.querySelectorAll('section p');
-    expect(paragraphs.length).toBeGreaterThanOrEqual(3);
+    expect(paragraphs.length).toBeGreaterThanOrEqual(6);
     expect(container.textContent).toContain('EUC-KR');
   });
 });

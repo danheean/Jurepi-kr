@@ -7,7 +7,14 @@ import { useTranslations } from 'next-intl';
 export function UrlEncoderHowTo() {
   const t = useTranslations('tools.url-encoder');
 
-  const sections = ['whatIs', 'componentVsUri', 'utf8VsEuckr'] as const;
+  const sections = [
+    'whatIs',
+    'steps',
+    'componentVsUri',
+    'utf8VsEuckr',
+    'useCases',
+    'tips',
+  ] as const;
 
   return (
     <section
