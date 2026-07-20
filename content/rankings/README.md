@@ -6,7 +6,7 @@
 2. `items/` 디렉토리에 저장 (파일명은 slug와 동일, 예: `best-pizza.md`)
 3. Frontmatter 작성:
    - title: 순위의 제목
-   - field: 분류 (ai, programming, tech, games, movies, music 중 택 1)
+   - field: 분류 (ai, programming, tech, games, movies, music, sports 중 택 1)
    - asOfDate: 기준일 (ISO 날짜: YYYY-MM 또는 YYYY-MM-DD)
    - sourceNote: 출처 설명 (≤200자)
    - sourceUrl: 링크 (선택사항)
@@ -86,12 +86,13 @@ items:
 - **games**: 게임 인기도, 순위
 - **movies**: 영화 순위
 - **music**: 음악, 앨범, 아티스트 순위
+- **sports**: 스포츠 대회·팀·선수 순위
 
 ---
 
 **마지막 확인:**
 - [ ] .md와 _en.md 쌍이 있는가?
-- [ ] field가 enum 범위 내인가? (ai, programming, tech, games, movies, music)
+- [ ] field가 enum 범위 내인가? (ai, programming, tech, games, movies, music, sports)
 - [ ] items가 3개 이상인가?
 - [ ] rank가 1부터 연속인가?
 - [ ] description이 200자 이하인가?

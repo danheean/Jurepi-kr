@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
-
-const FIELD_ORDER = ['ai', 'programming', 'tech', 'games', 'movies', 'music'] as const;
+import { FIELD_ORDER } from '@/lib/rankings/schema';
 
 interface FieldTabsProps {
   activeField: string;

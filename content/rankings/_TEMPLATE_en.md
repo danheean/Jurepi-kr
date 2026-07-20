@@ -3,7 +3,7 @@
 title: "[Title or 'Best X' format]"
 
 # Field must match Korean file (CANONICAL from KO)
-field: ai | programming | tech | games | movies | music
+field: ai | programming | tech | games | movies | music | sports
 
 # As-of date must match Korean file (CANONICAL from KO)
 asOfDate: "2026-06"

@@ -6,7 +6,7 @@ title: "[제목 또는 'Best X' 형식]"
 slug: "[optional, auto-derived from filename if omitted]"
 
 # Required: Category of this ranking (choose one)
-field: ai | programming | tech | games | movies | music
+field: ai | programming | tech | games | movies | music | sports
 
 # Required: As-of date (ISO: YYYY-MM or YYYY-MM-DD)
 asOfDate: "2026-06"
