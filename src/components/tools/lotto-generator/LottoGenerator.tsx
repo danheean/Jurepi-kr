@@ -11,6 +11,7 @@ import { ResponsibilityDisclaimer } from './ResponsibilityDisclaimer';
 import { spawnConfetti } from './confetti';
 import { playPopSound } from '@/lib/lotto-generator/sound';
 import { BEEP_FREQ_HZ } from '@/lib/lotto-generator/schema';
+import { formatGamesPlaintext } from '@/lib/lotto-generator/format';
 
 /**
  * Lotto Generator orchestrator component.
@@ -120,7 +121,6 @@ export function LottoGenerator() {
           }, 2000);
         }}
         disabled={generateDisabledRef.current}
-        aria-live="polite"
         className="w-full py-3 px-4 rounded-lg bg-brand text-on-brand font-semibold hover:bg-brand/90 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-focus-ring transition-colors"
       >
         {t('buttons.generate')}
@@ -141,6 +141,19 @@ export function LottoGenerator() {
       {games.length > 0 && (
         <GameList games={games} animationPhase={animationState.phase} />
       )}
+
+      {/*
+        Announce the final result to screen readers once generation
+        completes. aria-live used to sit on the Generate button itself,
+        which announces nothing (a button's own text isn't dynamic content) —
+        moved to a dedicated status region, and gated on the "done" phase so
+        it doesn't read out the rapidly-flickering rolling/locking numbers.
+      */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {animationState.phase === 'done' && games.length > 0
+          ? formatGamesPlaintext(games, (i) => t('results.gameLabel', { count: i + 1 }))
+          : ''}
+      </div>
 
       {/* History Panel */}
       <HistoryPanel

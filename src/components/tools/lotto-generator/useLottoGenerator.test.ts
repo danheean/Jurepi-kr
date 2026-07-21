@@ -300,4 +300,35 @@ describe('useLottoGenerator', () => {
     expect(result.current.fixedNumbers.length).toBe(0);
     expect(result.current.excludedNumbers.length).toBe(0);
   });
+
+  it('refuses to add a fixed number that is already excluded', () => {
+    // Regression: a number in both lists would still be forced into every
+    // draw by fairDraw's `[...fixedNumbers, ...selected]`, silently breaking
+    // the excluded-numbers guarantee ("can never appear").
+    const { result } = renderHook(() => useLottoGenerator());
+
+    act(() => {
+      result.current.addExcludedNumber(7);
+    });
+    act(() => {
+      result.current.addFixedNumber(7);
+    });
+
+    expect(result.current.excludedNumbers).toEqual([7]);
+    expect(result.current.fixedNumbers).toEqual([]);
+  });
+
+  it('refuses to add an excluded number that is already fixed', () => {
+    const { result } = renderHook(() => useLottoGenerator());
+
+    act(() => {
+      result.current.addFixedNumber(7);
+    });
+    act(() => {
+      result.current.addExcludedNumber(7);
+    });
+
+    expect(result.current.fixedNumbers).toEqual([7]);
+    expect(result.current.excludedNumbers).toEqual([]);
+  });
 });

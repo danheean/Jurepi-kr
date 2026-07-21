@@ -28,8 +28,10 @@ describe('GameList', () => {
 
     render(<GameList games={games} animationPhase="idle" />);
 
-    // 6 main balls carry the "Ball N" label; the bonus ball carries "Bonus number N".
-    const mainBalls = screen.getAllByRole('img', { name: /^Ball /i });
+    // 6 main balls carry a localized "Number N" label; the bonus ball
+    // carries "Bonus number N" — neither hardcodes English regardless of
+    // locale (regression: main balls used to default to "Ball N" always).
+    const mainBalls = screen.getAllByRole('img', { name: /^Number \d+$/i });
     expect(mainBalls.length).toBe(6);
 
     const bonusBall = screen.getByRole('img', { name: /Bonus number 25/i });

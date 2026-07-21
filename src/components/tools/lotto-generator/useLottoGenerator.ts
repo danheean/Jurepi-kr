@@ -142,11 +142,15 @@ export function useLottoGenerator(
 
   const addFixedNumber = useCallback((n: number) => {
     if (n < LOTTO_MIN || n > LOTTO_MAX) return;
+    // A number can't be both "always include" and "never include" —
+    // fairDraw always forces fixed numbers into the result, so allowing
+    // this would silently break the excluded-numbers guarantee.
+    if (excludedNumbers.includes(n)) return;
     setFixedNumbers((prev) => {
       if (prev.includes(n) || prev.length >= FIXED_MAX) return prev;
       return [...prev, n].sort((a, b) => a - b);
     });
-  }, []);
+  }, [excludedNumbers]);
 
   const removeFixedNumber = useCallback((n: number) => {
     setFixedNumbers((prev) => prev.filter((x) => x !== n));
@@ -154,11 +158,12 @@ export function useLottoGenerator(
 
   const addExcludedNumber = useCallback((n: number) => {
     if (n < LOTTO_MIN || n > LOTTO_MAX) return;
+    if (fixedNumbers.includes(n)) return;
     setExcludedNumbers((prev) => {
       if (prev.includes(n) || prev.length >= EXCLUDED_MAX) return prev;
       return [...prev, n].sort((a, b) => a - b);
     });
-  }, []);
+  }, [fixedNumbers]);
 
   const removeExcludedNumber = useCallback((n: number) => {
     setExcludedNumbers((prev) => prev.filter((x) => x !== n));

@@ -2613,7 +2613,10 @@
           "remove": "제거"
         },
         "infeasible": "충분한 번호를 선택할 수 없습니다. 포함 번호를 줄이거나 제외 번호를 줄여주세요.",
-        "sound": "소리"
+        "sound": "소리",
+        "conflict": "이미 반대 목록에 있는 번호는 추가할 수 없어요: {numbers}",
+        "outOfRange": "1~45 범위를 벗어난 번호는 추가할 수 없어요: {numbers}",
+        "noValidNumbers": "유효한 번호를 찾을 수 없어요. 1~45 사이의 숫자를 쉼표로 구분해 입력해주세요."
       },
       "buttons": {
         "generate": "번호 생성하기",
@@ -2628,7 +2631,8 @@
         "empty": "번호를 생성해보세요.",
         "mainLabel": "추첨번호",
         "bonusLabel": "보너스번호",
-        "bonusAria": "보너스 번호 {n}"
+        "bonusAria": "보너스 번호 {n}",
+        "numberAria": "번호 {n}"
       },
       "history": {
         "title": "지난 생성 기록",
@@ -2641,7 +2645,10 @@
         },
         "gameCountLabel": "{n}게임",
         "expandLabel": "보기",
-        "collapseLabel": "숨기기"
+        "collapseLabel": "숨기기",
+        "fixedLabel": "포함: {numbers}",
+        "excludedLabel": "제외: {numbers}",
+        "restore": "이 조합 불러오기"
       },
       "disclaimer": {
         "heading": "⚠️ 중요 안내",

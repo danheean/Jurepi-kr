@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { X, Plus } from 'lucide-react';
 import { GAME_COUNT_MIN, GAME_COUNT_MAX, LOTTO_MIN, LOTTO_MAX } from '@/lib/lotto-generator/schema';
 import { isDrawFeasible, feasibilityError } from '@/lib/lotto-generator/validate';
-import { parseNumberList } from '@/lib/lotto-generator/parse';
+import { parseNumberListWithRejects } from '@/lib/lotto-generator/parse';
 
 interface SettingsPanelProps {
   gameCount: number;
@@ -33,6 +33,12 @@ export function SettingsPanel({
   const t = useTranslations('tools.lotto-generator');
   const [fixedInput, setFixedInput] = useState('');
   const [excludedInput, setExcludedInput] = useState('');
+  const [fixedConflict, setFixedConflict] = useState<number[]>([]);
+  const [excludedConflict, setExcludedConflict] = useState<number[]>([]);
+  const [fixedOutOfRange, setFixedOutOfRange] = useState<number[]>([]);
+  const [excludedOutOfRange, setExcludedOutOfRange] = useState<number[]>([]);
+  const [fixedNoValidNumbers, setFixedNoValidNumbers] = useState(false);
+  const [excludedNoValidNumbers, setExcludedNoValidNumbers] = useState(false);
 
   const isInfeasible = !isDrawFeasible(fixedNumbers.length, excludedNumbers.length);
   const errorMessage = feasibilityError(fixedNumbers.length, excludedNumbers.length);
@@ -42,18 +48,31 @@ export function SettingsPanel({
     onGenerateDisabledChange?.(isInfeasible);
   }, [isInfeasible, onGenerateDisabledChange]);
 
-  // Accept one or many comma-separated numbers (e.g. "7, 13, 21").
+  // Accept one or many comma-separated numbers (e.g. "7, 13, 21"). Numbers
+  // are rejected (and why is surfaced) rather than silently dropped: a
+  // number already on the opposite list can't be both "always include" and
+  // "never include" (*Conflict), a number outside 1–45 doesn't exist
+  // (*OutOfRange), and input with no parseable number at all gets a
+  // generic hint (*NoValidNumbers).
   const handleAddFixed = () => {
-    const nums = parseNumberList(fixedInput, LOTTO_MIN, LOTTO_MAX);
-    if (nums.length === 0) return;
-    nums.forEach((n) => onAddFixed(n));
+    if (fixedInput.trim() === '') return;
+    const { valid, rejected } = parseNumberListWithRejects(fixedInput, LOTTO_MIN, LOTTO_MAX);
+    const conflicts = valid.filter((n) => excludedNumbers.includes(n));
+    valid.filter((n) => !excludedNumbers.includes(n)).forEach((n) => onAddFixed(n));
+    setFixedConflict(conflicts);
+    setFixedOutOfRange(rejected);
+    setFixedNoValidNumbers(valid.length === 0 && rejected.length === 0);
     setFixedInput('');
   };
 
   const handleAddExcluded = () => {
-    const nums = parseNumberList(excludedInput, LOTTO_MIN, LOTTO_MAX);
-    if (nums.length === 0) return;
-    nums.forEach((n) => onAddExcluded(n));
+    if (excludedInput.trim() === '') return;
+    const { valid, rejected } = parseNumberListWithRejects(excludedInput, LOTTO_MIN, LOTTO_MAX);
+    const conflicts = valid.filter((n) => fixedNumbers.includes(n));
+    valid.filter((n) => !fixedNumbers.includes(n)).forEach((n) => onAddExcluded(n));
+    setExcludedConflict(conflicts);
+    setExcludedOutOfRange(rejected);
+    setExcludedNoValidNumbers(valid.length === 0 && rejected.length === 0);
     setExcludedInput('');
   };
 
@@ -118,6 +137,21 @@ export function SettingsPanel({
             <span className="text-sm">{t('settings.fixedNumbers.add')}</span>
           </button>
         </div>
+        {fixedConflict.length > 0 && (
+          <p className="text-xs text-danger-ink mb-3" role="alert">
+            {t('settings.conflict', { numbers: fixedConflict.join(', ') })}
+          </p>
+        )}
+        {fixedOutOfRange.length > 0 && (
+          <p className="text-xs text-danger-ink mb-3" role="alert">
+            {t('settings.outOfRange', { numbers: fixedOutOfRange.join(', ') })}
+          </p>
+        )}
+        {fixedNoValidNumbers && (
+          <p className="text-xs text-danger-ink mb-3" role="alert">
+            {t('settings.noValidNumbers')}
+          </p>
+        )}
         <div className="flex flex-wrap gap-2">
           {fixedNumbers.map((n) => (
             <div
@@ -164,16 +198,31 @@ export function SettingsPanel({
             <span className="text-sm">{t('settings.excludedNumbers.add')}</span>
           </button>
         </div>
+        {excludedConflict.length > 0 && (
+          <p className="text-xs text-danger-ink mb-3" role="alert">
+            {t('settings.conflict', { numbers: excludedConflict.join(', ') })}
+          </p>
+        )}
+        {excludedOutOfRange.length > 0 && (
+          <p className="text-xs text-danger-ink mb-3" role="alert">
+            {t('settings.outOfRange', { numbers: excludedOutOfRange.join(', ') })}
+          </p>
+        )}
+        {excludedNoValidNumbers && (
+          <p className="text-xs text-danger-ink mb-3" role="alert">
+            {t('settings.noValidNumbers')}
+          </p>
+        )}
         <div className="flex flex-wrap gap-2">
           {excludedNumbers.map((n) => (
             <div
               key={n}
-              className="px-3 py-1 rounded-full bg-danger/10 text-danger text-sm flex items-center gap-2"
+              className="px-3 py-1 rounded-full bg-danger/10 text-danger-ink text-sm flex items-center gap-2"
             >
               {n}
               <button
                 onClick={() => onRemoveExcluded(n)}
-                className="hover:text-danger/70 focus-visible:ring-1 focus-visible:ring-focus-ring rounded"
+                className="hover:text-danger-ink/70 focus-visible:ring-1 focus-visible:ring-focus-ring rounded"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -184,7 +233,7 @@ export function SettingsPanel({
 
       {/* Feasibility Warning */}
       {isInfeasible && errorMessage && (
-        <div className="p-3 rounded-lg bg-danger/10 border border-danger/30 text-danger text-sm">
+        <div className="p-3 rounded-lg bg-danger/10 border border-danger/30 text-danger-ink text-sm">
           {t(errorMessage)}
         </div>
       )}

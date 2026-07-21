@@ -9,6 +9,12 @@ function renderWithIntl(component: React.ReactElement) {
   });
 }
 
+function renderWithLocale(component: React.ReactElement, locale: string) {
+  return render(component, {
+    wrapper: ({ children }) => AllTheProviders({ children, locale }),
+  });
+}
+
 describe('HistoryPanel', () => {
   const mockHandlers = {
     onRestore: vi.fn(),
@@ -17,6 +23,64 @@ describe('HistoryPanel', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it('formats a recent timestamp via Intl.RelativeTimeFormat, not hand-rolled ko/en branching', () => {
+    const history: HistoryEntry[] = [
+      {
+        timestamp: new Date().toISOString(),
+        gameCount: 1,
+        fixedNumbers: [],
+        excludedNumbers: [],
+        games: [{ numbers: [1, 7, 13, 21, 35, 42], bonus: 25 }],
+      },
+    ];
+
+    renderWithIntl(
+      <HistoryPanel history={history} onRestore={mockHandlers.onRestore} onClear={mockHandlers.onClear} />
+    );
+
+    expect(screen.getByText(/now/i)).toBeInTheDocument();
+  });
+
+  it('uses correct singular grammar for a 1-minute-old entry (regression: always said "1 minutes ago")', () => {
+    const history: HistoryEntry[] = [
+      {
+        // 75s ago rounds to -1 minute — comfortably clear of any rounding
+        // boundary ambiguity.
+        timestamp: new Date(Date.now() - 75_000).toISOString(),
+        gameCount: 1,
+        fixedNumbers: [],
+        excludedNumbers: [],
+        games: [{ numbers: [1, 7, 13, 21, 35, 42], bonus: 25 }],
+      },
+    ];
+
+    renderWithIntl(
+      <HistoryPanel history={history} onRestore={mockHandlers.onRestore} onClear={mockHandlers.onClear} />
+    );
+
+    expect(screen.getByText('1 minute ago')).toBeInTheDocument();
+    expect(screen.queryByText('1 minutes ago')).toBeNull();
+  });
+
+  it('formats the timestamp in Korean on the ko locale', () => {
+    const history: HistoryEntry[] = [
+      {
+        timestamp: new Date(Date.now() - 75_000).toISOString(),
+        gameCount: 1,
+        fixedNumbers: [],
+        excludedNumbers: [],
+        games: [{ numbers: [1, 7, 13, 21, 35, 42], bonus: 25 }],
+      },
+    ];
+
+    renderWithLocale(
+      <HistoryPanel history={history} onRestore={mockHandlers.onRestore} onClear={mockHandlers.onClear} />,
+      'ko'
+    );
+
+    expect(screen.getByText('1분 전')).toBeInTheDocument();
   });
 
   it('displays empty state when history is empty', () => {
@@ -70,8 +134,68 @@ describe('HistoryPanel', () => {
     const expandButton = screen.getByText(/2 games/i).closest('button');
     fireEvent.click(expandButton!);
 
-    // The restore button uses GENERATE text from catalog
-    expect(screen.getByRole('button', { name: /GENERATE/i })).toBeInTheDocument();
+    // The restore button has its own label — it restores a past draw, it
+    // doesn't generate a new one (regression: it used to reuse GENERATE).
+    expect(screen.getByRole('button', { name: /Restore this draw/i })).toBeInTheDocument();
+  });
+
+  it('exposes expand/collapse state via aria-expanded and aria-controls', () => {
+    // Regression: the disclosure toggle had no aria-expanded/aria-controls
+    // at all, so screen reader users got no indication it was a disclosure
+    // or whether it was open.
+    const history: HistoryEntry[] = [
+      {
+        timestamp: new Date().toISOString(),
+        gameCount: 2,
+        fixedNumbers: [],
+        excludedNumbers: [],
+        games: [
+          { numbers: [1, 7, 13, 21, 35, 42], bonus: 25 },
+          { numbers: [2, 8, 14, 22, 36, 43], bonus: 10 },
+        ],
+      },
+    ];
+
+    renderWithIntl(
+      <HistoryPanel history={history} onRestore={mockHandlers.onRestore} onClear={mockHandlers.onClear} />
+    );
+
+    const expandButton = screen.getByText(/2 games/i).closest('button')!;
+    expect(expandButton).toHaveAttribute('aria-expanded', 'false');
+    const controlsId = expandButton.getAttribute('aria-controls');
+    expect(controlsId).toBeTruthy();
+
+    fireEvent.click(expandButton);
+
+    expect(expandButton).toHaveAttribute('aria-expanded', 'true');
+    expect(document.getElementById(controlsId!)).toBeInTheDocument();
+  });
+
+  it('uses a theme-aware surface token for the expanded panel, not hardcoded white', () => {
+    // Regression: bg-white stayed literally white in dark mode (glaring box);
+    // bg-surface resolves per theme like the rest of the tool.
+    const history: HistoryEntry[] = [
+      {
+        timestamp: new Date().toISOString(),
+        gameCount: 2,
+        fixedNumbers: [],
+        excludedNumbers: [],
+        games: [
+          { numbers: [1, 7, 13, 21, 35, 42], bonus: 25 },
+          { numbers: [2, 8, 14, 22, 36, 43], bonus: 10 },
+        ],
+      },
+    ];
+
+    const { container } = renderWithIntl(
+      <HistoryPanel history={history} onRestore={mockHandlers.onRestore} onClear={mockHandlers.onClear} />
+    );
+
+    const expandButton = screen.getByText(/2 games/i).closest('button');
+    fireEvent.click(expandButton!);
+
+    expect(container.querySelector('.bg-white')).toBeNull();
+    expect(container.querySelector('.bg-surface')).not.toBeNull();
   });
 
   it('restores entry when restore button clicked', () => {
@@ -95,7 +219,13 @@ describe('HistoryPanel', () => {
     const expandButton = screen.getByText(/2 games/i).closest('button');
     fireEvent.click(expandButton!);
 
-    const restoreButton = screen.getByRole('button', { name: /GENERATE/i });
+    // Fixed/excluded numbers render through the message catalog, not
+    // hardcoded English (regression: literal "Fixed:"/"Excluded:" leaked
+    // onto the ko page regardless of locale).
+    expect(screen.getByText('Fixed: 7')).toBeInTheDocument();
+    expect(screen.getByText('Excluded: 1, 2, 3')).toBeInTheDocument();
+
+    const restoreButton = screen.getByRole('button', { name: /Restore this draw/i });
     fireEvent.click(restoreButton);
 
     expect(mockHandlers.onRestore).toHaveBeenCalledWith(history[0]);

@@ -2613,7 +2613,10 @@
           "remove": "Remove"
         },
         "infeasible": "Not enough numbers available. Reduce fixed or excluded numbers.",
-        "sound": "Sound"
+        "sound": "Sound",
+        "conflict": "These numbers are already on the other list, so they can't be added: {numbers}",
+        "outOfRange": "These numbers are outside 1–45, so they can't be added: {numbers}",
+        "noValidNumbers": "No valid numbers found. Enter numbers between 1 and 45, separated by commas."
       },
       "buttons": {
         "generate": "GENERATE",
@@ -2628,7 +2631,8 @@
         "empty": "Generate numbers to get started.",
         "mainLabel": "Numbers",
         "bonusLabel": "Bonus",
-        "bonusAria": "Bonus number {n}"
+        "bonusAria": "Bonus number {n}",
+        "numberAria": "Number {n}"
       },
       "history": {
         "title": "Generation History",
@@ -2641,7 +2645,10 @@
         },
         "gameCountLabel": "{n} games",
         "expandLabel": "Show",
-        "collapseLabel": "Hide"
+        "collapseLabel": "Hide",
+        "fixedLabel": "Fixed: {numbers}",
+        "excludedLabel": "Excluded: {numbers}",
+        "restore": "Restore this draw"
       },
       "disclaimer": {
         "heading": "⚠️ Important Notice",

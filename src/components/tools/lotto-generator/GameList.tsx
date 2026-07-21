@@ -90,6 +90,7 @@ export function GameList({ games, animationPhase }: GameListProps) {
                       index={ballIdx}
                       isAnimating={animationPhase !== 'idle' && animationPhase !== 'done'}
                       animationPhase={animationPhase}
+                      label={t('results.numberAria', { n: num })}
                     />
                   ))}
                 </div>

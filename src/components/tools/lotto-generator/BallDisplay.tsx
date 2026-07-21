@@ -1,7 +1,8 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { ballColor } from '@/lib/lotto-generator/colors';
+import { LOTTO_MAX } from '@/lib/lotto-generator/schema';
 import type { AnimationPhase } from './useLottoGenerator';
 
 interface BallDisplayProps {
@@ -9,14 +10,18 @@ interface BallDisplayProps {
   index: number;
   isAnimating: boolean;
   animationPhase: AnimationPhase;
-  /** Accessible label override (e.g. "Bonus 25"). Defaults to "Ball {n}". */
-  label?: string;
+  /**
+   * Accessible label (e.g. "번호 25" / "보너스 번호 25"). Required — a
+   * previous English-only fallback here meant every ball on the ko page
+   * announced "Ball N" to screen readers; callers must supply a localized
+   * label instead of relying on a default.
+   */
+  label: string;
 }
 
 const CANDIDATE_FLIP_MS = 50;
-const ROLL_DURATION_MS = 500;
-const BALL_POP_DURATION_MS = 150;
 const STAGGER_MS = 100;
+const BALL_POP_DURATION_MS = 150;
 
 export function BallDisplay({
   number,
@@ -26,56 +31,67 @@ export function BallDisplay({
   label,
 }: BallDisplayProps) {
   const color = ballColor(number);
-  const ariaLabel = label ?? `Ball ${number}`;
 
-  // During rolling phase: cycle through candidate numbers
-  const displayNumber = useMemo(() => {
-    if (animationPhase !== 'rolling' || !isAnimating) {
-      return number;
-    }
-    // Cycle candidates during roll
-    const rollStartMs = index * STAGGER_MS;
-    const now = Date.now();
-    const elapsed = now % (ROLL_DURATION_MS + rollStartMs);
-    if (elapsed < rollStartMs) {
-      return number;
-    }
-    const rollElapsed = elapsed - rollStartMs;
-    const totalCandidates = 45; // Could be optimized with cached candidates
-    const cycleIndex = Math.floor(rollElapsed / CANDIDATE_FLIP_MS) % totalCandidates;
-    return ((cycleIndex % 45) + 1);
-  }, [number, index, animationPhase, isAnimating]);
-
-  // Pop animation: scale 0→1, opacity 0→1
-  const lockStartMs = (6 - 1) * STAGGER_MS + ROLL_DURATION_MS + index * (BALL_POP_DURATION_MS + STAGGER_MS);
-  const isPoppingRight = animationPhase === 'locking';
-
-  const popScale = useMemo(() => {
-    if (!isPoppingRight) return 1;
-    const now = Date.now();
-    const elapsed = (now - lockStartMs) % (BALL_POP_DURATION_MS + STAGGER_MS);
-    if (elapsed < 0 || elapsed > BALL_POP_DURATION_MS) return 1;
-    return elapsed / BALL_POP_DURATION_MS;
-  }, [isPoppingRight, lockStartMs]);
-
-  const popOpacity = popScale;
-
-  // Prefer reduced motion: skip animations
   const prefersReducedMotion = typeof window !== 'undefined'
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const isRolling = animationPhase === 'rolling' && isAnimating && !prefersReducedMotion;
+  const isLocking = animationPhase === 'locking' && !prefersReducedMotion;
+
+  // Cycle through candidate numbers during the rolling phase. Driven by a
+  // real interval tied to component state — not wall-clock modulo math,
+  // which froze the display for the whole window (nothing re-rendered the
+  // component between phase changes, so the "cycling" number was computed
+  // once and never updated).
+  const [rollTicks, setRollTicks] = useState(0);
+  useEffect(() => {
+    if (!isRolling) {
+      setRollTicks(0);
+      return;
+    }
+    const id = setInterval(() => setRollTicks((t) => t + 1), CANDIDATE_FLIP_MS);
+    return () => clearInterval(id);
+  }, [isRolling]);
+
+  let displayNumber = number;
+  if (isRolling) {
+    const rollStartTicks = Math.round((index * STAGGER_MS) / CANDIDATE_FLIP_MS);
+    if (rollTicks >= rollStartTicks) {
+      displayNumber = ((rollTicks - rollStartTicks) % LOTTO_MAX) + 1;
+    }
+  }
+
+  // Pop reveal during the locking phase: each ball flips from hidden to
+  // visible after its own staggered delay, then the CSS transition below
+  // handles the smooth 0→1 interpolation — no manual JS easing needed
+  // (the previous version tried to compute a continuous progress value
+  // from an unanchored elapsed-time calculation, which produced a random
+  // frozen fraction instead of an actual pop).
+  const [hasPopped, setHasPopped] = useState(false);
+  useEffect(() => {
+    if (!isLocking) {
+      setHasPopped(false);
+      return;
+    }
+    const ballLockStartMs = index * (BALL_POP_DURATION_MS + STAGGER_MS);
+    const timeoutId = setTimeout(() => setHasPopped(true), ballLockStartMs);
+    return () => clearTimeout(timeoutId);
+  }, [isLocking, index]);
+
+  const popValue = isLocking ? (hasPopped ? 1 : 0) : 1;
 
   const animStyle = prefersReducedMotion
     ? {}
     : {
-        transform: `scale(${popOpacity})`,
-        opacity: popOpacity,
-        transition: animationPhase === 'locking' ? `all ${BALL_POP_DURATION_MS}ms ease-out` : 'none',
+        transform: `scale(${popValue})`,
+        opacity: popValue,
+        transition: isLocking ? `all ${BALL_POP_DURATION_MS}ms ease-out` : 'none',
       };
 
   return (
     <div
       role="img"
-      aria-label={ariaLabel}
+      aria-label={label}
       className="flex items-center justify-center w-11 h-11 rounded-full font-bold text-sm transition-none"
       style={{ backgroundColor: color.background, color: color.color, ...animStyle }}
     >

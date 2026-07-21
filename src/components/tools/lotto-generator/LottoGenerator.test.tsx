@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { AllTheProviders } from '@/__test__/test-utils';
 import { LottoGenerator } from './LottoGenerator';
 
@@ -80,6 +80,46 @@ describe('LottoGenerator', () => {
 
     // Still feasible → generate stays enabled
     expect(generateButton).toBeEnabled();
+  });
+
+  it('does not misuse aria-live on the Generate button itself', async () => {
+    // Regression: aria-live sat on the button, which announces nothing —
+    // a button's own label text isn't dynamic content a screen reader needs
+    // to be told about.
+    renderWithIntl(<LottoGenerator />);
+
+    await waitFor(() => {
+      const generateButton = screen.getByRole('button', { name: /GENERATE/i });
+      expect(generateButton).not.toHaveAttribute('aria-live');
+    });
+  });
+
+  it('announces the final result via a dedicated status region once generation completes', () => {
+    vi.useFakeTimers();
+
+    renderWithIntl(<LottoGenerator />);
+
+    const generateButton = screen.getByRole('button', { name: /GENERATE/i });
+    fireEvent.click(generateButton);
+
+    const status = screen.getByRole('status');
+    // Mid-animation (rolling/locking), nothing should be announced yet —
+    // otherwise a screen reader would read out the flickering placeholder
+    // numbers instead of the settled result.
+    expect(status).toHaveTextContent('');
+
+    // Bounded advance, not runAllTimers(): BallDisplay's rolling-flicker
+    // setInterval never "runs out" on its own, so runAllTimers() would spin
+    // until it hits its infinite-loop safety abort. Default animation timing
+    // is ~1000ms rolling + ~1500ms locking (6 balls); 3000ms comfortably
+    // covers the full sequence.
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
+
+    expect(status.textContent).toMatch(/Game 1:/);
+
+    vi.useRealTimers();
   });
 
   it('respects Enter key to generate', () => {

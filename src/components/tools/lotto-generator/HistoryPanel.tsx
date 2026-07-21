@@ -12,18 +12,24 @@ interface HistoryPanelProps {
   onClear: () => void;
 }
 
+/**
+ * Locale-aware relative time via Intl.RelativeTimeFormat — not hand-rolled
+ * ko/en string branching, which also always used plural English ("1
+ * minutes ago") regardless of count.
+ */
 function formatTimestamp(isoString: string, locale: string): string {
-  const now = new Date();
-  const entry = new Date(isoString);
-  const diffMs = now.getTime() - entry.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
+  const diffMs = new Date(isoString).getTime() - Date.now();
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
 
-  if (diffMins < 1) return locale === 'ko' ? '방금 전' : 'Just now';
-  if (diffMins < 60) return locale === 'ko' ? `${diffMins}분 전` : `${diffMins} minutes ago`;
-  if (diffHours < 24) return locale === 'ko' ? `${diffHours}시간 전` : `${diffHours} hours ago`;
-  return locale === 'ko' ? `${diffDays}일 전` : `${diffDays} days ago`;
+  const diffSeconds = diffMs / 1000;
+  const diffMinutes = diffMs / 60000;
+  const diffHours = diffMs / 3600000;
+  const diffDays = diffMs / 86400000;
+
+  if (Math.abs(diffSeconds) < 60) return rtf.format(0, 'second');
+  if (Math.abs(diffMinutes) < 60) return rtf.format(Math.round(diffMinutes), 'minute');
+  if (Math.abs(diffHours) < 24) return rtf.format(Math.round(diffHours), 'hour');
+  return rtf.format(Math.round(diffDays), 'day');
 }
 
 export function HistoryPanel({ history, onRestore, onClear }: HistoryPanelProps) {
@@ -57,6 +63,8 @@ export function HistoryPanel({ history, onRestore, onClear }: HistoryPanelProps)
           <div key={idx} className="border border-hairline rounded-lg overflow-hidden">
             <button
               onClick={() => setExpanded(expanded === idx ? null : idx)}
+              aria-expanded={expanded === idx}
+              aria-controls={`lotto-history-panel-${idx}`}
               className="w-full px-3 py-2 bg-surface-sunken hover:bg-surface-sunken/80 focus-visible:ring-2 focus-visible:ring-focus-ring flex items-center justify-between"
             >
               <div className="text-left text-sm">
@@ -67,24 +75,30 @@ export function HistoryPanel({ history, onRestore, onClear }: HistoryPanelProps)
                   {formatTimestamp(entry.timestamp, locale)}
                 </div>
               </div>
+              <span className="sr-only">
+                {expanded === idx ? t('history.collapseLabel') : t('history.expandLabel')}
+              </span>
               {expanded === idx ? (
-                <ChevronUp className="w-4 h-4" />
+                <ChevronUp className="w-4 h-4" aria-hidden="true" />
               ) : (
-                <ChevronDown className="w-4 h-4" />
+                <ChevronDown className="w-4 h-4" aria-hidden="true" />
               )}
             </button>
 
             {expanded === idx && (
-              <div className="p-3 space-y-2 bg-white border-t border-hairline">
+              <div
+                id={`lotto-history-panel-${idx}`}
+                className="p-3 space-y-2 bg-surface border-t border-hairline"
+              >
                 <div className="text-xs text-text-muted">
                   {entry.fixedNumbers.length > 0 && (
                     <p>
-                      Fixed: {entry.fixedNumbers.join(', ')}
+                      {t('history.fixedLabel', { numbers: entry.fixedNumbers.join(', ') })}
                     </p>
                   )}
                   {entry.excludedNumbers.length > 0 && (
                     <p>
-                      Excluded: {entry.excludedNumbers.join(', ')}
+                      {t('history.excludedLabel', { numbers: entry.excludedNumbers.join(', ') })}
                     </p>
                   )}
                 </div>
@@ -92,7 +106,7 @@ export function HistoryPanel({ history, onRestore, onClear }: HistoryPanelProps)
                   onClick={() => onRestore(entry)}
                   className="w-full px-3 py-2 text-sm rounded bg-brand text-on-brand hover:bg-brand/90 focus-visible:ring-2 focus-visible:ring-focus-ring"
                 >
-                  {t('buttons.generate')}
+                  {t('history.restore')}
                 </button>
               </div>
             )}

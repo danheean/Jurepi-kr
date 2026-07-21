@@ -204,6 +204,163 @@ describe('SettingsPanel', () => {
     expect(screen.getByText(/Not enough/i)).toBeInTheDocument();
   });
 
+  it('uses the AA-contrast-safe -ink token for danger text, not the raw fill color', () => {
+    // text-danger (#ef4444) is ~3.76:1 on white — fails WCAG AA (4.5:1) for
+    // body text. text-danger-ink is the darkened variant meant for text.
+    const excluded40 = Array.from({ length: 40 }, (_, i) => i + 1);
+    const { container } = renderWithIntl(
+      <SettingsPanel
+        gameCount={1}
+        onGameCountChange={mockHandlers.onGameCountChange}
+        fixedNumbers={[]}
+        onAddFixed={mockHandlers.onAddFixed}
+        onRemoveFixed={mockHandlers.onRemoveFixed}
+        excludedNumbers={excluded40}
+        onAddExcluded={mockHandlers.onAddExcluded}
+        onRemoveExcluded={mockHandlers.onRemoveExcluded}
+      />
+    );
+
+    expect(container.querySelector('.text-danger')).toBeNull();
+    expect(container.querySelectorAll('.text-danger-ink').length).toBeGreaterThan(0);
+  });
+
+  it('rejects a fixed number already on the excluded list and shows why', () => {
+    renderWithIntl(
+      <SettingsPanel
+        gameCount={1}
+        onGameCountChange={mockHandlers.onGameCountChange}
+        fixedNumbers={[]}
+        onAddFixed={mockHandlers.onAddFixed}
+        onRemoveFixed={mockHandlers.onRemoveFixed}
+        excludedNumbers={[7]}
+        onAddExcluded={mockHandlers.onAddExcluded}
+        onRemoveExcluded={mockHandlers.onRemoveExcluded}
+      />
+    );
+
+    const fixedInput = screen.getAllByPlaceholderText('e.g. 7, 13, 21')[0];
+    fireEvent.change(fixedInput, { target: { value: '7' } });
+    fireEvent.click(screen.getAllByRole('button', { name: /Add Number/i })[0]);
+
+    expect(mockHandlers.onAddFixed).not.toHaveBeenCalled();
+    expect(screen.getByRole('alert')).toHaveTextContent('7');
+  });
+
+  it('rejects an excluded number already on the fixed list and shows why', () => {
+    renderWithIntl(
+      <SettingsPanel
+        gameCount={1}
+        onGameCountChange={mockHandlers.onGameCountChange}
+        fixedNumbers={[7]}
+        onAddFixed={mockHandlers.onAddFixed}
+        onRemoveFixed={mockHandlers.onRemoveFixed}
+        excludedNumbers={[]}
+        onAddExcluded={mockHandlers.onAddExcluded}
+        onRemoveExcluded={mockHandlers.onRemoveExcluded}
+      />
+    );
+
+    const excludedInput = screen.getAllByPlaceholderText('e.g. 7, 13, 21')[1];
+    fireEvent.change(excludedInput, { target: { value: '7' } });
+    fireEvent.click(screen.getAllByRole('button', { name: /Add Number/i })[1]);
+
+    expect(mockHandlers.onAddExcluded).not.toHaveBeenCalled();
+    expect(screen.getByRole('alert')).toHaveTextContent('7');
+  });
+
+  it('adds the non-conflicting numbers from a mixed batch and reports only the conflict', () => {
+    renderWithIntl(
+      <SettingsPanel
+        gameCount={1}
+        onGameCountChange={mockHandlers.onGameCountChange}
+        fixedNumbers={[]}
+        onAddFixed={mockHandlers.onAddFixed}
+        onRemoveFixed={mockHandlers.onRemoveFixed}
+        excludedNumbers={[13]}
+        onAddExcluded={mockHandlers.onAddExcluded}
+        onRemoveExcluded={mockHandlers.onRemoveExcluded}
+      />
+    );
+
+    const fixedInput = screen.getAllByPlaceholderText('e.g. 7, 13, 21')[0];
+    fireEvent.change(fixedInput, { target: { value: '7, 13, 21' } });
+    fireEvent.click(screen.getAllByRole('button', { name: /Add Number/i })[0]);
+
+    expect(mockHandlers.onAddFixed).toHaveBeenCalledTimes(2);
+    expect(mockHandlers.onAddFixed).toHaveBeenCalledWith(7);
+    expect(mockHandlers.onAddFixed).toHaveBeenCalledWith(21);
+    expect(mockHandlers.onAddFixed).not.toHaveBeenCalledWith(13);
+    expect(screen.getByRole('alert')).toHaveTextContent('13');
+  });
+
+  it('reports out-of-range numbers instead of silently dropping them', () => {
+    // Regression: "99, abc" used to vanish with zero feedback (button click
+    // did nothing, no error, nothing announced). Now the out-of-range
+    // number is named explicitly; "abc" has no digit to report on.
+    renderWithIntl(
+      <SettingsPanel
+        gameCount={1}
+        onGameCountChange={mockHandlers.onGameCountChange}
+        fixedNumbers={[]}
+        onAddFixed={mockHandlers.onAddFixed}
+        onRemoveFixed={mockHandlers.onRemoveFixed}
+        excludedNumbers={[]}
+        onAddExcluded={mockHandlers.onAddExcluded}
+        onRemoveExcluded={mockHandlers.onRemoveExcluded}
+      />
+    );
+
+    const excludedInput = screen.getAllByPlaceholderText('e.g. 7, 13, 21')[1];
+    fireEvent.change(excludedInput, { target: { value: '99, abc' } });
+    fireEvent.click(screen.getAllByRole('button', { name: /Add Number/i })[1]);
+
+    expect(mockHandlers.onAddExcluded).not.toHaveBeenCalled();
+    expect(screen.getByRole('alert')).toHaveTextContent('99');
+  });
+
+  it('shows a generic hint when the input has no parseable number at all', () => {
+    renderWithIntl(
+      <SettingsPanel
+        gameCount={1}
+        onGameCountChange={mockHandlers.onGameCountChange}
+        fixedNumbers={[]}
+        onAddFixed={mockHandlers.onAddFixed}
+        onRemoveFixed={mockHandlers.onRemoveFixed}
+        excludedNumbers={[]}
+        onAddExcluded={mockHandlers.onAddExcluded}
+        onRemoveExcluded={mockHandlers.onRemoveExcluded}
+      />
+    );
+
+    const fixedInput = screen.getAllByPlaceholderText('e.g. 7, 13, 21')[0];
+    fireEvent.change(fixedInput, { target: { value: 'abc' } });
+    fireEvent.click(screen.getAllByRole('button', { name: /Add Number/i })[0]);
+
+    expect(mockHandlers.onAddFixed).not.toHaveBeenCalled();
+    expect(screen.getByRole('alert')).toHaveTextContent(/no valid numbers/i);
+  });
+
+  it('does nothing and shows no error when the input is empty', () => {
+    renderWithIntl(
+      <SettingsPanel
+        gameCount={1}
+        onGameCountChange={mockHandlers.onGameCountChange}
+        fixedNumbers={[]}
+        onAddFixed={mockHandlers.onAddFixed}
+        onRemoveFixed={mockHandlers.onRemoveFixed}
+        excludedNumbers={[]}
+        onAddExcluded={mockHandlers.onAddExcluded}
+        onRemoveExcluded={mockHandlers.onRemoveExcluded}
+      />
+    );
+
+    fireEvent.click(screen.getAllByRole('button', { name: /Add Number/i })[0]);
+
+    expect(mockHandlers.onAddFixed).not.toHaveBeenCalled();
+    expect(screen.queryByRole('alert')).toBeNull();
+  });
+
   it('disables add buttons when max reached', () => {
     renderWithIntl(
       <SettingsPanel
