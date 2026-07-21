@@ -27,7 +27,7 @@ describe('useLottoGenerator', () => {
 
   it('loads settings from localStorage on mount', async () => {
     const store = {
-      version: 1,
+      version: 2,
       history: [],
       lastSettings: {
         gameCount: 5,
@@ -176,7 +176,11 @@ describe('useLottoGenerator', () => {
     // Rolling phase immediately after generate
     expect(result.current.animationState.phase).toBe('rolling');
     expect(result.current.games.length).toBe(2);
-    expect(result.current.games[0].length).toBe(6);
+    expect(result.current.games[0].numbers.length).toBe(6);
+    expect(result.current.games[0].bonus).toBeGreaterThanOrEqual(1);
+    expect(result.current.games[0].bonus).toBeLessThanOrEqual(45);
+    // Bonus is the 7th ball — distinct from the 6 main numbers.
+    expect(result.current.games[0].numbers).not.toContain(result.current.games[0].bonus);
 
     // lockStart = (6-1)*staggerMs + rollMs = 5*20 + 100 = 200ms → locking
     act(() => {

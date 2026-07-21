@@ -2625,7 +2625,10 @@
       "results": {
         "title": "생성된 번호",
         "gameLabel": "게임 {count}",
-        "empty": "번호를 생성해보세요."
+        "empty": "번호를 생성해보세요.",
+        "mainLabel": "추첨번호",
+        "bonusLabel": "보너스번호",
+        "bonusAria": "보너스 번호 {n}"
       },
       "history": {
         "title": "지난 생성 기록",

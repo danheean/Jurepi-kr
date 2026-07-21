@@ -5,6 +5,7 @@ import {
   HistoryEntrySchema,
   LottoStoreSchema,
   parseStore,
+  STORE_VERSION,
 } from './schema';
 
 describe('src/lib/lotto-generator/schema', () => {
@@ -121,10 +122,7 @@ describe('src/lib/lotto-generator/schema', () => {
         gameCount: 2,
         fixedNumbers: [1],
         excludedNumbers: [],
-        games: [
-          [1, 7, 18, 34, 41, 44],
-          [1, 2, 15, 28, 39, 45],
-        ],
+        games: [{ numbers: [1, 7, 18, 34, 41, 44], bonus: 25 }, { numbers: [1, 2, 15, 28, 39, 45], bonus: 30 }],
       };
       const result = HistoryEntrySchema.parse(entry);
       expect(result).toEqual(entry);
@@ -136,7 +134,7 @@ describe('src/lib/lotto-generator/schema', () => {
         gameCount: 1,
         fixedNumbers: [],
         excludedNumbers: [],
-        games: [[1, 2, 3, 4, 5, 6]],
+        games: [{ numbers: [1, 2, 3, 4, 5, 6], bonus: 7 }],
       };
       expect(() => HistoryEntrySchema.parse(entry)).toThrow();
     });
@@ -145,7 +143,7 @@ describe('src/lib/lotto-generator/schema', () => {
   describe('LottoStoreSchema', () => {
     it('accepts valid store', () => {
       const store = {
-        version: 1,
+        version: STORE_VERSION,
         history: [],
         lastSettings: null,
       };
@@ -155,17 +153,14 @@ describe('src/lib/lotto-generator/schema', () => {
 
     it('accepts store with history entries', () => {
       const store = {
-        version: 1,
+        version: STORE_VERSION,
         history: [
           {
             timestamp: '2026-07-20T10:30:00Z',
             gameCount: 2,
             fixedNumbers: [],
             excludedNumbers: [],
-            games: [
-              [1, 2, 3, 4, 5, 6],
-              [7, 8, 9, 10, 11, 12],
-            ],
+            games: [{ numbers: [1, 2, 3, 4, 5, 6], bonus: 13 }, { numbers: [7, 8, 9, 10, 11, 12], bonus: 20 }],
           },
         ],
         lastSettings: {
@@ -178,9 +173,9 @@ describe('src/lib/lotto-generator/schema', () => {
       expect(result).toEqual(store);
     });
 
-    it('rejects version !== 1', () => {
+    it('rejects version !== STORE_VERSION', () => {
       const store = {
-        version: 2,
+        version: 1,
         history: [],
         lastSettings: null,
       };
@@ -191,25 +186,25 @@ describe('src/lib/lotto-generator/schema', () => {
   describe('parseStore', () => {
     it('parses valid JSON localStorage value', () => {
       const json = JSON.stringify({
-        version: 1,
+        version: STORE_VERSION,
         history: [],
         lastSettings: null,
       });
       const result = parseStore(json);
-      expect(result.version).toBe(1);
+      expect(result.version).toBe(STORE_VERSION);
       expect(result.history).toEqual([]);
     });
 
     it('returns fresh store on null input', () => {
       const result = parseStore(null);
-      expect(result.version).toBe(1);
+      expect(result.version).toBe(STORE_VERSION);
       expect(result.history).toEqual([]);
       expect(result.lastSettings).toBe(null);
     });
 
     it('returns fresh store on invalid JSON', () => {
       const result = parseStore('{ invalid json }');
-      expect(result.version).toBe(1);
+      expect(result.version).toBe(STORE_VERSION);
       expect(result.history).toEqual([]);
       expect(result.lastSettings).toBe(null);
     });
@@ -222,27 +217,27 @@ describe('src/lib/lotto-generator/schema', () => {
       });
       const result = parseStore(json);
       // Should silently fail and return fresh store
-      expect(result.version).toBe(1);
+      expect(result.version).toBe(STORE_VERSION);
       expect(result.history).toEqual([]);
     });
 
     it('prunes invalid history entries on load', () => {
       const json = JSON.stringify({
-        version: 1,
+        version: STORE_VERSION,
         history: [
           {
             timestamp: '2026-07-20T10:30:00Z',
             gameCount: 1,
             fixedNumbers: [],
             excludedNumbers: [],
-            games: [[1, 2, 3, 4, 5, 6]],
+            games: [{ numbers: [1, 2, 3, 4, 5, 6], bonus: 7 }],
           },
           {
             timestamp: 'invalid',
             gameCount: 1,
             fixedNumbers: [],
             excludedNumbers: [],
-            games: [[1, 2, 3, 4, 5, 6]],
+            games: [{ numbers: [1, 2, 3, 4, 5, 6], bonus: 7 }],
           },
         ],
         lastSettings: null,

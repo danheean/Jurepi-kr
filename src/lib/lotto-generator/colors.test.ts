@@ -3,9 +3,9 @@ import { ballColor } from './colors';
 
 describe('src/lib/lotto-generator/colors', () => {
   describe('ballColor — official 동행복권 band colors', () => {
-    it('maps 1–10 to gold with a dark numeral', () => {
+    it('maps 1–10 to gold with a white numeral', () => {
       for (let i = 1; i <= 10; i++) {
-        expect(ballColor(i)).toEqual({ background: '#e9a100', color: '#1a1a1a' });
+        expect(ballColor(i)).toEqual({ background: '#e9a100', color: '#ffffff' });
       }
     });
 

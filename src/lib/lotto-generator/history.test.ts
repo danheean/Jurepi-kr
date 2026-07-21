@@ -4,7 +4,9 @@ import {
   pruneUnknown,
   clearHistory,
 } from './history';
-import { type HistoryEntry } from './schema';
+import { type Game, type HistoryEntry } from './schema';
+
+const g = (numbers: number[], bonus: number): Game => ({ numbers, bonus });
 
 describe('src/lib/lotto-generator/history', () => {
   describe('addHistory', () => {
@@ -14,17 +16,14 @@ describe('src/lib/lotto-generator/history', () => {
         gameCount: 1,
         fixedNumbers: [],
         excludedNumbers: [],
-        games: [[1, 2, 3, 4, 5, 6]],
+        games: [g([1, 2, 3, 4, 5, 6], 7)],
       };
       const newEntry: HistoryEntry = {
         timestamp: '2026-07-20T11:00:00Z',
         gameCount: 2,
         fixedNumbers: [],
         excludedNumbers: [],
-        games: [
-          [1, 2, 3, 4, 5, 6],
-          [7, 8, 9, 10, 11, 12],
-        ],
+        games: [g([1, 2, 3, 4, 5, 6], 7), g([7, 8, 9, 10, 11, 12], 13)],
       };
 
       const result = addHistory([oldEntry], newEntry);
@@ -39,7 +38,7 @@ describe('src/lib/lotto-generator/history', () => {
         gameCount: 1,
         fixedNumbers: [],
         excludedNumbers: [],
-        games: [[1, 2, 3, 4, 5, 6]],
+        games: [g([1, 2, 3, 4, 5, 6], 7)],
       }));
 
       const newEntry: HistoryEntry = {
@@ -47,7 +46,7 @@ describe('src/lib/lotto-generator/history', () => {
         gameCount: 1,
         fixedNumbers: [],
         excludedNumbers: [],
-        games: [[7, 8, 9, 10, 11, 12]],
+        games: [g([7, 8, 9, 10, 11, 12], 13)],
       };
 
       const result = addHistory(entries, newEntry);
@@ -62,14 +61,14 @@ describe('src/lib/lotto-generator/history', () => {
         gameCount: 1,
         fixedNumbers: [],
         excludedNumbers: [],
-        games: [[1, 2, 3, 4, 5, 6]],
+        games: [g([1, 2, 3, 4, 5, 6], 7)],
       };
       const newEntry: HistoryEntry = {
         timestamp: '2026-07-20T11:00:00Z',
         gameCount: 1,
         fixedNumbers: [],
         excludedNumbers: [],
-        games: [[7, 8, 9, 10, 11, 12]],
+        games: [g([7, 8, 9, 10, 11, 12], 13)],
       };
       const original = [oldEntry];
       const originalLength = original.length;
@@ -88,7 +87,7 @@ describe('src/lib/lotto-generator/history', () => {
           gameCount: 1,
           fixedNumbers: [],
           excludedNumbers: [],
-          games: [[1, 2, 3, 4, 5, 6]],
+          games: [g([1, 2, 3, 4, 5, 6], 7)],
         },
       ];
 
@@ -104,14 +103,14 @@ describe('src/lib/lotto-generator/history', () => {
           gameCount: 1,
           fixedNumbers: [],
           excludedNumbers: [],
-          games: [[1, 2, 3, 4, 5, 6]],
+          games: [g([1, 2, 3, 4, 5, 6], 7)],
         },
         {
           timestamp: '2026-07-20T11:00:00Z',
           gameCount: 99, // Invalid: > 10
           fixedNumbers: [],
           excludedNumbers: [],
-          games: [[1, 2, 3, 4, 5, 6]],
+          games: [g([1, 2, 3, 4, 5, 6], 7)],
         } as HistoryEntry,
       ];
 
@@ -127,14 +126,14 @@ describe('src/lib/lotto-generator/history', () => {
           gameCount: 1,
           fixedNumbers: [1, 2, 3, 4, 5],
           excludedNumbers: Array.from({ length: 40 }, (_, i) => i + 6), // 40 excluded
-          games: [[1, 2, 3, 4, 5, 6]], // Infeasible: 45 - 40 = 5 < 6 - 5 = 1? No, 5 >= 1 ✓
+          games: [g([1, 2, 3, 4, 5, 6], 7)],
         } as HistoryEntry,
         {
           timestamp: '2026-07-20T11:00:00Z',
           gameCount: 1,
           fixedNumbers: [],
           excludedNumbers: Array.from({ length: 40 }, (_, i) => i + 1), // Exclude 1–40, only 41–45 left
-          games: [[41, 42, 43, 44, 45, 1]], // Invalid: 1 is excluded
+          games: [g([41, 42, 43, 44, 45, 1], 2)], // Invalid: 1 is excluded
         } as HistoryEntry,
       ];
 
@@ -149,7 +148,7 @@ describe('src/lib/lotto-generator/history', () => {
         gameCount: 1,
         fixedNumbers: [],
         excludedNumbers: [],
-        games: [[1, 2, 3, 4, 5, 6]],
+        games: [g([1, 2, 3, 4, 5, 6], 7)],
       };
       const original = [entry];
       const originalLength = original.length;
@@ -167,7 +166,7 @@ describe('src/lib/lotto-generator/history', () => {
           gameCount: 1,
           fixedNumbers: [],
           excludedNumbers: [],
-          games: [[1, 2, 3, 4, 5, 6]],
+          games: [g([1, 2, 3, 4, 5, 6], 7)],
         },
       ];
 
@@ -181,7 +180,7 @@ describe('src/lib/lotto-generator/history', () => {
         gameCount: 1,
         fixedNumbers: [],
         excludedNumbers: [],
-        games: [[1, 2, 3, 4, 5, 6]],
+        games: [g([1, 2, 3, 4, 5, 6], 7)],
       };
       const original = [entry];
       const originalLength = original.length;

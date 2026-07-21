@@ -2625,7 +2625,10 @@
       "results": {
         "title": "Generated Numbers",
         "gameLabel": "Game {count}",
-        "empty": "Generate numbers to get started."
+        "empty": "Generate numbers to get started.",
+        "mainLabel": "Numbers",
+        "bonusLabel": "Bonus",
+        "bonusAria": "Bonus number {n}"
       },
       "history": {
         "title": "Generation History",

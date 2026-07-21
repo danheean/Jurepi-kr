@@ -13,7 +13,7 @@ export interface BallColor {
  * (not design-system tokens) because they are an external brand palette, not
  * part of the site's accent system.
  *
- *   1–10  gold   (dark numeral — gold is too light for white to stay legible)
+ *   1–10  gold   (white numeral — matches the official result page)
  *  11–20  blue   (white numeral)
  *  21–30  red    (white numeral)
  *  31–40  gray   (white numeral)
@@ -24,7 +24,7 @@ export interface BallColor {
  */
 export function ballColor(number: number): BallColor {
   if (number >= 1 && number <= 10) {
-    return { background: '#e9a100', color: '#1a1a1a' };
+    return { background: '#e9a100', color: '#ffffff' };
   }
   if (number >= 11 && number <= 20) {
     return { background: '#3b6fc4', color: '#ffffff' };

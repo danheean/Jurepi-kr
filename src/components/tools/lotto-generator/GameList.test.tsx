@@ -1,6 +1,8 @@
 import { render, screen, fireEvent, waitFor, act } from '@/__test__/test-utils';
 import { GameList } from './GameList';
-import type { Draw } from '@/lib/lotto-generator/schema';
+import type { Game } from '@/lib/lotto-generator/schema';
+
+const game = (numbers: number[], bonus: number): Game => ({ numbers, bonus });
 
 describe('GameList', () => {
   it('displays empty state when no games', () => {
@@ -10,9 +12,9 @@ describe('GameList', () => {
   });
 
   it('displays games with correct labels', () => {
-    const games: Draw[] = [
-      [1, 7, 13, 21, 35, 42],
-      [2, 8, 14, 22, 36, 43],
+    const games: Game[] = [
+      game([1, 7, 13, 21, 35, 42], 25),
+      game([2, 8, 14, 22, 36, 43], 9),
     ];
 
     render(<GameList games={games} animationPhase="idle" />);
@@ -21,21 +23,24 @@ describe('GameList', () => {
     expect(screen.getByText(/Game 2/i)).toBeInTheDocument();
   });
 
-  it('renders all balls in games', () => {
-    const games: Draw[] = [[1, 7, 13, 21, 35, 42]];
+  it('renders the 6 main balls plus a bonus ball per game', () => {
+    const games: Game[] = [game([1, 7, 13, 21, 35, 42], 25)];
 
     render(<GameList games={games} animationPhase="idle" />);
 
-    // Get all balls with the role and check for specific numbers
-    const balls = screen.getAllByRole('img', { name: /Ball/i });
-    expect(balls.length).toBeGreaterThanOrEqual(6);
+    // 6 main balls carry the "Ball N" label; the bonus ball carries "Bonus number N".
+    const mainBalls = screen.getAllByRole('img', { name: /^Ball /i });
+    expect(mainBalls.length).toBe(6);
 
-    // Verify we have at least 6 balls rendered
-    expect(balls.length).toBe(6);
+    const bonusBall = screen.getByRole('img', { name: /Bonus number 25/i });
+    expect(bonusBall).toBeInTheDocument();
+    // Official-style group captions
+    expect(screen.getByText(/^Numbers$/)).toBeInTheDocument();
+    expect(screen.getByText(/^Bonus$/)).toBeInTheDocument();
   });
 
   it('copy button shows "Copied!" after click', async () => {
-    const games: Draw[] = [[1, 7, 13, 21, 35, 42]];
+    const games: Game[] = [game([1, 7, 13, 21, 35, 42], 25)];
 
     Object.defineProperty(navigator, 'clipboard', {
       value: {
@@ -55,7 +60,7 @@ describe('GameList', () => {
   });
 
   it('reverts copy button after 2 seconds', async () => {
-    const games: Draw[] = [[1, 7, 13, 21, 35, 42]];
+    const games: Game[] = [game([1, 7, 13, 21, 35, 42], 25)];
 
     Object.defineProperty(navigator, 'clipboard', {
       value: {

@@ -5,6 +5,7 @@ import {
   DrawSchema,
   type Draw,
   type DrawResult,
+  type Game,
   type Settings,
 } from './schema';
 
@@ -98,13 +99,56 @@ export function fairDraw(
 }
 
 /**
- * Generate multiple draws in one call.
+ * Draw a single bonus number (the official 7th ball).
+ *
+ * Uniformly picked from 1–45, excluding the 6 main numbers and the user's
+ * excluded numbers. In the degenerate case where every non-main number is
+ * excluded (only possible at 39 exclusions), the exclusion is relaxed so a
+ * bonus always exists — there are always 39 numbers outside the 6 main.
+ *
+ * @param mainNumbers - the 6 already-drawn main numbers
+ * @param excludedNumbers - user's excluded numbers
+ * @param rng - Injectable RNG (default: cryptoRng)
+ */
+export function fairBonus(
+  mainNumbers: number[],
+  excludedNumbers: number[] = [],
+  rng: Rng = cryptoRng
+): number {
+  const mainSet = new Set(mainNumbers);
+  const excludedSet = new Set(excludedNumbers);
+  const all = Array.from({ length: LOTTO_MAX - LOTTO_MIN + 1 }, (_, i) => i + LOTTO_MIN);
+
+  let pool = all.filter((n) => !mainSet.has(n) && !excludedSet.has(n));
+  if (pool.length === 0) {
+    // Degenerate: all non-main numbers excluded → relax exclusion for the bonus.
+    pool = all.filter((n) => !mainSet.has(n));
+  }
+
+  return pool[randomInt(0, pool.length, rng)];
+}
+
+/**
+ * Draw one full game: 6 main numbers + 1 bonus (official 6/45 format).
+ */
+export function fairGame(
+  fixedNumbers: number[] = [],
+  excludedNumbers: number[] = [],
+  rng: Rng = cryptoRng
+): Game {
+  const numbers = fairDraw(fixedNumbers, excludedNumbers, rng);
+  const bonus = fairBonus(numbers, excludedNumbers, rng);
+  return { numbers, bonus };
+}
+
+/**
+ * Generate multiple games in one call.
  *
  * @param gameCount - 1–10
  * @param fixedNumbers - 0–5
  * @param excludedNumbers - 0–39
  * @param rng - Optional injectable RNG
- * @returns DrawResult with games array
+ * @returns DrawResult with games array (each game has 6 numbers + bonus)
  */
 export function fairDrawGames(
   gameCount: number,
@@ -112,9 +156,9 @@ export function fairDrawGames(
   excludedNumbers: number[] = [],
   rng: Rng = cryptoRng
 ): DrawResult {
-  const games: Draw[] = [];
+  const games: Game[] = [];
   for (let i = 0; i < gameCount; i++) {
-    games.push(fairDraw(fixedNumbers, excludedNumbers, rng));
+    games.push(fairGame(fixedNumbers, excludedNumbers, rng));
   }
 
   return {

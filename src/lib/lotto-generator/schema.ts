@@ -12,7 +12,7 @@ export const HISTORY_MAX = 20;
 export const BALL_POP_DURATION_MS = 150;
 export const BALL_STAGGER_MS = 100;
 export const BEEP_FREQ_HZ = 900;
-export const STORE_VERSION = 1;
+export const STORE_VERSION = 2;
 export const STORAGE_KEY = 'jurepi-lotto-generator';
 
 // Single lottery draw: 6 unique sorted numbers from 1–45
@@ -26,6 +26,20 @@ export const DrawSchema = z
     const sorted = [...arr].sort((a, b) => a - b);
     return arr.every((v, i) => v === sorted[i]);
   }, 'Draw must be sorted ascending');
+
+// One generated game in the official 6/45 format: 6 main numbers + 1 bonus.
+// The bonus is a 7th ball, distinct from the 6 main numbers.
+export interface Game {
+  numbers: Draw;
+  bonus: number;
+}
+
+export const GameSchema = z
+  .object({
+    numbers: DrawSchema,
+    bonus: z.number().int().min(LOTTO_MIN).max(LOTTO_MAX),
+  })
+  .refine((g) => !g.numbers.includes(g.bonus), 'Bonus must differ from the main numbers');
 
 // User input for generating draws
 export interface Settings {
@@ -48,12 +62,12 @@ export const SettingsSchema = z.object({
 
 // Result of one generation session
 export interface DrawResult {
-  games: Draw[];
+  games: Game[];
   settings: Settings;
 }
 
 export const DrawResultSchema = z.object({
-  games: z.array(DrawSchema),
+  games: z.array(GameSchema),
   settings: SettingsSchema,
 });
 
@@ -63,7 +77,7 @@ export interface HistoryEntry {
   gameCount: number;
   fixedNumbers: number[];
   excludedNumbers: number[];
-  games: Draw[];
+  games: Game[];
 }
 
 export const HistoryEntrySchema = z.object({
@@ -75,7 +89,7 @@ export const HistoryEntrySchema = z.object({
   excludedNumbers: z
     .array(z.number().int().min(LOTTO_MIN).max(LOTTO_MAX))
     .max(EXCLUDED_MAX),
-  games: z.array(DrawSchema),
+  games: z.array(GameSchema),
 });
 
 // Client localStorage schema

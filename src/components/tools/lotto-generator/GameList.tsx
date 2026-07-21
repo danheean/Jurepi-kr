@@ -5,11 +5,12 @@ import { useTranslations } from 'next-intl';
 import { Copy, Check } from 'lucide-react';
 import { BallDisplay } from './BallDisplay';
 import { formatGamesPlaintext } from '@/lib/lotto-generator/format';
-import type { Draw } from '@/lib/lotto-generator/schema';
+import { NUMBERS_PER_GAME } from '@/lib/lotto-generator/schema';
+import type { Game } from '@/lib/lotto-generator/schema';
 import type { AnimationPhase } from './useLottoGenerator';
 
 interface GameListProps {
-  games: Draw[];
+  games: Game[];
   animationPhase: AnimationPhase;
 }
 
@@ -78,16 +79,44 @@ export function GameList({ games, animationPhase }: GameListProps) {
             <h3 className="text-sm font-medium mb-3 text-text">
               {t('results.gameLabel', { count: gameIdx + 1 })}
             </h3>
-            <div className="flex flex-wrap gap-2">
-              {game.map((num, ballIdx) => (
+            {/* Official format: 추첨번호 (6 balls) + 보너스번호 (1 ball) */}
+            <div className="flex flex-wrap items-start gap-x-3 gap-y-3">
+              <div className="flex flex-col gap-1.5">
+                <div className="flex flex-wrap gap-2">
+                  {game.numbers.map((num, ballIdx) => (
+                    <BallDisplay
+                      key={`${gameIdx}-${ballIdx}`}
+                      number={num}
+                      index={ballIdx}
+                      isAnimating={animationPhase !== 'idle' && animationPhase !== 'done'}
+                      animationPhase={animationPhase}
+                    />
+                  ))}
+                </div>
+                <span className="text-center text-xs font-medium text-text-muted">
+                  {t('results.mainLabel')}
+                </span>
+              </div>
+
+              <span
+                aria-hidden="true"
+                className="flex h-11 items-center text-xl font-bold text-text-muted"
+              >
+                +
+              </span>
+
+              <div className="flex flex-col items-center gap-1.5">
                 <BallDisplay
-                  key={`${gameIdx}-${ballIdx}`}
-                  number={num}
-                  index={ballIdx}
+                  number={game.bonus}
+                  index={NUMBERS_PER_GAME}
                   isAnimating={animationPhase !== 'idle' && animationPhase !== 'done'}
                   animationPhase={animationPhase}
+                  label={t('results.bonusAria', { n: game.bonus })}
                 />
-              ))}
+                <span className="text-center text-xs font-medium text-text-muted">
+                  {t('results.bonusLabel')}
+                </span>
+              </div>
             </div>
           </div>
         ))}

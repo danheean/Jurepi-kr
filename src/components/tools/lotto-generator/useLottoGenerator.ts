@@ -11,6 +11,7 @@ import {
   LOTTO_MIN,
   NUMBERS_PER_GAME,
   STORAGE_KEY,
+  STORE_VERSION,
   parseStore,
 } from '@/lib/lotto-generator/schema';
 import {
@@ -20,7 +21,7 @@ import {
 } from '@/lib/lotto-generator/history';
 import { fairDrawGames } from '@/lib/lotto-generator/random';
 import type {
-  Draw,
+  Game,
   DrawResult,
   HistoryEntry,
   Settings,
@@ -47,7 +48,7 @@ export interface UseLottoGeneratorResult {
   removeExcludedNumber: (n: number) => void;
   soundOn: boolean;
   setSoundOn: (on: boolean) => void;
-  games: Draw[];
+  games: Game[];
   history: HistoryEntry[];
   clearHistoryLocal: () => void;
   generate: () => void;
@@ -72,7 +73,7 @@ export function useLottoGenerator(
   const [fixedNumbers, setFixedNumbers] = useState<number[]>([]);
   const [excludedNumbers, setExcludedNumbers] = useState<number[]>([]);
   const [soundOn, setSoundOn] = useState(true);
-  const [games, setGames] = useState<Draw[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [animationState, setAnimationState] = useState<AnimationState>({
     phase: 'idle',
@@ -123,14 +124,14 @@ export function useLottoGenerator(
   // Persist settings on change (immediate, NO debounce)
   useEffect(() => {
     if (!mounted) return;
-    const store = { version: 1, history, lastSettings: { gameCount, fixedNumbers, excludedNumbers } };
+    const store = { version: STORE_VERSION, history, lastSettings: { gameCount, fixedNumbers, excludedNumbers } };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
   }, [gameCount, fixedNumbers, excludedNumbers, history, mounted]);
 
   // Persist history on change (immediate)
   useEffect(() => {
     if (!mounted) return;
-    const store = { version: 1, history, lastSettings: { gameCount, fixedNumbers, excludedNumbers } };
+    const store = { version: STORE_VERSION, history, lastSettings: { gameCount, fixedNumbers, excludedNumbers } };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
   }, [history, gameCount, fixedNumbers, excludedNumbers, mounted]);
 

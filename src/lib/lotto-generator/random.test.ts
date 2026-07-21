@@ -2,11 +2,69 @@ import { describe, it, expect } from 'vitest';
 import {
   cryptoRng,
   fairDraw,
+  fairBonus,
+  fairGame,
   fairDrawGames,
   chiSquareUniformityTest,
 } from './random';
 
 describe('src/lib/lotto-generator/random', () => {
+  describe('fairBonus', () => {
+    it('returns a number in [1, 45]', () => {
+      for (let i = 0; i < 200; i++) {
+        const b = fairBonus([1, 2, 3, 4, 5, 6], []);
+        expect(b).toBeGreaterThanOrEqual(1);
+        expect(b).toBeLessThanOrEqual(45);
+      }
+    });
+
+    it('never equals one of the main numbers', () => {
+      const main = [7, 13, 21, 35, 42, 44];
+      for (let i = 0; i < 200; i++) {
+        expect(main).not.toContain(fairBonus(main, []));
+      }
+    });
+
+    it('never equals an excluded number', () => {
+      const main = [7, 13, 21, 35, 42, 44];
+      const excluded = [1, 2, 3, 4, 5, 6];
+      for (let i = 0; i < 200; i++) {
+        const b = fairBonus(main, excluded);
+        expect(excluded).not.toContain(b);
+        expect(main).not.toContain(b);
+      }
+    });
+
+    it('relaxes exclusion only in the degenerate all-excluded case', () => {
+      // 6 main + 39 excluded = all 45 numbers accounted for → pool would be empty.
+      const main = [1, 2, 3, 4, 5, 6];
+      const excluded = Array.from({ length: 39 }, (_, i) => i + 7); // 7..45
+      const b = fairBonus(main, excluded);
+      // A bonus still exists (relaxed), distinct from the main numbers.
+      expect(b).toBeGreaterThanOrEqual(1);
+      expect(b).toBeLessThanOrEqual(45);
+      expect(main).not.toContain(b);
+    });
+  });
+
+  describe('fairGame', () => {
+    it('returns 6 sorted main numbers plus a distinct bonus', () => {
+      const { numbers, bonus } = fairGame([], []);
+      expect(numbers).toHaveLength(6);
+      expect([...numbers].sort((a, b) => a - b)).toEqual(numbers);
+      expect(numbers).not.toContain(bonus);
+    });
+
+    it('honors fixed and excluded numbers', () => {
+      const { numbers, bonus } = fairGame([7], [10, 20, 30]);
+      expect(numbers).toContain(7);
+      [10, 20, 30].forEach((n) => {
+        expect(numbers).not.toContain(n);
+        expect(bonus).not.toBe(n);
+      });
+    });
+  });
+
   describe('fairDraw', () => {
     it('RED: fairness — chi-square test passes (10k iterations)', () => {
       // This is the critical fairness test.
@@ -122,12 +180,16 @@ describe('src/lib/lotto-generator/random', () => {
       const excluded = [10, 20, 30];
       const result = fairDrawGames(5, fixed, excluded);
 
-      result.games.forEach((draw) => {
-        expect(draw).toContain(1);
-        expect(draw).toContain(7);
+      result.games.forEach((game) => {
+        expect(game.numbers).toContain(1);
+        expect(game.numbers).toContain(7);
         [10, 20, 30].forEach((n) => {
-          expect(draw).not.toContain(n);
+          expect(game.numbers).not.toContain(n);
+          // Excluded numbers must not appear as the bonus either.
+          expect(game.bonus).not.toBe(n);
         });
+        // Bonus is distinct from the 6 main numbers.
+        expect(game.numbers).not.toContain(game.bonus);
       });
     });
 

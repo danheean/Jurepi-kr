@@ -34,7 +34,11 @@ describe('HistoryPanel', () => {
         gameCount: 3,
         fixedNumbers: [7],
         excludedNumbers: [],
-        games: [[1, 7, 13, 21, 35, 42], [2, 8, 14, 22, 36, 43], [3, 9, 15, 23, 37, 44]],
+        games: [
+          { numbers: [1, 7, 13, 21, 35, 42], bonus: 25 },
+          { numbers: [2, 8, 14, 22, 36, 43], bonus: 10 },
+          { numbers: [3, 9, 15, 23, 37, 44], bonus: 30 },
+        ],
       },
     ];
 
@@ -52,7 +56,10 @@ describe('HistoryPanel', () => {
         gameCount: 2,
         fixedNumbers: [],
         excludedNumbers: [],
-        games: [[1, 7, 13, 21, 35, 42], [2, 8, 14, 22, 36, 43]],
+        games: [
+          { numbers: [1, 7, 13, 21, 35, 42], bonus: 25 },
+          { numbers: [2, 8, 14, 22, 36, 43], bonus: 10 },
+        ],
       },
     ];
 
@@ -74,7 +81,10 @@ describe('HistoryPanel', () => {
         gameCount: 2,
         fixedNumbers: [7],
         excludedNumbers: [1, 2, 3],
-        games: [[7, 13, 21, 35, 42, 44], [8, 14, 22, 36, 43, 45]],
+        games: [
+          { numbers: [7, 13, 21, 35, 42, 44], bonus: 25 },
+          { numbers: [8, 14, 22, 36, 43, 45], bonus: 10 },
+        ],
       },
     ];
 
@@ -98,7 +108,7 @@ describe('HistoryPanel', () => {
         gameCount: 1,
         fixedNumbers: [],
         excludedNumbers: [],
-        games: [[1, 7, 13, 21, 35, 42]],
+        games: [{ numbers: [1, 7, 13, 21, 35, 42], bonus: 25 }],
       },
     ];
 

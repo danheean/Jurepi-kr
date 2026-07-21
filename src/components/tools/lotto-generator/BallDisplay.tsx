@@ -9,6 +9,8 @@ interface BallDisplayProps {
   index: number;
   isAnimating: boolean;
   animationPhase: AnimationPhase;
+  /** Accessible label override (e.g. "Bonus 25"). Defaults to "Ball {n}". */
+  label?: string;
 }
 
 const CANDIDATE_FLIP_MS = 50;
@@ -21,9 +23,10 @@ export function BallDisplay({
   index,
   isAnimating,
   animationPhase,
+  label,
 }: BallDisplayProps) {
   const color = ballColor(number);
-  const ariaLabel = `Ball ${number}`;
+  const ariaLabel = label ?? `Ball ${number}`;
 
   // During rolling phase: cycle through candidate numbers
   const displayNumber = useMemo(() => {
