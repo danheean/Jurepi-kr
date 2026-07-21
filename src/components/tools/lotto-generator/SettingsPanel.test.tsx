@@ -37,7 +37,8 @@ describe('SettingsPanel', () => {
     );
 
     // Boundary chips exist (1 and 10) — full 1..10 range rendered.
-    expect(screen.getByRole('button', { name: '1 games' })).toBeInTheDocument();
+    // aria-label pluralizes: singular "1 game", plural "N games".
+    expect(screen.getByRole('button', { name: '1 game' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '10 games' })).toBeInTheDocument();
 
     // The current selection (3) is pressed; a non-selected chip is not.

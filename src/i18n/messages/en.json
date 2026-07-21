@@ -2596,7 +2596,7 @@
         "gameCount": {
           "label": "Number of Games",
           "help": "Choose between 1 and 10 games.",
-          "option": "{n} games"
+          "option": "{n, plural, one {# game} other {# games}}"
         },
         "fixedNumbers": {
           "label": "Always Include (up to 5)",
