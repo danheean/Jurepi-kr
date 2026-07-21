@@ -27,6 +27,19 @@ describe('LottoGenerator', () => {
     });
   });
 
+  it('gives the official-results link an explicit text color (regression: inherited color was invisible in dark mode)', async () => {
+    // Measured live: this link had no explicit text-color class, and
+    // whatever it inherited rendered at 1.20:1 contrast against the
+    // dark-mode background — nearly invisible. Every other themed text
+    // element in this component sets its color explicitly; this one didn't.
+    renderWithIntl(<LottoGenerator />);
+
+    await waitFor(() => {
+      const link = screen.getByRole('link', { name: /Check official results/i });
+      expect(link).toHaveClass('text-text');
+    });
+  });
+
   it('renders settings panel', async () => {
     renderWithIntl(<LottoGenerator />);
 

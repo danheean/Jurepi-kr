@@ -131,7 +131,7 @@ function getBlockOverrides(
     },
     code: {
       component: ({ children }: { children: React.ReactNode }) => (
-        <code className="bg-surface-muted text-accent-mint px-1.5 py-0.5 rounded text-sm font-mono">
+        <code className="bg-surface-muted text-accent-mint-ink px-1.5 py-0.5 rounded text-sm font-mono">
           {children}
         </code>
       ),

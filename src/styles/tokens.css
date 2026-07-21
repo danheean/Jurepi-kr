@@ -31,7 +31,7 @@
   /* Text — warm neutrals */
   --text: #2a2411;
   --text-secondary: #6b6042;
-  --text-muted: #7a6f52; /* WCAG AA: 4.7:1 on white, 4.5:1 on surface-muted */
+  --text-muted: #74694e; /* WCAG AA: 5.42:1 on white, 5.03:1 on surface-muted, 4.61:1 on surface-sunken (was #7a6f52 — 4.23:1 on surface-sunken, below AA) */
 
   /* Per-Accent Identity */
   --accent-coral: #ff7a85;

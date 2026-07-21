@@ -2603,14 +2603,16 @@
           "help": "These numbers will appear in every game. Add several at once, separated by commas.",
           "placeholder": "e.g. 7, 13, 21",
           "add": "Add Number",
-          "remove": "Remove"
+          "remove": "Remove",
+          "addAria": "(always include)"
         },
         "excludedNumbers": {
           "label": "Never Include (up to 39)",
           "help": "These numbers will never be picked. Add several at once, separated by commas.",
           "placeholder": "e.g. 7, 13, 21",
           "add": "Add Number",
-          "remove": "Remove"
+          "remove": "Remove",
+          "addAria": "(never include)"
         },
         "infeasible": "Not enough numbers available. Reduce fixed or excluded numbers.",
         "sound": "Sound",

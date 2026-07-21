@@ -20,7 +20,12 @@ describe('Markdown (block mode)', () => {
     const code = screen.getByText('const x = 1');
     expect(code.tagName).toBe('CODE');
     expect(code).toHaveClass('bg-surface-muted');
-    expect(code).toHaveClass('text-accent-mint');
+    // Regression: raw text-accent-mint (#2dd4bf) on bg-surface-muted measured
+    // 1.73:1 — severely fails WCAG AA. text-accent-mint-ink (#0f766e) is the
+    // contrast-safe variant, matching this codebase's established
+    // accent-as-text convention (accent for tints/fills, -ink for text).
+    expect(code).toHaveClass('text-accent-mint-ink');
+    expect(code).not.toHaveClass('text-accent-mint');
   });
 
   it('should render paragraphs', () => {
@@ -180,10 +185,10 @@ describe('Markdown styling tokens', () => {
     expect(link).toHaveClass('text-brand-ink');
   });
 
-  it('should render code with accent-mint color', () => {
+  it('should render code with the contrast-safe accent-mint-ink color', () => {
     render(<Markdown>`code`</Markdown>);
     const code = screen.getByText('code');
-    expect(code).toHaveClass('text-accent-mint');
+    expect(code).toHaveClass('text-accent-mint-ink');
   });
 });
 

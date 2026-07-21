@@ -18,7 +18,7 @@ colors:
   hairline-strong: "#e2d6bd"
   text: "#2a2411"
   text-secondary: "#6b6042"
-  text-muted: "#7a6f52"
+  text-muted: "#74694e"
   accent-coral: "#ff7a85"
   accent-coral-soft: "#ffe7e9"
   accent-mint: "#2dd4bf"

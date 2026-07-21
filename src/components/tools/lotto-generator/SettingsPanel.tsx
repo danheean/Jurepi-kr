@@ -111,10 +111,13 @@ export function SettingsPanel({
 
       {/* Fixed Numbers */}
       <div>
-        <label className="block text-sm font-medium mb-2">{t('settings.fixedNumbers.label')}</label>
+        <label htmlFor="lotto-fixed-input" className="block text-sm font-medium mb-2">
+          {t('settings.fixedNumbers.label')}
+        </label>
         <p className="text-xs text-text-muted mb-3">{t('settings.fixedNumbers.help')}</p>
         <div className="flex gap-2 mb-3">
           <input
+            id="lotto-fixed-input"
             type="text"
             placeholder={t('settings.fixedNumbers.placeholder')}
             value={fixedInput}
@@ -133,8 +136,13 @@ export function SettingsPanel({
             disabled={fixedNumbers.length >= 5}
             className="px-3 py-2 rounded bg-brand text-on-brand hover:bg-brand/90 disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-focus-ring flex items-center gap-1"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-4 h-4" aria-hidden="true" />
             <span className="text-sm">{t('settings.fixedNumbers.add')}</span>
+            {/* Both Add buttons render the same visible text — this suffix
+                lets assistive tech tell them apart (e.g. a screen reader's
+                buttons list), while the visible label stays in the
+                accessible name (WCAG 2.5.3 Label in Name). */}
+            <span className="sr-only"> {t('settings.fixedNumbers.addAria')}</span>
           </button>
         </div>
         {fixedConflict.length > 0 && (
@@ -172,10 +180,13 @@ export function SettingsPanel({
 
       {/* Excluded Numbers */}
       <div>
-        <label className="block text-sm font-medium mb-2">{t('settings.excludedNumbers.label')}</label>
+        <label htmlFor="lotto-excluded-input" className="block text-sm font-medium mb-2">
+          {t('settings.excludedNumbers.label')}
+        </label>
         <p className="text-xs text-text-muted mb-3">{t('settings.excludedNumbers.help')}</p>
         <div className="flex gap-2 mb-3">
           <input
+            id="lotto-excluded-input"
             type="text"
             placeholder={t('settings.excludedNumbers.placeholder')}
             value={excludedInput}
@@ -194,8 +205,9 @@ export function SettingsPanel({
             disabled={excludedNumbers.length >= 39}
             className="px-3 py-2 rounded bg-brand text-on-brand hover:bg-brand/90 disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-focus-ring flex items-center gap-1"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-4 h-4" aria-hidden="true" />
             <span className="text-sm">{t('settings.excludedNumbers.add')}</span>
+            <span className="sr-only"> {t('settings.excludedNumbers.addAria')}</span>
           </button>
         </div>
         {excludedConflict.length > 0 && (

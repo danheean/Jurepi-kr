@@ -378,4 +378,49 @@ describe('SettingsPanel', () => {
     const addButtons = screen.getAllByRole('button', { name: /Add Number/i });
     expect(addButtons[0]).toBeDisabled();
   });
+
+  it('programmatically associates each label with its input (regression: labels were visual-only)', () => {
+    renderWithIntl(
+      <SettingsPanel
+        gameCount={1}
+        onGameCountChange={mockHandlers.onGameCountChange}
+        fixedNumbers={[]}
+        onAddFixed={mockHandlers.onAddFixed}
+        onRemoveFixed={mockHandlers.onRemoveFixed}
+        excludedNumbers={[]}
+        onAddExcluded={mockHandlers.onAddExcluded}
+        onRemoveExcluded={mockHandlers.onRemoveExcluded}
+      />
+    );
+
+    // getByLabelText only succeeds if the <label> is programmatically
+    // wired to the input (via htmlFor/id) — a floating sibling label with
+    // no `for` attribute would fail this lookup entirely.
+    expect(screen.getByLabelText('Always Include (up to 5)')).toBeInTheDocument();
+    expect(screen.getByLabelText('Never Include (up to 39)')).toBeInTheDocument();
+  });
+
+  it('gives the two Add buttons distinct accessible names while keeping the visible label in each name', () => {
+    // Regression: both buttons rendered identically as "Add Number" with no
+    // way to tell them apart via a screen reader's buttons list.
+    renderWithIntl(
+      <SettingsPanel
+        gameCount={1}
+        onGameCountChange={mockHandlers.onGameCountChange}
+        fixedNumbers={[]}
+        onAddFixed={mockHandlers.onAddFixed}
+        onRemoveFixed={mockHandlers.onRemoveFixed}
+        excludedNumbers={[]}
+        onAddExcluded={mockHandlers.onAddExcluded}
+        onRemoveExcluded={mockHandlers.onRemoveExcluded}
+      />
+    );
+
+    // getByRole's exact-name match here is itself the proof: the computed
+    // accessible name is the full string below, distinct per button, and
+    // — per WCAG 2.5.3 Label in Name — starts with the visible "Add Number"
+    // text rather than replacing it.
+    expect(screen.getByRole('button', { name: 'Add Number (always include)' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add Number (never include)' })).toBeInTheDocument();
+  });
 });

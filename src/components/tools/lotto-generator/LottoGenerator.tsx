@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Trophy, ExternalLink } from 'lucide-react';
 import { useLottoGenerator } from './useLottoGenerator';
@@ -43,8 +43,13 @@ export function LottoGenerator() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
+  // Legitimate ref: only ever read inside event handlers (click/keydown),
+  // never rendered — a plain debounce gate, not something the UI reflects.
   const isGeneratingRef = useRef(false);
-  const generateDisabledRef = useRef(false);
+  // Real state, not a ref: this drives the button's `disabled` attribute,
+  // so it must trigger a re-render when it changes (a ref read directly in
+  // JSX doesn't — mutating it wouldn't reliably update what's on screen).
+  const [generateDisabled, setGenerateDisabled] = useState(false);
 
   // Initialize AudioContext on first interaction
   useEffect(() => {
@@ -61,7 +66,7 @@ export function LottoGenerator() {
   // Global keyboard handler (Enter to generate)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && !generateDisabledRef.current && !isGeneratingRef.current) {
+      if (e.key === 'Enter' && !generateDisabled && !isGeneratingRef.current) {
         e.preventDefault();
         generate();
       }
@@ -71,7 +76,7 @@ export function LottoGenerator() {
       window.addEventListener('keydown', handleKeyDown);
       return () => window.removeEventListener('keydown', handleKeyDown);
     }
-  }, [mounted, generate]);
+  }, [mounted, generate, generateDisabled]);
 
   // Pop sound during animation (locking phase)
   useEffect(() => {
@@ -106,9 +111,7 @@ export function LottoGenerator() {
         excludedNumbers={excludedNumbers}
         onAddExcluded={addExcludedNumber}
         onRemoveExcluded={removeExcludedNumber}
-        onGenerateDisabledChange={(disabled) => {
-          generateDisabledRef.current = disabled;
-        }}
+        onGenerateDisabledChange={setGenerateDisabled}
       />
 
       {/* Generate Button */}
@@ -120,7 +123,7 @@ export function LottoGenerator() {
             isGeneratingRef.current = false;
           }, 2000);
         }}
-        disabled={generateDisabledRef.current}
+        disabled={generateDisabled}
         className="w-full py-3 px-4 rounded-lg bg-brand text-on-brand font-semibold hover:bg-brand/90 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-focus-ring transition-colors"
       >
         {t('buttons.generate')}
@@ -167,7 +170,7 @@ export function LottoGenerator() {
         href="https://www.dhlottery.co.kr/lt645/result"
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center gap-2 py-3 px-4 rounded-lg border border-hairline text-sm font-medium hover:bg-surface-muted focus-visible:ring-2 focus-visible:ring-focus-ring transition-colors"
+        className="flex items-center justify-center gap-2 py-3 px-4 rounded-lg border border-hairline text-text text-sm font-medium hover:bg-surface-muted focus-visible:ring-2 focus-visible:ring-focus-ring transition-colors"
       >
         <Trophy className="w-4 h-4 shrink-0" aria-hidden="true" />
         <span>{t('officialResult')}</span>
