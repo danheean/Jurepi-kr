@@ -61,11 +61,27 @@ describe('CheerDisplay', () => {
     expect(banner).toHaveClass('bg-black');
   });
 
-  it('applies landscape rotation class', () => {
-    const settings = { ...baseSettings, landscape: true };
-    const { container } = renderWithIntl(<CheerDisplay settings={settings} />);
+  it('never applies a rotation class (orientation is automatic)', () => {
+    const { container } = renderWithIntl(<CheerDisplay settings={baseSettings} />);
     const banner = container.querySelector('[role="img"]');
-    expect(banner).toHaveClass('rotate-90');
+    expect(banner?.className).not.toMatch(/rotate-90/);
+  });
+
+  it('inline variant is an aspect-video card', () => {
+    const { container } = renderWithIntl(<CheerDisplay settings={baseSettings} />);
+    const banner = container.querySelector('[role="img"]');
+    expect(banner).toHaveClass('aspect-video');
+    expect(banner).toHaveClass('rounded-lg');
+  });
+
+  it('stage variant fills its parent (no aspect ratio, no rounding)', () => {
+    const { container } = renderWithIntl(
+      <CheerDisplay settings={baseSettings} variant="stage" />
+    );
+    const banner = container.querySelector('[role="img"]');
+    expect(banner).toHaveClass('h-full');
+    expect(banner).toHaveClass('rounded-none');
+    expect(banner?.className).not.toMatch(/aspect-video/);
   });
 
   it('renders static effect without animation', () => {

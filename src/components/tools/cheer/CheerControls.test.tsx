@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 import { CheerControls } from './CheerControls';
-import { DEFAULT_SETTINGS } from '@/lib/cheer';
+import { DEFAULT_SETTINGS, CheerSettings } from '@/lib/cheer';
 import koMessages from '@/i18n/messages/ko.json';
 import enMessages from '@/i18n/messages/en.json';
 
@@ -17,30 +17,34 @@ function renderWithIntl(component: React.ReactNode, locale: 'ko' | 'en' = 'ko') 
 
 describe('CheerControls', () => {
   const mockOnSettingsChange = vi.fn();
-  const mockOnEnterFullscreen = vi.fn().mockResolvedValue(undefined);
-  const mockOnExitFullscreen = vi.fn().mockResolvedValue(undefined);
+  const mockOnEnterFullscreen = vi.fn();
   const mockOnToggleWakeLock = vi.fn().mockResolvedValue(undefined);
+
+  function props(
+    overrides: {
+      settings?: CheerSettings;
+      isWakeLockSupported?: boolean;
+      isWakeLocked?: boolean;
+    } = {}
+  ) {
+    return {
+      settings: overrides.settings ?? DEFAULT_SETTINGS,
+      onSettingsChange: mockOnSettingsChange,
+      isWakeLockSupported: overrides.isWakeLockSupported ?? true,
+      isWakeLocked: overrides.isWakeLocked ?? false,
+      onEnterFullscreen: mockOnEnterFullscreen,
+      onToggleWakeLock: mockOnToggleWakeLock,
+    };
+  }
 
   beforeEach(() => {
     mockOnSettingsChange.mockClear();
     mockOnEnterFullscreen.mockClear();
-    mockOnExitFullscreen.mockClear();
     mockOnToggleWakeLock.mockClear();
   });
 
   it('renders effect selector (ko)', () => {
-    renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
+    renderWithIntl(<CheerControls {...props()} />);
 
     expect(screen.getByText(/효과/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /정적/ })).toBeInTheDocument();
@@ -51,18 +55,7 @@ describe('CheerControls', () => {
 
   it('calls onSettingsChange when effect is clicked', async () => {
     const user = userEvent.setup();
-    renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
+    renderWithIntl(<CheerControls {...props()} />);
 
     const flashButton = screen.getByRole('button', { name: /점멸/ });
     await user.click(flashButton);
@@ -72,16 +65,7 @@ describe('CheerControls', () => {
 
   it('shows speed selector when effect is scroll', () => {
     renderWithIntl(
-      <CheerControls
-        settings={{ ...DEFAULT_SETTINGS, effect: 'scroll' }}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
+      <CheerControls {...props({ settings: { ...DEFAULT_SETTINGS, effect: 'scroll' } })} />
     );
 
     expect(screen.getByText(/속도/)).toBeInTheDocument();
@@ -90,21 +74,10 @@ describe('CheerControls', () => {
 
   it('hides speed selector when effect is static', () => {
     renderWithIntl(
-      <CheerControls
-        settings={{ ...DEFAULT_SETTINGS, effect: 'static' }}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
+      <CheerControls {...props({ settings: { ...DEFAULT_SETTINGS, effect: 'static' } })} />
     );
 
-    // Speed label should not be visible for static effect
     const speedButtons = screen.queryAllByRole('button', { name: /느림|보통|빠름/ });
-    // Filter out those that are part of effect selector
     const speedOnlyButtons = speedButtons.filter(
       (btn) => btn.textContent === '느림' || btn.textContent === '보통' || btn.textContent === '빠름'
     );
@@ -112,23 +85,11 @@ describe('CheerControls', () => {
   });
 
   it('renders color swatches', () => {
-    const { container } = renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
+    const { container } = renderWithIntl(<CheerControls {...props()} />);
 
     expect(screen.getByText(/글자색/)).toBeInTheDocument();
     expect(screen.getByText(/배경색/)).toBeInTheDocument();
 
-    // Should have color buttons
     const colorButtons = container.querySelectorAll('button[style*="background-color"]');
     expect(colorButtons.length).toBeGreaterThan(0);
   });
@@ -136,18 +97,7 @@ describe('CheerControls', () => {
   it('shows low contrast warning', () => {
     renderWithIntl(
       <CheerControls
-        settings={{
-          ...DEFAULT_SETTINGS,
-          textColor: 'white',
-          bgColor: 'white',
-        }}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
+        {...props({ settings: { ...DEFAULT_SETTINGS, textColor: 'white', bgColor: 'white' } })}
       />
     );
 
@@ -155,169 +105,53 @@ describe('CheerControls', () => {
   });
 
   it('renders size selector', () => {
-    renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
+    renderWithIntl(<CheerControls {...props()} />);
 
     expect(screen.getByText(/크기/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'S' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'L' })).toBeInTheDocument();
   });
 
-  it('renders landscape toggle', () => {
-    renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
+  it('does NOT render a manual landscape/orientation toggle', () => {
+    renderWithIntl(<CheerControls {...props()} />);
 
-    const landscapeButton = screen.getByRole('button', { name: /가로 회전/ });
-    expect(landscapeButton).toHaveAttribute('aria-pressed', 'false');
+    // Orientation is automatic now — no manual rotate toggle.
+    expect(screen.queryByRole('button', { name: /가로 회전|가로|landscape/i })).toBeNull();
   });
 
-  it('updates landscape on click', async () => {
+  it('always shows the fullscreen button and calls onEnterFullscreen on click', async () => {
     const user = userEvent.setup();
-    renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
+    renderWithIntl(<CheerControls {...props()} />);
 
-    const landscapeButton = screen.getByRole('button', { name: /가로 회전/ });
-    await user.click(landscapeButton);
+    const fullscreenButton = screen.getByRole('button', { name: /전체화면/ });
+    expect(fullscreenButton).toBeInTheDocument();
 
-    expect(mockOnSettingsChange).toHaveBeenCalledWith({ landscape: true });
-  });
-
-  it('hides fullscreen button when unsupported', () => {
-    renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={false}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
-
-    expect(
-      screen.queryByRole('button', { name: /전체화면/ })
-    ).not.toBeInTheDocument();
-  });
-
-  it('shows fullscreen button when supported', () => {
-    renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
-
-    expect(
-      screen.getByRole('button', { name: /전체화면/ })
-    ).toBeInTheDocument();
+    await user.click(fullscreenButton);
+    expect(mockOnEnterFullscreen).toHaveBeenCalledTimes(1);
   });
 
   it('hides keep-awake button when unsupported', () => {
-    renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={false}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
+    renderWithIntl(<CheerControls {...props({ isWakeLockSupported: false })} />);
 
-    expect(
-      screen.queryByRole('button', { name: /화면 켜짐 유지/ })
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /화면 켜짐 유지/ })).not.toBeInTheDocument();
   });
 
   it('shows keep-awake button when supported', () => {
-    renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
+    renderWithIntl(<CheerControls {...props()} />);
 
     const awakeButton = screen.getByRole('button', { name: /화면 켜짐 유지/ });
     expect(awakeButton).toHaveAttribute('aria-pressed', 'false');
   });
 
   it('shows keep-awake as active when locked', () => {
-    renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={true}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
+    renderWithIntl(<CheerControls {...props({ isWakeLocked: true })} />);
 
     const awakeButton = screen.getByRole('button', { name: /화면 켜짐 유지/ });
     expect(awakeButton).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('has accessible focus-visible styles', () => {
-    const { container } = renderWithIntl(
-      <CheerControls
-        settings={DEFAULT_SETTINGS}
-        onSettingsChange={mockOnSettingsChange}
-        isFullscreenSupported={true}
-        isWakeLockSupported={true}
-        isWakeLocked={false}
-        onEnterFullscreen={mockOnEnterFullscreen}
-        onExitFullscreen={mockOnExitFullscreen}
-        onToggleWakeLock={mockOnToggleWakeLock}
-      />
-    );
+    const { container } = renderWithIntl(<CheerControls {...props()} />);
 
     const buttons = container.querySelectorAll('button');
     buttons.forEach((btn) => {

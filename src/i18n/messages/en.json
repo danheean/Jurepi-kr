@@ -3504,7 +3504,7 @@
       "description": "Show your cheer message big — wave it like an LED banner at concerts and games.",
       "meta": {
         "title": "Everyone's Cheer · Cheer Message Display",
-        "description": "Free online tool to show a cheer message big. Scrolling, flashing, and neon effects plus fullscreen and landscape for concerts, games, and events."
+        "description": "Free online tool to show a cheer message big. Scrolling, flashing, and neon effects plus a fullscreen banner that fills the screen in any orientation — for concerts, games, and events."
       },
       "intro": {
         "eyebrow": "FUN TOOL",
@@ -3587,14 +3587,15 @@
           "rose": "Rose"
         },
         "sizeLabel": "Text size",
-        "landscapeLabel": "Landscape",
-        "landscapeAria": "Rotate banner to landscape",
         "fullscreenLabel": "Fullscreen",
         "fullscreenExit": "Exit fullscreen",
         "fullscreenUnsupported": "This browser does not support fullscreen",
         "keepAwakeLabel": "Keep screen on",
         "keepAwakeUnsupported": "Not supported",
         "lowContrastWarning": "Low contrast between text and background"
+      },
+      "stage": {
+        "close": "Exit fullscreen"
       },
       "display": {
         "placeholder": "Your cheer message will appear here",
@@ -3603,9 +3604,9 @@
       "howTo": {
         "heading": "How to use Everyone's Cheer",
         "whatTitle": "What is Everyone's Cheer?",
-        "whatBody": "Everyone's Cheer is a free online tool that shows a short cheer message in giant letters that fill the screen. At concerts, stadiums, and events you can wave your phone like an LED banner so your message is visible from far away. Choose a scrolling, flashing, or neon glow effect, set the text and background colors, adjust the size, rotate to landscape, and go fullscreen to build your own cheer banner. No app install and no sign-up — it runs right in your browser.",
+        "whatBody": "Everyone's Cheer is a free online tool that shows a short cheer message in giant letters that fill the screen. At concerts, stadiums, and events you can wave your phone like an LED banner so your message is visible from far away. Choose a scrolling, flashing, or neon glow effect, set the text and background colors, and adjust the size to build your own cheer banner. Tap fullscreen and the whole screen becomes the banner — turn your phone sideways and it automatically fills the screen in landscape, no orientation setting needed. No app install and no sign-up — it runs right in your browser.",
         "howTitle": "How to use it",
-        "howBody": "Type the message you want to show in the cheer message box and it appears instantly, large, in the preview above. You can also tap a suggested phrase for concerts, sports, birthdays, or events to fill it in fast. Then pick an effect and speed, choose text and background colors, and set the size to get the look you want; if you plan to hold your phone sideways, turn on landscape rotation. Finally, tap the fullscreen button and the whole browser screen becomes your cheer banner. Press Esc or tap the screen to exit.",
+        "howBody": "Type the message you want to show in the cheer message box and it appears instantly, large, in the preview (on the right, or on top on mobile). You can also tap a suggested phrase for concerts, sports, birthdays, or events to fill it in fast. Then pick an effect and speed, choose text and background colors, and set the size to get the look you want. Finally, tap the fullscreen button and the whole screen becomes your cheer banner. Turn your phone sideways and the banner fills the screen in landscape automatically — no orientation setting to toggle. Press Esc or the close button to exit.",
         "useCasesTitle": "When to use it",
         "useCasesBody": "Show a fan message at your favorite artist's concert, or your team's chant at a baseball or soccer game. Display a birthday greeting at a party, or a fitting phrase at a school festival, company event, fan meeting, or proposal. It is also handy for signaling someone far away, or getting a message across in a loud place where words are hard to hear.",
         "tipsTitle": "Tips",
@@ -3627,8 +3628,8 @@
             "a": "Four effects: static (fixed), scroll (text glides across), flash (blinking), and neon (glowing text). Scroll and flash have adjustable speed — slow, medium, or fast."
           },
           {
-            "q": "How do fullscreen and landscape work?",
-            "a": "Tap the fullscreen button to turn the whole browser screen into your banner for a bigger display. If you want to hold your phone sideways for extra width, turn on landscape and the text rotates 90 degrees to read horizontally."
+            "q": "How does fullscreen work? Can I use it in landscape?",
+            "a": "Tap the fullscreen button to turn the whole screen into your banner for a bigger display. There is no orientation setting to toggle — hold your phone upright for portrait or turn it sideways for landscape, and the banner automatically fills the screen either way."
           },
           {
             "q": "Can I keep the screen from dimming while I cheer?",

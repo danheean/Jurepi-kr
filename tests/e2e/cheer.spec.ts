@@ -92,4 +92,72 @@ test.describe('Cheer - E2E', () => {
     expect(overflow).toBe(false);
     expect(errors).toEqual([]);
   });
+
+  test('Scenario 6: desktop layout — controls left, preview right', async ({ page }) => {
+    const errors = trackErrors(page);
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/ko/tools/cheer');
+    await page.locator('#cheer-input').fill('테스트');
+
+    const inputBox = await page.locator('#cheer-input').boundingBox();
+    const bannerBox = await page.getByRole('img', { name: /응원 배너/ }).boundingBox();
+    expect(inputBox).not.toBeNull();
+    expect(bannerBox).not.toBeNull();
+    // Controls (input) sit left of the preview (banner) on desktop.
+    expect(inputBox!.x + inputBox!.width).toBeLessThanOrEqual(bannerBox!.x + 1);
+    expect(errors).toEqual([]);
+  });
+
+  test('Scenario 7: mobile layout — preview above the controls', async ({ page }) => {
+    const errors = trackErrors(page);
+    await page.setViewportSize({ width: 375, height: 720 });
+    await page.goto('/ko/tools/cheer');
+
+    const bannerBox = await page.getByRole('img', { name: /응원 배너/ }).boundingBox();
+    const inputBox = await page.locator('#cheer-input').boundingBox();
+    expect(bannerBox!.y).toBeLessThan(inputBox!.y);
+    expect(errors).toEqual([]);
+  });
+
+  test('Scenario 8: fullscreen button opens an immersive overlay that fills the viewport, close button exits', async ({
+    page,
+  }) => {
+    const errors = trackErrors(page);
+    await page.setViewportSize({ width: 375, height: 720 });
+    await page.goto('/ko/tools/cheer');
+    await page.locator('#cheer-input').fill('화이팅!');
+
+    await page.getByRole('button', { name: '전체화면' }).click();
+
+    const stage = page.getByTestId('cheer-stage');
+    await expect(stage).toBeVisible();
+
+    // Overlay is a fixed, viewport-filling layer (dvw/dvh) — asserted by class so
+    // it's deterministic even while a native-fullscreen resize is mid-transition.
+    await expect(stage).toHaveClass(/fixed/);
+    await expect(stage).toHaveClass(/w-\[100dvw\]/);
+    await expect(stage).toHaveClass(/h-\[100dvh\]/);
+
+    // Banner text is shown inside the overlay.
+    await expect(stage.getByText('화이팅!')).toBeVisible();
+
+    await page.getByRole('button', { name: /전체화면 닫기/ }).click();
+    await expect(page.getByTestId('cheer-stage')).toHaveCount(0);
+
+    expect(errors).toEqual([]);
+  });
+
+  test('Scenario 9: Escape key exits the immersive overlay', async ({ page }) => {
+    const errors = trackErrors(page);
+    await page.goto('/ko/tools/cheer');
+    await page.locator('#cheer-input').fill('앵콜!');
+
+    await page.getByRole('button', { name: '전체화면' }).click();
+    await expect(page.getByTestId('cheer-stage')).toBeVisible();
+
+    await page.keyboard.press('Escape');
+    await expect(page.getByTestId('cheer-stage')).toHaveCount(0);
+
+    expect(errors).toEqual([]);
+  });
 });

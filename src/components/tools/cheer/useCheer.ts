@@ -27,6 +27,11 @@ export interface UseCheerReturn {
   // Preset apply — receives the resolved (localized) phrase text
   applyPreset: (text: string) => void;
 
+  // Immersive presentation overlay (works even where Fullscreen API is absent, e.g. iOS)
+  presenting: boolean;
+  startPresenting: () => void;
+  stopPresenting: () => Promise<void>;
+
   // Fullscreen + Wake Lock wiring
   isFullscreenSupported: boolean;
   isFullscreenActive: boolean;
@@ -58,6 +63,9 @@ export function useCheer(): UseCheerReturn {
   // Fullscreen + wake-lock wiring
   const fullscreen = useFullscreen();
   const [isWakeLockActive, setIsWakeLockActive] = useState(false);
+
+  // Immersive presentation overlay state
+  const [presenting, setPresenting] = useState(false);
 
   // Mount: read localStorage jurepi-cheer → zod parse → restore settings + recents
   useEffect(() => {
@@ -141,6 +149,18 @@ export function useCheer(): UseCheerReturn {
     await fullscreen.exit();
   }, [fullscreen]);
 
+  // Immersive overlay open/close. Native fullscreen is attempted by the overlay
+  // itself (once its element is mounted); here we just own the mount state and
+  // ensure we exit any native fullscreen on close.
+  const startPresenting = useCallback(() => {
+    setPresenting(true);
+  }, []);
+
+  const stopPresenting = useCallback(async () => {
+    setPresenting(false);
+    await fullscreen.exit();
+  }, [fullscreen]);
+
   // Toggle wake lock
   const toggleWakeLock = useCallback(async () => {
     if (isWakeLockActive) {
@@ -159,6 +179,9 @@ export function useCheer(): UseCheerReturn {
     clearMessage,
     loadRecent,
     applyPreset,
+    presenting,
+    startPresenting,
+    stopPresenting,
     isFullscreenSupported: fullscreen.isSupported,
     isFullscreenActive: fullscreen.isActive,
     enterFullscreen,

@@ -16,7 +16,6 @@ export interface CheerSettings {
   effect: 'static' | 'scroll' | 'flash' | 'neon';
   speed: 'slow' | 'medium' | 'fast';
   size: 'S' | 'M' | 'L' | 'XL';
-  landscape: boolean;
 }
 
 /**
@@ -73,7 +72,6 @@ export const cheerSettingsSchema: z.ZodType<CheerSettings> = z.object({
   effect: z.enum(['static', 'scroll', 'flash', 'neon']).default('scroll'),
   speed: z.enum(['slow', 'medium', 'fast']).default('medium'),
   size: z.enum(['S', 'M', 'L', 'XL']).default('L'),
-  landscape: z.boolean().default(false),
 });
 
 /**
@@ -95,7 +93,6 @@ export const DEFAULT_SETTINGS: CheerSettings = {
   effect: 'scroll',
   speed: 'medium',
   size: 'L',
-  landscape: false,
 };
 
 /**

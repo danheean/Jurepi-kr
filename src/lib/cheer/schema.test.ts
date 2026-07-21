@@ -68,7 +68,6 @@ describe('schema.ts', () => {
         effect: 'scroll' as const,
         speed: 'medium' as const,
         size: 'L' as const,
-        landscape: false,
       };
       const result = cheerSettingsSchema.safeParse(settings);
       expect(result.success).toBe(true);
@@ -193,16 +192,18 @@ describe('schema.ts', () => {
       }
     });
 
-    it('defaults landscape to false', () => {
-      const settings = {
+    it('strips a legacy landscape field from stored settings (migration)', () => {
+      // Old blobs persisted a `landscape` boolean; the schema should ignore it.
+      const legacy = {
         text: 'Hello',
         textColor: 'white' as const,
         bgColor: 'black' as const,
+        landscape: true,
       };
-      const result = cheerSettingsSchema.safeParse(settings);
+      const result = cheerSettingsSchema.safeParse(legacy);
       expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data.landscape).toBe(false);
+        expect('landscape' in result.data).toBe(false);
       }
     });
   });
@@ -219,7 +220,6 @@ describe('schema.ts', () => {
           effect: 'scroll' as const,
           speed: 'medium' as const,
           size: 'L' as const,
-          landscape: false,
         },
       };
       const result = cheerStoreSchema.safeParse(store);
@@ -310,8 +310,8 @@ describe('schema.ts', () => {
       expect(DEFAULT_SETTINGS.size).toBe('L');
     });
 
-    it('has landscape = false', () => {
-      expect(DEFAULT_SETTINGS.landscape).toBe(false);
+    it('does not include a landscape field', () => {
+      expect('landscape' in DEFAULT_SETTINGS).toBe(false);
     });
   });
 });

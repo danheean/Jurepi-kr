@@ -6,14 +6,20 @@ import { CheerSettings, SIZE_SCALE } from '@/lib/cheer';
 
 interface CheerDisplayProps {
   settings: CheerSettings;
-  displayRef?: React.RefObject<HTMLDivElement | null>;
+  /**
+   * 'inline' → aspect-video preview card in the page grid.
+   * 'stage'  → fills its parent (the immersive overlay) 100%, no rounding.
+   */
+  variant?: 'inline' | 'stage';
 }
 
 /**
  * Large banner display with live effect rendering.
  * Respects reduced-motion for scroll/flash effects.
+ * Orientation is never rotated here — the immersive overlay simply fills the
+ * viewport (dvw/dvh) and adapts to the real device orientation.
  */
-export function CheerDisplay({ settings, displayRef }: CheerDisplayProps) {
+export function CheerDisplay({ settings, variant = 'inline' }: CheerDisplayProps) {
   const t = useTranslations('tools.cheer');
   const prefersReducedMotion = useReducedMotion();
 
@@ -48,11 +54,6 @@ export function CheerDisplay({ settings, displayRef }: CheerDisplayProps) {
     L: "text-[clamp(4rem,20vw,9rem)]",
     XL: "text-[clamp(5rem,28vw,14rem)]",
   }[settings.size] || "text-[clamp(4rem,20vw,9rem)]";
-
-  // Landscape rotation
-  const landscapeClass = settings.landscape
-    ? 'transform rotate-90 origin-center'
-    : '';
 
   // Effect-specific rendering
   let effectContent: React.ReactNode;
@@ -139,17 +140,19 @@ export function CheerDisplay({ settings, displayRef }: CheerDisplayProps) {
     );
   }
 
+  const shapeClass =
+    variant === 'stage'
+      ? 'w-full h-full rounded-none'
+      : 'w-full min-w-0 aspect-video rounded-lg';
+
   return (
     <div
-      ref={displayRef}
       role="img"
       aria-label={t('display.ariaLabel', { text: displayText })}
       className={`
-        w-full min-w-0 aspect-video rounded-lg overflow-hidden
+        ${shapeClass} overflow-hidden
         flex items-center justify-center
         ${bgColorClass} ${textColorClass}
-        ${landscapeClass}
-        transition-transform
       `}
     >
       {effectContent}

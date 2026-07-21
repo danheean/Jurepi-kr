@@ -15,6 +15,22 @@ describe('useCheer', () => {
     expect(result.current.recents).toEqual([]);
   });
 
+  it('opens and closes the immersive presentation overlay', async () => {
+    const { result } = renderHook(() => useCheer());
+
+    expect(result.current.presenting).toBe(false);
+
+    act(() => {
+      result.current.startPresenting();
+    });
+    expect(result.current.presenting).toBe(true);
+
+    await act(async () => {
+      await result.current.stopPresenting();
+    });
+    expect(result.current.presenting).toBe(false);
+  });
+
   it('updates settings immutably and persists', () => {
     const { result } = renderHook(() => useCheer());
 

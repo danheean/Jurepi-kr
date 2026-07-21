@@ -7,11 +7,9 @@ import { Maximize2, Zap } from 'lucide-react';
 interface CheerControlsProps {
   settings: CheerSettings;
   onSettingsChange: (updates: Partial<CheerSettings>) => void;
-  isFullscreenSupported: boolean;
   isWakeLockSupported: boolean;
   isWakeLocked: boolean;
-  onEnterFullscreen: () => Promise<void>;
-  onExitFullscreen: () => Promise<void>;
+  onEnterFullscreen: () => void;
   onToggleWakeLock: () => Promise<void>;
 }
 
@@ -36,16 +34,14 @@ const COLOR_SWATCHES: Record<ColorId, string> = {
 };
 
 /**
- * Effect, speed, color, size, landscape, fullscreen, keep-awake controls.
+ * Effect, speed, color, size, fullscreen, keep-awake controls.
  */
 export function CheerControls({
   settings,
   onSettingsChange,
-  isFullscreenSupported,
   isWakeLockSupported,
   isWakeLocked,
   onEnterFullscreen,
-  onExitFullscreen,
   onToggleWakeLock,
 }: CheerControlsProps) {
   const t = useTranslations('tools.cheer');
@@ -199,44 +195,21 @@ export function CheerControls({
         </div>
       </div>
 
-      {/* Landscape Toggle */}
-      <div>
-        <button
-          onClick={() => onSettingsChange({ landscape: !settings.landscape })}
-          aria-pressed={settings.landscape}
-          className={`
-            px-3 py-1.5 text-sm font-medium rounded
-            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
-            transition-colors
-            ${
-              settings.landscape
-                ? 'bg-brand text-on-brand'
-                : 'bg-surface-muted text-text hover:bg-surface-sunken'
-            }
-          `}
-          title={t('controls.landscapeAria')}
-        >
-          {t('controls.landscapeLabel')}
-        </button>
-      </div>
-
-      {/* Fullscreen Button */}
-      {isFullscreenSupported && (
-        <button
-          onClick={onEnterFullscreen}
-          className="
-            px-4 py-2 font-medium rounded
-            bg-brand text-on-brand
-            hover:bg-brand-strong
-            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
-            transition-colors
-            flex items-center gap-2 justify-center
-          "
-        >
-          <Maximize2 size={18} />
-          {t('controls.fullscreenLabel')}
-        </button>
-      )}
+      {/* Fullscreen Button — immersive overlay works everywhere (incl. iOS) */}
+      <button
+        onClick={onEnterFullscreen}
+        className="
+          px-4 py-2 font-medium rounded
+          bg-brand text-on-brand
+          hover:bg-brand-strong
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
+          transition-colors
+          flex items-center gap-2 justify-center
+        "
+      >
+        <Maximize2 size={18} />
+        {t('controls.fullscreenLabel')}
+      </button>
 
       {/* Keep-awake Toggle */}
       {isWakeLockSupported && (
