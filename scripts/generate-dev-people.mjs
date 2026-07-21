@@ -258,7 +258,6 @@ function main() {
     console.warn(`⚠ ${contentDir} does not exist yet. Skipping generation.`);
     // Create empty catalog for development
     const emptyOutput = {
-      generatedAt: new Date().toISOString(),
       peoples: [],
     };
 
@@ -397,7 +396,6 @@ function main() {
   fs.mkdirSync(outputDir, { recursive: true });
 
   const output = {
-    generatedAt: new Date().toISOString(),
     version: 1,
     peoples,
   };
