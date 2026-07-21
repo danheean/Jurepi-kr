@@ -328,6 +328,17 @@ export const tools: ToolMeta[] = [
     order: 185,
     keywords: ['응원', '응원문구', '응원도구', '전광판', 'LED', '콘서트', '경기장', '배너', '슬로건', 'cheer', 'banner', 'marquee', 'LED sign', 'concert', 'stadium', 'fan', 'chant', 'slogan', 'scrolling text', 'fun'],
   },
+  {
+    id: 'charades',
+    slug: 'charades',
+    category: 'fun',
+    icon: 'PersonStanding',
+    accent: 'mint',
+    status: 'live',
+    addedAt: '2026-07-21',
+    order: 210,
+    keywords: ['몸으로말해요', '몸으로말하기', '바디랭귀지', '제스처게임', '파티게임', '팀빌딩', '교실게임', 'charades', 'body language', 'gesture game', 'party game', 'pantomime', 'no talking', 'silent acting'],
+  },
 ];
 
 /** Get all live tools for static generation */
