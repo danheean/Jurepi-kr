@@ -150,6 +150,39 @@ describe('CheerControls', () => {
     expect(awakeButton).toHaveAttribute('aria-pressed', 'true');
   });
 
+  it('exposes selected effect/size to assistive tech via aria-pressed', () => {
+    renderWithIntl(
+      <CheerControls {...props({ settings: { ...DEFAULT_SETTINGS, effect: 'flash', size: 'XL' } })} />
+    );
+    expect(screen.getByRole('button', { name: /점멸/ })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: /정적/ })).toHaveAttribute('aria-pressed', 'false');
+    expect(screen.getByRole('button', { name: 'XL' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'S' })).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  it('color swatches expose selection + localized accessible name (not English id)', () => {
+    renderWithIntl(
+      <CheerControls {...props({ settings: { ...DEFAULT_SETTINGS, textColor: 'grape' } })} />
+    );
+    // "grape" localizes to 앰버 (amber) — the swatch must not surface the English id.
+    const grapeText = screen.getByRole('button', { name: '글자색 · 앰버' });
+    expect(grapeText).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: '글자색 · 코랄' })).toHaveAttribute(
+      'aria-pressed',
+      'false'
+    );
+    // background group is a distinct, separately-named control
+    expect(screen.getByRole('button', { name: '배경색 · 앰버' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'grape' })).toBeNull();
+  });
+
+  it('groups the control clusters with accessible names', () => {
+    renderWithIntl(<CheerControls {...props()} />);
+    expect(screen.getByRole('group', { name: /효과/ })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: '글자색' })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: '배경색' })).toBeInTheDocument();
+  });
+
   it('has accessible focus-visible styles', () => {
     const { container } = renderWithIntl(<CheerControls {...props()} />);
 

@@ -41,7 +41,7 @@ describe('CheerPresets', () => {
 
   it('defaults to concert tab', () => {
     renderWithIntl(<CheerPresets onApply={mockOnApply} />);
-    const concertTab = screen.getByRole('button', { name: /콘서트/ });
+    const concertTab = screen.getByRole('tab', { name: /콘서트/ });
     expect(concertTab).toHaveAttribute('aria-selected', 'true');
   });
 
@@ -49,7 +49,7 @@ describe('CheerPresets', () => {
     const user = userEvent.setup();
     renderWithIntl(<CheerPresets onApply={mockOnApply} />);
 
-    const sportsTab = screen.getByRole('button', { name: /스포츠/ });
+    const sportsTab = screen.getByRole('tab', { name: /스포츠/ });
     await user.click(sportsTab);
 
     expect(sportsTab).toHaveAttribute('aria-selected', 'true');
@@ -78,13 +78,13 @@ describe('CheerPresets', () => {
     const user = userEvent.setup();
     renderWithIntl(<CheerPresets onApply={mockOnApply} />);
 
-    const concertTab = screen.getByRole('button', { name: /콘서트/ });
+    const concertTab = screen.getByRole('tab', { name: /콘서트/ });
     concertTab.focus();
 
     // Press right arrow to go to sports
     await user.keyboard('{ArrowRight}');
 
-    const sportsTab = screen.getByRole('button', { name: /스포츠/ });
+    const sportsTab = screen.getByRole('tab', { name: /스포츠/ });
     expect(sportsTab).toHaveAttribute('aria-selected', 'true');
   });
 
@@ -93,14 +93,14 @@ describe('CheerPresets', () => {
     renderWithIntl(<CheerPresets onApply={mockOnApply} />);
 
     // Start at event tab
-    const eventTab = screen.getByRole('button', { name: /이벤트/ });
+    const eventTab = screen.getByRole('tab', { name: /이벤트/ });
     await user.click(eventTab);
     eventTab.focus();
 
     // Press right arrow to wrap to concert
     await user.keyboard('{ArrowRight}');
 
-    const concertTab = screen.getByRole('button', { name: /콘서트/ });
+    const concertTab = screen.getByRole('tab', { name: /콘서트/ });
     expect(concertTab).toHaveAttribute('aria-selected', 'true');
   });
 
@@ -108,15 +108,38 @@ describe('CheerPresets', () => {
     const user = userEvent.setup();
     renderWithIntl(<CheerPresets onApply={mockOnApply} />);
 
-    const sportsTab = screen.getByRole('button', { name: /스포츠/ });
+    const sportsTab = screen.getByRole('tab', { name: /스포츠/ });
     await user.click(sportsTab);
     sportsTab.focus();
 
     // Press left arrow to go to concert
     await user.keyboard('{ArrowLeft}');
 
-    const concertTab = screen.getByRole('button', { name: /콘서트/ });
+    const concertTab = screen.getByRole('tab', { name: /콘서트/ });
     expect(concertTab).toHaveAttribute('aria-selected', 'true');
+  });
+
+  it('uses a valid tablist/tab/tabpanel structure (aria-selected only on real tabs)', () => {
+    renderWithIntl(<CheerPresets onApply={mockOnApply} />);
+
+    // A labeled tablist with four tabs
+    expect(screen.getByRole('tablist')).toBeInTheDocument();
+    expect(screen.getAllByRole('tab')).toHaveLength(4);
+
+    // The active tab controls a tabpanel that is labelled back by the tab
+    const concertTab = screen.getByRole('tab', { name: /콘서트/ });
+    const panel = screen.getByRole('tabpanel');
+    expect(concertTab).toHaveAttribute('aria-controls', panel.id);
+    expect(panel).toHaveAttribute('aria-labelledby', concertTab.id);
+  });
+
+  it('active tab uses the readable ink token, not low-contrast text-brand', () => {
+    // `text-brand` (honey #f5a623) is ~2:1 on white — fails WCAG AA for label text.
+    // The active tab must use `text-brand-ink` (#9a6400, 5:1 on white).
+    renderWithIntl(<CheerPresets onApply={mockOnApply} />);
+    const activeTab = screen.getByRole('tab', { name: /콘서트/ });
+    expect(activeTab.className).toMatch(/text-brand-ink/);
+    expect(activeTab.className).not.toMatch(/text-brand(?!-ink)/);
   });
 
   it('has accessible focus-visible style on tabs', () => {

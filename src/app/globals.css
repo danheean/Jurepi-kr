@@ -266,3 +266,37 @@ input[type='range']::-moz-range-thumb {
 .hljs-strong {
   font-weight: 700;
 }
+
+/* Cheer (모두의 응원) banner effects — keyframes hoisted out of the component so
+   they are defined once, not injected per render. Duration is set inline
+   (speed-dependent); everything else is static here. Motion is transform/opacity
+   only; reduced-motion falls back to a static banner in the component. */
+@keyframes cheer-scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.cheer-scroll {
+  display: inline-block;
+  white-space: nowrap;
+  padding-right: 100%;
+  animation-name: cheer-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes cheer-flash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+.cheer-flash {
+  animation-name: cheer-flash;
+  animation-iteration-count: infinite;
+}

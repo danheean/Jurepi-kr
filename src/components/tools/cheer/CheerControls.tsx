@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { CheerSettings, isLowContrast } from '@/lib/cheer';
+import { CheerSettings, isLowContrast, SWATCH_COLORS } from '@/lib/cheer';
 import { Maximize2, Zap } from 'lucide-react';
 
 interface CheerControlsProps {
@@ -23,15 +23,9 @@ const SPEEDS: Speed[] = ['slow', 'medium', 'fast'];
 const SIZES: Size[] = ['S', 'M', 'L', 'XL'];
 const COLORS: ColorId[] = ['white', 'black', 'coral', 'sun', 'sky', 'grape', 'rose'];
 
-const COLOR_SWATCHES: Record<ColorId, string> = {
-  white: '#ffffff',
-  black: '#000000',
-  coral: '#fb7185',
-  sun: '#f5a623',
-  sky: '#3b82f6',
-  grape: '#a78bfa',
-  rose: '#ec4899',
-};
+// Swatch backgrounds come from the shared token map (single source of truth), so
+// the color you pick is exactly the color the banner renders. Do not hard-code
+// hex here — it drifts from tokens.css (e.g. grape is honey #e0912b, not purple).
 
 /**
  * Effect, speed, color, size, fullscreen, keep-awake controls.
@@ -56,13 +50,14 @@ export function CheerControls({
         <label className="block text-sm font-medium mb-2">
           {t('controls.effectLabel')}
         </label>
-        <div className="flex gap-2 flex-wrap">
+        <div role="group" aria-label={t('controls.effectLabel')} className="flex gap-2 flex-wrap">
           {EFFECTS.map((effect) => (
             <button
               key={effect}
               onClick={() => onSettingsChange({ effect })}
+              aria-pressed={settings.effect === effect}
               className={`
-                px-3 py-1.5 text-sm font-medium rounded
+                px-3 min-h-11 inline-flex items-center justify-center text-sm font-medium rounded
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
                 transition-colors
                 ${
@@ -84,13 +79,14 @@ export function CheerControls({
           <label className="block text-sm font-medium mb-2">
             {t('controls.speedLabel')}
           </label>
-          <div className="flex gap-2 flex-wrap">
+          <div role="group" aria-label={t('controls.speedLabel')} className="flex gap-2 flex-wrap">
             {SPEEDS.map((speed) => (
               <button
                 key={speed}
                 onClick={() => onSettingsChange({ speed })}
+                aria-pressed={settings.speed === speed}
                 className={`
-                  px-3 py-1.5 text-sm font-medium rounded
+                  px-3 min-h-11 inline-flex items-center justify-center text-sm font-medium rounded
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
                   transition-colors
                   ${
@@ -112,25 +108,30 @@ export function CheerControls({
         <label className="block text-sm font-medium mb-2">
           {t('controls.textColorLabel')}
         </label>
-        <div className="flex gap-2 flex-wrap">
-          {COLORS.map((color) => (
-            <button
-              key={color}
-              onClick={() => onSettingsChange({ textColor: color })}
-              className={`
-                w-8 h-8 rounded-full border-2
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
-                transition-all
-                ${
-                  settings.textColor === color
-                    ? 'border-brand ring-2 ring-brand ring-offset-2'
-                    : 'border-hairline hover:border-brand'
-                }
-              `}
-              style={{ backgroundColor: COLOR_SWATCHES[color] }}
-              title={color}
-            />
-          ))}
+        <div role="group" aria-label={t('controls.textColorLabel')} className="flex gap-2 flex-wrap">
+          {COLORS.map((color) => {
+            const name = `${t('controls.textColorLabel')} · ${t(`controls.colors.${color}`)}`;
+            return (
+              <button
+                key={color}
+                onClick={() => onSettingsChange({ textColor: color })}
+                aria-pressed={settings.textColor === color}
+                aria-label={name}
+                title={t(`controls.colors.${color}`)}
+                className={`
+                  w-11 h-11 rounded-full border-2
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
+                  transition-all
+                  ${
+                    settings.textColor === color
+                      ? 'border-brand ring-2 ring-brand ring-offset-2'
+                      : 'border-hairline hover:border-brand'
+                  }
+                `}
+                style={{ backgroundColor: SWATCH_COLORS[color] }}
+              />
+            );
+          })}
         </div>
       </div>
 
@@ -139,31 +140,37 @@ export function CheerControls({
         <label className="block text-sm font-medium mb-2">
           {t('controls.bgColorLabel')}
         </label>
-        <div className="flex gap-2 flex-wrap">
-          {COLORS.map((color) => (
-            <button
-              key={color}
-              onClick={() => onSettingsChange({ bgColor: color })}
-              className={`
-                w-8 h-8 rounded-full border-2
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
-                transition-all
-                ${
-                  settings.bgColor === color
-                    ? 'border-brand ring-2 ring-brand ring-offset-2'
-                    : 'border-hairline hover:border-brand'
-                }
-              `}
-              style={{ backgroundColor: COLOR_SWATCHES[color] }}
-              title={color}
-            />
-          ))}
+        <div role="group" aria-label={t('controls.bgColorLabel')} className="flex gap-2 flex-wrap">
+          {COLORS.map((color) => {
+            const name = `${t('controls.bgColorLabel')} · ${t(`controls.colors.${color}`)}`;
+            return (
+              <button
+                key={color}
+                onClick={() => onSettingsChange({ bgColor: color })}
+                aria-pressed={settings.bgColor === color}
+                aria-label={name}
+                title={t(`controls.colors.${color}`)}
+                className={`
+                  w-11 h-11 rounded-full border-2
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
+                  transition-all
+                  ${
+                    settings.bgColor === color
+                      ? 'border-brand ring-2 ring-brand ring-offset-2'
+                      : 'border-hairline hover:border-brand'
+                  }
+                `}
+                style={{ backgroundColor: SWATCH_COLORS[color] }}
+              />
+            );
+          })}
         </div>
       </div>
 
-      {/* Low Contrast Warning */}
+      {/* Low Contrast Warning — announced to AT (the banner can become invisible,
+          so a purely visual warning would be missed by non-sighted users). */}
       {lowContrast && (
-        <div className="px-3 py-2 bg-danger/10 text-danger-ink rounded text-sm">
+        <div role="status" className="px-3 py-2 bg-danger/10 text-danger-ink rounded text-sm">
           ⚠️ {t('controls.lowContrastWarning')}
         </div>
       )}
@@ -173,13 +180,14 @@ export function CheerControls({
         <label className="block text-sm font-medium mb-2">
           {t('controls.sizeLabel')}
         </label>
-        <div className="flex gap-2 flex-wrap">
+        <div role="group" aria-label={t('controls.sizeLabel')} className="flex gap-2 flex-wrap">
           {SIZES.map((size) => (
             <button
               key={size}
               onClick={() => onSettingsChange({ size })}
+              aria-pressed={settings.size === size}
               className={`
-                px-3 py-1.5 text-sm font-medium rounded
+                px-3 min-h-11 inline-flex items-center justify-center text-sm font-medium rounded
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
                 transition-colors
                 ${
@@ -199,7 +207,7 @@ export function CheerControls({
       <button
         onClick={onEnterFullscreen}
         className="
-          px-4 py-2 font-medium rounded
+          px-4 min-h-11 font-medium rounded
           bg-brand text-on-brand
           hover:bg-brand-strong
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
@@ -217,7 +225,7 @@ export function CheerControls({
           onClick={onToggleWakeLock}
           aria-pressed={isWakeLocked}
           className={`
-            px-4 py-2 font-medium rounded
+            px-4 min-h-11 font-medium rounded
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
             transition-colors
             flex items-center gap-2 justify-center

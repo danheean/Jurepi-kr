@@ -1,9 +1,12 @@
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import {
   relativeLuminance,
   contrastRatio,
   isLowContrast,
   MIN_CONTRAST,
+  SWATCH_COLORS,
 } from './contrast';
 
 describe('contrast.ts', () => {
@@ -119,6 +122,44 @@ describe('contrast.ts', () => {
   describe('MIN_CONTRAST constant', () => {
     it('is set to 3.0', () => {
       expect(MIN_CONTRAST).toBe(3.0);
+    });
+  });
+
+  describe('SWATCH_COLORS single source of truth', () => {
+    // The swatch picker, the contrast math, and the rendered banner (via the
+    // `--accent-*` Tailwind tokens) must all agree. This reads the real token
+    // file so the map can never silently drift from tokens.css again.
+    const tokensCss = readFileSync(
+      resolve(__dirname, '../../styles/tokens.css'),
+      'utf8'
+    );
+    // First :root block = light theme (source of the accent swatch values).
+    const darkIdx = tokensCss.search(/\[data-theme="dark"\]|@media\s*\(prefers-color-scheme/);
+    const lightRoot = darkIdx === -1 ? tokensCss : tokensCss.slice(0, darkIdx);
+
+    function tokenHex(name: string): string {
+      const m = lightRoot.match(new RegExp(`--accent-${name}:\\s*(#[0-9a-fA-F]{6})`));
+      if (!m) throw new Error(`--accent-${name} not found in tokens.css`);
+      return m[1].toLowerCase();
+    }
+
+    it('white and black are literal', () => {
+      expect(SWATCH_COLORS.white).toBe('#ffffff');
+      expect(SWATCH_COLORS.black).toBe('#000000');
+    });
+
+    it.each(['coral', 'sun', 'sky', 'grape', 'rose'] as const)(
+      '%s swatch matches --accent-%s in tokens.css',
+      (id) => {
+        expect(SWATCH_COLORS[id].toLowerCase()).toBe(tokenHex(id));
+      }
+    );
+
+    it('grape is the honey token (#e0912b), NOT purple — regression guard', () => {
+      // The picker used to hard-code #a78bfa (purple) while the banner rendered
+      // honey via --accent-grape, so the color you picked was not the color shown.
+      expect(SWATCH_COLORS.grape.toLowerCase()).toBe('#e0912b');
+      expect(SWATCH_COLORS.grape.toLowerCase()).not.toBe('#a78bfa');
     });
   });
 });
