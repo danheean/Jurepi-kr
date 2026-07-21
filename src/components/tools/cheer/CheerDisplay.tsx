@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { CheerSettings, SIZE_SCALE } from '@/lib/cheer';
+import { CheerSettings, SCROLL_MS, FLASH_MS, swatchRgba } from '@/lib/cheer';
 
 interface CheerDisplayProps {
   settings: CheerSettings;
@@ -73,55 +73,34 @@ export function CheerDisplay({ settings, variant = 'inline' }: CheerDisplayProps
       </div>
     );
   } else if (settings.effect === 'scroll') {
-    // Scrolling marquee (transform-only animation)
+    // Scrolling marquee (transform-only animation). Keyframes live in globals.css;
+    // only the speed-dependent duration is inline (no per-render <style> injection).
     effectContent = (
       <div className="w-full min-w-0 h-full overflow-hidden flex items-center">
-        <style>{`
-          @keyframes cheer-scroll {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-          }
-          .cheer-scroll {
-            animation: cheer-scroll ${settings.speed === 'slow' ? '12s' : settings.speed === 'medium' ? '8s' : '4s'} linear infinite;
-            white-space: nowrap;
-            display: inline-block;
-            padding-right: 100%;
-          }
-        `}</style>
-        <span className={`cheer-scroll ${sizeClass} font-bold font-display`}>
+        <span
+          className={`cheer-scroll ${sizeClass} font-bold font-display`}
+          style={{ animationDuration: `${SCROLL_MS[settings.speed]}ms` }}
+        >
           {displayText}
         </span>
       </div>
     );
   } else if (settings.effect === 'flash') {
-    // Flashing effect (opacity animation)
+    // Flashing effect (opacity animation). Keyframes live in globals.css.
     effectContent = (
       <div className="w-full min-w-0 h-full overflow-hidden flex items-center justify-center">
-        <style>{`
-          @keyframes cheer-flash {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.15; }
-          }
-          .cheer-flash {
-            animation: cheer-flash ${settings.speed === 'slow' ? '1.2s' : settings.speed === 'medium' ? '700ms' : '350ms'} infinite;
-          }
-        `}</style>
-        <div className={`cheer-flash ${sizeClass} font-bold font-display break-words text-center px-4`}>
+        <div
+          className={`cheer-flash ${sizeClass} font-bold font-display break-words text-center px-4`}
+          style={{ animationDuration: `${FLASH_MS[settings.speed]}ms` }}
+        >
           {displayText}
         </div>
       </div>
     );
   } else if (settings.effect === 'neon') {
-    // Neon glow effect (text-shadow, no motion)
-    const glowColor = {
-      white: 'rgba(255, 255, 255, 0.8)',
-      black: 'rgba(0, 0, 0, 0.3)',
-      coral: 'rgba(251, 113, 133, 0.6)',
-      sun: 'rgba(245, 166, 35, 0.6)',
-      sky: 'rgba(59, 130, 246, 0.6)',
-      grape: 'rgba(224, 145, 43, 0.6)',
-      rose: 'rgba(251, 113, 133, 0.6)',
-    }[settings.textColor] || 'rgba(255, 255, 255, 0.8)';
+    // Neon glow effect (text-shadow, no motion). Glow is derived from the SAME
+    // token as the rendered text (swatchRgba) — no separate color map to drift.
+    const glowColor = swatchRgba(settings.textColor, 0.7);
 
     effectContent = (
       <div

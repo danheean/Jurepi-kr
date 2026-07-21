@@ -90,6 +90,25 @@ describe('CheerDisplay', () => {
     expect(container.textContent).toContain('우리 팀 우승!');
   });
 
+  it('scroll effect uses the shared class + speed-driven duration (no per-render <style>)', () => {
+    const settings = { ...baseSettings, effect: 'scroll' as const, speed: 'slow' as const };
+    const { container } = renderWithIntl(<CheerDisplay settings={settings} />);
+    // Keyframes are global now — the component must NOT inject a <style> tag.
+    expect(container.querySelector('style')).toBeNull();
+    const marquee = container.querySelector('.cheer-scroll') as HTMLElement;
+    expect(marquee).not.toBeNull();
+    expect(marquee.style.animationDuration).toBe('12000ms');
+  });
+
+  it('neon glow is derived from the selected text token (not a drifting map)', () => {
+    // grape → --accent-grape #e0912b → rgb(224,145,43). The glow must match.
+    const settings = { ...baseSettings, effect: 'neon' as const, textColor: 'grape' as const };
+    const { container } = renderWithIntl(<CheerDisplay settings={settings} />);
+    const glow = container.querySelector('[style*="text-shadow"]') as HTMLElement;
+    expect(glow).not.toBeNull();
+    expect(glow.style.textShadow).toContain('rgba(224, 145, 43');
+  });
+
   it('has accessible aria-label', () => {
     const settings = { ...baseSettings, text: '응원' };
     renderWithIntl(<CheerDisplay settings={settings} />);

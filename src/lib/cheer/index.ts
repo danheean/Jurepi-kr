@@ -44,4 +44,4 @@ export { addRecent, pruneRecents } from './recents';
 export { normalizeMessage, isValidMessage } from './sanitize';
 
 // Contrast & Accessibility
-export { relativeLuminance, contrastRatio, isLowContrast } from './contrast';
+export { relativeLuminance, contrastRatio, isLowContrast, SWATCH_COLORS, swatchRgba } from './contrast';

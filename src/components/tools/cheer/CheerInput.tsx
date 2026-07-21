@@ -59,7 +59,7 @@ export function CheerInput({
         <button
           onClick={() => onChange('')}
           className="
-            self-start px-3 py-1.5 text-sm font-medium
+            self-start px-3 min-h-11 inline-flex items-center text-sm font-medium
             bg-surface-muted text-text rounded
             hover:bg-surface-sunken
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
@@ -82,15 +82,15 @@ export function CheerInput({
                 key={`${recent}-${idx}`}
                 onClick={() => onSelectRecent(recent)}
                 className="
-                  px-3 py-1.5 text-sm
+                  px-3 min-h-11 inline-flex items-center text-sm
                   bg-surface-muted text-text rounded
                   hover:bg-surface-sunken
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
                   transition-colors
-                  line-clamp-1
+                  max-w-full
                 "
               >
-                {recent}
+                <span className="truncate max-w-[12rem]">{recent}</span>
               </button>
             ))}
           </div>

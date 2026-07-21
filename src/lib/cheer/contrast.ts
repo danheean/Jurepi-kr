@@ -4,9 +4,14 @@ import { MIN_CONTRAST } from './schema';
 export { MIN_CONTRAST } from './schema';
 
 /**
- * Map swatch IDs to their hex color values from DESIGN.md tokens.
+ * Map swatch IDs to their hex color values from DESIGN.md tokens (tokens.css).
+ *
+ * SINGLE SOURCE OF TRUTH for swatch colors: the picker swatches, the contrast
+ * calculation, and (by matching the Tailwind `--accent-*` tokens exactly) the
+ * rendered banner all resolve to these values. Keep in lockstep with
+ * `src/styles/tokens.css` `--accent-*`.
  */
-const SWATCH_COLORS: Record<ColorSwatchId, string> = {
+export const SWATCH_COLORS: Record<ColorSwatchId, string> = {
   white: '#ffffff',
   black: '#000000',
   coral: '#ff7a85', // --accent-coral
@@ -28,6 +33,16 @@ function parseHex(hex: string): [number, number, number] {
   }
   const num = parseInt(cleaned, 16);
   return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+}
+
+/**
+ * Build an rgba() string for a swatch color at a given alpha — used for the neon
+ * glow so the glow is derived from the SAME token as the rendered text (no third
+ * hard-coded color map that can drift).
+ */
+export function swatchRgba(id: ColorSwatchId, alpha: number): string {
+  const [r, g, b] = parseHex(SWATCH_COLORS[id]);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 /**

@@ -24,23 +24,26 @@ export function CheerPresets({ onApply }: CheerPresetsProps) {
   return (
     <div className="flex flex-col gap-4">
       {/* Situation Tabs (roving tabindex) */}
-      <div className="flex gap-2 border-b border-hairline">
-        {SITUATIONS.map((situation, idx) => (
+      <div role="tablist" aria-label={t('presets.heading')} className="flex gap-2 border-b border-hairline">
+        {SITUATIONS.map((situation) => (
           <button
             key={situation}
+            role="tab"
+            id={`cheer-tab-${situation}`}
+            aria-controls={`cheer-tabpanel-${situation}`}
+            aria-selected={activeTab === situation}
+            tabIndex={activeTab === situation ? 0 : -1}
             onClick={() => setActiveTab(situation)}
             className={`
-              px-4 py-2 font-medium text-sm
+              px-4 min-h-11 inline-flex items-center font-medium text-sm
               border-b-2 transition-colors
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded-t
               ${
                 activeTab === situation
-                  ? 'border-brand text-brand'
+                  ? 'border-brand text-brand-ink'
                   : 'border-transparent text-text-muted hover:text-text'
               }
             `}
-            aria-selected={activeTab === situation}
-            tabIndex={activeTab === situation ? 0 : -1}
             onKeyDown={(e) => {
               if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
                 e.preventDefault();
@@ -59,7 +62,12 @@ export function CheerPresets({ onApply }: CheerPresetsProps) {
       </div>
 
       {/* Preset Chips */}
-      <div className="flex flex-wrap gap-2">
+      <div
+        role="tabpanel"
+        id={`cheer-tabpanel-${activeTab}`}
+        aria-labelledby={`cheer-tab-${activeTab}`}
+        className="flex flex-wrap gap-2"
+      >
         {activePresets.map((preset) => (
           <button
             key={preset.id}
@@ -67,7 +75,7 @@ export function CheerPresets({ onApply }: CheerPresetsProps) {
               onApply(t(`presets.phrases.${preset.situation}.${preset.id}`))
             }
             className="
-              px-3 py-1.5 text-sm font-medium
+              px-3 min-h-11 inline-flex items-center text-sm font-medium
               bg-brand text-on-brand rounded-full
               hover:bg-brand-strong
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring
