@@ -51,7 +51,7 @@ CRITICAL (audio + motion): optional Web Audio sound effects (tick/chime/buzz, re
   <in_scope>
     - Markdown-managed deck catalog (pairs: `<deck>.md` + `<deck>_en.md`) in `content/charades/decks/`.
     - Build-time generator `scripts/generate-charades.mjs`: folder scan → frontmatter parse → validation → code-split static catalog (charades.generated.json). Wired to `prebuild`/`predev` alongside the existing speed-quiz generator (both run; independent scripts).
-    - Six seed deck categories with 1–2 decks each (~100+ prompt words total), ALL vetted mimeable-without-speech (see curation checklist): **동작 (Actions, easy)**, **동물 (Animals, easy)**, **직업 (Occupations, normal)**, **캐릭터·역할 (Characters/Roles, normal)**, **스포츠 (Sports, normal)**, **감정 (Emotions, hard)**. Each deck ≥10 words.
+    - Six seed deck categories, each with **exactly 2 decks — Team A and Team B (A/B team-battle format)**, 120 prompt words total (6 × 2 × 10), ALL vetted mimeable-without-speech (see curation checklist): **동작 (Actions, easy)**, **동물 (Animals, easy)**, **직업 (Occupations, normal)**, **캐릭터·역할 (Characters/Roles, normal)**, **스포츠 (Sports, normal)**, **감정 (Emotions, hard)**. Each deck has **exactly 10 words** (not just a floor — capped so a category's A and B decks stay the same length for fair team rounds). Within a category, Team A and Team B share the same difficulty label and are curated to a comparable *word-level* difficulty distribution (no schema field for this — it's an authoring discipline: tier candidate words informally, then distribute tiers evenly across A/B, mirroring speed-quiz's precedent of encoding "team" purely via filename suffix + title, not a schema field).
     - Deck markdown templates (`content/charades/_TEMPLATE.md`, `_TEMPLATE_en.md`) + authoring README with the curation checklist embedded so future contributors vet new words the same way.
     - Presenter flow (mirrors speed-quiz exactly): (1) Home screen shows deck cards by category. (2) Tap a deck → game setup (difficulty, round time 30/60/90s/unlimited, shuffle on/off, show hints on/off — hint is a private text cue for the performer only, e.g. "동물원에 있어요" for 코끼리, never shown to guessers). (3) Tap "시작" → game UI: huge prompt word (center, performer-only view), countdown timer (top, bold), buttons "정답"/"패스" (bottom, ≥60px). Space/→ keyboard shortcuts. (4) Advance through all words or until time expires. (5) Summary: score card + full word list. (6) "다시" or "홈".
     - Deck selection: category filter tabs, search by deck name, favorites tab.
@@ -88,25 +88,32 @@ CRITICAL (audio + motion): optional Web Audio sound effects (tick/chime/buzz, re
     - Is it a generic noun/role/action/emotion, NOT a specific copyrighted character or brand (e.g. use "닌자"/"해적"/"마법사" as archetypal roles, never a specific named franchise character)?
     - Is it concrete and physical, NOT an abstract concept, proverb, idiom, or four-character phrase (those stay in speed-quiz's `proverbs` deck)?
     - Is it unique within its deck (no near-duplicates)?
+    - **Is the term itself a NOUN, not a verb phrase with a "-하기/타기/만들기/찍기/쓰기" suffix?** Guessers shout the exact word they think is correct; a verb-phrase term (e.g. "눈사람 만들기") leaves them unsure whether to say the full phrase or just the object, whereas a noun (e.g. "눈사람") has one unambiguous correct answer. Use the mimed object's name ("자전거", "기타", "우산") or the activity's own established noun form ("낚시", "저글링", "다림질", "세수") — never a raw "명사+하기" instruction. If no clean noun exists for a candidate, swap it for a different word rather than forcing an awkward reduction.
   </checklist>
-  <categories>
-    <category id="actions" difficulty="easy" note="verbs/activities, fully mimeable with props implied by gesture">
-      자전거 타기, 낚시하기, 양치질하기, 설거지하기, 줄넘기, 눈사람 만들기, 기타 치기, 요리하기, 빨래 널기, 저글링하기, 사진 찍기, 우산 쓰기
+  <categories note="each category = exactly 2 decks (Team A / Team B), 10 words each, disjoint word sets, matched difficulty">
+    <category id="actions" difficulty="easy" note="verbs/activities, fully mimeable with props implied by gesture. Terms are NOUNS (the mimed object/activity name), not verb phrases with a '-하기/타기/만들기' suffix — guessers shout a crisp noun, not a full instruction (user correction 2026-07-22: verb-suffixed terms make the exact expected answer ambiguous).">
+      Team A: 자전거, 낚시, 양치질, 설거지, 줄넘기, 눈사람, 기타, 저글링, 사진, 우산.
+      Team B: 계단, 신발끈, 그네, 훌라후프, 물구나무서기, 빗자루, 세수, 머리 감기, 다림질, 요가.
     </category>
     <category id="animals" difficulty="easy" note="movement/posture-distinct, sound-independent">
-      캥거루, 코끼리, 원숭이, 뱀, 펭귄, 문어, 고릴라, 플라밍고, 토끼, 곰, 개구리, 거북이
+      Team A: 캥거루, 코끼리, 원숭이, 뱀, 펭귄, 문어, 고릴라, 토끼, 곰, 거북이.
+      Team B: 사자, 기린, 사슴, 다람쥐, 닭, 말, 돼지, 낙타, 코알라, 박쥐.
     </category>
     <category id="occupations" difficulty="normal" note="characteristic action, not a uniform/label">
-      의사, 소방관, 경찰관, 요리사, 미용사, 화가, 택배기사, 마술사, 지휘자, 개그맨
+      Team A: 의사, 소방관, 경찰관, 요리사, 미용사, 화가, 택배기사, 마술사, 지휘자, 개그맨.
+      Team B: 선생님, 농부, 제빵사, 종업원, 가수, 우주비행사, 목수, 판사, 비행기 조종사, 승무원.
     </category>
     <category id="characters" difficulty="normal" note="archetypal role/pose, NOT a named copyrighted character">
-      좀비, 로봇, 유령, 발레리나, 카우보이, 닌자, 해적, 인어, 마법사, 슈퍼히어로
+      Team A: 좀비, 로봇, 유령, 발레리나, 카우보이, 닌자, 해적, 인어, 마법사, 슈퍼히어로.
+      Team B: 왕, 기사, 마녀, 요정, 거인, 난쟁이, 엘프, 트롤, 늑대인간, 뱀파이어.
     </category>
     <category id="sports" difficulty="normal" note="characteristic motion">
-      야구, 축구, 농구, 볼링, 스키, 줄다리기, 씨름, 태권도, 수영, 복싱, 양궁
+      Team A: 야구, 축구, 농구, 볼링, 스키, 씨름, 태권도, 수영, 복싱, 양궁.
+      Team B: 배구, 탁구, 골프, 배드민턴, 승마, 펜싱, 다이빙, 스케이트보드, 하키, 체조.
     </category>
     <category id="emotions" difficulty="hard" note="face + body only, hardest tier (deliberately harder — abstract-adjacent, requires clear physical expression)">
-      화남, 슬픔, 놀람, 부끄러움, 지루함, 신남, 졸림, 배고픔, 무서움, 사랑, 아픔, 헷갈림
+      Team A: 화남, 슬픔, 놀람, 부끄러움, 신남, 졸림, 무서움, 사랑, 아픔, 헷갈림.
+      Team B: 행복, 걱정, 실망, 자신감, 질투, 안도, 후회, 피곤함, 자랑스러움, 감동.
     </category>
   </categories>
   <rejected_examples note="considered and explicitly excluded during review, kept here so future authors don't re-add them">
@@ -196,7 +203,7 @@ src/
   <charades_store note="localStorage key `jurepi-charades` — separate from speed-quiz's `jurepi-speed-quiz`">
     - version (STORE_VERSION), settings {lastCategory?, lastDifficulty?, roundTimeSeconds?, shuffleOn, soundOn}, favorites: string[], recents: string[] (max 10)
   </charades_store>
-  <constants>RECENTS_MAX=10; WORDS_PER_DECK_MIN=10; TIME_PRESETS=[30,60,90]; CATEGORY_ORDER=['actions','animals','occupations','characters','sports','emotions']</constants>
+  <constants>RECENTS_MAX=10; WORDS_PER_DECK_MIN=10; WORDS_PER_DECK_MAX=10 (exactly 10 — A/B team decks stay the same length); TIME_PRESETS=[30,60,90]; CATEGORY_ORDER=['actions','animals','occupations','characters','sports','emotions']</constants>
 </core_data_entities>
 
 <route_definitions>
@@ -287,10 +294,10 @@ src/
   <test_scenario_2>
     <description>Markdown folder → deck list auto-compose (charades)</description>
     <steps>
-      1. actions-a.md + actions-a_en.md exist with ≥10 words vetted against the curation checklist.
+      1. actions-a.md + actions-a_en.md exist with exactly 10 words vetted against the curation checklist.
       2. pnpm dev → predev generator runs → charades.generated.json has merged record.
-      3. Visit /ko/tools/charades → deck browser renders "일상 동작" card.
-      4. Missing pair or <10 words → generator reports file/reason, exits non-zero.
+      3. Visit /ko/tools/charades → deck browser renders "일상 동작 A팀" card (and its "일상 동작 B팀" sibling, side by side within the actions category group).
+      4. Missing pair or word count ≠10 → generator reports file/reason, exits non-zero.
     </steps>
   </test_scenario_2>
   <test_scenario_3>

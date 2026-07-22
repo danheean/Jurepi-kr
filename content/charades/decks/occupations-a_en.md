@@ -1,5 +1,5 @@
 ---
-title: Everyday Jobs
+title: Everyday Jobs Team A
 words:
   - term: Doctor
   - term: Firefighter

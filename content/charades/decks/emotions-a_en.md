@@ -1,15 +1,13 @@
 ---
-title: Emotion Expressions
+title: Emotion Expressions Team A
 words:
   - term: Anger
   - term: Sadness
   - term: Surprise
   - term: Embarrassment
     hint: Blushing, covering your face
-  - term: Boredom
   - term: Excitement
   - term: Sleepiness
-  - term: Hunger
   - term: Fear
   - term: Love
   - term: Pain

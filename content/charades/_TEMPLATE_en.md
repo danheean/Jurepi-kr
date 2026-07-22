@@ -1,15 +1,15 @@
 ---
-title: Everyday Actions
+title: Everyday Actions Team A
 words:
-  - term: Riding a bike
+  - term: Bicycle
   - term: Fishing
     hint: Done by the water
   - term: Brushing teeth
   - term: Washing dishes
   - term: Jump rope
-  - term: Building a snowman
-  - term: Playing guitar
-  - term: Cooking
-  - term: Hanging laundry
+  - term: Snowman
+  - term: Guitar
   - term: Juggling
+  - term: Photo
+  - term: Umbrella
 ---

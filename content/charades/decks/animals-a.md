@@ -1,5 +1,5 @@
 ---
-title: 동물원 동물
+title: 동물 A팀
 category: animals
 difficulty: easy
 words:
@@ -11,9 +11,7 @@ words:
   - term: 문어
     hint: 다리가 여덟 개예요
   - term: 고릴라
-  - term: 플라밍고
   - term: 토끼
   - term: 곰
-  - term: 개구리
   - term: 거북이
 ---

@@ -122,6 +122,16 @@ describe('schema — zod validation', () => {
       };
       expect(DeckFileSchema.safeParse(data).success).toBe(true);
     });
+
+    it('rejects 11 words (A/B team-battle decks are capped at exactly 10)', () => {
+      const data = {
+        title: 'Test',
+        category: 'actions',
+        difficulty: 'easy',
+        words: Array.from({ length: 11 }, (_, i) => ({ term: `word${i}` })),
+      };
+      expect(DeckFileSchema.safeParse(data).success).toBe(false);
+    });
   });
 
   describe('MergedDeckSchema', () => {
@@ -145,6 +155,18 @@ describe('schema — zod validation', () => {
         words: Array.from({ length: 9 }, (_, i) => ({ term: `word${i}` })),
         ko: { title: '동작 A', words: Array.from({ length: 10 }, (_, i) => ({ term: `word${i}` })) },
         en: { title: 'Actions A', words: Array.from({ length: 10 }, (_, i) => ({ term: `Word${i}` })) },
+      };
+      expect(MergedDeckSchema.safeParse(data).success).toBe(false);
+    });
+
+    it('rejects canonical words > 10 (exact-10 cap for A/B team decks)', () => {
+      const data = {
+        slug: 'actions-a',
+        category: 'actions',
+        difficulty: 'easy',
+        words: Array.from({ length: 11 }, (_, i) => ({ term: `word${i}` })),
+        ko: { title: '동작 A팀', words: Array.from({ length: 11 }, (_, i) => ({ term: `word${i}` })) },
+        en: { title: 'Actions Team A', words: Array.from({ length: 11 }, (_, i) => ({ term: `Word${i}` })) },
       };
       expect(MergedDeckSchema.safeParse(data).success).toBe(false);
     });

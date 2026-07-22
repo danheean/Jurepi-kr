@@ -32,26 +32,35 @@ const CHARADES_CATEGORIES = [
   'emotions',
 ];
 
+// A/B team-battle decks are capped at exactly 10 words (not just a floor) —
+// keeps a category's A and B decks the same length for fair team rounds.
+const WORDS_PER_DECK_MIN = 10;
+const WORDS_PER_DECK_MAX = 10;
+const deckWords = z
+  .array(WordSchema)
+  .min(WORDS_PER_DECK_MIN, `exactly ${WORDS_PER_DECK_MIN} words required`)
+  .max(WORDS_PER_DECK_MAX, `exactly ${WORDS_PER_DECK_MAX} words required`);
+
 const DeckFileFrontSchema = z.object({
   title: z.string().min(1, 'title required'),
   slug: z.string().regex(/^[a-z0-9-]+$/).optional(),
   category: z.enum(CHARADES_CATEGORIES).optional(),
   difficulty: z.enum(['easy', 'normal', 'hard']).optional(),
-  words: z.array(WordSchema).min(10, '≥10 words required').optional(),
+  words: deckWords.optional(),
 });
 
 const MergedDeckSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
   category: z.enum(CHARADES_CATEGORIES),
   difficulty: z.enum(['easy', 'normal', 'hard']),
-  words: z.array(WordSchema).min(10),
+  words: deckWords,
   ko: z.object({
     title: z.string().min(1),
-    words: z.array(WordSchema).min(10),
+    words: deckWords,
   }),
   en: z.object({
     title: z.string().min(1),
-    words: z.array(WordSchema).min(10),
+    words: deckWords,
   }),
 });
 
@@ -126,8 +135,8 @@ function validatePair(koFilename, koFront, enFront, allDecks) {
   if (!ko.difficulty) {
     errors.push(`${koFilename}: difficulty required in Korean file`);
   }
-  if (!ko.words || ko.words.length < 10) {
-    errors.push(`${koFilename}: ≥10 words required in Korean file`);
+  if (!ko.words || ko.words.length !== WORDS_PER_DECK_MIN) {
+    errors.push(`${koFilename}: exactly ${WORDS_PER_DECK_MIN} words required in Korean file (got ${ko.words?.length ?? 0})`);
   }
 
   // En must have title and words (≥10, inherit ko if absent)

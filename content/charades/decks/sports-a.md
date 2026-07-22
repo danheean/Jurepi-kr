@@ -1,5 +1,5 @@
 ---
-title: 인기 스포츠
+title: 인기 스포츠 A팀
 category: sports
 difficulty: normal
 words:
@@ -8,7 +8,6 @@ words:
   - term: 농구
   - term: 볼링
   - term: 스키
-  - term: 줄다리기
   - term: 씨름
   - term: 태권도
   - term: 수영

@@ -1,5 +1,5 @@
 ---
-title: 감정 표현
+title: 감정 표현 A팀
 category: emotions
 difficulty: hard
 words:
@@ -8,10 +8,8 @@ words:
   - term: 놀람
   - term: 부끄러움
     hint: 얼굴이 빨개지고 손으로 가려요
-  - term: 지루함
   - term: 신남
   - term: 졸림
-  - term: 배고픔
   - term: 무서움
   - term: 사랑
   - term: 아픔

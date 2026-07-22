@@ -1,12 +1,11 @@
 ---
-title: Popular Sports
+title: Popular Sports Team A
 words:
   - term: Baseball
   - term: Soccer
   - term: Basketball
   - term: Bowling
   - term: Skiing
-  - term: Tug of war
   - term: Ssireum (Korean wrestling)
   - term: Taekwondo
   - term: Swimming

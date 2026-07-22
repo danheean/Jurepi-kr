@@ -1,5 +1,5 @@
 ---
-title: Zoo Animals
+title: Animals Team A
 words:
   - term: Kangaroo
   - term: Elephant
@@ -9,9 +9,7 @@ words:
   - term: Octopus
     hint: Has eight legs
   - term: Gorilla
-  - term: Flamingo
   - term: Rabbit
   - term: Bear
-  - term: Frog
   - term: Turtle
 ---

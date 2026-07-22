@@ -12,6 +12,14 @@ export const CHARADES_CATEGORIES = [
 ] as const;
 
 /**
+ * A/B team-battle decks are capped at exactly 10 words (not just a floor) —
+ * this keeps a category's A and B decks the same length so a facilitator
+ * can run both team rounds fairly.
+ */
+export const WORDS_PER_DECK_MIN = 10;
+export const WORDS_PER_DECK_MAX = 10;
+
+/**
  * Individual prompt word (term + optional hint).
  * Hint is a private cue for the performer only, never shown to guessers.
  */
@@ -30,7 +38,11 @@ export const DeckFileSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/).optional(),
   category: z.enum(CHARADES_CATEGORIES).optional(),
   difficulty: z.enum(['easy', 'normal', 'hard']).optional(),
-  words: z.array(WordSchema).min(10, 'words requires ≥10').optional(),
+  words: z
+    .array(WordSchema)
+    .min(WORDS_PER_DECK_MIN, `words requires exactly ${WORDS_PER_DECK_MIN}`)
+    .max(WORDS_PER_DECK_MAX, `words requires exactly ${WORDS_PER_DECK_MAX}`)
+    .optional(),
 });
 
 export type DeckFile = z.infer<typeof DeckFileSchema>;
@@ -38,18 +50,23 @@ export type DeckFile = z.infer<typeof DeckFileSchema>;
 /**
  * Merged ko+en record (catalog item)
  */
+const mergedDeckWords = z
+  .array(WordSchema)
+  .min(WORDS_PER_DECK_MIN, `words requires exactly ${WORDS_PER_DECK_MIN}`)
+  .max(WORDS_PER_DECK_MAX, `words requires exactly ${WORDS_PER_DECK_MAX}`);
+
 export const MergedDeckSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
   category: z.enum(CHARADES_CATEGORIES),
   difficulty: z.enum(['easy', 'normal', 'hard']),
-  words: z.array(WordSchema).min(10, 'words requires ≥10'),
+  words: mergedDeckWords,
   ko: z.object({
     title: z.string().min(1),
-    words: z.array(WordSchema).min(10),
+    words: mergedDeckWords,
   }),
   en: z.object({
     title: z.string().min(1),
-    words: z.array(WordSchema).min(10),
+    words: mergedDeckWords,
   }),
 });
 

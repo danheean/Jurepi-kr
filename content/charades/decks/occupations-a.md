@@ -1,5 +1,5 @@
 ---
-title: 일상 직업
+title: 일상 직업 A팀
 category: occupations
 difficulty: normal
 words:

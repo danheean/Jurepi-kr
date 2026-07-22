@@ -1,5 +1,5 @@
 ---
-title: 판타지 캐릭터
+title: 판타지 캐릭터 A팀
 category: characters
 difficulty: normal
 words:
